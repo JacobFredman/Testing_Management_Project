@@ -32,10 +32,10 @@ namespace BE
                     traineeID = 0;
             }
         }
-        public DateTime Date = new DateTime();
-        public DateTime ActualDateTime= new DateTime();
-        public Address Address = new Address();
-        public List<Criterion> Criterions = new List<Criterion>();
+        public DateTime Date { set; get; }
+        public DateTime ActualDateTime { set; get; }
+        public Address Address { set; get; }
+        public List<Criterion> Criterions { set; get; }
         public bool Pass { set; get; }
         public string Comment { set; get; }
         public Test(int code,uint id_tester,uint id_trainee)
@@ -44,6 +44,10 @@ namespace BE
             TraineeID = id_trainee;
             Code = code;
             Pass = false;
+            Date = new DateTime();
+            ActualDateTime = new DateTime();
+            Address = new Address();
+            Criterions = new List<Criterion>();
         }
         /// <summary>
         /// check the resoult according to the criterions

@@ -42,7 +42,7 @@ namespace BE
                     phoneNumber = null;
             }
         }
-        public Address Address = new Address();
+        public Address Address { set; get; }
         public List<LicenceType> LicenceType { set; get; }
         /// <summary>
         /// a new person
@@ -57,12 +57,12 @@ namespace BE
                 throw new Exception("Invalied ID");
             birthDate = new DateTime();
             BirthDate = new DateTime();
+            Address = new Address();
             LicenceType = new List<LicenceType>();
             FirstName = Fn;
             LastName = Ln;
     }
         
-
         public override string ToString()
         {
             if (FirstName != null && LastName != null)

@@ -32,13 +32,5 @@ namespace BE
             return base.ToString() + " ,Job: A Tester ";
            
         }
-
-
-
-
-
-
-
-
     }
 }

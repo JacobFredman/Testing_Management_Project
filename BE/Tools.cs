@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,55 @@ namespace BE
                 return false;
             return true;
         }
+
+        /// <summary>
+        /// returns the distance between to points from google maps
+        /// </summary>
+        /// <param name="origin">an address</param>
+        /// <param name="destination">an addres</param>
+        /// <returns>the distance in meters</returns>
+        public static int GetDistanceGoogleMapsAPI(Address origin, Address destination)
+        {
+            int distance = 0;
+            string content="";
+            string requesturl = Configuration.GoogleDistanceURL + "key="+ Configuration.Key + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
+           if (requesturl.ToLower().IndexOf("https:") > -1|| requesturl.ToLower().IndexOf("http:") > -1)
+            {
+                System.Net.WebClient wc = new System.Net.WebClient();
+                byte[] response = wc.DownloadData(requesturl);
+                content = System.Text.Encoding.ASCII.GetString(response);
+                JObject o = JObject.Parse(content);
+                distance = (int)o.SelectToken("routes[0].legs[0].distance.value");
+                return distance;
+            }
+            else
+                throw new Exception("Google URL is not correct");  
+        }
+ 
+        /// <summary>
+        /// returns the travel time between to points from google maps
+        /// </summary>
+        /// <param name="origin">an address</param>
+        /// <param name="destination">an addres</param>
+        /// <returns>the distance in meters</returns>
+        public static int GetTravelTimeGoogleMapsAPI(Address origin, Address destination)
+        {
+            int distance = 0;
+            string content = "";
+            string requesturl = Configuration.GoogleDistanceURL + "key=" + Configuration.Key + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
+            if (requesturl.ToLower().IndexOf("https:") > -1 || requesturl.ToLower().IndexOf("http:") > -1)
+            {
+                System.Net.WebClient wc = new System.Net.WebClient();
+                byte[] response = wc.DownloadData(requesturl);
+                content = System.Text.Encoding.ASCII.GetString(response);
+                JObject o = JObject.Parse(content);
+                distance = (int)o.SelectToken("routes[0].legs[0].duration.value");
+                return distance;
+            }
+            else
+                throw new Exception("Google URL is not correct");
+        }
+
 
     }
 }
