@@ -48,6 +48,7 @@ namespace BE
             ActualDateTime = new DateTime();
             Address = new Address();
             Criterions = new List<Criterion>();
+            Comment = "";
         }
         /// <summary>
         /// check the resoult according to the criterions

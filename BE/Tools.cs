@@ -50,7 +50,8 @@ namespace BE
         {
             int distance = 0;
             string content="";
-            string requesturl = Configuration.GoogleDistanceURL + "key="+ Configuration.Key + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
+            string requesturl = Configuration.GoogleDistanceURL + "key="+ Configuration.Key 
+                + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
            if (requesturl.ToLower().IndexOf("https:") > -1|| requesturl.ToLower().IndexOf("http:") > -1)
             {
                 System.Net.WebClient wc = new System.Net.WebClient();

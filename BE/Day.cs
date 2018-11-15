@@ -21,6 +21,8 @@ namespace BE
             ClearHours();
             if (range != null)
                 SetHours(range);
+            else
+                ClearHours();
             TheDay = d;
         }
         /// <summary>

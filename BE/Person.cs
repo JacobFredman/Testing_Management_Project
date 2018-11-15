@@ -50,7 +50,7 @@ namespace BE
         /// <param name="id">ID</param>
         /// <param name="Fn">First name</param>
         /// <param name="Ln">Last Name</param>
-        public Person(uint id,string Fn=null,string Ln=null)
+        public Person(uint id,string Fn="",string Ln="",Gender g=Gender.Male)
         {
             ID = id;
             if (ID == 0)
@@ -61,11 +61,13 @@ namespace BE
             LicenceType = new List<LicenceType>();
             FirstName = Fn;
             LastName = Ln;
+            this.Gender = g;
+            phoneNumber = "";
     }
         
         public override string ToString()
         {
-            if (FirstName != null && LastName != null)
+            if (FirstName != "" && LastName != "")
                 return "Name: " + FirstName + " " + LastName + " ,ID: " + ID + " ";
             else
                 return "ID: " + ID;

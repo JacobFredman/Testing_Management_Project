@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
-using Newtonsoft.Json.Linq;
+using BL;
 
 namespace UI
 {
@@ -18,7 +18,7 @@ namespace UI
             {
                 
                 try {
-                    Console.WriteLine(Tools.GetDistanceGoogleMapsAPI(new Address("jerusalem", "hertzel", "4"), new Address("beit shemesh", "hertzel", "621")));
+                    Console.WriteLine(Tools.GetDistanceGoogleMapsAPI(new Address("ירושלים", "הרצל", "1"), new Address("בית שמש", "הרצל", "621")));
                     Tester t = new Tester(319185997);
                     t.Scedual.AddHoursAllDays(10, 14, 18, 22);
                     Console.WriteLine(t.ToString());

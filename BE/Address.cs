@@ -16,7 +16,7 @@ namespace BE
         public string Building { set;get; }
         public string Enterence { set; get; }
 
-        public Address(string city=null,string street=null ,string building=null,string enterence=null)
+        public Address(string city="",string street="" ,string building="",string enterence="")
         {
             City = city;
             Building = building;
@@ -26,11 +26,11 @@ namespace BE
 
         public override string ToString()
         {
-            string str=null;
-            if(City!=null&&Street!=null&&Building!=null)
+            string str="";
+            if(City!=""&&Street!=""&&Building!="")
                 str = City + ", " + Street + ", " + Building;
-            if (Enterence != null)
-                str += Enterence;
+            if (Enterence != "")
+                str +=", "+ Enterence;
             return str;
         }
     }
