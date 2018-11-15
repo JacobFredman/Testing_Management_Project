@@ -11,7 +11,6 @@ namespace UI
 
     class Program
     {
-        public static string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
 
         static void Main(string[] args)
         {
