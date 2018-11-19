@@ -7,9 +7,12 @@ using BE;
 
 namespace DS
 {
-    public class Data
+    public static class Data
     {
-        private List<Trainee> _trainees = new List<Trainee>();
+        public static readonly List<Trainee> Trainees = new List<Trainee>();
+        public static readonly List<Tester> Testers = new List<Tester>();
+        public static readonly List<Test> Tests = new List<Test>();
     }
+
 
 }
