@@ -20,6 +20,7 @@ namespace BE
         /*google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permision !! 
         For details contact elisja.mayer@gmail.com . To get your own key go to http://g.co/dev/maps-no-account */
         public static string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";   
-        public static string GoogleDistanceURL = "https://maps.googleapis.com/maps/api/directions/json?";
+        public static string GoogleDistanceURL = "https://maps.googleapis.com/maps/api/directions/";
+
     }
 }

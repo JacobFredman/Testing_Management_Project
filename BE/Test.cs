@@ -46,7 +46,6 @@ namespace BE
             Pass = false;
             Date = new DateTime();
             ActualDateTime = new DateTime();
-            Address = new Address();
             Criterions = new List<Criterion>();
             Comment = "";
         }
