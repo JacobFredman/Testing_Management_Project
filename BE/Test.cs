@@ -38,6 +38,8 @@ namespace BE
         public List<Criterion> Criterions { set; get; }
         public bool Pass { set; get; }
         public string Comment { set; get; }
+        public int Id { get; set; }
+
         public Test(int code,uint id_tester,uint id_trainee)
         {
             TesterID = id_tester;

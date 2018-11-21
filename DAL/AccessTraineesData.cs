@@ -13,21 +13,21 @@ namespace DAL
 
         public void Update(Trainee updatedTrainee)
         {
-            var trainee = Data.Trainees.Find(t => t.ID == updatedTrainee.ID);
-            Data.Trainees.Remove(trainee);
-            Data.Trainees.Add(updatedTrainee);
+            var trainee = DataSource.Trainees.Find(t => t.ID == updatedTrainee.ID);
+            DataSource.Trainees.Remove(trainee);
+            DataSource.Trainees.Add(updatedTrainee);
         }
 
         public void Delete(Trainee traineeToDelete)
         {   
-           Data.Trainees.Remove(traineeToDelete);
+           DataSource.Trainees.Remove(traineeToDelete);
         }
 
         public void Insert(Trainee traineeToAdd)
         {
             try
             {
-                if (Data.Trainees.Any(t => t.ID == traineeToAdd.ID))
+                if (DataSource.Trainees.Any(t => t.ID == traineeToAdd.ID))
                   throw new Exception("the trainee already exist in the system");
             }
             catch (Exception e)
@@ -35,7 +35,7 @@ namespace DAL
                 Console.WriteLine(e);
                 throw;
             }
-            Data.Trainees.Add(traineeToAdd);
+            DataSource.Trainees.Add(traineeToAdd);
         }
 
     }
