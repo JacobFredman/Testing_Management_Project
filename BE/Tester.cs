@@ -14,7 +14,7 @@ namespace BE
         public List<LicenceType> LicenceTypeTeaching { set; get; }
         private float maxDistance;
         public float MaxDistance { get => maxDistance; set { if (value >= 0) maxDistance = value; } }
-        public WeekSchedule Scedual { set; get; }
+        public WeekSchedule Schedule { set; get; }
         /// <summary>
         /// A new Tester
         /// </summary>
@@ -23,7 +23,7 @@ namespace BE
         /// <param name="Ln">last name</param>
         public Tester(uint id, string Fn = "", string Ln = "",Gender g=Gender.Male) : base(id,Fn,Ln,g) {
             LicenceTypeTeaching = new List<LicenceType>();
-            Scedual = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
+            Schedule = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
             Experience = 0;
             MaxWeekExams = 0;
             maxDistance = 0;

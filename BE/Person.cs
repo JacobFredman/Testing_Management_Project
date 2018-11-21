@@ -21,6 +21,7 @@ namespace BE
         }
         public string LastName { set; get; }
         public string FirstName { set; get; }
+        public string EmailAddress { set; get; }
         private DateTime birthDate { set; get; }
         public DateTime BirthDate { set; get; }
         public Gender Gender { set; get; }

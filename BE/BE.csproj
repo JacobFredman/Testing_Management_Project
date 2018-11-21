@@ -51,6 +51,7 @@
     <Compile Include="Person.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Route.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Tester.cs" />
     <Compile Include="Tools.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="WeekSchedule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="Diagrham.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

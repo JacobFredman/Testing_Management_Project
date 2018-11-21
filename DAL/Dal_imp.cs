@@ -59,7 +59,7 @@ namespace DAL
         {
             if(data.Testers.Any(x=>x.ID==t.ID))
             {
-                data.Testers.RemoveAll(x=>x.ID==t.ID);
+                data.Testers.RemoveAll(x => x.ID == t.ID);
             }
             else
             {
