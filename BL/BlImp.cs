@@ -40,12 +40,14 @@ namespace BL
 
         public void AddTest(Test newTest)
         {
-            var tested = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
+            var towTestesTooClose = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
             var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
-          
+            var hasLicense = AllTrainee.Any(trainee =>
+                (trainee.ID == newTest.TesterId) && (trainee.LicenceType.Any(l => l == newTest.LicenceType)));
 
-            if (tested || lessThenMinLessons)
-                throw  new Exception("the trainee has a test less then a week ago");
+            if(towTestesTooClose) throw  new Exception("the trainee has a test less then a week ago");
+            if(lessThenMinLessons) throw new  Exception("the trainee learned less then " + Configuration.MinLessons + " lessons which is the minimum");
+            if(hasLicense) throw  new Exception("the trainee has already a license with same type");
      
             _dalImp.AddTest(newTest);
         }

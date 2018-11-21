@@ -22,7 +22,7 @@ namespace BE
         /// <param name="Ln">last name</param>
         public Trainee(uint id, string Fn = null, string Ln = null) :base(id,Fn,Ln){
             LicenceTypeLearning = new List<LicenceType>();
-            this.Gear = Gear.Automat;
+            this.Gear = Gear.Automatic;
             SchoolName = "";
             TeacherName = "";
             NumberOfLessons = 0;
