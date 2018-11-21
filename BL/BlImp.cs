@@ -13,7 +13,7 @@ namespace BL
         DalImp _dalImp = new DalImp();
         public void AddTester(Tester newTester)
         {
-            if (GetAge(newTester.BirthDate) < 40) 
+            if (GetAge(newTester.BirthDate) < Configuration.MinTesterAge) 
                 throw new Exception("the Tester is too young");
 
             _dalImp.AddTester(newTester);
@@ -40,11 +40,11 @@ namespace BL
 
         public void AddTest(Test newTest)
         {
-            var tested = AllTests.Any(test => (test.Id == newTest.Id) && ((newTest.Date - test.Date).TotalDays < 7));
-            var lessThen20Lessons = AllTests.Any(test => (test.Id == newTest.Id) && ((newTest.Date - test.Date).TotalDays < 7));
+            var tested = AllTests.Any(test => (test.TraineeID == newTest.TraineeID) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
+            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeID) && trainee.NumberOfLessons < Configuration.MinLessons);
 
 
-            if (tested)
+            if (tested || lessThenMinLessons)
                 throw  new Exception("the trainee has a test less then a week ago");
      
             _dalImp.AddTest(newTest);
@@ -62,7 +62,7 @@ namespace BL
 
         public void AddTrainee(Trainee newTrainee)
         {
-            if (GetAge(newTrainee.BirthDate) < 18)
+            if (GetAge(newTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("the trainee is too young");
 
             _dalImp.AddTrainee(newTrainee);
