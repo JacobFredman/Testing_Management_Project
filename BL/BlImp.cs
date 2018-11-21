@@ -40,9 +40,9 @@ namespace BL
 
         public void AddTest(Test newTest)
         {
-            var tested = AllTests.Any(test => (test.TraineeID == newTest.TraineeID) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
-            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeID) && trainee.NumberOfLessons < Configuration.MinLessons);
-
+            var tested = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
+            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
+          
 
             if (tested || lessThenMinLessons)
                 throw  new Exception("the trainee has a test less then a week ago");

@@ -10,26 +10,26 @@ namespace BE
     {
         
         public int Code { get; }
-        private uint testerID;
-        public uint TesterID
+        private uint _testerId;
+        public uint TesterId
         {
-            get => testerID; set
+            get => _testerId; set
             {
                 if (Tools.CheckID_IL(value))
-                    testerID = value;
+                    _testerId = value;
                 else
-                    testerID = 0;
+                    _testerId = 0;
             }
         }
-        private uint traineeID;
-        public uint TraineeID
+        private uint _traineeId;
+        public uint TraineeId
         {
-            get => traineeID; set
+            get => _traineeId; set
             {
                 if (Tools.CheckID_IL(value))
-                    traineeID = value;
+                    _traineeId = value;
                 else
-                    traineeID = 0;
+                    _traineeId = 0;
             }
         }
         public DateTime Date { set; get; }
@@ -42,8 +42,8 @@ namespace BE
 
         public Test(int code,uint id_tester,uint id_trainee)
         {
-            TesterID = id_tester;
-            TraineeID = id_trainee;
+            TesterId = id_tester;
+            TraineeId = id_trainee;
             Code = code;
             Pass = false;
             Date = new DateTime();
@@ -53,9 +53,9 @@ namespace BE
             Comment = "";
         }
         /// <summary>
-        /// check the resoult according to the criterions
+        /// check the result according to the crterions
         /// </summary>
-        public void CheckResoults()
+        public void CheckResults()
         {
             int i = 0;
             foreach(Criterion c in Criterions)
@@ -69,7 +69,7 @@ namespace BE
         public override string ToString()
         {
 
-            return "Tester ID: " + TesterID + " Trainee ID: " + TraineeID + " Test Code: " + Code + " Pass Test: " + (Pass ? "yes" : "no");
+            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Code + " Pass Test: " + (Pass ? "yes" : "no");
         }
     }
 }

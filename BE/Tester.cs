@@ -12,8 +12,8 @@ namespace BE
         public uint Experience { get; set ; }
         public uint MaxWeekExams { set; get; }
         public List<LicenceType> LicenceTypeTeaching { set; get; }
-        private float maxDistance;
-        public float MaxDistance { get => maxDistance; set { if (value >= 0) maxDistance = value; } }
+        private float _maxDistance;
+        public float MaxDistance { get => _maxDistance; set { if (value >= 0) _maxDistance = value; } }
         public WeekSchedule Scedual { set; get; }
         /// <summary>
         /// A new Tester
@@ -26,12 +26,11 @@ namespace BE
             Scedual = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
             Experience = 0;
             MaxWeekExams = 0;
-            maxDistance = 0;
+            _maxDistance = 0;
         }
         public override string ToString()
         {
             return base.ToString() + " ,Job: A Tester ";
-           
         }
     }
 }
