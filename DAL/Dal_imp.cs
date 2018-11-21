@@ -35,20 +35,11 @@ namespace DAL
             DataSource.Trainees.Add(newTrainee);
         }
 
-        public IEnumerator<Tester> GetAllTesters()
-        {
-            return DataSource.Testers.GetEnumerator();
-        }
+        public List<Tester> AllTesters => DataSource.Testers;
 
-        public IEnumerator<Test> GetAllTests()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Test> AllTests => DataSource.Tests;
 
-        public IEnumerator<Trainee> GetAllTrainee()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Trainee> AllTrainee => DataSource.Trainees;
 
         public void RemoveTest(Test testToDelete)
         {

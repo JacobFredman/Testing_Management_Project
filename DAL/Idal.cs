@@ -22,8 +22,8 @@ namespace DAL
         void RemoveTrainee(Trainee traineeToDelete);
         void UpdateTrainee(Trainee updatedTrainee);
 
-        IEnumerator<Trainee> GetAllTrainee();
-        IEnumerator<Tester> GetAllTesters();
-        IEnumerator<Test> GetAllTests();
+        List<Trainee> AllTrainee { get; }
+        List<Tester> AllTesters { get; }
+        List<Test> AllTests { get; }
     }
 }

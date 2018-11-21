@@ -4,17 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
+using DAL;
 
 namespace BL
 {
     public class BlImp : IBL
     {
+        DalImp _dalImp = new DalImp();
         public void AddTester(Tester newTester)
         {
             if (GetAge(newTester.BirthDate) < 40) 
-                return;
+                throw new Exception("the Tester is too young");
+
+            _dalImp.AddTester(newTester);
         }
 
+     
         private static int GetAge(DateTime birthDate)
         {
             var today = DateTime.Today;
@@ -35,7 +40,14 @@ namespace BL
 
         public void AddTest(Test newTest)
         {
-            throw new NotImplementedException();
+            var tested = AllTests.Any(test => (test.Id == newTest.Id) && ((newTest.Date - test.Date).TotalDays < 7));
+            var lessThen20Lessons = AllTests.Any(test => (test.Id == newTest.Id) && ((newTest.Date - test.Date).TotalDays < 7));
+
+
+            if (tested)
+                throw  new Exception("the trainee has a test less then a week ago");
+     
+            _dalImp.AddTest(newTest);
         }
 
         public void RemoveTest(Test testToDelete)
@@ -50,7 +62,10 @@ namespace BL
 
         public void AddTrainee(Trainee newTrainee)
         {
-            throw new NotImplementedException();
+            if (GetAge(newTrainee.BirthDate) < 18)
+                throw new Exception("the trainee is too young");
+
+            _dalImp.AddTrainee(newTrainee);
         }
 
         public void RemoveTrainee(Trainee traineeToDelete)
@@ -63,19 +78,9 @@ namespace BL
             throw new NotImplementedException();
         }
 
-        public IEnumerator<Trainee> GetAllTrainee()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Trainee> AllTrainee => _dalImp.AllTrainee;
+        public List<Tester> AllTesters => _dalImp.AllTesters;
+        public List<Test> AllTests => _dalImp.AllTests;
 
-        public IEnumerator<Tester> GetAllTesters()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<Test> GetAllTests()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
