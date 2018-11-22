@@ -39,7 +39,8 @@ namespace BE
         public bool Pass { set; get; }
         public string Comment { set; get; }
         public int Id { get; set; }
-         public LicenceType LicenceType { get; set; }
+        public LicenceType LicenceType { get; set; }
+        public Route Route { set; get; }
 
         public Test(int code,uint id_tester,uint id_trainee)
         {

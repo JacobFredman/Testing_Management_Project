@@ -16,7 +16,19 @@ namespace BE
                 if (Tools.CheckID_IL(value))
                     id = value;
                 else
-                    id = 0;
+                    throw new Exception("Invalied id");
+            }
+        }
+        private string email;
+        public string Email { get { return email; } set
+            {
+                int index =value.IndexOf('@');
+                if (index == -1)
+                    throw new Exception("Invalied email address: "+value);
+                index = value.IndexOf('@', index + 1);
+                if(index!=-1)
+                    throw new Exception("Invalied email address: "+value);
+                email = value;
             }
         }
         public string LastName { set; get; }

@@ -20,9 +20,10 @@ namespace UI
                 try {
                     Console.WriteLine(Tools.GetDistanceGoogleMapsAPI(new Address("ירושלים", "הרצל", "1"), new Address("בית שמש", "הרצל", "621")));
                     Tester t = new Tester(319185997);
-                    t.Scedual.AddHoursAllDays(10, 14, 18, 22);
+                    t.Email = "emayer.gamil.com";
+                    t.Scedule.AddHoursAllDays(10, 14, 18, 22);
                     Console.WriteLine(t.ToString());
-                    Console.WriteLine(t.Scedual.ToString());
+                    Console.WriteLine(t.Scedule.ToString());
                 }
                 catch(Exception ex)
                 {
