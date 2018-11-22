@@ -11,7 +11,7 @@ namespace BE
         public List<LicenceType> LicenceTypeLearning { set; get; }
         public GearType GearType { set; get; }
         public string SchoolName { set; get; }
-        public string TeacherName { set; get; }
+        public Tester TesterName { set; get; }
         public uint NumberOfLessons { set; get; }
         public bool ReadyForTest { set; get; }
         /// <summary>
@@ -24,7 +24,6 @@ namespace BE
             LicenceTypeLearning = new List<LicenceType>();
             this.GearType = GearType.Automatic;
             SchoolName = "";
-            TeacherName = "";
             NumberOfLessons = 0;
             ReadyForTest = false;
         }

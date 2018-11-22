@@ -13,8 +13,8 @@ namespace DAL
         
         public void AddTest(Test newTest)
         {
-            if (DataSource.Tests.Any(tester => tester.Id == newTest.Id))
-                throw new Exception("the test already exist in the system");
+            newTest.Code = Configuration.TestID;
+            Configuration.TestID++;
 
             DataSource.Tests.Add(newTest);
         }

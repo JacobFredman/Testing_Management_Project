@@ -9,7 +9,7 @@ namespace BE
    public class Test
     {
         
-        public int Code { get; }
+        public uint Code { get; set; }
         private uint _testerId;
         public uint TesterId
         {
@@ -42,14 +42,14 @@ namespace BE
         public LicenceType LicenceType { get; set; }
         public Route Route { set; get; }
 
-        public Test(int code,uint id_tester,uint id_trainee)
+        public Test(uint id_tester,uint id_trainee)
         {
             TesterId = id_tester;
             TraineeId = id_trainee;
-            Code = code;
+            Code = 0;
             Pass = false;
             Date = new DateTime();
-            ActualDateTime = new DateTime();
+            ActualDateTime = DateTime.MinValue;
             Address = new Address();
             Criterions = new List<Criterion>();
             Comment = "";
@@ -57,17 +57,7 @@ namespace BE
         /// <summary>
         /// check the result according to the crterions
         /// </summary>
-        public void CheckResults()
-        {
-            int i = 0;
-            foreach(Criterion c in Criterions)
-            {
-                if (c.Pass)
-                    i++;
-            }
-            if (i >= Configuration.MinimumCritirionstoPassTest)
-                Pass = true;
-        }
+        
         public override string ToString()
         {
 

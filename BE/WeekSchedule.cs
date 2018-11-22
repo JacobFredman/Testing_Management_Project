@@ -20,7 +20,7 @@ namespace BE
             this.days = days<8 ? new Day[days] : new Day[DEFUALT_WEEK_DAYS];
             for (int i = 0; i < this.days.Length; i++)
             {
-                this.days[i] = new Day((Days)i);
+                this.days[i] = new Day((DayOfWeek)i);
             }
         }
         /// <summary>
@@ -28,7 +28,7 @@ namespace BE
         /// </summary>
         /// <param name="d">the day to add</param>
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
-        public void AddHourToDay(Days d,params uint[] range)
+        public void AddHourToDay(DayOfWeek d,params uint[] range)
         {
             days[(int)d].AddHours(range);
         }
@@ -37,7 +37,7 @@ namespace BE
         /// </summary>
         /// <param name="d">the day</param>
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
-        public void RemoveHourFromDay(Days d, params uint[] range)
+        public void RemoveHourFromDay(DayOfWeek d, params uint[] range)
         {
             days[(int)d].RemoveHours(range);
         }
@@ -46,7 +46,7 @@ namespace BE
         /// </summary>
         /// <param name="d">the day</param>
         /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
-        public void SetHourInDay(Days d, params uint[] range)
+        public void SetHourInDay(DayOfWeek d, params uint[] range)
         {
             days[(int)d].SetHours(range);
         }
@@ -54,7 +54,7 @@ namespace BE
         /// clear the hours in a day
         /// </summary>
         /// <param name="d">the day</param>
-        public void ClearHourInDay(Days d)
+        public void ClearHourInDay(DayOfWeek d)
         {
             days[(int)d].ClearHours();
         }
@@ -120,7 +120,7 @@ namespace BE
         /// </summary>
         /// <param name="d">the day</param>
         /// <returns>the day or null if it don't exist </returns>
-        public Day this[Days d]
+        public Day this[DayOfWeek d]
         {
             private set { }
             get
