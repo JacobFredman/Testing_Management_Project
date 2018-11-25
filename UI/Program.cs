@@ -7,12 +7,11 @@ namespace UI
 
     class Program
     {
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
 
-           var mail = new Email();
-           
+         //  var mail = new Email();
+          // var pdf = new Pdf();
             
 
             //while (true)
