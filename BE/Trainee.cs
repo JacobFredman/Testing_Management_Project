@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BE
 {
@@ -11,7 +7,7 @@ namespace BE
         public List<LicenceType> LicenceTypeLearning { set; get; }
         public GearType GearType { set; get; }
         public string SchoolName { set; get; }
-        public string TeacherName { set; get; }
+        public Tester TesterName { set; get; }
         public uint NumberOfLessons { set; get; }
         public bool ReadyForTest { set; get; }
         /// <summary>
@@ -22,9 +18,8 @@ namespace BE
         /// <param name="Ln">last name</param>
         public Trainee(uint id, string Fn = null, string Ln = null) :base(id,Fn,Ln){
             LicenceTypeLearning = new List<LicenceType>();
-            this.GearType = GearType.Automat;
+            this.GearType = GearType.Automatic;
             SchoolName = "";
-            TeacherName = "";
             NumberOfLessons = 0;
             ReadyForTest = false;
         }

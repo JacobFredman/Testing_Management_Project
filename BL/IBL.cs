@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using BE;
 
-namespace DAL
+namespace BL
 {
-    internal interface IDal
+    internal interface IBL
     {
         void AddTester(Tester newTester);
         void RemoveTester(Tester testerToDelete);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BE
 {
@@ -12,9 +8,9 @@ namespace BE
         public uint Experience { get; set ; }
         public uint MaxWeekExams { set; get; }
         public List<LicenceType> LicenceTypeTeaching { set; get; }
-        private float maxDistance;
-        public float MaxDistance { get => maxDistance; set { if (value >= 0) maxDistance = value; } }
-        public WeekSchedule Schedule { set; get; }
+        private float _maxDistance;
+        public float MaxDistance { get => _maxDistance; set { if (value >= 0) _maxDistance = value; } }
+        public WeekSchedule Scedule { set; get; }
         /// <summary>
         /// A new Tester
         /// </summary>
@@ -23,15 +19,14 @@ namespace BE
         /// <param name="Ln">last name</param>
         public Tester(uint id, string Fn = "", string Ln = "",Gender g=Gender.Male) : base(id,Fn,Ln,g) {
             LicenceTypeTeaching = new List<LicenceType>();
-            Schedule = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
+            Scedule = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
             Experience = 0;
             MaxWeekExams = 0;
-            maxDistance = 0;
+            _maxDistance = 0;
         }
         public override string ToString()
         {
             return base.ToString() + " ,Job: A Tester ";
-           
         }
     }
 }

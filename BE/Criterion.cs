@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BE
+﻿namespace BE
 {
    public  class Criterion
     {
@@ -12,6 +6,7 @@ namespace BE
         public bool Pass { set; get; }
         /// <summary>
         /// new Criterion
+        /// 
         /// </summary>
         /// <param name="t">the criterion</param>
         /// <param name="p">pass or not</param>

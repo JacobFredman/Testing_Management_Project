@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BE
 {
     public class Day:IEnumerable
     {
         private  bool[]hours=new bool[24];
-        public Days TheDay { set; get; }
+        public DayOfWeek TheDay { set; get; }
         /// <summary>
         /// A new day
         /// </summary>
         /// <param name="d">the day</param>
         /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
-        public Day(Days d=Days.Sunday, params uint[] range)
+        public Day(DayOfWeek d = DayOfWeek.Sunday, params uint[] range)
         {
             ClearHours();
             if (range != null)

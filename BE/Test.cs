@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BE
 {
    public class Test
     {
         
-        public int Code { get; }
-        private uint testerID;
-        public uint TesterID
+        public uint Code { get; set; }
+        private uint _testerId;
+        public uint TesterId
         {
-            get => testerID; set
+            get => _testerId; set
             {
                 if (Tools.CheckID_IL(value))
-                    testerID = value;
+                    _testerId = value;
                 else
-                    testerID = 0;
+                    _testerId = 0;
             }
         }
-        private uint traineeID;
-        public uint TraineeID
+        private uint _traineeId;
+        public uint TraineeId
         {
-            get => traineeID; set
+            get => _traineeId; set
             {
                 if (Tools.CheckID_IL(value))
-                    traineeID = value;
+                    _traineeId = value;
                 else
-                    traineeID = 0;
+                    _traineeId = 0;
             }
         }
         public DateTime Date { set; get; }
@@ -38,35 +35,30 @@ namespace BE
         public List<Criterion> Criterions { set; get; }
         public bool Pass { set; get; }
         public string Comment { set; get; }
-        public Test(int code,uint id_tester,uint id_trainee)
+        public int Id { get; set; }
+        public LicenceType LicenceType { get; set; }
+        public Route Route { set; get; }
+
+        public Test(uint id_tester,uint id_trainee)
         {
-            TesterID = id_tester;
-            TraineeID = id_trainee;
-            Code = code;
+            TesterId = id_tester;
+            TraineeId = id_trainee;
+            Code = 0;
             Pass = false;
             Date = new DateTime();
-            ActualDateTime = new DateTime();
+            ActualDateTime = DateTime.MinValue;
+            Address = new Address();
             Criterions = new List<Criterion>();
             Comment = "";
         }
         /// <summary>
-        /// check the resoult according to the criterions
+        /// check the result according to the crterions
         /// </summary>
-        public void CheckResoults()
-        {
-            int i = 0;
-            foreach(Criterion c in Criterions)
-            {
-                if (c.Pass)
-                    i++;
-            }
-            if (i >= Configuration.MinimumCritirionstoPassTest)
-                Pass = true;
-        }
+        
         public override string ToString()
         {
 
-            return "Tester ID: " + TesterID + " Trainee ID: " + TraineeID + " Test Code: " + Code + " Pass Test: " + (Pass ? "yes" : "no");
+            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Code + " Pass Test: " + (Pass ? "yes" : "no");
         }
     }
 }

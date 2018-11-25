@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BE
 {
-   public  class Route
+    public class Route
     {
         public string[] addresses { private set; get; }
         public string Start { get { return addresses[0]; } private set { } }
@@ -22,7 +18,7 @@ namespace BE
         {
             string url = "https://www.google.com/maps/dir/?api=1&origin=" + Start + "&destination="
                 + End + "&travelmode=driving" + "&waypoints=";
-            for(int i=1;i<addresses.Length-1;i++)
+            for (int i = 1; i < addresses.Length - 1; i++)
             {
                 url += addresses[i] + "|";
             }
