@@ -11,7 +11,7 @@ namespace BL
 {
     public class BlImp : IBL
     {
-        DalImp _dalImp = new DalImp();
+        private readonly DalImp _dalImp = new DalImp();
         public void AddTester(Tester newTester)
         {
             if (GetAge(newTester.BirthDate) < Configuration.MinTesterAge) 
@@ -25,12 +25,15 @@ namespace BL
 
         public void RemoveTester(Tester testerToDelete)
         {
-            throw new NotImplementedException();
+            _dalImp.RemoveTester(testerToDelete);
         }
 
         public void UpdateTester(Tester updatedTester)
         {
-            throw new NotImplementedException();
+            if (GetAge(updatedTester.BirthDate) < Configuration.MinTesterAge)
+                throw new Exception("the Tester is too young");
+
+            _dalImp.UpdateTester(updatedTester);
         }
 
         public void AddTest(Test newTest)
@@ -50,7 +53,7 @@ namespace BL
             if (twoTestesTooClose) throw  new Exception("the trainee has a test less then a week ago");
             if(lessThenMinLessons) throw new  Exception("the trainee learned less then " + Configuration.MinLessons + " lessons which is the minimum");
             if(TraineehasLicense) throw  new Exception("the trainee has already a license with same type");
-            if (!TesterHasLicecnce) throw new Exception("tester is not qualified for this licence type");
+            if (!TesterHasLicecnce) throw new Exception("tester is not qualified for this license type");
             if(traineeHasTestInSameTime) throw  new Exception("the trainee has already another test in the same time");
             if(testerHasTestInSameTime) throw  new Exception("the tester has already another test in the same time");
 
@@ -87,12 +90,14 @@ namespace BL
 
         public void RemoveTrainee(Trainee traineeToDelete)
         {
-            throw new NotImplementedException();
+            _dalImp.RemoveTrainee(traineeToDelete);
         }
 
         public void UpdateTrainee(Trainee updatedTrainee)
         {
-            throw new NotImplementedException();
+            if (GetAge(updatedTrainee.BirthDate) < Configuration.MinTraineeAge)
+                throw new Exception("the trainee is too young");
+            _dalImp.UpdateTrainee(updatedTrainee);
         }
 
  
@@ -107,16 +112,21 @@ namespace BL
         }
 
         #region Get list's
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Date">Checks only if the teacher is avalble on the given day and hour</param>
+        /// <returns></returns>
         public List<Tester> GetAvailableTesters(DateTime Date)
         {
             return AllTesters.Where(tester =>
-                (tester.Scedule[Date.DayOfWeek].IsWorking(Date.Hour)) &&
+                (tester.Scedule.IsAvailable(Date.DayOfWeek,Date.Hour)) &&
                 !(AllTests.Any(test =>
                     (test.TesterId == tester.ID && test.Date.DayOfWeek == Date.DayOfWeek && test.Date.Hour == Date.Hour))
                     )
             ).ToList();
         }
-
+        
         public List<Test> GetAllTestsSortedByDate()
         {
             return AllTests.OrderBy(x => x.Date).ToList();
@@ -126,8 +136,14 @@ namespace BL
         {
             return AllTests.Where(func).ToList();
         }
-
-        public List<Tester> GetAllTestersInRadios(Tester t, int r, Address a)
+        /// <summary>
+        /// Get all the testers that are in a specified distance from an address.
+        /// This function uses requests from internet. in can take a long time ,so it is recommendet to use in a seperate thread.
+        /// </summary>
+        /// <param name="r">the distance</param>
+        /// <param name="a">the address</param>
+        /// <returns></returns>
+        public List<Tester> GetAllTestersInRadios(int r, Address a)
         {
             return AllTesters.Where(tester => Tools.GetDistanceGoogleMapsAPI(tester.Address, a) <= r).ToList();
         }
@@ -137,35 +153,35 @@ namespace BL
         public List<Tester> AllTesters => _dalImp.AllTesters;
         public List<Test> AllTests => _dalImp.AllTests;
 
-  
+
 
         #region Grouping
-        IEnumerable<IGrouping<List<LicenceType>,Tester>> GetAllTestersByLicence()
+        public IEnumerable<IGrouping<List<LicenceType>,Tester>> GetAllTestersByLicense()
         {
             return AllTesters.GroupBy(x => x.LicenceTypeTeaching);
         }
-        IEnumerable<IGrouping<Tester,Trainee>> GetAllTraineesByTestr()
+        public IEnumerable<IGrouping<Tester,Trainee>> GetAllTraineesByTester()
         {
             return from trainee in AllTrainee
                    group trainee by trainee.TesterName;
         }
-        IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool()
+        public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool()
         {
             return from trainee in AllTrainee
                    group trainee by trainee.SchoolName;
         }
 
-        IEnumerable<IGrouping<int,Trainee>> GetAllTraineeByNumberOfTests()
+        public IEnumerable<IGrouping<int,Trainee>> GetAllTraineeByNumberOfTests()
         {
             return (from trainee in AllTrainee
                     group trainee by GetNumberOfTests(trainee));
         }
         #endregion
 
-        private void UpdatePassTest(Test t)
+        private static void UpdatePassTest(Test t)
         {
-            double pers = (double)t.Criterions.Count(x => x.Pass) / (double)t.Criterions.Count;
-            t.Pass = (pers >= Configuration.PersentgeOfCritirionsToPassTest) ? true : false;
+            var percent = (double)t.Criterions.Count(x => x.Pass) / (double)t.Criterions.Count;
+            t.Pass = (percent >= Configuration.PersentOfCritirionsToPassTest) ? true : false;
         }
 
         private static int GetAge(DateTime birthDate)

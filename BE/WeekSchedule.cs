@@ -136,6 +136,21 @@ namespace BE
         {
             return days.GetEnumerator();
         }
+
+        /// <summary>
+        /// check if is availble on the day and hour
+        /// </summary>
+        /// <param name="day">the day</param>
+        /// <param name="hour">the hour</param>
+        /// <returns></returns>
+        public bool IsAvailable(DayOfWeek day, int hour)
+        {
+            if ((int)day < days.Length)
+            {
+                return days[(int)day].IsWorking(hour);
+            }
+            throw new Exception("day out of range");
+        }
         public override string ToString()
         {
             string str = "";

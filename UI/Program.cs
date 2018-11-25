@@ -22,7 +22,7 @@ namespace UI
                     Tester t = new Tester(319185997);
                     t.Email = "emayer@gamil.com";
                     t.Scedule.AddHoursAllDays(10, 14, 18, 22);
-                    Console.WriteLine(t.ToString());
+                    Console.WriteLine(t.Scedule.IsAvailable(DayOfWeek.Sunday,8).ToString());
                     Console.WriteLine(t.Scedule.ToString());
                     BL.BlImp bl = new BlImp();
                     bl.AddTester(t);
