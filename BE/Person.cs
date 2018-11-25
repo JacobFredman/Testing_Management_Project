@@ -57,9 +57,9 @@ namespace BE
         /// a new person
         /// </summary>
         /// <param name="id">ID</param>
-        /// <param name="Fn">First name</param>
-        /// <param name="Ln">Last Name</param>
-        public Person(uint id,string Fn="",string Ln="",Gender g=Gender.Male)
+        /// <param name="firstName">First name</param>
+        /// <param name="lastName">Last Name</param>
+        public Person(uint id,string firstName="",string lastName="",Gender g=Gender.Male)
         {
             ID = id;
             if (ID == 0)
@@ -68,8 +68,8 @@ namespace BE
             BirthDate = new DateTime();
             Address = new Address();
             LicenceType = new List<LicenceType>();
-            FirstName = Fn;
-            LastName = Ln;
+            FirstName = firstName;
+            LastName = lastName;
             this.Gender = g;
             phoneNumber = "";
     }
