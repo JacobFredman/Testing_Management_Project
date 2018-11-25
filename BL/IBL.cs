@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BE;
-using DS;
 
 namespace BL
 {
@@ -22,8 +17,8 @@ namespace BL
         void RemoveTrainee(Trainee traineeToDelete);
         void UpdateTrainee(Trainee updatedTrainee);
 
-        List<Trainee> AllTrainee { get; }
-        List<Tester> AllTesters { get; }
-        List<Test> AllTests { get; }
+        IEnumerable<Trainee> AllTrainee { get; }
+        IEnumerable<Tester> AllTesters { get; }
+        IEnumerable<Test> AllTests { get; }
     }
 }

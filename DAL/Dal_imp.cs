@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BE;
 using DS;
 
@@ -35,11 +33,11 @@ namespace DAL
             DataSource.Trainees.Add(newTrainee);
         }
 
-        public List<Tester> AllTesters => DataSource.Testers;
+        public IEnumerable<Tester> AllTesters => DataSource.Testers;
 
-        public List<Test> AllTests => DataSource.Tests;
+        public IEnumerable<Test> AllTests => DataSource.Tests;
 
-        public List<Trainee> AllTrainee => DataSource.Trainees;
+        public IEnumerable<Trainee> AllTrainee => DataSource.Trainees;
 
         public void RemoveTest(Test testToDelete)
         {

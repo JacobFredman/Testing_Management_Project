@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BL
+﻿namespace BL
 {
-    public static class Factory_BL
+    public static class FactoryBl
     {
-        static BlImp bl = null;
+        static BlImp _bl = null;
 
         public static BlImp GetObject
         {
             get
             {
-                if (bl == null)
-                    bl = new BlImp();
-                return bl;
+                if (_bl == null)
+                    _bl = new BlImp();
+                return _bl;
             }
         }
 
