@@ -17,7 +17,7 @@
         }
         public override string ToString()
         {
-            return "Type: " + Type + " ,Pass: " + (Pass ? "yes" : "no");
+            return "Type: " + Type + " ,passed: " + (Pass ? "yes" : "no");
         }
     }
 }

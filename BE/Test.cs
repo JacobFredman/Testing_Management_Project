@@ -33,7 +33,7 @@ namespace BE
         public DateTime ActualDateTime { set; get; }
         public Address Address { set; get; }
         public List<Criterion> Criterions { set; get; }
-        public bool Pass { set; get; }
+        public bool passed { set; get; }
         public string Comment { set; get; }
         public int Id { get; set; }
         public LicenceType LicenceType { get; set; }
@@ -44,7 +44,7 @@ namespace BE
             TesterId = id_tester;
             TraineeId = id_trainee;
             Code = 0;
-            Pass = false;
+            passed = false;
             Date = new DateTime();
             ActualDateTime = DateTime.MinValue;
             Address = new Address();
@@ -58,7 +58,7 @@ namespace BE
         public override string ToString()
         {
 
-            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Code + " Pass Test: " + (Pass ? "yes" : "no");
+            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Code + " passed Test: " + (passed ? "yes" : "no");
         }
     }
 }

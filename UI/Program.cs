@@ -11,7 +11,7 @@ namespace UI
         static void Main(string[] args)
         {
 
-           var mail = new SentEmail();
+           var mail = new Email();
            
             
 

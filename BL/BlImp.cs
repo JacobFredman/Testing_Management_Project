@@ -96,7 +96,7 @@ namespace BL
         }
         public bool TraineePassedTest(Trainee t, LicenceType l)
         {
-            return AllTests.Any(test => test.TesterId == t.ID && test.LicenceType == l && test.Pass);
+            return AllTests.Any(test => test.TesterId == t.ID && test.LicenceType == l && test.passed);
         }
 
         #region Get list's
@@ -166,7 +166,7 @@ namespace BL
         private void UpdatePassTest(Test t)
         {
             double pers = (double)t.Criterions.Count(x => x.Pass) / (double)t.Criterions.Count;
-            t.Pass = (pers >= Configuration.PersentgeOfCritirionsToPassTest) ? true : false;
+            t.passed = (pers >= Configuration.PersentgeOfCritirionsToPassTest) ? true : false;
         }
 
         private static int GetAge(DateTime birthDate)
