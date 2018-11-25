@@ -11,7 +11,7 @@ namespace BL
 {
     public class BlImp : IBL
     {
-        DalImp _dalImp = new DalImp();
+        private readonly DalImp _dalImp = new DalImp();
         public void AddTester(Tester newTester)
         {
             if (GetAge(newTester.BirthDate) < Configuration.MinTesterAge) 
@@ -19,9 +19,6 @@ namespace BL
 
             _dalImp.AddTester(newTester);
         }
-
-     
- 
 
         public void RemoveTester(Tester testerToDelete)
         {
@@ -74,7 +71,7 @@ namespace BL
                 throw new Exception("test date not updated");
             UpdatePassTest(updatedTest);
             _dalImp.UpdateTest(updatedTest);
-
+            
         }
 
         public void AddTrainee(Trainee newTrainee)
@@ -95,24 +92,22 @@ namespace BL
             throw new NotImplementedException();
         }
 
- 
-       
         public int GetNumberOfTests(Trainee trainee)
         {
            return AllTests.Count(x => x.TraineeId == trainee.ID && x.Date > DateTime.Now.Date);
         }
-        public bool TraineePassedTest(Trainee t,LicenceType l)
+        public bool TraineePassedTest(Trainee t, LicenceType l)
         {
             return AllTests.Any(test => test.TesterId == t.ID && test.LicenceType == l && test.Pass);
         }
 
         #region Get list's
-        public List<Tester> GetAvailableTesters(DateTime Date)
+        public List<Tester> GetAvailableTesters(DateTime date)
         {
             return AllTesters.Where(tester =>
-                (tester.Scedule[Date.DayOfWeek].IsWorking(Date.Hour)) &&
+                (tester.Scedule[date.DayOfWeek].IsWorking(date.Hour)) &&
                 !(AllTests.Any(test =>
-                    (test.TesterId == tester.ID && test.Date.DayOfWeek == Date.DayOfWeek && test.Date.Hour == Date.Hour))
+                    (test.TesterId == tester.ID && test.Date.DayOfWeek == date.DayOfWeek && test.Date.Hour == date.Hour))
                     )
             ).ToList();
         }
@@ -137,18 +132,26 @@ namespace BL
         public List<Tester> AllTesters => _dalImp.AllTesters;
         public List<Test> AllTests => _dalImp.AllTests;
 
-  
-
         #region Grouping
-        IEnumerable<IGrouping<List<LicenceType>,Tester>> GetAllTestersByLicence()
+        IEnumerable<IGrouping<List<LicenceType>,Tester>> GetAllTestersByLicense()
         {
             return AllTesters.GroupBy(x => x.LicenceTypeTeaching);
         }
-        IEnumerable<IGrouping<Tester,Trainee>> GetAllTraineesByTestr()
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IGrouping<Tester,Trainee>> GetAllTraineesByTester()
         {
             return from trainee in AllTrainee
                    group trainee by trainee.TesterName;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool()
         {
             return from trainee in AllTrainee

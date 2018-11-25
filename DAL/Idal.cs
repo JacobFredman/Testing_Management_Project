@@ -8,8 +8,12 @@ using DS;
 
 namespace DAL
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal interface IDal
     {
+        // Access to the Tester entity
         void AddTester(Tester newTester);
         void RemoveTester(Tester testerToDelete);
         void UpdateTester(Tester updatedTester);

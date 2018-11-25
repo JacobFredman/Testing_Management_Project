@@ -8,9 +8,15 @@ using DS;
 
 namespace DAL
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DalImp : IDal
     {
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newTest"></param>
         public void AddTest(Test newTest)
         {
             newTest.Code = Configuration.TestID;
@@ -18,7 +24,11 @@ namespace DAL
 
             DataSource.Tests.Add(newTest);
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
             if (DataSource.Testers.Any(tester => tester.ID == newTester.ID))
