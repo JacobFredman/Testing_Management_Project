@@ -1,8 +1,8 @@
 ﻿namespace BL
 {
-    public static class FactoryBL
+    public static class FactoryBl
     {
-        private static BlImp _bl = null;
+        static BlImp _bl = null;
 
         public static BlImp GetObject
         {
