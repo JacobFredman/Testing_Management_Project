@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{20301EE2-F001-4D5E-9ED1-586957A40723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp", "WpfApp\WpfApp.csproj", "{34C9825E-9B02-4C9D-A527-6646BA365E22}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{20301EE2-F001-4D5E-9ED1-586957A40723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20301EE2-F001-4D5E-9ED1-586957A40723}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20301EE2-F001-4D5E-9ED1-586957A40723}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34C9825E-9B02-4C9D-A527-6646BA365E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34C9825E-9B02-4C9D-A527-6646BA365E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34C9825E-9B02-4C9D-A527-6646BA365E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34C9825E-9B02-4C9D-A527-6646BA365E22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

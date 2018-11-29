@@ -37,7 +37,7 @@ namespace BE
         public string Comment { set; get; }
         public int Id { get; set; }
         public LicenceType LicenceType { get; set; }
-        public Uri RouteUrl { set; get; }
+        public Route Route { set; get; }
 
         public Test(uint id_tester,uint id_trainee)
         {
@@ -47,6 +47,7 @@ namespace BE
             Passed = false;
             Date = new DateTime();
             ActualDateTime = DateTime.MinValue;
+            Address = new Address();
             Criterions = new List<Criterion>();
             Comment = "";
         }
