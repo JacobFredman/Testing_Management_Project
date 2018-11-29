@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Tool and Configirations">
+    <Position X="12.396" Y="0.5" Height="0.312" Width="1.7" />
+  </Comment>
+  <Comment CommentText="A test">
+    <Position X="9.146" Y="0.5" Height="0.291" Width="0.825" />
+  </Comment>
+  <Comment CommentText="Persons">
+    <Position X="4.938" Y="0.521" Height="0.291" Width="0.981" />
+  </Comment>
+  <Comment CommentText="Tester">
+    <Position X="6.385" Y="5.146" Height="0.291" Width="0.7" />
+  </Comment>
+  <Comment CommentText="Enums">
+    <Position X="0.875" Y="0.5" Height="0.312" Width="0.752" />
+  </Comment>
+  <Class Name="BE.Address">
+    <Position X="5.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAGEgAAAAAAAAAAAAAAIAAAIAAAAAgA=</HashCode>
+      <FileName>Address.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Configuration">
+    <Position X="12.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgEAAAAEAAQAABQAAACAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Criterion">
+    <Position X="10" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Criterion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Day">
+    <Position X="8.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACABAAAIAAABAEAAAAAAAAAAAAABAAAAGAAAAAAhA=</HashCode>
+      <FileName>Day.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BE.Person">
+    <Position X="3.5" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEABAAAAgACEBAAAQAQAAEAAAAACAAAAAAAAAgg=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Test">
+    <Position X="8.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAEAAQAAAAEACAgAAAgAAAAAAIDAAADAAgAAAA=</HashCode>
+      <FileName>Test.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Tester">
+    <Position X="4.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAQAAAAAAAAAkAAAAAAAAAABAAAAAAAAAAAAAQAE=</HashCode>
+      <FileName>Tester.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Tools" Collapsed="true">
+    <Position X="12.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAAAAAAAAAAAQAAAAAAgCBAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Tools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.Trainee">
+    <Position X="2.5" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QIAAAAAAAAAAAAAEEAAAAABAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Trainee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BE.WeekSchedule" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAABQECAAAIAAAAAgAAAAAAAAgoEBAQAA=</HashCode>
+      <FileName>WeekSchedule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.21" Collapsed="true" />
+  </Class>
+  <Enum Name="BE.Gender">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BE.LicenceType">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAASAAAEAEAJAAAApgEAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BE.Gear">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BE.Days">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAADAAAAAAAAAAACAAIACAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

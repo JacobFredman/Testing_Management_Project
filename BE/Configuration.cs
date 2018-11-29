@@ -17,6 +17,10 @@
         For details contact elisja.mayer@gmail.com . To get your own key go to http://g.co/dev/maps-no-account */
         public static string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";   
         public static string GoogleDistanceURL = "https://maps.googleapis.com/maps/api/directions/";
+        public static string GoogleLanguage = "en"; //en . for hebrew change to iw
+        public static int MaxTestDurationSec = 3000;
+        public static int MinTestDurationSec = 800;
+
 
     }
 }
