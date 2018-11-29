@@ -66,7 +66,6 @@ namespace BE
                 throw new Exception("Invalied ID");
             birthDate = new DateTime();
             BirthDate = new DateTime();
-            Address = new Address();
             LicenceType = new List<LicenceType>();
             FirstName = firstName;
             LastName = lastName;
