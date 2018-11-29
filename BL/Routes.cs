@@ -53,6 +53,7 @@ namespace BL
                     throw new GoogleAddressException("Can't find a route near the given address", "NO_ROUTE");
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr));
+
                 test.Address = new Address(arr[0].Name);
             }
             catch (Exception ex)

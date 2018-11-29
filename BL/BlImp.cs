@@ -252,7 +252,7 @@ namespace BL
         private static void UpdatePassTest(Test test)
         {
             var percent = test.Criterions.Count(x => x.Pass) / (double)test.Criterions.Count;
-            test.Passed = (percent >= Configuration.PrecentOfCritirionsToPassTest);
+            test.Passed = (percent >= Configuration.PercentOfCritirionsToPassTest);
         }
 
         /// <summary>

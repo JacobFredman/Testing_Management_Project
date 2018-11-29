@@ -37,7 +37,7 @@ namespace BE
         public string Comment { set; get; }
         public int Id { get; set; }
         public LicenceType LicenceType { get; set; }
-        public Uri RouteUri { set; get; }
+        public Uri RouteUrl { set; get; }
 
         public Test(uint id_tester,uint id_trainee)
         {

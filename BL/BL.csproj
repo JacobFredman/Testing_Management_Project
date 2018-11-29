@@ -62,12 +62,8 @@
       <Name>BE</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{fd22eb4c-3dc6-4399-a917-7f0a0f8389ab}</Project>
+      <Project>{e1e3e992-c366-4c6a-ba99-f1cbb53debd7}</Project>
       <Name>DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DS\DS.csproj">
-      <Project>{ab070227-e3a1-4afb-a9da-34ad10ac242b}</Project>
-      <Name>DS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
