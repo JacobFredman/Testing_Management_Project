@@ -17,8 +17,8 @@ namespace BL
         void RemoveTrainee(Trainee traineeToDelete);
         void UpdateTrainee(Trainee updatedTrainee);
 
-        List<Trainee> AllTrainee { get; }
-        List<Tester> AllTesters { get; }
-        List<Test> AllTests { get; }
+        IEnumerable<Trainee> AllTrainee { get; }
+        IEnumerable<Tester> AllTesters { get; }
+        IEnumerable<Test> AllTests { get; }
     }
 }
