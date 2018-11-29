@@ -252,7 +252,8 @@ namespace BL
         private static void UpdatePassTest(Test test)
         {
             var percent = test.Criterions.Count(x => x.Pass) / (double)test.Criterions.Count;
-            test.Pass = (percent >= Configuration.PersentOfCritirionsToPassTest);
+            test.passed = (percent >= Configuration.PersentOfCritirionsToPassTest);
+           
         }
 
         /// <summary>
@@ -287,7 +288,7 @@ namespace BL
         /// <returns>True if he passed</returns>
         public bool TraineePassedTest(Trainee trainee,LicenceType license)
         {
-            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenceType == license && test.Pass);
+            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenceType == license && test.passed);
         }
 
 
