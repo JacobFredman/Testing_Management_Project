@@ -92,7 +92,7 @@ namespace BL
         {
             if (AllTests.All(test => test.Code != updatedTest.Code))
                 throw new Exception("Test doesn'trainee exist");
-            if (updatedTest.Criterions.Count <= Configuration.MinimumCritirions)
+            if (updatedTest.Criterions.Count <= Configuration.MinimumCriterions)
                 throw new Exception("not enough criterion");
             if(updatedTest.ActualDateTime==DateTime.MinValue)
                 throw new Exception("test date not updated");
@@ -246,14 +246,13 @@ namespace BL
         #region Help Function's
 
         /// <summary>
-        /// Update the test if the Trainee passed according to the criterion
+        /// Update the test if the Trainee Passed according to the criterion
         /// </summary>
         /// <param name="test">The Test</param>
         private static void UpdatePassTest(Test test)
         {
             var percent = test.Criterions.Count(x => x.Pass) / (double)test.Criterions.Count;
-            test.passed = (percent >= Configuration.PersentOfCritirionsToPassTest);
-           
+            test.Passed = (percent >= Configuration.PrecentOfCritirionsToPassTest);
         }
 
         /// <summary>
@@ -281,14 +280,14 @@ namespace BL
         }
 
         /// <summary>
-        /// Check if Trainee passed the test
+        /// Check if Trainee Passed the test
         /// </summary>
         /// <param name="trainee">The Trainee</param>
         /// <param name="license">The license</param>
-        /// <returns>True if he passed</returns>
+        /// <returns>True if he Passed</returns>
         public bool TraineePassedTest(Trainee trainee,LicenceType license)
         {
-            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenceType == license && test.passed);
+            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenceType == license && test.Passed);
         }
 
 

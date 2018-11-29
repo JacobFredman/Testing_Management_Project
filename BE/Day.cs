@@ -3,10 +3,21 @@ using System.Collections;
 
 namespace BE
 {
+    /// <summary>
+    /// A day schedule
+    /// </summary>
     public class Day:IEnumerable
     {
-        private  bool[]hours=new bool[24];
+        /// <summary>
+        /// the hours in the day. if available then is true
+        /// </summary>
+        private readonly bool[]hours=new bool[24];
+
+        /// <summary>
+        /// the day in the week
+        /// </summary>
         public DayOfWeek TheDay { set; get; }
+
         /// <summary>
         /// A new day
         /// </summary>

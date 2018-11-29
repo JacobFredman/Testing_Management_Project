@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace BE
 {
@@ -39,7 +42,7 @@ namespace BE
         /// <summary>
         /// returns the distance between to points from google maps
         /// </summary>
-        /// <param name="origin">an address</param>
+        /// <param name="origin">an addressLatLog</param>
         /// <param name="destination">an addres</param>
         /// <returns>the distance in meters</returns>
         public static int GetDistanceGoogleMapsAPI(Address origin, Address destination)
@@ -64,7 +67,7 @@ namespace BE
         /// <summary>
         /// returns the travel time between to points from google maps
         /// </summary>
-        /// <param name="origin">an address</param>
+        /// <param name="origin">an addressLatLog</param>
         /// <param name="destination">an addres</param>
         /// <returns>the distance in meters</returns>
         public static int GetTravelTimeGoogleMapsAPI(Address origin, Address destination)
@@ -85,6 +88,7 @@ namespace BE
                 throw new Exception("Google URL is not correct");
         }
 
+        
 
     }
 }
