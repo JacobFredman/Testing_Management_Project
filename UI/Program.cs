@@ -8,7 +8,7 @@ using BE;
 using BL;
 
 namespace UI
-
+{ 
 
     class Program
     {
@@ -50,5 +50,4 @@ namespace UI
             //Console.ReadKey();
         }
     }
-}
 }
