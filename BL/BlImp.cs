@@ -33,9 +33,9 @@ namespace BL
             var traineeExist = AllTrainee.Any(trainee => trainee.ID == newTest.TraineeId);
             var twoTestesTooClose = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
             var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
-            var traineehasLicense = AllTrainee.Any(trainee =>
+            var traineeHasLicense = AllTrainee.Any(trainee =>
                 (trainee.ID == newTest.TesterId) && (trainee.LicenceType.Any(l => l == newTest.LicenceType)));
-            var testerHasLicecnce = AllTesters.Any(tester => 
+            var testerHasLicense = AllTesters.Any(tester => 
                 (tester.ID == newTest.TesterId) && (tester.LicenceType.Any(l => l == newTest.LicenceType)));
 
             var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.Date == test.Date));
@@ -44,8 +44,8 @@ namespace BL
             if(!traineeExist) throw new Exception("this trainee doesn't exist");
             if (twoTestesTooClose) throw  new Exception("the trainee has a test less then a week ago");
             if(lessThenMinLessons) throw new  Exception("the trainee learned less then " + Configuration.MinLessons + " lessons which is the minimum");
-            if(traineehasLicense) throw  new Exception("the trainee has already a license with same type");
-            if (!testerHasLicecnce) throw new Exception("tester is not qualified for this license type");
+            if(traineeHasLicense) throw  new Exception("the trainee has already a license with same type");
+            if (!testerHasLicense) throw new Exception("tester is not qualified for this license type");
             if(traineeHasTestInSameTime) throw  new Exception("the trainee has already another test in the same time");
             if(testerHasTestInSameTime) throw  new Exception("the tester has already another test in the same time");
 
@@ -94,11 +94,7 @@ namespace BL
         {
            return AllTests.Count(x => x.TraineeId == trainee.ID && x.Date > DateTime.Now.Date);
         }
-        public bool TraineePassedTest(Trainee t, LicenceType l)
-        {
-            return AllTests.Any(test => test.TesterId == t.ID && test.LicenceType == l && test.passed);
-        }
-
+       
         #region Get list's
         public List<Tester> GetAvailableTesters(DateTime date)
         {
@@ -131,42 +127,27 @@ namespace BL
         public List<Test> AllTests => _dalImp.AllTests;
 
         #region Grouping
-        IEnumerable<IGrouping<List<LicenceType>,Tester>> GetAllTestersByLicense()
-        {
-            return AllTesters.GroupBy(x => x.LicenceTypeTeaching);
-        }
+        IEnumerable<IGrouping<List<LicenceType>, Tester>> AllTestersByLicense => AllTesters.GroupBy(x => x.LicenceTypeTeaching);
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IGrouping<Tester,Trainee>> GetAllTraineesByTester()
-        {
-            return from trainee in AllTrainee
-                   group trainee by trainee.TesterName;
-        }
+        IEnumerable<IGrouping<Tester, Trainee>> AllTraineesByTester => from trainee in AllTrainee group trainee by trainee.TesterName;
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool()
-        {
-            return from trainee in AllTrainee
-                   group trainee by trainee.SchoolName;
-        }
+        IEnumerable<IGrouping<string, Trainee>> AllTraineesBySchool => from trainee in AllTrainee group trainee by trainee.SchoolName;
 
-        IEnumerable<IGrouping<int,Trainee>> GetAllTraineeByNumberOfTests()
-        {
-            return (from trainee in AllTrainee
-                    group trainee by GetNumberOfTests(trainee));
-        }
+        IEnumerable<IGrouping<int, Trainee>> AllTraineeByNumberOfTests => (from trainee in AllTrainee group trainee by GetNumberOfTests(trainee));
         #endregion
 
         private void UpdatePassTest(Test t)
         {
-            double pers = (double)t.Criterions.Count(x => x.Pass) / (double)t.Criterions.Count;
-            t.passed = (pers >= Configuration.PersentgeOfCritirionsToPassTest) ? true : false;
+            double pers = (double)t.Criterions.Count(x => x.Pass) / t.Criterions.Count;
+            t.passed = (pers >= Configuration.PersentgeOfCritirionsToPassTest) ;
         }
 
         private static int GetAge(DateTime birthDate)

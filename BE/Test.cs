@@ -57,7 +57,6 @@ namespace BE
         
         public override string ToString()
         {
-
             return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Code + " passed Test: " + (passed ? "yes" : "no");
         }
     }
