@@ -30,6 +30,7 @@ namespace BE
         }
         public string LastName { set; get; }
         public string FirstName { set; get; }
+        public string EmailAddress { set; get; }
         private DateTime birthDate { set; get; }
         public DateTime BirthDate { set; get; }
         public Gender Gender { set; get; }
@@ -66,7 +67,6 @@ namespace BE
                 throw new Exception("Invalied ID");
             birthDate = new DateTime();
             BirthDate = new DateTime();
-            Address = new Address();
             LicenceType = new List<LicenceType>();
             FirstName = firstName;
             LastName = lastName;
