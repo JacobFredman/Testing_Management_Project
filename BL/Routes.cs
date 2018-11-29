@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using BE;
@@ -7,6 +8,11 @@ namespace BL
 {
     public static class Routes
     {
+        public static void ShowUrlInChromeWindow(Uri url)
+        {
+            Process.Start("chrome.exe", "--app=" + url.AbsoluteUri);
+        }
+
         /// <summary>
         /// Find a route for the test and set the address of the test
         /// </summary>

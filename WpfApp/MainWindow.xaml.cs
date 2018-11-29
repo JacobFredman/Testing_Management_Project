@@ -40,7 +40,7 @@ namespace WpfApp
                 t.SetRouteAndAddressToTest(new Address(address));
 
                 if (t.RouteUrl != null)
-                    Process.Start("chrome.exe", "--app=" + t.RouteUrl.AbsoluteUri);
+                    Routes.ShowUrlInChromeWindow(t.RouteUrl);
                 this.Button.IsEnabled = true;
               
 
