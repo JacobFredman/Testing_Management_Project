@@ -6,7 +6,7 @@ namespace BE
     {
         private  Gender _gender;
         public List<LicenceType> LicenceTypeLearning { set; get; }
-        public GearType GearType { set; get; }
+        public Gear GearType { set; get; }
         public string SchoolName { set; get; }
         public Tester TesterName { set; get; }
         public uint NumberOfLessons { set; get; }
@@ -24,7 +24,7 @@ namespace BE
         {
             _gender = gender;
             LicenceTypeLearning = new List<LicenceType>();
-            this.GearType = GearType.Automatic;
+            this.GearType = Gear.Automat;
             SchoolName = "";
             NumberOfLessons = 0;
             ReadyForTest = false;
