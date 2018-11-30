@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-
-namespace BE
+﻿namespace BE
 {
     /// <summary>
     /// Represents an address

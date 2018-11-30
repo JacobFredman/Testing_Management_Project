@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using BE;
-using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using static PdfSharp.Drawing.XStringFormat;
