@@ -54,15 +54,15 @@ namespace BL
         public void AddTest(Test newTest)
         {
             var traineeExist = AllTrainee.Any(trainee => trainee.Id == newTest.TraineeId);
-            var twoTestesTooClose = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
+            var twoTestesTooClose = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.TestTime - test.TestTime).TotalDays < Configuration.MinTimeBetweenTests));
             var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.Id == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
             var traineeHasLicense = AllTrainee.Any(trainee =>
-                (trainee.Id == newTest.TesterId) && (trainee.LicenseType.Any(l => l == newTest.LicenceType)));
+                (trainee.Id == newTest.TesterId) && (trainee.LicenseType.Any(l => l == newTest.LicenseType)));
             var testerHasLicense = AllTesters.Any(tester => 
-                (tester.Id == newTest.TesterId) && (tester.LicenseType.Any(l => l == newTest.LicenceType)));
+                (tester.Id == newTest.TesterId) && (tester.LicenseType.Any(l => l == newTest.LicenseType)));
 
-            var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.Date == test.Date));
-            var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.Date == test.Date));
+            var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.TestTime == test.TestTime));
+            var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.TestTime == test.TestTime));
 
             if(!traineeExist) throw new Exception("this trainee doesn'trainee exist");
             if (twoTestesTooClose) throw  new Exception("the trainee has a test less then a week ago");
@@ -90,11 +90,11 @@ namespace BL
         /// <param name="updatedTest">The Test to update</param>
         public void UpdateTest(Test updatedTest)
         {
-            if (AllTests.All(test => test.Code != updatedTest.Code))
+            if (AllTests.All(test => test.Id != updatedTest.Id))
                 throw new Exception("Test doesn'trainee exist");
-            if (updatedTest.Criterions.Count <= Configuration.MinimumCriterions)
+            if (updatedTest.Criteria.Count <= Configuration.MinimumCriterions)
                 throw new Exception("not enough criterion");
-            if(updatedTest.ActualDateTime==DateTime.MinValue)
+            if(updatedTest.ActualTestTime==DateTime.MinValue)
                 throw new Exception("test date not updated");
             UpdatePassTest(updatedTest);
             _dalImp.UpdateTest(updatedTest);
@@ -164,18 +164,18 @@ namespace BL
             return AllTesters.Where(tester =>
                 (tester.Scedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
                 !(AllTests.Any(test =>
-                        (test.TesterId == tester.Id && test.Date.DayOfWeek == date.DayOfWeek && test.Date.Hour == date.Hour))
+                        (test.TesterId == tester.Id && test.TestTime.DayOfWeek == date.DayOfWeek && test.TestTime.Hour == date.Hour))
                     )
             );
         }
 
         /// <summary>
-        /// Get all Tests sorted by Date
+        /// Get all Tests sorted by TestTime
         /// </summary>
         /// <returns>List of Tests</returns>
         public IEnumerable<Test> GetAllTestsSortedByDate()
         {
-            return AllTests.OrderBy(x => x.Date);
+            return AllTests.OrderBy(x => x.TestTime);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace BL
         /// <param name="test">The Test</param>
         private static void UpdatePassTest(Test test)
         {
-            var percent = test.Criterions.Count(x => x.Pass) / (double)test.Criterions.Count;
+            var percent = test.Criteria.Count(x => x.Pass) / (double)test.Criteria.Count;
             test.Passed = (percent >= Configuration.PercentOfCritirionsToPassTest);
         }
 
@@ -276,7 +276,7 @@ namespace BL
         /// <returns>The number of Tests</returns>
         public int GetNumberOfTests(Trainee trainee)
         {
-           return AllTests.Count(x => x.TraineeId == trainee.Id && x.ActualDateTime > DateTime.Now.Date);
+           return AllTests.Count(x => x.TraineeId == trainee.Id && x.ActualTestTime > DateTime.Now.Date);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace BL
         /// <returns>True if he Passed</returns>
         public bool TraineePassedTest(Trainee trainee,LicenceType license)
         {
-            return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenceType == license && test.Passed);
+            return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenseType == license && test.Passed);
         }
 
 

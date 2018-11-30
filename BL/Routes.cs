@@ -54,13 +54,13 @@ namespace BL
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr));
 
-                test.Address = new Address(arr[0].Name);
+                test.AddressOfBeginningTest = new Address(arr[0].Name);
             }
             catch (Exception ex)
             {
                 //if there was an error
                 test.RouteUrl = null;
-                test.Address = null;
+                test.AddressOfBeginningTest = null;
                 //check that it throw an GoogleAddressException  
                 GoogleAddressException gex = ex as GoogleAddressException;
                 if (gex == null)

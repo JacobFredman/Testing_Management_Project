@@ -75,7 +75,7 @@ namespace BE
     }
 
         public Person(uint id, string firstName, string lastName, Gender gender, string emailAddress,
-            DateTime birthDate, string phoneNumber, string address, List<LicenceType> licenseTypes)
+            DateTime birthDate, string phoneNumber, Address address, List<LicenceType> licenseTypes)
         {
             _id = id;
             FirstName = firstName;
@@ -84,7 +84,7 @@ namespace BE
             _emailAddress = emailAddress;
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
-          //  Address = address;
+            Address = address;
             LicenseType = licenseTypes;
         }
         

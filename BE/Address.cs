@@ -25,7 +25,7 @@ namespace BE
         public string Entrance { set; get; }
 
         /// <summary>
-        /// A new Address Must include at least one string
+        /// A new AddressOfBeginningTest Must include at least one string
         /// </summary>
         /// <param name="city">City</param>
         /// <param name="street">Street</param>
