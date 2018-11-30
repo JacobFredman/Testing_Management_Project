@@ -58,8 +58,8 @@ namespace UI
 
 
 
-                test = new Test(223555616, 300391737);
-                _blImp.AddTest(test);
+                //test = new Test(223555616, 300391737);
+                //_blImp.AddTest(test);
 
             }
             catch (Exception e)
