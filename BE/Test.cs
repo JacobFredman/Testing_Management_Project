@@ -47,11 +47,18 @@ namespace BE
         /// check the result according to the Criteria
         /// </summary>
 
-        public Test(uint testerId, uint traineeId,DateTime testTime,Address addressOfBeginningTest)
+        public Test(uint testerId, uint traineeId,DateTime testTime,Address addressOfBeginningTest,
+            List<Criterion> criteria,bool passed,uint id, LicenceType licenseType)
         {
-
+            _testerId = testerId;
+            _traineeId = traineeId;
+            TestTime = testTime;
+            AddressOfBeginningTest = addressOfBeginningTest;
+            Criteria = criteria;
+            Passed = passed;
+            Id = id;
+            LicenseType = licenseType;
         }
-
 
 
         public override string ToString()

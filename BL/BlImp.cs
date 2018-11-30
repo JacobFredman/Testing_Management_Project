@@ -162,7 +162,7 @@ namespace BL
         public IEnumerable<Tester> GetAvailableTesters(DateTime date)
         {
             return AllTesters.Where(tester =>
-                (tester.Scedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
+                (tester.Schedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
                 !(AllTests.Any(test =>
                         (test.TesterId == tester.Id && test.TestTime.DayOfWeek == date.DayOfWeek && test.TestTime.Hour == date.Hour))
                     )
@@ -209,18 +209,18 @@ namespace BL
         /// <returns>All Tester's grouped by license</returns>
         public IEnumerable<IGrouping<List<LicenceType>, Tester>> GetAllTestersByLicense()
         {
-            return AllTesters.GroupBy(x => x.LicenceTypeTeaching);
+            return AllTesters.GroupBy(x => x.LicenseTypeTeaching);
         }
 
-        /// <summary>
-        /// Get all Trainee's grouped by Their Tester's 
-        /// </summary>
-        /// <returns>All Trainee's grouped by Their Tester's </returns>
-        public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester()
-        {
-            return from trainee in AllTrainee
-                group trainee by trainee.TesterName;
-        }
+        ///// <summary>
+        ///// Get all Trainee's grouped by Their Tester's 
+        ///// </summary>
+        ///// <returns>All Trainee's grouped by Their Tester's </returns>
+        //public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester()
+        //{
+        //    return from trainee in AllTrainee
+        //        group trainee by trainee.TesterName;
+        //}
 
         /// <summary>
         /// Get all Trainee's grouped by Their school's 
