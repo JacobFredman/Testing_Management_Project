@@ -24,8 +24,9 @@ namespace BE
             get => _emailAddress;
             set
             {
-                if (new EmailAddressAttribute().IsValid("someone@somewhere.com"))
+                if (new EmailAddressAttribute().IsValid(value))
                     _emailAddress = value;
+                else throw  new Exception("email address isn't valid");
             }
         }
 
