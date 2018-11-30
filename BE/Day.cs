@@ -11,7 +11,7 @@ namespace BE
         /// <summary>
         /// the hours in the day. if available then is true
         /// </summary>
-        private readonly bool[]hours=new bool[24];
+        private readonly bool[]_hours=new bool[24];
 
         /// <summary>
         /// the day in the week
@@ -49,11 +49,11 @@ namespace BE
                     throw new Exception("Invalied hours range");
                 for(uint j = range[i]; j <= range[i + 1]; j++)
                 {
-                    hours[j] = true;
+                    _hours[j] = true;
                 }
             }
             if (i != range.Length)
-                hours[range[i]] = true;
+                _hours[range[i]] = true;
         }
         /// <summary>
         /// remove hours
@@ -72,11 +72,11 @@ namespace BE
                     throw new Exception("Invalied hours range");
                 for (uint j = range[i]; j <= range[i + 1]; j++)
                 {
-                    hours[j] = false;
+                    _hours[j] = false;
                 }
             }
             if (i != range.Length)
-                hours[range[i]] = true;
+                _hours[range[i]] = true;
         }
         /// <summary>
         /// clear hours
@@ -84,7 +84,7 @@ namespace BE
         public void ClearHours()
         {
             for (int i = 0; i < 24; i++)
-                hours[i] = false;
+                _hours[i] = false;
         }
         /// <summary>
         /// set new hours for the whole day
@@ -104,7 +104,7 @@ namespace BE
         {
             if (i < 0 || i > 24)
                 throw new Exception("Hour is not valied");
-            return hours[i];
+            return _hours[i];
         }
         /// <summary>
         /// latest hour that he is working
@@ -114,7 +114,7 @@ namespace BE
         {
             for(int i = 23; i >= 0; i--)
             {
-                if (hours[i])
+                if (_hours[i])
                     return i;
                
             }
@@ -128,7 +128,7 @@ namespace BE
         {
             for (int i = 0; i <24; i++)
             {
-                if (hours[i])
+                if (_hours[i])
                     return i;
 
             }
@@ -141,9 +141,9 @@ namespace BE
             int j;
             for (int i = 0; i < 24; i++)
             {
-                if (hours[i])
+                if (_hours[i])
                 {
-                    for ( j = i ; j < 23 && hours[j+1]; j++) ;
+                    for ( j = i ; j < 23 && _hours[j+1]; j++) ;
                     if (j != i)
                         str += string.Format("{0:00}:00 - {1:00}:00 ,", i, j);
                     else
@@ -157,7 +157,7 @@ namespace BE
 
         public IEnumerator GetEnumerator()
         {
-            return hours.GetEnumerator();
+            return _hours.GetEnumerator();
         }
     }
 }

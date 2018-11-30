@@ -3,7 +3,7 @@ using BE;
 
 namespace BL
 {
-    internal interface IBL
+    internal interface IBl
     {
         void AddTester(Tester newTester);
         void RemoveTester(Tester testerToDelete);

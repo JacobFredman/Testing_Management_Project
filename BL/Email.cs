@@ -14,7 +14,7 @@ namespace BL
         //private MailMessage _mail = new MailMessage("jacAndElisha@miniProject.com", "jacov141@gmail.com");
         //private readonly SmtpClient _client = new SmtpClient();
 
-        //public Email()
+        //public EmailAddress()
         //{
         //    _client.Port = 25;
         //    _client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -29,14 +29,14 @@ namespace BL
         {
             var subject = test.Passed ? "Congratulations for the new license" : "we are sorry toAddress inform you that you didn't Passed the test this time";
             var message = test.Passed ? "now you are allowed toAddress drive" : "you have toAddress do the test again";
-          SentEmail(trainee.Email,subject,message,trainee.FirstName + " " + trainee.LastName,"D.M.V");
+          SentEmail(trainee.EmailAddress,subject,message,trainee.FirstName + " " + trainee.LastName,"D.M.V");
         }
 
         public void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
         {
             const string subject = "you have test today";
             const string message = "are you prepared for test already? see details in the attached";
-            SentEmail(trainee.Email,subject,message, trainee.FirstName + " " + trainee.LastName,"D.M.V");
+            SentEmail(trainee.EmailAddress,subject,message, trainee.FirstName + " " + trainee.LastName,"D.M.V");
         }
 
         private static void SentEmail(string toAddress,string subject,string bodyMessage,string toName, string fromName)

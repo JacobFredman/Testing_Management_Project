@@ -45,11 +45,11 @@ namespace BE
         /// <param name="origin">an addressLatLog</param>
         /// <param name="destination">an addres</param>
         /// <returns>the distance in meters</returns>
-        public static int GetDistanceGoogleMapsAPI(Address origin, Address destination)
+        public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
         {
             int distance = 0;
             string content="";
-            string requesturl = Configuration.GoogleDistanceURL + "key="+ Configuration.Key 
+            string requesturl = Configuration.GoogleDistanceUrl + "key="+ Configuration.Key 
                 + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
            if (requesturl.ToLower().IndexOf("https:") > -1|| requesturl.ToLower().IndexOf("http:") > -1)
             {
@@ -70,11 +70,11 @@ namespace BE
         /// <param name="origin">an addressLatLog</param>
         /// <param name="destination">an addres</param>
         /// <returns>the distance in meters</returns>
-        public static int GetTravelTimeGoogleMapsAPI(Address origin, Address destination)
+        public static int GetTravelTimeGoogleMapsApi(Address origin, Address destination)
         {
             int distance = 0;
             string content = "";
-            string requesturl = Configuration.GoogleDistanceURL + "key=" + Configuration.Key + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
+            string requesturl = Configuration.GoogleDistanceUrl + "key=" + Configuration.Key + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
             if (requesturl.ToLower().IndexOf("https:") > -1 || requesturl.ToLower().IndexOf("http:") > -1)
             {
                 System.Net.WebClient wc = new System.Net.WebClient();

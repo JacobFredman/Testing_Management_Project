@@ -17,8 +17,8 @@ namespace DAL
         /// <param name="newTest"></param>
         public void AddTest(Test newTest)
         {
-            newTest.Code = Configuration.TestID;
-            Configuration.TestID++;
+            newTest.Code = Configuration.TestId;
+            Configuration.TestId++;
 
             DataSource.Tests.Add(newTest);
         }
@@ -29,7 +29,7 @@ namespace DAL
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
-            if (DataSource.Testers.Any(tester => tester.ID == newTester.ID))
+            if (DataSource.Testers.Any(tester => tester.Id == newTester.Id))
                 throw new Exception("the tester already exist in the system");
 
             DataSource.Testers.Add(newTester);
@@ -37,7 +37,7 @@ namespace DAL
 
         public void AddTrainee(Trainee newTrainee)
         {
-            if (DataSource.Trainees.Any(t => t.ID == newTrainee.ID))
+            if (DataSource.Trainees.Any(t => t.Id == newTrainee.Id))
                 throw new Exception("the trainee already exist in the system");
 
             DataSource.Trainees.Add(newTrainee);
@@ -59,7 +59,7 @@ namespace DAL
 
         public void RemoveTester(Tester testerToDelete)
         {
-            if (DataSource.Testers.All(x => x.ID != testerToDelete.ID))
+            if (DataSource.Testers.All(x => x.Id != testerToDelete.Id))
                 throw new Exception("Tester doesn't exist");
 
             DataSource.Testers.Remove(testerToDelete);
@@ -67,7 +67,7 @@ namespace DAL
 
         public void RemoveTrainee(Trainee traineeToDelete)
         {
-            if (DataSource.Trainees.All(x => x.ID != traineeToDelete.ID))
+            if (DataSource.Trainees.All(x => x.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
 
 
@@ -86,20 +86,20 @@ namespace DAL
 
         public void UpdateTester(Tester updatedTester)
         {
-            if (DataSource.Testers.All(x => x.ID != updatedTester.ID))
+            if (DataSource.Testers.All(x => x.Id != updatedTester.Id))
                 throw new Exception("Tester doesn't exist");
 
-            var tester = DataSource.Testers.Find(t => t.ID == updatedTester.ID);
+            var tester = DataSource.Testers.Find(t => t.Id == updatedTester.Id);
             DataSource.Testers.Remove(tester);
             DataSource.Testers.Add(updatedTester);
         }
 
         public void UpdateTrainee(Trainee updatedTrainee)
         {
-            if (DataSource.Trainees.All(x => x.ID != updatedTrainee.ID))
+            if (DataSource.Trainees.All(x => x.Id != updatedTrainee.Id))
                 throw new Exception("Trainee doesn't exist");
 
-            var trainee = DataSource.Trainees.Find(t => t.ID == updatedTrainee.ID);
+            var trainee = DataSource.Trainees.Find(t => t.Id == updatedTrainee.Id);
             DataSource.Trainees.Remove(trainee);
             DataSource.Trainees.Add(updatedTrainee);
         }

@@ -14,7 +14,7 @@ namespace BL
 {
     public class Pdf
     {
-        public void createLicensePdf(Test test, Trainee trainee)
+        public void CreateLicensePdf(Test test, Trainee trainee)
         {
            
         }

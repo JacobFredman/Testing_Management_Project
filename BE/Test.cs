@@ -39,10 +39,10 @@ namespace BE
         public LicenceType LicenceType { get; set; }
         public Uri RouteUrl { set; get; }
 
-        public Test(uint id_tester,uint id_trainee)
+        public Test(uint idTester,uint idTrainee)
         {
-            TesterId = id_tester;
-            TraineeId = id_trainee;
+            TesterId = idTester;
+            TraineeId = idTrainee;
             Code = 0;
             Passed = false;
             Date = new DateTime();

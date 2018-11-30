@@ -9,6 +9,6 @@ namespace BE
     public class GoogleAddress
     {
         public string Name { set; get; }
-        public string ID { set; get; }
+        public string Id { set; get; }
     }
 }

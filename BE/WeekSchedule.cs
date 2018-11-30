@@ -5,18 +5,18 @@ namespace BE
 {
    public  class WeekSchedule:IEnumerable
     {
-        private const int DEFUALT_WEEK_DAYS = 5;
-        private Day[] days;
+        private const int DefualtWeekDays = 5;
+        private Day[] _days;
         /// <summary>
         /// a new schedual
         /// </summary>
         /// <param name="days">the days in the week between 1-7</param>
-        public WeekSchedule(int days = DEFUALT_WEEK_DAYS)
+        public WeekSchedule(int days = DefualtWeekDays)
         {
-            this.days = days<8 ? new Day[days] : new Day[DEFUALT_WEEK_DAYS];
-            for (int i = 0; i < this.days.Length; i++)
+            this._days = days<8 ? new Day[days] : new Day[DefualtWeekDays];
+            for (int i = 0; i < this._days.Length; i++)
             {
-                this.days[i] = new Day((DayOfWeek)i);
+                this._days[i] = new Day((DayOfWeek)i);
             }
         }
         /// <summary>
@@ -26,7 +26,7 @@ namespace BE
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void AddHourToDay(DayOfWeek d,params uint[] range)
         {
-            days[(int)d].AddHours(range);
+            _days[(int)d].AddHours(range);
         }
         /// <summary>
         /// remove hours
@@ -35,7 +35,7 @@ namespace BE
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void RemoveHourFromDay(DayOfWeek d, params uint[] range)
         {
-            days[(int)d].RemoveHours(range);
+            _days[(int)d].RemoveHours(range);
         }
         /// <summary>
         /// replace hours in day
@@ -44,7 +44,7 @@ namespace BE
         /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void SetHourInDay(DayOfWeek d, params uint[] range)
         {
-            days[(int)d].SetHours(range);
+            _days[(int)d].SetHours(range);
         }
         /// <summary>
         /// clear the hours in a day
@@ -52,14 +52,14 @@ namespace BE
         /// <param name="d">the day</param>
         public void ClearHourInDay(DayOfWeek d)
         {
-            days[(int)d].ClearHours();
+            _days[(int)d].ClearHours();
         }
         /// <summary>
         /// clear the whole week
         /// </summary>
         public void Clear()
         {
-            foreach(Day d in days)
+            foreach(Day d in _days)
             {
                 d.ClearHours();
             }
@@ -70,7 +70,7 @@ namespace BE
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void SetHoursAllDays(params uint[] range)
         {
-            foreach (Day d in days)
+            foreach (Day d in _days)
             {
                 d.SetHours(range);
             }
@@ -81,7 +81,7 @@ namespace BE
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void AddHoursAllDays(params uint[] range)
         {
-            foreach (var day in days)
+            foreach (var day in _days)
             {
                 day.AddHours(range);
             }
@@ -92,7 +92,7 @@ namespace BE
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void RemoveHoursAllDays(params uint[] range)
         {
-            foreach (var day in days)
+            foreach (var day in _days)
             {
                 day.RemoveHours(range);
             }
@@ -105,8 +105,8 @@ namespace BE
         public Day this[int i] {
             private set { }
             get {
-                if (i >= 0 && i < days.Length)
-                    return days[i];
+                if (i >= 0 && i < _days.Length)
+                    return _days[i];
                 else
                     return null;
                 }
@@ -121,8 +121,8 @@ namespace BE
             private set { }
             get
             {
-                if ((int)d < days.Length)
-                    return days[(int)d];
+                if ((int)d < _days.Length)
+                    return _days[(int)d];
                 else
                     return null;
             }
@@ -130,7 +130,7 @@ namespace BE
 
         public IEnumerator GetEnumerator()
         {
-            return days.GetEnumerator();
+            return _days.GetEnumerator();
         }
 
         /// <summary>
@@ -141,16 +141,16 @@ namespace BE
         /// <returns></returns>
         public bool IsAvailable(DayOfWeek day, int hour)
         {
-            if ((int)day < days.Length)
+            if ((int)day < _days.Length)
             {
-                return days[(int)day].IsWorking(hour);
+                return _days[(int)day].IsWorking(hour);
             }
             throw new Exception("day out of range");
         }
         public override string ToString()
         {
             string str = "";
-            foreach(Day d in days)
+            foreach(Day d in _days)
             {
                 str += d.ToString() + "\n";
             }

@@ -7,7 +7,7 @@ using Exception = System.Exception;
 
 namespace BL
 {
-    public class BlImp : IBL
+    public class BlImp : IBl
     {
         private readonly DalImp _dalImp = FactoryDal.GetObject;
 
@@ -53,13 +53,13 @@ namespace BL
         /// <param name="newTest">The Test to add</param>
         public void AddTest(Test newTest)
         {
-            var traineeExist = AllTrainee.Any(trainee => trainee.ID == newTest.TraineeId);
+            var traineeExist = AllTrainee.Any(trainee => trainee.Id == newTest.TraineeId);
             var twoTestesTooClose = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
-            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
+            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.Id == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
             var traineeHasLicense = AllTrainee.Any(trainee =>
-                (trainee.ID == newTest.TesterId) && (trainee.LicenceType.Any(l => l == newTest.LicenceType)));
+                (trainee.Id == newTest.TesterId) && (trainee.LicenseType.Any(l => l == newTest.LicenceType)));
             var testerHasLicense = AllTesters.Any(tester => 
-                (tester.ID == newTest.TesterId) && (tester.LicenceType.Any(l => l == newTest.LicenceType)));
+                (tester.Id == newTest.TesterId) && (tester.LicenseType.Any(l => l == newTest.LicenceType)));
 
             var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.Date == test.Date));
             var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.Date == test.Date));
@@ -164,7 +164,7 @@ namespace BL
             return AllTesters.Where(tester =>
                 (tester.Scedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
                 !(AllTests.Any(test =>
-                        (test.TesterId == tester.ID && test.Date.DayOfWeek == date.DayOfWeek && test.Date.Hour == date.Hour))
+                        (test.TesterId == tester.Id && test.Date.DayOfWeek == date.DayOfWeek && test.Date.Hour == date.Hour))
                     )
             );
         }
@@ -197,7 +197,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Tester> GetAllTestersInRadios(int r, Address a)
         {
-            return AllTesters.Where(tester => Tools.GetDistanceGoogleMapsAPI(tester.Address, a) <= r);
+            return AllTesters.Where(tester => Tools.GetDistanceGoogleMapsApi(tester.Address, a) <= r);
         }
         #endregion
 
@@ -276,7 +276,7 @@ namespace BL
         /// <returns>The number of Tests</returns>
         public int GetNumberOfTests(Trainee trainee)
         {
-           return AllTests.Count(x => x.TraineeId == trainee.ID && x.ActualDateTime > DateTime.Now.Date);
+           return AllTests.Count(x => x.TraineeId == trainee.Id && x.ActualDateTime > DateTime.Now.Date);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace BL
         /// <returns>True if he Passed</returns>
         public bool TraineePassedTest(Trainee trainee,LicenceType license)
         {
-            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenceType == license && test.Passed);
+            return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenceType == license && test.Passed);
         }
 
 

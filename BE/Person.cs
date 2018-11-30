@@ -1,59 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BE
 {
    public  class Person
     {
-        private uint id;
-        public uint ID
+        private uint _id;
+        public uint Id
         {
-            get => id; private set
+            get => _id;
+             set
             {
                 if (Tools.CheckID_IL(value))
-                    id = value;
+                    _id = value;
                 else
-                    throw new Exception("Invalied id");
+                    throw new Exception("Invalid id");
             }
         }
-        private string email;
-        public string Email { get { return email; } set
+
+        private string _emailAddress;
+        public string EmailAddress {
+            get => _emailAddress;
+            set
             {
-                int index =value.IndexOf('@');
-                if (index == -1)
-                    throw new Exception("Invalied email address: "+value);
-                index = value.IndexOf('@', index + 1);
-                if(index!=-1)
-                    throw new Exception("Invalied email address: "+value);
-                email = value;
+                if (new EmailAddressAttribute().IsValid("someone@somewhere.com"))
+                    _emailAddress = value;
             }
         }
-        public string LastName { set; get; }
+
         public string FirstName { set; get; }
-        public string EmailAddress { set; get; }
-        private DateTime birthDate { set; get; }
+        public string LastName { set; get; }
         public DateTime BirthDate { set; get; }
         public Gender Gender { set; get; }
-        private string phoneNumber;
+        private string _phoneNumber;
         /// <summary>
-        /// set only israely phone number like 0500000000 or 020000000
+        /// set only israeli phone number like 0500000000 or 020000000
         /// </summary>
         public string PhoneNumber
         {
-            get => phoneNumber; set
+            get => _phoneNumber; set
             {
                 if (value[0] != '0')
-                    phoneNumber = null;
+                    _phoneNumber = null;
                 else if (value[1] == '5' && value.Length == 10)
-                    phoneNumber = value;
+                    _phoneNumber = value;
                 else if (value[1] != '5' && value.Length == 9)
-                    phoneNumber = value;
+                    _phoneNumber = value;
                 else
-                    phoneNumber = null;
+                    _phoneNumber = null;
             }
         }
+
         public Address Address { set; get; }
-        public List<LicenceType> LicenceType { set; get; }
+        public List<LicenceType> LicenseType { set; get; }
         /// <summary>
         /// a new person
         /// </summary>
@@ -62,24 +62,38 @@ namespace BE
         /// <param name="lastName">Last Name</param>
         public Person(uint id,string firstName="",string lastName="",Gender g=Gender.Male)
         {
-            ID = id;
-            if (ID == 0)
-                throw new Exception("Invalied ID");
-            birthDate = new DateTime();
+            Id = id;
+            if (Id == 0)
+                throw new Exception("Invalid ID");
+            //birthDate = new DateTime();
             BirthDate = new DateTime();
-            LicenceType = new List<LicenceType>();
+            LicenseType = new List<LicenceType>();
             FirstName = firstName;
             LastName = lastName;
             this.Gender = g;
-            phoneNumber = "";
+            _phoneNumber = "";
     }
+
+        public Person(uint id, string firstName, string lastName, Gender gender, string emailAddress,
+            DateTime birthDate, string phoneNumber, string address, List<LicenceType> licenseTypes)
+        {
+            _id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Gender = gender;
+            _emailAddress = emailAddress;
+            BirthDate = birthDate;
+            PhoneNumber = phoneNumber;
+          //  Address = address;
+            LicenseType = licenseTypes;
+        }
         
         public override string ToString()
         {
             if (FirstName != "" && LastName != "")
-                return "Name: " + FirstName + " " + LastName + " ,ID: " + ID + " ";
+                return "Name: " + FirstName + " " + LastName + " ,ID: " + Id + " ";
             else
-                return "ID: " + ID;
+                return "ID: " + Id;
         }
     }
 }
