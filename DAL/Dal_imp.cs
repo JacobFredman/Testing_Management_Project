@@ -17,7 +17,7 @@ namespace DAL
         /// <param name="newTest"></param>
         public void AddTest(Test newTest)
         {
-            newTest.Code = Configuration.TestID;
+            newTest.ID = (int)Configuration.TestID;
             Configuration.TestID++;
 
             DataSource.Tests.Add(newTest);
@@ -51,7 +51,7 @@ namespace DAL
 
         public void RemoveTest(Test testToDelete)
         {
-            if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
+            if (DataSource.Tests.All(x => x.ID != testToDelete.ID))
                 throw new Exception("Test doesn't exist");
 
             DataSource.Tests.Remove(testToDelete);
@@ -76,10 +76,10 @@ namespace DAL
 
         public void UpdateTest(Test updatedTest)
         {
-            if (DataSource.Tests.All(x => x.Id != updatedTest.Id))
+            if (DataSource.Tests.All(x => x.ID != updatedTest.ID))
                 throw new Exception("Test doesn't exist");
 
-            var test = DataSource.Tests.Find(t => t.Id == updatedTest.Id);
+            var test = DataSource.Tests.Find(t => t.ID == updatedTest.ID);
             DataSource.Tests.Remove(test);
             DataSource.Tests.Add(updatedTest);
         }

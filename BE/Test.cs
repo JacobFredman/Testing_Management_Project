@@ -6,7 +6,6 @@ namespace BE
    public class Test
     {
         
-        public uint Code { get; set; }
         private uint _testerId;
         public uint TesterId
         {
@@ -35,7 +34,7 @@ namespace BE
         public List<Criterion> Criterions { set; get; }
         public bool Passed { set; get; }
         public string Comment { set; get; }
-        public int Id { get; set; }
+        public int ID { get; set; }
         public LicenceType LicenceType { get; set; }
         public Uri RouteUrl { set; get; }
 
@@ -43,9 +42,8 @@ namespace BE
         {
             TesterId = id_tester;
             TraineeId = id_trainee;
-            Code = 0;
+            ID = 0;
             Passed = false;
-            Date = new DateTime();
             ActualDateTime = DateTime.MinValue;
            
             Criterions = new List<Criterion>();
@@ -58,7 +56,7 @@ namespace BE
         public override string ToString()
         {
 
-            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Code + " Passed Test: " + (Passed ? "yes" : "no");
+            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + ID + " Passed Test: " + (Passed ? "yes" : "no");
         }
     }
 }

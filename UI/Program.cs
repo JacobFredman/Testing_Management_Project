@@ -16,47 +16,68 @@ namespace UI
 
         static void Main(string[] args)
         {
-            while (true)
-            {
+           
 
                 try
                 {
                     BlImp bl = BL.FactoryBl.GetObject;
-                    Trainee t = new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
-                    {
-                        Address = new Address("jerusalem"),
-                        BirthDate = new DateTime(1995, 08, 17),
-                        Email = "emayer@g.jct.ac.il",
-                        PhoneNumber = "0532429933",
-                        TesterName = new Tester(319185997),
-                        SchoolName = "Gil",
-                    };
-                    t.LicenceTypeLearning.Add(LicenceType.A);
-                    t.LicenceTypeLearning.Add(LicenceType.B);
-                    bl.AddTrainee(t);
+   
 
-                    Trainee t2 = new Trainee(319185989, Gender.Male, "Amnon", "Mayer")
+                    Tester t2 = new Tester(319185997, "Amnon", "Mayer", Gender.Male)
                     {
-                        Address = new Address("jerusalem","Hetzel","1","23"),
+                        Address = new Address("jerusalem", "Hetzel", "1", "23"),
+                        BirthDate = new DateTime(1937, 04, 17),
+                        Email = "Amnon@g.jct.ac.il",
+                        PhoneNumber = "089767006",
+                        MaxDistance = 50,
+                        MaxWeekExams = 40,
+                        Experience = 6
+                    };
+                    t2.LicenceTypeTeaching.Add(LicenceType.A);
+                    t2.LicenceTypeTeaching.Add(LicenceType._1);
+                    bl.AddTester(t2);
+
+                    Trainee t1 = new Trainee(319185989, Gender.Male, "Amnon", "Mayer")
+                    {
+                        Address = new Address("jerusalem", "Hetzel", "1", "23"),
                         BirthDate = new DateTime(1967, 04, 17),
                         Email = "Amnon@g.jct.ac.il",
                         PhoneNumber = "089767006",
                         TesterName = new Tester(319185997),
                         SchoolName = "Gil",
+                        NumberOfLessons = 50
                     };
-                    t2.LicenceTypeLearning.Add(LicenceType.C);
-                    t2.LicenceTypeLearning.Add(LicenceType._1);
-                    bl.AddTrainee(t2);
+                    t1.LicenceTypeLearning.Add(LicenceType.A);
+                    t1.LicenceTypeLearning.Add(LicenceType._1);
+                    bl.AddTrainee(t1);
 
-                    bl.AllTrainee.ToExcel(x=>x.SchoolName=="Gil");
+                   
+
+                    Test t = new Test(319185997, 319185989)
+                    {
+                        Address = new Address("jerusalem"),
+                        Date = new DateTime(1965, 08, 17),
+                        ActualDateTime = new DateTime(1955, 08, 17),
+                        Comment = "vs;smv;mv;vmsdvmsdvmsd;vlmsv;slmvs;vmsspvmoso[[jop",
+                        RouteUrl = new Uri("Https://google.com"),
+                        LicenceType = LicenceType.A,
+                        Passed=true
+                    };
+                    t.Criterions.Add(new Criterion("Mirror", true));
+                    t.SetRouteAndAddressToTest(new Address("jerusalem"));
+                    bl.AddTest(t);
+                    bl.AllTests.ToExcel();
+                    bl.AllTesters.ToExcel();
+                    bl.AllTrainee.ToExcel();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message );
-                }
-
-                //Console.ReadKey();
+                    Console.ReadKey();
             }
+
+            Console.ReadKey();
+
         }
     }
 }
