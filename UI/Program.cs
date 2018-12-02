@@ -64,10 +64,14 @@ namespace UI
                         Passed=true
                     };
                     t.Criterions.Add(new Criterion("Mirror", true));
+                    Console.WriteLine("Add route to test......");
                     t.SetRouteAndAddressToTest(new Address("jerusalem"));
                     bl.AddTest(t);
+                    Console.WriteLine("Export tests.....");
                     bl.AllTests.ToExcel();
+                    Console.WriteLine("Export testers.....");
                     bl.AllTesters.ToExcel();
+                    Console.WriteLine("Export trainees.....");
                     bl.AllTrainee.ToExcel();
                 }
                 catch (Exception ex)

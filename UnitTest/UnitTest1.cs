@@ -47,7 +47,7 @@ namespace UnitTest
 
             // Act
             bl.AddTest(test);
-            var result = bl.AllTrainee.Any(t => t.ID == test.Id);
+            var result = bl.AllTrainee.Any(t => t.ID == test.ID);
 
             //Assert
             Assert.IsTrue(result);
