@@ -13,7 +13,7 @@ namespace UnitTest
         {
             // Arrange
           var bl = new BlImp();
-            var tester = new Tester(037982519, "Jacov", "Fredman", Gender.Male);
+            var tester = new Tester("037982519", "Jacov", "Fredman", Gender.Male);
 
             // Act
             bl.AddTester(tester);
@@ -28,7 +28,7 @@ namespace UnitTest
         {
             // Arrange
             var bl = new BlImp();
-            var trainee = new Trainee(037982519, Gender.Male, "Jacov", "Fredman");
+            var trainee = new Trainee("037982519", Gender.Male, "Jacov", "Fredman");
 
             // Act
             bl.AddTrainee(trainee);
@@ -43,7 +43,7 @@ namespace UnitTest
         {
             // Arrange
             var bl = new BlImp();
-            var test = new Test(037982519, 037982519);
+            var test = new Test("037982519", "037982519");
 
             // Act
             bl.AddTest(test);

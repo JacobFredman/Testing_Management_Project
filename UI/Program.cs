@@ -23,7 +23,7 @@ namespace UI
                     BlImp bl = BL.FactoryBl.GetObject;
    
 
-                    Tester t2 = new Tester(319185997, "Amnon", "Mayer", Gender.Male)
+                    Tester t2 = new Tester("319185997", "Amnon", "Mayer", Gender.Male)
                     {
                         Address = new Address("jerusalem", "Hetzel", "1", "23"),
                         BirthDate = new DateTime(1937, 04, 17),
@@ -37,13 +37,13 @@ namespace UI
                     t2.LicenceTypeTeaching.Add(LicenceType._1);
                     bl.AddTester(t2);
 
-                    Trainee t1 = new Trainee(319185989, Gender.Male, "Amnon", "Mayer")
+                    Trainee t1 = new Trainee("319185989", Gender.Male, "Amnon", "Mayer")
                     {
                         Address = new Address("jerusalem", "Hetzel", "1", "23"),
                         BirthDate = new DateTime(1967, 04, 17),
                         Email = "Amnon@g.jct.ac.il",
                         PhoneNumber = "089767006",
-                        TesterName = new Tester(319185997),
+                        TesterName = new Tester("319185997"),
                         SchoolName = "Gil",
                         NumberOfLessons = 50
                     };
@@ -53,7 +53,7 @@ namespace UI
 
                    
 
-                    Test t = new Test(319185997, 319185989)
+                    Test t = new Test("319185997","319185989")
                     {
                         Address = new Address("jerusalem"),
                         Date = new DateTime(1965, 08, 17),

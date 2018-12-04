@@ -6,26 +6,26 @@ namespace BE
    public class Test
     {
         
-        private uint _testerId;
-        public uint TesterId
+        private string _testerId;
+        public string TesterId
         {
             get => _testerId; set
             {
-                if (Tools.CheckID_IL(value))
-                    _testerId = value;
+                if (Tools.CheckID_IL(uint.Parse(value)))
+                    _testerId = string.Format("{0:000000000}", uint.Parse(value));
                 else
-                    _testerId = 0;
+                    throw new Exception("Invalied tester id");
             }
         }
-        private uint _traineeId;
-        public uint TraineeId
+        private string _traineeId;
+        public string TraineeId
         {
             get => _traineeId; set
             {
-                if (Tools.CheckID_IL(value))
-                    _traineeId = value;
+                if (Tools.CheckID_IL(uint.Parse(value)))
+                    _traineeId = string.Format("{0:000000000}", uint.Parse(value));
                 else
-                    _traineeId = 0;
+                    throw new Exception("Invalied tester id");
             }
         }
         public DateTime Date { set; get; }
@@ -34,15 +34,15 @@ namespace BE
         public List<Criterion> Criterions { set; get; }
         public bool Passed { set; get; }
         public string Comment { set; get; }
-        public int ID { get; set; }
+        public string ID { get; set; }
         public LicenceType LicenceType { get; set; }
         public Uri RouteUrl { set; get; }
 
-        public Test(uint id_tester,uint id_trainee)
+        public Test(string id_tester,string id_trainee)
         {
             TesterId = id_tester;
             TraineeId = id_trainee;
-            ID = 0;
+            ID = "00000000";
             Passed = false;
             ActualDateTime = DateTime.MinValue;
            

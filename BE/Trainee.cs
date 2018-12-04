@@ -20,7 +20,7 @@ namespace BE
         /// <param name="gender">gender</param>
         /// <param name="firstName">first name</param>
         /// <param name="lastName">last name</param>
-        public Trainee(uint id, Gender gender, string firstName = null, string lastName = null) :base(id, lastName, firstName, gender)
+        public Trainee(string id, Gender gender, string firstName = null, string lastName = null) :base(id, lastName, firstName, gender)
         {
             _gender = gender;
             LicenceTypeLearning = new List<LicenceType>();

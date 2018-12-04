@@ -5,13 +5,13 @@ namespace BE
 {
    public  class Person
     {
-        private uint id;
-        public uint ID
+        private string id;
+        public string ID
         {
             get => id; private set
             {
-                if (Tools.CheckID_IL(value))
-                    id = value;
+                if (Tools.CheckID_IL(uint.Parse(value)))
+                    id = string.Format("{0:000000000}", uint.Parse(value));
                 else
                     throw new Exception("Invalied id");
             }
@@ -30,7 +30,6 @@ namespace BE
         }
         public string LastName { set; get; }
         public string FirstName { set; get; }
-        public string EmailAddress { set; get; }
         private DateTime birthDate { set; get; }
         public DateTime BirthDate { set; get; }
         public Gender Gender { set; get; }
@@ -60,10 +59,10 @@ namespace BE
         /// <param name="id">ID</param>
         /// <param name="firstName">First name</param>
         /// <param name="lastName">Last Name</param>
-        public Person(uint id,string firstName="",string lastName="",Gender g=Gender.Male)
+        public Person(string id,string firstName="",string lastName="",Gender g=Gender.Male)
         {
             ID = id;
-            if (ID == 0)
+            if (ID == null)
                 throw new Exception("Invalied ID");
             birthDate = new DateTime();
             BirthDate = new DateTime();

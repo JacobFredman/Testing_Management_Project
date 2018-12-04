@@ -132,7 +132,7 @@ namespace BL
             excelApp.Windows.Application.ActiveWindow.DisplayGridlines = false;
 
             //Change the sheet name
-            workSheet.Name = "Trainees";
+            workSheet.Name = "Testers";
 
             // Establish column headings 
             workSheet.Cells[1, "A"] = "ID Number";
@@ -257,9 +257,9 @@ namespace BL
                 row++;
 
                 //Add all the fields
-                workSheet.Cells[row, "A"] = string.Format("{0:00000000}", test.ID);
+                workSheet.Cells[row, "A"] = test.ID;
                 workSheet.Cells[row, "B"] = test.TraineeId;
-                workSheet.Cells[row, "C"] = test.TraineeId;
+                workSheet.Cells[row, "C"] = test.TesterId;
                 workSheet.Cells[row, "D"] = (test.Date!=null)?test.Date.ToString("d"):"";
                 workSheet.Cells[row, "E"] = (test.ActualDateTime!=DateTime.MinValue)?test.ActualDateTime.ToString("d"):"";
                 workSheet.Cells[row, "F"] = (test.Address!=null)?test.Address.ToString():"";

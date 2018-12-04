@@ -20,7 +20,7 @@ namespace BE
         /// <param name="firstName">first name</param>
         /// <param name="lastName">last name</param>
         /// <param name="gender">tester gender</param>
-        public Tester(uint id, string firstName = "", string lastName = "",Gender gender=Gender.Male) : base(id,firstName,lastName,gender) {
+        public Tester(string id, string firstName = "", string lastName = "",Gender gender=Gender.Male) : base(id,firstName,lastName,gender) {
             _gender = gender;
             LicenceTypeTeaching = new List<LicenceType>();
             Scedule = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
