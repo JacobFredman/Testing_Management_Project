@@ -2,7 +2,7 @@
 {
     public static class FactoryBl
     {
-        static BlImp _bl = null;
+        private static BlImp _bl = null;
 
         public static BlImp GetObject
         {

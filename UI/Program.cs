@@ -37,7 +37,7 @@ namespace UI
                     t2.LicenseTypeTeaching.Add(LicenseType._1);
                     bl.AddTester(t2);
 
-                    Trainee t1 = new Trainee("319185989", Gender.Male, "Amnon", "Mayer")
+                    Trainee t1 = new Trainee("319185989", "Amnon", "Mayer", Gender.Male)
                     {
                         Address = new Address("jerusalem", "Hetzel", "1", "23"),
                         BirthDate = new DateTime(1967, 04, 17),

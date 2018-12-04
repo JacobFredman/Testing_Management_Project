@@ -9,7 +9,7 @@ namespace BL
 {
     public class BlImp : IBL
     {
-        private readonly DalImp _dalImp = FactoryDal.GetObject;
+        private readonly IDal _dalImp = FactoryDal.GetObject;
 
         #region Access Tester
         /// <summary>
