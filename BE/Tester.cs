@@ -5,13 +5,32 @@ namespace BE
    
    public class Tester:Person
     {
-        private readonly Gender _gender;
+        /// <summary>
+        /// experience of the tester in years
+        /// </summary>
         public uint Experience { get; set ; }
+
+        /// <summary>
+        /// Max exams in week
+        /// </summary>
         public uint MaxWeekExams { set; get; }
-        public List<LicenceType> LicenceTypeTeaching { set; get; }
+
+        /// <summary>
+        /// License type teaching
+        /// </summary>
+        public List<LicenseType> LicenseTypeTeaching { set; get; }
+
         private float _maxDistance;
+
+        /// <summary>
+        /// Max travel distance
+        /// </summary>
         public float MaxDistance { get => _maxDistance; set { if (value >= 0) _maxDistance = value; } }
-        public WeekSchedule Scedule { set; get; }
+
+        /// <summary>
+        /// Week schedule
+        /// </summary>
+        public WeekSchedule Schedule { set; get; }
 
         /// <summary>
         /// A new Tester
@@ -21,13 +40,14 @@ namespace BE
         /// <param name="lastName">last name</param>
         /// <param name="gender">tester gender</param>
         public Tester(string id, string firstName = "", string lastName = "",Gender gender=Gender.Male) : base(id,firstName,lastName,gender) {
-            _gender = gender;
-            LicenceTypeTeaching = new List<LicenceType>();
-            Scedule = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
+            LicenseTypeTeaching = new List<LicenseType>();
+            Schedule = new WeekSchedule((int)Configuration.NumbersOfWorkDaysInWeekTesters);
             Experience = 0;
             MaxWeekExams = 0;
             _maxDistance = 0;
         }
+
+        //Information about the tester
         public override string ToString()
         {
             return base.ToString() + " ,Job: A Tester ";

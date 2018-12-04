@@ -72,7 +72,7 @@ namespace BL
             {
                 //Get all the license types
                 string licenseType = "";
-                foreach (var license in trainee.LicenceTypeLearning)
+                foreach (var license in trainee.LicenseTypeLearning)
                 {
                     licenseType += license.ToString()+" ";
                 }
@@ -164,7 +164,7 @@ namespace BL
             {
                 //Get all the license types
                 string licenseType = "";
-                foreach (var license in tester.LicenceTypeTeaching)
+                foreach (var license in tester.LicenseTypeTeaching)
                 {
                     licenseType += license.ToString() + " ";
                 }
@@ -266,7 +266,7 @@ namespace BL
                 workSheet.Cells[row, "G"] = test.Passed?"Passed":"Not passed";
                 var Cell = workSheet.Cells[row, "H"];
                 workSheet.Cells[row, "I"] = test.Criterions.Count;
-                workSheet.Cells[row, "J"] = test.LicenceType.ToString();
+                workSheet.Cells[row, "J"] = test.LicenseType.ToString();
                 workSheet.Cells[row, "K"] = test.Comment;
 
                 if(test.RouteUrl!=null)

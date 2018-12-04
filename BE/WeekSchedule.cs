@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 
 namespace BE
 {
    public  class WeekSchedule:IEnumerable
     {
         private const int DEFUALT_WEEK_DAYS = 5;
-        private Day[] days;
+
+        private readonly Day[] days;
+
         /// <summary>
-        /// a new schedual
+        /// a new schedule
         /// </summary>
         /// <param name="days">the days in the week between 1-7</param>
         public WeekSchedule(int days = DEFUALT_WEEK_DAYS)
         {
             this.days = days<8 ? new Day[days] : new Day[DEFUALT_WEEK_DAYS];
-            for (int i = 0; i < this.days.Length; i++)
+            for (var i = 0; i < this.days.Length; i++)
             {
                 this.days[i] = new Day((DayOfWeek)i);
             }
         }
+
         /// <summary>
         /// add hours
         /// </summary>
@@ -28,6 +32,7 @@ namespace BE
         {
             days[(int)d].AddHours(range);
         }
+
         /// <summary>
         /// remove hours
         /// </summary>
@@ -37,15 +42,17 @@ namespace BE
         {
             days[(int)d].RemoveHours(range);
         }
+
         /// <summary>
         /// replace hours in day
         /// </summary>
         /// <param name="d">the day</param>
-        /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
+        /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void SetHourInDay(DayOfWeek d, params uint[] range)
         {
             days[(int)d].SetHours(range);
         }
+
         /// <summary>
         /// clear the hours in a day
         /// </summary>
@@ -54,27 +61,30 @@ namespace BE
         {
             days[(int)d].ClearHours();
         }
+
         /// <summary>
         /// clear the whole week
         /// </summary>
         public void Clear()
         {
-            foreach(Day d in days)
+            foreach(var d in days)
             {
                 d.ClearHours();
             }
         }
+
         /// <summary>
         /// set the same hours for all the days
         /// </summary>
         /// <param name="range">the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
         public void SetHoursAllDays(params uint[] range)
         {
-            foreach (Day d in days)
+            foreach (var d in days)
             {
                 d.SetHours(range);
             }
         }
+
         /// <summary>
         /// add hours to all the days
         /// </summary>
@@ -86,6 +96,7 @@ namespace BE
                 day.AddHours(range);
             }
         }
+
         /// <summary>
         /// remove the hours for all the days
         /// </summary>
@@ -97,13 +108,13 @@ namespace BE
                 day.RemoveHours(range);
             }
         }
+
         /// <summary>
         /// get a day
         /// </summary>
         /// <param name="i">the day. between 0-7</param>
         /// <returns>the day or null if it don't exist</returns>
         public Day this[int i] {
-            private set { }
             get {
                 if (i >= 0 && i < days.Length)
                     return days[i];
@@ -111,6 +122,7 @@ namespace BE
                     return null;
                 }
         }
+
         /// <summary>
         /// get a day
         /// </summary>
@@ -134,7 +146,7 @@ namespace BE
         }
 
         /// <summary>
-        /// check if is availble on the day and hour
+        /// check if is available on the day and hour
         /// </summary>
         /// <param name="day">the day</param>
         /// <param name="hour">the hour</param>
@@ -147,14 +159,14 @@ namespace BE
             }
             throw new Exception("day out of range");
         }
+
+        /// <summary>
+        /// the whole week schedule
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            string str = "";
-            foreach(Day d in days)
-            {
-                str += d.ToString() + "\n";
-            }
-            return str;
+            return days.Aggregate("", (current, d) => current + (d.ToString() + "\n"));
         }
     }
 }

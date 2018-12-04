@@ -33,8 +33,8 @@ namespace UI
                         MaxWeekExams = 40,
                         Experience = 6
                     };
-                    t2.LicenceTypeTeaching.Add(LicenceType.A);
-                    t2.LicenceTypeTeaching.Add(LicenceType._1);
+                    t2.LicenseTypeTeaching.Add(LicenseType.A);
+                    t2.LicenseTypeTeaching.Add(LicenseType._1);
                     bl.AddTester(t2);
 
                     Trainee t1 = new Trainee("319185989", Gender.Male, "Amnon", "Mayer")
@@ -47,8 +47,8 @@ namespace UI
                         SchoolName = "Gil",
                         NumberOfLessons = 50
                     };
-                    t1.LicenceTypeLearning.Add(LicenceType.A);
-                    t1.LicenceTypeLearning.Add(LicenceType._1);
+                    t1.LicenseTypeLearning.Add(LicenseType.A);
+                    t1.LicenseTypeLearning.Add(LicenseType._1);
                     bl.AddTrainee(t1);
 
                    
@@ -60,7 +60,7 @@ namespace UI
                         ActualDateTime = new DateTime(1955, 08, 17),
                         Comment = "vs;smv;mv;vmsdvmsdvmsd;vlmsv;slmvs;vmsspvmoso[[jop",
                         RouteUrl = new Uri("Https://google.com"),
-                        LicenceType = LicenceType.A,
+                        LicenseType = LicenseType.A,
                         Passed=true
                     };
                     t.Criterions.Add(new Criterion("Mirror", true));

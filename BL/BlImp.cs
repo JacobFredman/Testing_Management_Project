@@ -57,9 +57,9 @@ namespace BL
             var twoTestesTooClose = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
             var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
             var traineeHasLicense = AllTrainee.Any(trainee =>
-                (trainee.ID == newTest.TraineeId) && (trainee.LicenceTypeLearning.Any(l => l == newTest.LicenceType)));
+                (trainee.ID == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l == newTest.LicenseType)));
             var testerHasLicense = AllTesters.Any(tester => 
-                (tester.ID == newTest.TesterId) && (tester.LicenceTypeTeaching.Any(l => l == newTest.LicenceType)));
+                (tester.ID == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
 
             var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.Date == test.Date));
             var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.Date == test.Date));
@@ -162,7 +162,7 @@ namespace BL
         public IEnumerable<Tester> GetAvailableTesters(DateTime date)
         {
             return AllTesters.Where(tester =>
-                (tester.Scedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
+                (tester.Schedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
                 !(AllTests.Any(test =>
                         (test.TesterId == tester.ID && test.Date.DayOfWeek == date.DayOfWeek && test.Date.Hour == date.Hour))
                     )
@@ -197,7 +197,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Tester> GetAllTestersInRadios(int r, Address a)
         {
-            return AllTesters.Where(tester => Tools.GetDistanceGoogleMapsAPI(tester.Address, a) <= r);
+            return AllTesters.Where(tester => Tools.GetDistanceGoogleMapsApi(tester.Address, a) <= r);
         }
         #endregion
 
@@ -207,9 +207,9 @@ namespace BL
         /// Get all Tester's grouped by License
         /// </summary>
         /// <returns>All Tester's grouped by license</returns>
-        public IEnumerable<IGrouping<List<LicenceType>, Tester>> GetAllTestersByLicense()
+        public IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense()
         {
-            return AllTesters.GroupBy(x => x.LicenceTypeTeaching);
+            return AllTesters.GroupBy(x => x.LicenseTypeTeaching);
         }
 
         /// <summary>
@@ -285,9 +285,9 @@ namespace BL
         /// <param name="trainee">The Trainee</param>
         /// <param name="license">The license</param>
         /// <returns>True if he Passed</returns>
-        public bool TraineePassedTest(Trainee trainee,LicenceType license)
+        public bool TraineePassedTest(Trainee trainee,LicenseType license)
         {
-            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenceType == license && test.Passed);
+            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenseType == license && test.Passed);
         }
 
 

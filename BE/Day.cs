@@ -32,6 +32,7 @@ namespace BE
                 ClearHours();
             TheDay = d;
         }
+
         /// <summary>
         /// add hours to day
         /// </summary>
@@ -43,6 +44,7 @@ namespace BE
             if (range.Length % 2 != 0)
                 throw new Exception("Invalied hour format");
            int i = 0;
+           //add hours
            for( i = 0; i < range.Length-1; i+=2)
             {
                 if (range[i] > range[i + 1])
@@ -55,6 +57,7 @@ namespace BE
             if (i != range.Length)
                 hours[range[i]] = true;
         }
+
         /// <summary>
         /// remove hours
         /// </summary>
@@ -66,6 +69,7 @@ namespace BE
             if (range.Length % 2 != 0)
                 throw new Exception("Invalied hour format");
             int i = 0;
+            //remove the hours
             for (i = 0; i < range.Length - 1; i += 2)
             {
                 if (range[i] > range[i + 1])
@@ -78,6 +82,7 @@ namespace BE
             if (i != range.Length)
                 hours[range[i]] = true;
         }
+
         /// <summary>
         /// clear hours
         /// </summary>
@@ -86,6 +91,7 @@ namespace BE
             for (int i = 0; i < 24; i++)
                 hours[i] = false;
         }
+
         /// <summary>
         /// set new hours for the whole day
         /// </summary>
@@ -95,6 +101,7 @@ namespace BE
             ClearHours();
             AddHours(range);
         }
+
         /// <summary>
         /// check if he is working on the hour
         /// </summary>
@@ -106,6 +113,7 @@ namespace BE
                 throw new Exception("Hour is not valied");
             return hours[i];
         }
+
         /// <summary>
         /// latest hour that he is working
         /// </summary>
@@ -120,6 +128,7 @@ namespace BE
             }
             return -1;
         }
+
         /// <summary>
         /// the urliest hour that he is working
         /// </summary>
@@ -135,6 +144,10 @@ namespace BE
             return -1;
         }
 
+        /// <summary>
+        /// Get all the work hours in the day
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string str=TheDay.ToString()+": ";
