@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
+using BE.MainObjects;
 
 namespace BL
 {
-    internal interface IBL
+    internal interface IBl
     {
         //access testers
         void AddTester(Tester newTester);

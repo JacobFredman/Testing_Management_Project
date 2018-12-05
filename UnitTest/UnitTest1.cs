@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BE;
+using BE.MainObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using  BL;
 
@@ -13,11 +14,11 @@ namespace UnitTest
         {
             // Arrange
           var bl = new BlImp();
-            var tester = new Tester("037982519", "Jacov", "Fredman", Gender.Male);
+            var tester = new Tester(037982519, "Jacov", "Fredman", Gender.Male);
 
             // Act
             bl.AddTester(tester);
-            var result = bl.AllTesters.Any(t => t.ID == tester.ID);
+            var result = bl.AllTesters.Any(t => t.Id == tester.Id);
 
             //Assert
             Assert.IsTrue(result);
@@ -28,11 +29,11 @@ namespace UnitTest
         {
             // Arrange
             var bl = new BlImp();
-            var trainee = new Trainee("037982519", "Jacov", "Fredman", Gender.Male);
+            var trainee = new Trainee(037982519, Gender.Male, "Jacov", "Fredman");
 
             // Act
             bl.AddTrainee(trainee);
-            var result = bl.AllTrainee.Any(t => t.ID == trainee.ID);
+            var result = bl.AllTrainee.Any(t => t.Id == trainee.Id);
 
             //Assert
             Assert.IsTrue(result);
@@ -43,11 +44,11 @@ namespace UnitTest
         {
             // Arrange
             var bl = new BlImp();
-            var test = new Test("037982519", "037982519");
+            var test = new Test(037982519, 037982519);
 
             // Act
             bl.AddTest(test);
-            var result = bl.AllTrainee.Any(t => t.ID == test.ID);
+            var result = bl.AllTrainee.Any(t => t.Id == test.Id);
 
             //Assert
             Assert.IsTrue(result);

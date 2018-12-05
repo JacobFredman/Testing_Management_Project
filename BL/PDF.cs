@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using BE;
-using PdfSharp;
+using BE.MainObjects;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using static PdfSharp.Drawing.XStringFormat;
@@ -14,7 +9,7 @@ namespace BL
 {
     public class Pdf
     {
-        public void createLicensePdf(Test test, Trainee trainee)
+        public void CreateLicensePdf(Test test, Trainee trainee)
         {
            
         }

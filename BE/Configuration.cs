@@ -6,9 +6,9 @@
    public  class Configuration
     {
         /// <summary>
-        /// ID for tests
+        /// Id for tests
         /// </summary>
-        public static uint TestID = 1;
+        public static uint TestId = 1;
 
         /// <summary>
         /// Minimum lessons to take a test
@@ -54,7 +54,7 @@
         /// <summary>
         /// google distance url api
         /// </summary>
-        public static string GoogleDistanceURL = "https://maps.googleapis.com/maps/api/directions/";
+        public static string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
 
         /// <summary>
         /// default language for google

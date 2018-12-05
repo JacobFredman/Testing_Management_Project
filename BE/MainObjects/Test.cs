@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using BE.Routes;
+
+namespace BE.MainObjects
+{
+   public class Test
+    {
+        
+        private uint _testerId;
+        public uint TesterId
+        {
+            get => _testerId;
+            set => _testerId = Tools.CheckID_IL(value) ? value : 0;
+        }
+
+        private uint _traineeId;
+        public uint TraineeId
+        {
+            get => _traineeId;
+            set => _traineeId = Tools.CheckID_IL(value) ? value : 0;
+        }
+
+        public DateTime TestTime { set; get; }
+        public DateTime ActualTestTime { set; get; }
+        public Address AddressOfBeginningTest { set; get; }
+        public List<Criterion> Criteria { set; get; }
+        public bool Passed { set; get; }
+        public string Comment { set; get; }
+        public uint Id { get; set; }
+        public LicenseType LicenseType { get; set; }
+        public Uri RouteUrl { set; get; }
+
+        public Test(uint idTester,uint idTrainee)
+        {
+            TesterId = idTester;
+            TraineeId = idTrainee;
+            Id = 0;
+            Passed = false;
+            TestTime = new DateTime();
+            ActualTestTime = DateTime.MinValue;
+           
+            Criteria = new List<Criterion>();
+            Comment = "";
+        }
+
+        /// <summary>
+        /// check the result according to the Criteria
+        /// </summary>
+
+        public Test(uint testerId, uint traineeId,DateTime testTime,Address addressOfBeginningTest,
+            List<Criterion> criteria,bool passed,uint Id, LicenseType licenseType)
+        {
+            _testerId = testerId;
+            _traineeId = traineeId;
+            TestTime = testTime;
+            AddressOfBeginningTest = addressOfBeginningTest;
+            Criteria = criteria;
+            Passed = passed;
+            Id = Id;
+            LicenseType = licenseType;
+        }
+
+
+        public override string ToString()
+        {
+
+            return "Tester Id: " + TesterId + " Trainee Id: " + TraineeId + " Test Code: " + Id + " Passed Test: " + (Passed ? "yes" : "no");
+        }
+    }
+}

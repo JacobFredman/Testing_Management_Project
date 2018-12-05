@@ -16,7 +16,7 @@
         public bool Pass { set; get; }
 
         /// <summary>
-        /// new Criterion
+        /// new Criteria
         /// </summary>
         /// <param name="t">the criterion</param>
         /// <param name="p">pass or not</param>
