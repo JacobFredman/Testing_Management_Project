@@ -28,7 +28,7 @@ namespace BE.MainObjects
         public bool Passed { set; get; }
         public string Comment { set; get; }
         public uint Id { get; set; }
-        public LicenceType LicenseType { get; set; }
+        public LicenseType LicenseType { get; set; }
         public Uri RouteUrl { set; get; }
 
         public Test(uint idTester,uint idTrainee)
@@ -49,7 +49,7 @@ namespace BE.MainObjects
         /// </summary>
 
         public Test(uint testerId, uint traineeId,DateTime testTime,Address addressOfBeginningTest,
-            List<Criterion> criteria,bool passed,uint id, LicenceType licenseType)
+            List<Criterion> criteria,bool passed,uint Id, LicenseType licenseType)
         {
             _testerId = testerId;
             _traineeId = traineeId;
@@ -57,7 +57,7 @@ namespace BE.MainObjects
             AddressOfBeginningTest = addressOfBeginningTest;
             Criteria = criteria;
             Passed = passed;
-            Id = id;
+            Id = Id;
             LicenseType = licenseType;
         }
 
@@ -65,7 +65,7 @@ namespace BE.MainObjects
         public override string ToString()
         {
 
-            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + Id + " Passed Test: " + (Passed ? "yes" : "no");
+            return "Tester Id: " + TesterId + " Trainee Id: " + TraineeId + " Test Code: " + Id + " Passed Test: " + (Passed ? "yes" : "no");
         }
     }
 }

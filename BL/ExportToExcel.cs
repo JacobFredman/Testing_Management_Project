@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
+using BE.MainObjects;
 using Excel = Microsoft.Office.Interop.Excel;
 
 
@@ -42,7 +43,7 @@ namespace BL
             workSheet.Name = "Trainees";
 
             // Establish column headings 
-            workSheet.Cells[1, "A"] = "ID Number";
+            workSheet.Cells[1, "A"] = "Id Number";
             workSheet.Cells[1, "A"].EntireColumn.NumberFormat = "@";    //Make it strings
             workSheet.Cells[1, "B"] = "First Name";
             workSheet.Cells[1, "C"] = "Last Name";
@@ -51,7 +52,7 @@ namespace BL
             workSheet.Cells[1, "F"] = "Phone Number";
             workSheet.Cells[1, "F"].EntireColumn.NumberFormat = "@";    //Make it strings
             workSheet.Cells[1, "G"] = "Gender";
-            workSheet.Cells[1, "H"] = "Tester ID";
+            workSheet.Cells[1, "H"] = "Tester Id";
             workSheet.Cells[1, "H"].EntireColumn.NumberFormat = "@";    //Make it strings
             workSheet.Cells[1, "I"] = "School Name";
             workSheet.Cells[1, "J"] = "License Type";
@@ -80,14 +81,14 @@ namespace BL
                 row++;
 
                 //Add all the fields
-                workSheet.Cells[row, "A"] = trainee.ID;
+                workSheet.Cells[row, "A"] = trainee.Id;
                 workSheet.Cells[row, "B"] = trainee.FirstName;
                 workSheet.Cells[row, "C"] = trainee.LastName;
-                workSheet.Cells[row, "D"] = trainee.Email;
+                workSheet.Cells[row, "D"] = trainee.EmailAddress;
                 workSheet.Cells[row, "E"] = (trainee.Address!=null)?trainee.Address.ToString():"";
                 workSheet.Cells[row, "F"] = trainee.PhoneNumber;
                 workSheet.Cells[row, "G"] = trainee.Gender.ToString();
-                workSheet.Cells[row, "H"] = (trainee.TesterName!=null)? trainee.TesterName.ID.ToString() : "";
+                workSheet.Cells[row, "H"] = (trainee.TesterId!=null)? trainee.TesterId.ToString() : "";
                 workSheet.Cells[row, "I"] = trainee.SchoolName;
                 workSheet.Cells[row, "J"] = licenseType;
                 workSheet.Cells[row, "K"] = trainee.GearType.ToString();
@@ -135,7 +136,7 @@ namespace BL
             workSheet.Name = "Testers";
 
             // Establish column headings 
-            workSheet.Cells[1, "A"] = "ID Number";
+            workSheet.Cells[1, "A"] = "Id Number";
             workSheet.Cells[1, "A"].EntireColumn.NumberFormat = "@";    //Make it strings
             workSheet.Cells[1, "B"] = "First Name";
             workSheet.Cells[1, "C"] = "Last Name";
@@ -172,10 +173,10 @@ namespace BL
                 row++;
 
                 //Add all the fields
-                workSheet.Cells[row, "A"] = tester.ID;
+                workSheet.Cells[row, "A"] = tester.Id;
                 workSheet.Cells[row, "B"] = tester.FirstName;
                 workSheet.Cells[row, "C"] = tester.LastName;
-                workSheet.Cells[row, "D"] = tester.Email;
+                workSheet.Cells[row, "D"] = tester.EmailAddress;
                 workSheet.Cells[row, "E"] = (tester.Address!=null)?tester.Address.ToString():"";
                 workSheet.Cells[row, "F"] = tester.PhoneNumber;
                 workSheet.Cells[row, "G"] = tester.Gender.ToString();
@@ -227,11 +228,11 @@ namespace BL
             workSheet.Name = "Tests";
 
             // Establish column headings 
-            workSheet.Cells[1, "A"] = "Test ID";
+            workSheet.Cells[1, "A"] = "Test Id";
             workSheet.Cells[1, "A"].EntireColumn.NumberFormat = "@";    //Make it strings
-            workSheet.Cells[1, "B"] = "Trainee ID";
+            workSheet.Cells[1, "B"] = "Trainee Id";
             workSheet.Cells[1, "B"].EntireColumn.NumberFormat = "@";    //Make it strings
-            workSheet.Cells[1, "C"] = "Tester ID";
+            workSheet.Cells[1, "C"] = "Tester Id";
             workSheet.Cells[1, "C"].EntireColumn.NumberFormat = "@";    //Make it strings
             workSheet.Cells[1, "D"] = "Date";
             workSheet.Cells[1, "E"] = "Actual Date";
@@ -257,15 +258,15 @@ namespace BL
                 row++;
 
                 //Add all the fields
-                workSheet.Cells[row, "A"] = test.ID;
+                workSheet.Cells[row, "A"] = test.Id;
                 workSheet.Cells[row, "B"] = test.TraineeId;
                 workSheet.Cells[row, "C"] = test.TesterId;
-                workSheet.Cells[row, "D"] = (test.Date!=null)?test.Date.ToString("d"):"";
-                workSheet.Cells[row, "E"] = (test.ActualDateTime!=DateTime.MinValue)?test.ActualDateTime.ToString("d"):"";
-                workSheet.Cells[row, "F"] = (test.Address!=null)?test.Address.ToString():"";
+                workSheet.Cells[row, "D"] = (test.TestTime!=null)?test.TestTime.ToString("d"):"";
+                workSheet.Cells[row, "E"] = (test.ActualTestTime!=DateTime.MinValue)?test.ActualTestTime.ToString("d"):"";
+                workSheet.Cells[row, "F"] = (test.AddressOfBeginningTest!=null)?test.AddressOfBeginningTest.ToString():"";
                 workSheet.Cells[row, "G"] = (test.Passed == true) ? "Passed":"Not passed";
                 var Cell = workSheet.Cells[row, "H"];
-                workSheet.Cells[row, "I"] = test.Criterions.Count;
+                workSheet.Cells[row, "I"] = test.Criteria.Count;
                 workSheet.Cells[row, "J"] = test.LicenseType.ToString();
                 workSheet.Cells[row, "K"] = test.Comment;
 

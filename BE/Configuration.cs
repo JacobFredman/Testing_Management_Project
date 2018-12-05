@@ -6,7 +6,7 @@
    public  class Configuration
     {
         /// <summary>
-        /// ID for tests
+        /// Id for tests
         /// </summary>
         public static uint TestId = 1;
 

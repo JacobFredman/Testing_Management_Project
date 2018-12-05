@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using BE.Routes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -9,19 +10,19 @@ namespace BE
     public class Tools
     {
         /// <summary>
-        /// Check if Israely ID is valid
+        /// Check if Israely Id is valid
         /// </summary>
-        /// <param name="id">ID</param>
+        /// <param name="Id">Id</param>
         /// <returns>true if it is valid</returns>
-        public static bool CheckID_IL(uint id)
+        public static bool CheckID_IL(uint Id)
         {
             uint[] idArr = new uint[9];
 
-            //put the id in an arr
+            //put the Id in an arr
             for (int i = 8; i >= 0; i--)
             {
-                idArr[i] = id % 10;
-                id /= 10;
+                idArr[i] = Id % 10;
+                Id /= 10;
             }
 
             //multiply the odd digits and add one
@@ -43,7 +44,7 @@ namespace BE
                 sum += idArr[i];
             }
 
-            //check the id
+            //check the Id
             if (sum % 10 != 0)
                 return false;
             return true;
@@ -58,7 +59,7 @@ namespace BE
         public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
         {
             //create the url
-            var request = Configuration.GoogleDistanceURL + "key="+ Configuration.Key 
+            var request = Configuration.GoogleDistanceUrl + "key="+ Configuration.Key 
                 + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
             //check it
            if (request.ToLower().IndexOf("https:") > -1|| request.ToLower().IndexOf("http:") > -1)

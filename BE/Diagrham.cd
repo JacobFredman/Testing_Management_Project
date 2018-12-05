@@ -94,7 +94,7 @@
       <FileName>Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="BE.LicenceType">
+  <Enum Name="BE.licenseType">
     <Position X="0.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAAAAAAAAAASAAAEAEAJAAAApgEAAAA=</HashCode>

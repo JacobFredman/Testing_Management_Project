@@ -16,7 +16,7 @@ namespace BE.MainObjects
                 if (Tools.CheckID_IL(value))
                     _id = value;
                 else
-                    throw new Exception("Invalid id");
+                    throw new Exception("Invalid Id");
             }
         }
 
@@ -55,31 +55,31 @@ namespace BE.MainObjects
         }
 
         public Address Address { set; get; }
-        public List<LicenceType> LicenseType { set; get; }
+        public List<LicenseType> LicenseType { set; get; }
         /// <summary>
         /// a new person
         /// </summary>
-        /// <param name="id">ID</param>
+        /// <param name="Id">Id</param>
         /// <param name="firstName">First name</param>
         /// <param name="lastName">Last Name</param>
-        public Person(uint id,string firstName="",string lastName="",Gender g=Gender.Male)
+        public Person(uint Id,string firstName="",string lastName="",Gender g=Gender.Male)
         {
-            Id = id;
+            Id = Id;
             if (Id == 0)
-                throw new Exception("Invalid ID");
+                throw new Exception("Invalid Id");
             //birthDate = new DateTime();
             BirthDate = new DateTime();
-            LicenseType = new List<LicenceType>();
+            LicenseType = new List<LicenseType>();
             FirstName = firstName;
             LastName = lastName;
             this.Gender = g;
             _phoneNumber = "";
     }
 
-        public Person(uint id, string firstName, string lastName, Gender gender, string emailAddress,
-            DateTime birthDate, string phoneNumber, Address address, List<LicenceType> licenseTypes)
+        public Person(uint Id, string firstName, string lastName, Gender gender, string emailAddress,
+            DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes)
         {
-            _id = id;
+            _id = Id;
             FirstName = firstName;
             LastName = lastName;
             Gender = gender;
@@ -93,9 +93,9 @@ namespace BE.MainObjects
         public override string ToString()
         {
             if (FirstName != "" && LastName != "")
-                return "Name: " + FirstName + " " + LastName + " ,ID: " + Id + " ";
+                return "Name: " + FirstName + " " + LastName + " ,Id: " + Id + " ";
             else
-                return "ID: " + Id;
+                return "Id: " + Id;
         }
     }
 }

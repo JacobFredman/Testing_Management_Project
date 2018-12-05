@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
+using BE.MainObjects;
+using BE.Routes;
 using DAL;
 using Exception = System.Exception;
 
 namespace BL
 {
-    public class BlImp : IBL
+    public class BlImp //: IBL
     {
         private readonly IDal _dalImp = FactoryDal.GetObject;
 
@@ -19,7 +21,7 @@ namespace BL
         public void AddTester(Tester newTester)
         {
             //check if tester is ok
-            if (AllTesters.Any(tester => tester.ID == newTester.ID)) throw new Exception("Tester exist already");
+            if (AllTesters.Any(tester => tester.Id == newTester.Id)) throw new Exception("Tester exist already");
             if (GetAge(newTester.BirthDate) < Configuration.MinTesterAge ) 
                 throw new Exception("the Tester is too young");
             if (newTester.Address == null) throw new Exception("Need to know tester address");
@@ -35,7 +37,7 @@ namespace BL
         /// <param name="testerToDelete">The Tester to remove</param>
         public void RemoveTester(Tester testerToDelete)
         {
-            if (AllTesters.All(tester => tester.ID != testerToDelete.ID)) throw new Exception("Tester doesn't exist");
+            if (AllTesters.All(tester => tester.Id != testerToDelete.Id)) throw new Exception("Tester doesn't exist");
             _dalImp.RemoveTester(testerToDelete);
         }
 
@@ -46,7 +48,7 @@ namespace BL
         public void UpdateTester(Tester updatedTester)
         {
             //check if tester is ok
-            if (AllTesters.All(tester => tester.ID != updatedTester.ID)) throw new Exception("tester doesn't exist");
+            if (AllTesters.All(tester => tester.Id != updatedTester.Id)) throw new Exception("tester doesn't exist");
             if (GetAge(updatedTester.BirthDate) < Configuration.MinTesterAge)
                 throw new Exception("the Tester is too young");
             if (updatedTester.Address == null) throw new Exception("Need to know tester address");
@@ -65,30 +67,30 @@ namespace BL
         public void AddTest(Test newTest)
         {
             //check if the test is ok
-            var testMissingDate = newTest.Date == DateTime.MinValue;
+            var testMissingDate = newTest.TestTime == DateTime.MinValue;
 
-            var testerExist = AllTesters.Any(tester => tester.ID == newTest.TesterId);
-            var traineeExist = AllTrainee.Any(trainee => trainee.ID == newTest.TraineeId);
+            var testerExist = AllTesters.Any(tester => tester.Id == newTest.TesterId);
+            var traineeExist = AllTrainee.Any(trainee => trainee.Id == newTest.TraineeId);
 
             var twoTestesTooClose = AllTests.Any(test =>
                 (test.TraineeId == newTest.TraineeId) && (test.LicenseType == newTest.LicenseType) &&
-                ((newTest.Date - test.Date).TotalDays < Configuration.MinTimeBetweenTests));
+                ((newTest.TestTime - test.TestTime).TotalDays < Configuration.MinTimeBetweenTests));
 
-            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.ID == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
+            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.Id == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
 
             var traineeIsLearningLicense = AllTrainee.Any(trainee =>
-                (trainee.ID == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l == newTest.LicenseType)));
+                (trainee.Id == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l == newTest.LicenseType)));
             var testerIsTeachingLicense = AllTesters.Any(tester => 
-                (tester.ID == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
+                (tester.Id == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
 
             var tooManyTestInWeek =
-                AllTests.Count(test => test.TesterId == newTest.ID && DatesAreInTheSameWeek(newTest.Date, test.Date)) > AllTesters.First(tester => tester.ID == newTest.TesterId).MaxWeekExams;
+                AllTests.Count(test => test.TesterId == newTest.Id && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) > AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
 
-            var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.Date == test.Date));
-            var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.Date == test.Date));
+            var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.TestTime == test.TestTime));
+            var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.TestTime == test.TestTime));
 
             var traineeHasLicenseAlready = AllTrainee.Any(trainee =>
-                trainee.ID == newTest.TraineeId && trainee.LicenseType.Any(license => license == newTest.LicenseType));
+                trainee.Id == newTest.TraineeId && trainee.LicenseType.Any(license => license == newTest.LicenseType));
 
             var traineePassedTestAlready = AllTests.Any(test =>
                 test.TraineeId == newTest.TraineeId && test.LicenseType == newTest.LicenseType && test.Passed == true);
@@ -117,7 +119,7 @@ namespace BL
         /// <param name="testToDelete">The Test to remove</param>
         public void RemoveTest(Test testToDelete)
         {
-            if (AllTests.All(test => test.ID != testToDelete.ID)) throw new Exception("Test doesn't exist");
+            if (AllTests.All(test => test.Id != testToDelete.Id)) throw new Exception("Test doesn't exist");
             _dalImp.RemoveTest(testToDelete);
         }
 
@@ -128,21 +130,21 @@ namespace BL
         public void UpdateTest(Test updatedTest)
         {
             //check if the test to update is ok
-            if (AllTests.All(test => test.ID != updatedTest.ID))
+            if (AllTests.All(test => test.Id != updatedTest.Id))
                 throw new Exception("Test doesn't exist");
             if (AllTests.Any(test =>
-                test.ID == updatedTest.ID && (test.TesterId != updatedTest.TesterId ||
+                test.Id == updatedTest.Id && (test.TesterId != updatedTest.TesterId ||
                                               test.TraineeId != updatedTest.TraineeId ||
-                                              test.Date != updatedTest.Date)))
+                                              test.TestTime != updatedTest.TestTime)))
                 throw new Exception("Can't change this test details. please create new test");
-            if (updatedTest.Criterions.Count <= Configuration.MinimumCriterions)
+            if (updatedTest.Criteria.Count <= Configuration.MinimumCriterions)
                 throw new Exception("not enough criterion");
-            if(updatedTest.ActualDateTime==DateTime.MinValue)
+            if(updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("test date not updated");
             //update passed status
-            updatedTest.UpdatePassedTest();
+         //   updatedTest.UpdatePassedTest();
             //add the test to the trainee
-            if(updatedTest.Passed==true)AllTrainee.First(trainee=>trainee.ID==updatedTest.TraineeId).LicenseType.Add(updatedTest.LicenseType);
+            if(updatedTest.Passed==true)AllTrainee.First(trainee=>trainee.Id==updatedTest.TraineeId).LicenseType.Add(updatedTest.LicenseType);
             //update test
             _dalImp.UpdateTest(updatedTest);
 
@@ -157,7 +159,7 @@ namespace BL
         /// <param name="newTrainee">The Trainee to add</param>
         public void AddTrainee(Trainee newTrainee)
         {
-            if (AllTrainee.Any(trainee => trainee.ID == newTrainee.ID)) throw new Exception("Trainee already exist");
+            if (AllTrainee.Any(trainee => trainee.Id == newTrainee.Id)) throw new Exception("Trainee already exist");
             if (GetAge(newTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("the trainee is too young");
             if (newTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
@@ -171,7 +173,7 @@ namespace BL
         /// <param name="traineeToDelete">The Trainee to add</param>
         public void RemoveTrainee(Trainee traineeToDelete)
         {
-            if (AllTrainee.All(trainee => trainee.ID != traineeToDelete.ID)) throw new Exception("Trainee doesn't exist");
+            if (AllTrainee.All(trainee => trainee.Id != traineeToDelete.Id)) throw new Exception("Trainee doesn't exist");
             _dalImp.RemoveTrainee(traineeToDelete);
         }
 
@@ -181,7 +183,7 @@ namespace BL
         /// <param name="updatedTrainee">The Trainee to update</param>
         public void UpdateTrainee(Trainee updatedTrainee)
         {
-            if (AllTrainee.All(trainee => trainee.ID != updatedTrainee.ID)) throw new Exception("Trainee doesn't exist");
+            if (AllTrainee.All(trainee => trainee.Id != updatedTrainee.Id)) throw new Exception("Trainee doesn't exist");
             if (GetAge(updatedTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("the trainee is too young");
             if (updatedTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
@@ -212,15 +214,15 @@ namespace BL
         /// </summary>
         /// <param name="date">Checks if the teacher is available on the given day and hour</param>
         /// <returns>List of Testers</returns>
-        public IEnumerable<Tester> GetAvailableTesters(DateTime date)
-        {
-            return AllTesters.Where(tester =>
-                (tester.Schedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
-                !(AllTests.Any(test =>
-                        (test.TesterId == tester.ID && test.Date.DayOfWeek == date.DayOfWeek && test.Date.Hour == date.Hour))
-                    )
-            );
-        }
+        //public IEnumerable<Tester> GetAvailableTesters(DateTime date)
+        //{
+        //return AllTesters.Where(tester =>
+        //    (tester.Schedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
+        //    !(AllTests.Any(test =>
+        //            (test.TesterId == tester.Id && test.TestTime.DayOfWeek == date.DayOfWeek && test.TestTime.Hour == TestTime .Hour))
+        //        )
+        //);
+        //}
 
         /// <summary>
         /// Get all Tests sorted by Date
@@ -228,7 +230,7 @@ namespace BL
         /// <returns>List of Tests</returns>
         public IEnumerable<Test> GetAllTestsSortedByDate()
         {
-            return AllTests.OrderBy(x => x.Date);
+            return AllTests.OrderBy(x => x.TestTime);
         }
 
         /// <summary>
@@ -269,11 +271,11 @@ namespace BL
         /// Get all Trainee's grouped by Their Tester's 
         /// </summary>
         /// <returns>All Trainee's grouped by Their Tester's </returns>
-        public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester()
-        {
-            return from trainee in AllTrainee
-                group trainee by trainee.TesterName;
-        }
+        //public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester()
+        //{
+        //    return from trainee in AllTrainee
+        //        group trainee by trainee.TesterName;
+        //}
 
         /// <summary>
         /// Get all Trainee's grouped by Their school's 
@@ -333,7 +335,7 @@ namespace BL
         /// <returns>The number of Tests</returns>
         public int GetNumberOfTests(Trainee trainee)
         {
-           return AllTests.Count(x => x.TraineeId == trainee.ID && x.ActualDateTime > DateTime.Now.Date);
+           return AllTests.Count(x => x.TraineeId == trainee.Id && x.ActualTestTime > DateTime.Now.Date);
         }
 
         /// <summary>
@@ -344,7 +346,7 @@ namespace BL
         /// <returns>True if he Passed</returns>
         public bool TraineePassedTest(Trainee trainee,LicenseType license)
         {
-            return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenseType == license && test.Passed == true);
+            return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
         }
 
 

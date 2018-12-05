@@ -78,7 +78,7 @@ namespace BL
         /// </summary>
         /// <param name="locationLatLog">the location in lat,log for example 31.750068,34.9907657 </param>
         /// <param name="radios">the radios in meters</param>
-        /// <returns>an arry of address with name and id</returns>
+        /// <returns>an arry of address with name and Id</returns>
         private static GoogleAddress[] GetLocationsInRadios(string locationLatLog, uint radios = 2000)
         {
             //make the url
@@ -137,7 +137,7 @@ namespace BL
             }
             url = url.TrimEnd('|');
 
-            //add the waypoints id
+            //add the waypoints Id
             url += "&waypoint_place_ids=";
             for (var i = 1; i < arr.Length - 1; i++)
             {
@@ -174,7 +174,7 @@ namespace BL
             }
             url = url.TrimEnd('|');
 
-            //add the waypoints id's
+            //add the waypoints Id's
             url += "&waypoint_place_ids=";
             for (var i = 1; i < arr.Length; i++)
             {
