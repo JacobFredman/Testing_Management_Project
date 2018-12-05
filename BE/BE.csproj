@@ -51,21 +51,19 @@
     <Compile Include="Day.cs" />
     <Compile Include="GoogleAddress.cs" />
     <Compile Include="GoogleAddressException.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="MainObjects\Person.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
-    <Compile Include="Tester.cs" />
+    <Compile Include="MainObjects\Test.cs" />
+    <Compile Include="MainObjects\Tester.cs" />
     <Compile Include="Tools.cs" />
-    <Compile Include="Trainee.cs" />
+    <Compile Include="MainObjects\Trainee.cs" />
     <Compile Include="WeekSchedule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagrham.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="mainObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

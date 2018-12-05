@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using BE;
+using BE.MainObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using  BL;
 

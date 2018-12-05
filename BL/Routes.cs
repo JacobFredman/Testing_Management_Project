@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using BE;
+using BE.MainObjects;
 
 namespace BL
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BE
+namespace BE.MainObjects
 {
    public  class Person
     {

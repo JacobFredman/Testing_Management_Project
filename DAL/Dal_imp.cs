@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
+using BE.MainObjects;
 using DS;
 
 namespace DAL

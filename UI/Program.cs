@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
+using BE.MainObjects;
 using BL;
 
 namespace UI
@@ -28,6 +29,8 @@ namespace UI
                 AddTester1(_blImp);
 
                 AddTest(_blImp);
+
+                
 
             }
             catch (Exception e)

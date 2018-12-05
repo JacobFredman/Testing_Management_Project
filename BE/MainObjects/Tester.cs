@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BE
+namespace BE.MainObjects
 {
    
    public class Tester:Person
