@@ -21,8 +21,8 @@ namespace DAL
         /// <param name="newTest"></param>
         public void AddTest(Test newTest)
         {
-         //   newTest.Id = $"{Configuration.TestId:00000000}";
-         //   Configuration.TestID++;
+            newTest.Id = $"{Configuration.TestId:00000000}";
+            Configuration.TestId++;
 
             DataSource.Tests.Add(newTest);
         }

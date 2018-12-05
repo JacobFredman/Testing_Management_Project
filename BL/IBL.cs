@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
+using BE.Routes;
 using BE.MainObjects;
 
 namespace BL
 {
-    internal interface IBl
+    internal interface IBL
     {
         //access testers
         void AddTester(Tester newTester);
@@ -51,7 +52,7 @@ namespace BL
         IEnumerable<IGrouping<LicenseType, Test>> GetAllTraineesByLicense(bool sorted = false);
 
         IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense(bool sorted = false);
-        IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester(bool sorted = false);
+        IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false);
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false);
         IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests(bool sorted = false);
 
