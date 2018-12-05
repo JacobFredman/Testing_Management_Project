@@ -9,8 +9,8 @@ namespace BL
    public class Email
     {
 
-        private const string FromEmailAddress = "jacov141@gmail.com";
-        private const string SenderPassword = ""; // missing password /////////////////////////////
+        private const string FromEmailAddress = "tests.miniproject@gmail.com";
+        private const string SenderPassword = "0586300016"; 
 
         //private MailMessage _mail = new MailMessage("jacAndElisha@miniProject.com", "jacov141@gmail.com");
         //private readonly SmtpClient _client = new SmtpClient();
@@ -28,15 +28,15 @@ namespace BL
 
         public void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
         {
-            var subject = test.Passed ? "Congratulations for the new license" : "we are sorry toAddress inform you that you didn't Passed the test this time";
-            var message = test.Passed ? "now you are allowed toAddress drive" : "you have toAddress do the test again";
+            var subject = test.Passed ? "Congratulations for the new license"  : "we are sorry to inform you that you didn't Passed the test this time";
+            var message = test.Passed ? "You successfully passed in the test in " + test.ActualTestTime + ", now you are allowed to drive" : "you have  do the test again";
           SentEmail(trainee.EmailAddress,subject,message,trainee.FirstName + " " + trainee.LastName,"D.M.V");
         }
 
         public void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
         {
-            const string subject = "you have test today";
-            const string message = "are you prepared for test already? see details in the attached";
+             string subject = trainee.FirstName + ", you have a test today";
+             string message = trainee.FirstName + ", are you prepared for test already?" + "the beginning place is: " + test.AddressOfBeginningTest + ". for more details please look in the attached";
             SentEmail(trainee.EmailAddress,subject,message, trainee.FirstName + " " + trainee.LastName,"D.M.V");
         }
 

@@ -21,6 +21,8 @@ namespace UI
           //  Trainee trainee, trainee2;
           //  Tester tester1;
            Test test;
+           Email email = new  Email();
+
             try
             {
 
@@ -31,7 +33,11 @@ namespace UI
 
                 AddTest(_blImp);
 
-                
+              var testA =  _blImp.AllTests.First();
+                var traineeA = _blImp.AllTrainee.First();
+
+                email.SentEmailToTraineeBeforeTest(testA,traineeA);
+                email.SentEmailToTraineeAfterTest(testA,traineeA);
 
             }
             catch (Exception e)
@@ -101,9 +107,8 @@ namespace UI
             cariteria.Add(new Criterion("looking in mirrors", true));
 
 
-            test = new Test(223555616, 300391737, testTime, testAddress, cariteria, true, 0, LicenceType.A);
+            test = new Test(223555616, 037982519, testTime, testAddress, cariteria, true, 0, LicenceType.A);
 
-            // test = new Test(223555616, 300391737);
             _blImp.AddTest(test);
         }
 

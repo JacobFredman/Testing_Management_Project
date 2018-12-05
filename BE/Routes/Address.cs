@@ -44,10 +44,10 @@
         public override string ToString()
         {
             var str = City;
-            if(Building!="")
-                str += ", " + Building;
             if (Street != "")
                 str += ", " + Street;
+            if(Building!="")
+                str += ", " + Building;
             if (Entrance != "")
                 str += ", " + Entrance;
             return str;
