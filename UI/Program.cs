@@ -153,6 +153,7 @@ namespace UI
             var address = new Address("Jerusalem", "Shachal", "55", "A");
             var licenseTypes = new List<LicenseType>();
             var learnningLicenseTypes = new List<LicenseType>();
+            learnningLicenseTypes.Add(LicenseType.A);
 
             trainee = new Trainee(037982519, "Jacob", "Fredman", Gender.Male, "jacov141@gmail.com", birthDate,
                "0586300016", address, licenseTypes, learnningLicenseTypes, Gear.Automatic, "or Yarok", 18, 23, true);
