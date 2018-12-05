@@ -252,6 +252,30 @@ namespace BL
         {
             return AllTesters.Where(tester =>tester.Address!=null && Tools.GetDistanceGoogleMapsApi(tester.Address, a) <= r);
         }
+
+        /// <summary>
+        /// Get all the test in the month
+        /// </summary>
+        /// <param name="date">the month</param>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestInMonth(DateTime date)
+        {
+            return from test in AllTests
+                where test.Date.Month == date.Month && test.Date.Year == date.Year
+                select test;
+        }
+
+        /// <summary>
+        /// Get all the tests in the day
+        /// </summary>
+        /// <param name="date">the day</param>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestInDay(DateTime date)
+        {
+            return from test in AllTests
+                where test.Date.DayOfYear == date.DayOfYear && test.Date.Year == date.Year
+                select test;
+        }
         #endregion
 
         #region Grouping
@@ -260,18 +284,23 @@ namespace BL
         /// Get all Tester's grouped by License
         /// </summary>
         /// <returns>All Tester's grouped by license</returns>
-        public IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense()
+        public IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense(bool sorted=false)
         {
-            return AllTesters.GroupBy(x => x.LicenseTypeTeaching);
+            return (sorted ? AllTesters.OrderBy(x => x.ID) : AllTesters).GroupBy(x => x.LicenseTypeTeaching);
         }
 
         /// <summary>
         /// Get all Trainee's grouped by Their Tester's 
         /// </summary>
         /// <returns>All Trainee's grouped by Their Tester's </returns>
-        public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester()
+        public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester(bool sorted = false)
         {
-            return from trainee in AllTrainee
+            return sorted?  
+                from trainee in AllTrainee
+                orderby trainee.ID
+                group trainee by trainee.TesterName:
+
+                from trainee in AllTrainee
                 group trainee by trainee.TesterName;
         }
 
@@ -279,9 +308,15 @@ namespace BL
         /// Get all Trainee's grouped by Their school's 
         /// </summary>
         /// <returns>All Trainee's grouped by Their school's </returns>
-        public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool()
+        public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false)
         {
-            return from trainee in AllTrainee
+            return sorted ?
+                from trainee in AllTrainee
+                orderby trainee.ID
+                group trainee by trainee.SchoolName
+                : 
+                from trainee in AllTrainee
+                orderby trainee.ID
                 group trainee by trainee.SchoolName;
         }
 
@@ -289,10 +324,9 @@ namespace BL
         /// Get all Trainee's grouped by Their number of test's
         /// </summary>
         /// <returns>All Trainee's grouped by Their number of test's</returns>
-        public IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests()
+        public IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests(bool sorted = false)
         {
-            return (from trainee in AllTrainee
-                group trainee by GetNumberOfTests(trainee));
+            return (sorted ? AllTrainee.OrderBy(x => x.ID) : AllTrainee).GroupBy(GetNumberOfTests); 
         }
         #endregion
 
@@ -347,13 +381,63 @@ namespace BL
             return AllTests.Any(test => test.TesterId == trainee.ID && test.LicenseType == license && test.Passed == true);
         }
 
+        /// <summary>
+        /// Get all the testers that are the best for the test ordered by the distance from the address
+        /// </summary>
+        /// <param name="date">the date</param>
+        /// <param name="address">the address</param>
+        /// <param name="license">the license</param>
+        /// <returns></returns>
+        public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
+        {
+            var testerDistance = from tester in GetAvailableTesters(date)
+                where tester.Address != null
+                let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                select new {tester, distance};
 
+            return from tester in testerDistance
+                where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                orderby tester.distance
+                select tester.tester;
 
+        }
 
+        public IEnumerable<Test> GetAllTestsToCome()
+        {
+            return AllTests.Where(delegate(Test test)
+            {
+                return test.Passed == null;
+            });
+        }
 
+        public IEnumerable<Test> GetAllTestsThatHappened()
+        {
+            Func<Test, bool> predicate = delegate(Test test) { return test.Passed != null; };
+            return AllTests.Where(predicate);
+        }
 
+        public IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date)
+        {
+            return from test in AllTests
+                where test.ActualDateTime.DayOfYear == date.DayOfYear && test.ActualDateTime.Year ==
+                      date.Year && test.Passed == true
+                select AllTrainee.First(x => x.ID == test.TraineeId);
+        }
 
- 
+        public IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTestsByLicense(bool sorted = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTraineesByLicense(bool sorted = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
