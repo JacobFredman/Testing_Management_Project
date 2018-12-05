@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BE
 {
@@ -64,7 +65,7 @@ namespace BE
         /// <summary>
         /// If passed the test
         /// </summary>
-        public bool Passed { set; get; }
+        public bool? Passed { set; get; }
 
         /// <summary>
         /// A comment about the test
@@ -96,11 +97,21 @@ namespace BE
             TesterId = id_tester;
             TraineeId = id_trainee;
             ID = "00000000";
-            Passed = false;
+            Passed = null;
             ActualDateTime = DateTime.MinValue;
            
             Criterions = new List<Criterion>();
             Comment = "";
+        }
+
+        /// <summary>
+        /// Update the test if the Trainee Passed according to the criterion
+        /// </summary>
+        /// <param name="test">The Test</param>
+        public void UpdatePassedTest()
+        {
+            var percent = Criterions.Count(x => x.Pass) / (double)Criterions.Count;
+            Passed = (percent >= Configuration.PercentOfCritirionsToPassTest);
         }
 
         /// <summary>
@@ -110,7 +121,7 @@ namespace BE
         public override string ToString()
         {
 
-            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + ID + " Passed Test: " + (Passed ? "yes" : "no");
+            return "Tester ID: " + TesterId + " Trainee ID: " + TraineeId + " Test Code: " + ID + " Passed Test: " + (Passed==true ? "yes" : "no");
         }
     }
 }

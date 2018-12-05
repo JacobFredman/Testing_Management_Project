@@ -28,7 +28,7 @@ namespace UnitTest
         {
             // Arrange
             var bl = new BlImp();
-            var trainee = new Trainee("037982519", Gender.Male, "Jacov", "Fredman");
+            var trainee = new Trainee("037982519", "Jacov", "Fredman", Gender.Male);
 
             // Act
             bl.AddTrainee(trainee);

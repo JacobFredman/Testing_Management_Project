@@ -263,7 +263,7 @@ namespace BL
                 workSheet.Cells[row, "D"] = (test.Date!=null)?test.Date.ToString("d"):"";
                 workSheet.Cells[row, "E"] = (test.ActualDateTime!=DateTime.MinValue)?test.ActualDateTime.ToString("d"):"";
                 workSheet.Cells[row, "F"] = (test.Address!=null)?test.Address.ToString():"";
-                workSheet.Cells[row, "G"] = test.Passed?"Passed":"Not passed";
+                workSheet.Cells[row, "G"] = (test.Passed == true) ? "Passed":"Not passed";
                 var Cell = workSheet.Cells[row, "H"];
                 workSheet.Cells[row, "I"] = test.Criterions.Count;
                 workSheet.Cells[row, "J"] = test.LicenseType.ToString();
