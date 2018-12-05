@@ -6,7 +6,7 @@ namespace DAL
     /// <summary>
     /// 
     /// </summary>
-    internal interface IDal
+    public interface IDal
     {
         // Access to the Tester entity
         void AddTester(Tester newTester);

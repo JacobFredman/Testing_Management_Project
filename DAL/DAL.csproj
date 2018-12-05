@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dal_imp.cs" />
-    <Compile Include="Factory_DAL.cs" />
+    <Compile Include="DalImp.cs" />
+    <Compile Include="FactoryDal.cs" />
     <Compile Include="Idal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,25 +16,72 @@ namespace UI
 
         static void Main(string[] args)
         {
-            while (true)
-            {
+           
 
                 try
                 {
-                    Test test = new Test(319185997, 319185997);
-                    Console.WriteLine("enter an address: ");
-                    
-                    test.SetRouteAndAddressToTest(new Address(Console.ReadLine()));
-                    Console.WriteLine("lunching chrome....");
-                    Routes.ShowUrlInChromeWindow(test.RouteUrl);
-                }
-                catch (GoogleAddressException ex)
-                {
-                    Console.WriteLine(ex.Message + " Code: " + ex.ErrorCode);
-                }
+                    BlImp bl = BL.FactoryBl.GetObject;
+   
 
-                //Console.ReadKey();
+                    Tester t2 = new Tester("319185997", "Amnon", "Mayer", Gender.Male)
+                    {
+                        Address = new Address("jerusalem", "Hetzel", "1", "23"),
+                        BirthDate = new DateTime(1937, 04, 17),
+                        Email = "Amnon@g.jct.ac.il",
+                        PhoneNumber = "089767006",
+                        MaxDistance = 50,
+                        MaxWeekExams = 40,
+                        Experience = 6
+                    };
+                    t2.LicenseTypeTeaching.Add(LicenseType.A);
+                    t2.LicenseTypeTeaching.Add(LicenseType._1);
+                    bl.AddTester(t2);
+
+                    Trainee t1 = new Trainee("319185989", "Amnon", "Mayer", Gender.Male)
+                    {
+                        Address = new Address("jerusalem", "Hetzel", "1", "23"),
+                        BirthDate = new DateTime(1967, 04, 17),
+                        Email = "Amnon@g.jct.ac.il",
+                        PhoneNumber = "089767006",
+                        TesterName = new Tester("319185997"),
+                        SchoolName = "Gil",
+                        NumberOfLessons = 50
+                    };
+                    t1.LicenseTypeLearning.Add(LicenseType.A);
+                    t1.LicenseTypeLearning.Add(LicenseType._1);
+                    bl.AddTrainee(t1);
+
+                   
+
+                    Test t = new Test("319185997","319185989")
+                    {
+                        Address = new Address("jerusalem"),
+                        Date = new DateTime(1965, 08, 17),
+                        ActualDateTime = new DateTime(1955, 08, 17),
+                        Comment = "vs;smv;mv;vmsdvmsdvmsd;vlmsv;slmvs;vmsspvmoso[[jop",
+                        RouteUrl = new Uri("Https://google.com"),
+                        LicenseType = LicenseType.A,
+                        Passed=true
+                    };
+                    t.Criterions.Add(new Criterion("Mirror", true));
+                    Console.WriteLine("Add route to test......");
+                    t.SetRouteAndAddressToTest(new Address("jerusalem"));
+                    bl.AddTest(t);
+                    Console.WriteLine("Export tests.....");
+                    bl.AllTests.ToExcel();
+                    Console.WriteLine("Export testers.....");
+                    bl.AllTesters.ToExcel();
+                    Console.WriteLine("Export trainees.....");
+                    bl.AllTrainee.ToExcel();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message );
+                    Console.ReadKey();
             }
+
+            Console.ReadKey();
+
         }
     }
 }

@@ -27,8 +27,8 @@ namespace BL
 
         public void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
         {
-            var subject = test.Passed ? "Congratulations for the new license" : "we are sorry toAddress inform you that you didn't Passed the test this time";
-            var message = test.Passed ? "now you are allowed toAddress drive" : "you have toAddress do the test again";
+            var subject = (test.Passed ==true) ? "Congratulations for the new license" : "we are sorry toAddress inform you that you didn't Passed the test this time";
+            var message = (test.Passed == true) ? "now you are allowed toAddress drive" : "you have toAddress do the test again";
           SentEmail(trainee.Email,subject,message,trainee.FirstName + " " + trainee.LastName,"D.M.V");
         }
 
