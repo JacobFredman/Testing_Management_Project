@@ -1,4 +1,4 @@
-﻿namespace BE
+﻿namespace BE.Routes
 {
     /// <summary>
     /// Represents an address

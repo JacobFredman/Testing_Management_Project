@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BE
+namespace BE.Routes
 {
     public class GoogleAddressException :Exception
     {

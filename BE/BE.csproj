@@ -45,12 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
+    <Compile Include="Routes\Address.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Criterion.cs" />
     <Compile Include="Day.cs" />
-    <Compile Include="GoogleAddress.cs" />
-    <Compile Include="GoogleAddressException.cs" />
+    <Compile Include="Routes\GoogleAddress.cs" />
+    <Compile Include="Routes\GoogleAddressException.cs" />
     <Compile Include="MainObjects\Person.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
