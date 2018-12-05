@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using BE;
+using BE.MainObjects;
+using BE.Routes;
 
 namespace BL
 {
@@ -54,13 +56,13 @@ namespace BL
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr));
 
-                test.Address = new Address(arr[0].Name);
+                test.AddressOfBeginningTest = new Address(arr[0].Name);
             }
             catch (Exception ex)
             {
                 //if there was an error
                 test.RouteUrl = null;
-                test.Address = null;
+                test.AddressOfBeginningTest = null;
                 //check that it throw an GoogleAddressException  
                 GoogleAddressException gex = ex as GoogleAddressException;
                 if (gex == null)
@@ -92,7 +94,7 @@ namespace BL
                      select new GoogleAddress()
                      {
                          Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
-                         ID = adr.Element("place_id").Value
+                         Id = adr.Element("place_id").Value
                      }).ToArray());
         }
 
@@ -124,8 +126,8 @@ namespace BL
         {
             //create the url of the start and end point
             var url = "https://maps.googleapis.com/maps/api/directions/xml?key=" + Configuration.Key +
-                      "&origin=" + arr[0].Name + "&origin_place_id=" + arr[0].ID +
-                      " &destination=" + arr[arr.Length - 1].Name + "&destination_place_id=" + arr[arr.Length - 1].ID +
+                      "&origin=" + arr[0].Name + "&origin_place_id=" + arr[0].Id +
+                      " &destination=" + arr[arr.Length - 1].Name + "&destination_place_id=" + arr[arr.Length - 1].Id +
                       " &waypoints=";
 
             //add the waypoints
@@ -139,7 +141,7 @@ namespace BL
             url += "&waypoint_place_ids=";
             for (var i = 1; i < arr.Length - 1; i++)
             {
-                url += arr[i].ID + "|";
+                url += arr[i].Id + "|";
             }
             url = url.TrimEnd('|');
 
@@ -161,8 +163,8 @@ namespace BL
         {
             //create the url for start and end
             var url = "https://www.google.com/maps/dir/?api=1" + "&travelmode=driving" +
-                      "&origin=" + arr[0].Name + "&origin_place_id=" + arr[0].ID +
-                      "&destination=" + arr[0].Name + "&destination_place_id=" + arr[0].ID +
+                      "&origin=" + arr[0].Name + "&origin_place_id=" + arr[0].Id +
+                      "&destination=" + arr[0].Name + "&destination_place_id=" + arr[0].Id +
                       "&waypoints=";
 
             //add the waypoints
@@ -176,7 +178,7 @@ namespace BL
             url += "&waypoint_place_ids=";
             for (var i = 1; i < arr.Length; i++)
             {
-                url += arr[i].ID + "|";
+                url += arr[i].Id + "|";
             }
             url = url.TrimEnd('|');
 

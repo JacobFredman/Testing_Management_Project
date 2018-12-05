@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-
-namespace BE
+﻿namespace BE.Routes
 {
     /// <summary>
     /// Represents an address
@@ -25,7 +23,7 @@ namespace BE
         public string Entrance { set; get; }
 
         /// <summary>
-        /// A new Address Must include at least one string
+        /// A new AddressOfBeginningTest Must include at least one string
         /// </summary>
         /// <param name="city">City</param>
         /// <param name="street">Street</param>
@@ -46,10 +44,10 @@ namespace BE
         public override string ToString()
         {
             var str = City;
-            if(Building!="")
-                str += ", " + Building;
             if (Street != "")
                 str += ", " + Street;
+            if(Building!="")
+                str += ", " + Building;
             if (Entrance != "")
                 str += ", " + Entrance;
             return str;
