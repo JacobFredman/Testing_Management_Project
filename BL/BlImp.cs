@@ -59,7 +59,7 @@ namespace BL
             var traineeHasLicense = AllTrainee.Any(trainee =>
                 (trainee.Id == newTest.TesterId) && (trainee.LicenseType.Any(l => l == newTest.LicenseType)));
             var testerHasLicense = AllTesters.Any(tester => 
-                (tester.Id == newTest.TesterId) && (tester.LicenseType.Any(l => l == newTest.LicenseType)));
+                (tester.Id == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
 
             var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.TestTime == test.TestTime));
             var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.TestTime == test.TestTime));
