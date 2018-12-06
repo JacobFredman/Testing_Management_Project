@@ -57,5 +57,7 @@ namespace BL
 
         int GetNumberOfTests(Trainee trainee);
         bool TraineePassedTest(Trainee trainee, LicenseType license);
+        string GetTypeFromId(int id, DateTime birthDate);
     }
+
 }

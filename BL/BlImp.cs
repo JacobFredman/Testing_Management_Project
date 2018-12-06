@@ -493,9 +493,25 @@ namespace BL
             return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
         }
 
-       
-
-       
+        public string GetTypeFromId(int id,DateTime birthDate)
+        {
+            try
+            {
+                var tester = AllTesters.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                return tester.GetType().ToString();
+            }
+            catch { }
+            try
+            { 
+                var trainee = AllTrainee.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                return trainee.GetType().ToString();
+            }
+            catch
+            {
+                throw new Exception("Id and birth don't exist");
+            }
+           
+        }
     }
 
 }

@@ -71,6 +71,8 @@
         /// </summary>
         public static int MinTestDurationSec = 800;
 
-
+        //admin user
+        public static string AdminUser = "Admin";
+        public static string AdminPassword = "admin";
     }
 }

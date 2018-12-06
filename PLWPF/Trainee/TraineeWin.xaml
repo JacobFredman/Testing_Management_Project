@@ -1,0 +1,13 @@
+﻿<Window x:Class="PLWPF.TraineeWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="TraineeWin" Height="450" Width="800">
+    <Grid>
+        <TextBox Name="_textbox" HorizontalAlignment="Left" Height="23" Margin="204,183,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="332"/>
+
+    </Grid>
+</Window>
