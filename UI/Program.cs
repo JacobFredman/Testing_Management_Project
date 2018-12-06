@@ -21,7 +21,7 @@ namespace UI
             BlImp _blImp = new BlImp();
           //  Trainee trainee, trainee2;
           //  Tester tester1;
-           Test test;
+          // Test test;
            Email email = new  Email();
 
             try
