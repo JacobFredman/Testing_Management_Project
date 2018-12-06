@@ -42,15 +42,13 @@ namespace BL
         IEnumerable<Test> GetAllTestInDay(DateTime date);
         IEnumerable<Test> GetAllTestsToCome();
         IEnumerable<Test> GetAllTestsThatHappened();
-
         IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date);
         IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date);
 
 
         //get groups
         IEnumerable<IGrouping<LicenseType,Test>> GetAllTestsByLicense(bool sorted = false);
-        IEnumerable<IGrouping<LicenseType, Test>> GetAllTraineesByLicense(bool sorted = false);
-
+        IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false);
         IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense(bool sorted = false);
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false);
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false);

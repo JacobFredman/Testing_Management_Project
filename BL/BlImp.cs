@@ -278,6 +278,75 @@ namespace BL
                 where test.TestTime.DayOfYear == date.DayOfYear && test.TestTime.Year == date.Year
                 select test;
         }
+
+        /// <summary>
+        /// Get all the testers that are the best for the test ordered by the distance from the address
+        /// </summary>
+        /// <param name="date">the date</param>
+        /// <param name="address">the address</param>
+        /// <param name="license">the license</param>
+        /// <returns></returns>
+        public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
+        {
+            var testerDistance = from tester in GetAvailableTesters(date)
+                                 where tester.Address != null
+                                 let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                                 select new { tester, distance };
+
+            return from tester in testerDistance
+                   where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                   orderby tester.distance
+                   select tester.tester;
+
+        }
+
+        /// <summary>
+        /// get all tests that the resualts are not updated
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestsToCome()
+        {
+            return AllTests.Where(delegate (Test test)
+            {
+                return test.Passed == null;
+            });
+        }
+
+        /// <summary>
+        /// get all tests that the resualts are updated
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestsThatHappened()
+        {
+            Func<Test, bool> predicate = delegate (Test test) { return test.Passed != null; };
+            return AllTests.Where(predicate);
+        }
+
+        /// <summary>
+        /// Get all the trainee that passed test today
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date)
+        {
+            return from test in AllTests
+                   where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
+                         date.Year && test.Passed == true
+                   select AllTrainee.First(x => x.Id == test.TraineeId);
+        }
+
+        /// <summary>
+        /// Get all the trainee thatfail in the test today
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date)
+        {
+            return from test in AllTests
+                   where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
+                         date.Year && test.Passed == false
+                   select AllTrainee.First(x => x.Id == test.TraineeId);
+        }
         #endregion
 
         #region Grouping
@@ -329,6 +398,27 @@ namespace BL
         public IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests(bool sorted = false)
         {
             return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(GetNumberOfTests); 
+        }
+
+        /// <summary>
+        /// Get all tests shortedby license
+        /// </summary>
+        /// <param name="sorted">if sorted</param>
+        /// <returns></returns>
+        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTestsByLicense(bool sorted = false)
+        {
+            return (sorted ? AllTests.OrderBy(x => x.Id) : AllTests).GroupBy(x => x.LicenseType);
+
+        }
+
+        /// <summary>
+        /// Get all trainee shortedby license
+        /// </summary>
+        /// <param name="sorted">if sorted</param>
+        /// <returns></returns>
+        public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
+        {
+            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning);
         }
         #endregion
 
@@ -383,63 +473,9 @@ namespace BL
             return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
         }
 
-        /// <summary>
-        /// Get all the testers that are the best for the test ordered by the distance from the address
-        /// </summary>
-        /// <param name="date">the date</param>
-        /// <param name="address">the address</param>
-        /// <param name="license">the license</param>
-        /// <returns></returns>
-        public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
-        {
-            var testerDistance = from tester in GetAvailableTesters(date)
-                where tester.Address != null
-                let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
-                select new {tester, distance};
+       
 
-            return from tester in testerDistance
-                where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                orderby tester.distance
-                select tester.tester;
-
-        }
-
-        public IEnumerable<Test> GetAllTestsToCome()
-        {
-            return AllTests.Where(delegate(Test test)
-            {
-                return test.Passed == null;
-            });
-        }
-
-        public IEnumerable<Test> GetAllTestsThatHappened()
-        {
-            Func<Test, bool> predicate = delegate(Test test) { return test.Passed != null; };
-            return AllTests.Where(predicate);
-        }
-
-        public IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date)
-        {
-            return from test in AllTests
-                where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
-                      date.Year && test.Passed == true
-                select AllTrainee.First(x => x.Id == test.TraineeId);
-        }
-
-        public IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTestsByLicense(bool sorted = false)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTraineesByLicense(bool sorted = false)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 
 }
