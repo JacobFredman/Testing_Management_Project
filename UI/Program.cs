@@ -19,7 +19,7 @@ namespace UI
             BlImp _blImp = FactoryBl.GetObject;
           //  Trainee trainee, trainee2;
           //  Tester tester1;
-           Test test;
+          // Test test;
            Email email = new  Email();
            // Pdf pdf = new Pdf();
 
