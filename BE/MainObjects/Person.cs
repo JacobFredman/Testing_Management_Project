@@ -7,7 +7,11 @@ namespace BE.MainObjects
 {
    public  class Person
     {
+     
         private uint _id;
+        /// <summary>
+        /// isreal id
+        /// </summary>
         public uint Id
         {
             get => _id;
@@ -21,6 +25,9 @@ namespace BE.MainObjects
         }
 
         private string _emailAddress;
+        /// <summary>
+        /// email
+        /// </summary>
         public string EmailAddress {
             get => _emailAddress;
             set

@@ -16,7 +16,7 @@ namespace UI
         static void Main(string[] args)
         {
          
-            BlImp _blImp = new BlImp();
+            BlImp _blImp = FactoryBl.GetObject;
           //  Trainee trainee, trainee2;
           //  Tester tester1;
            Test test;
@@ -109,7 +109,7 @@ namespace UI
             cariteria.Add(new Criterion("looking in mirrors", true));
 
 
-            test = new Test(223555616, 037982519, testTime, testAddress, cariteria, true, 0, LicenseType.A);
+            test = new Test(223555616, 037982519, testTime, testAddress, cariteria, true, "0", LicenseType.A);
 
             _blImp.AddTest(test);
         }
@@ -140,7 +140,7 @@ namespace UI
             learningLicenseTypes2.Add(LicenseType.A);
 
             trainee2 = new Trainee(300391737, "Elisha", "Mayer", Gender.Male, "elisha@gmail.com", birthDate2,
-               "0586340000", address2, licenseTypes2, learningLicenseTypes2, Gear.Manual, "or Yarok", 12, 20, true);
+               "0586340000", address2, licenseTypes2, learningLicenseTypes2, Gear.Manual, "or Yarok", "12", 20, true);
 
 
             _blImp.AddTrainee(trainee2);
@@ -157,7 +157,7 @@ namespace UI
             learnningLicenseTypes.Add(LicenseType.A);
 
             trainee = new Trainee(037982519, "Jacob", "Fredman", Gender.Male, "jacov141@gmail.com", birthDate,
-               "0586300016", address, licenseTypes, learnningLicenseTypes, Gear.Automatic, "or Yarok", 18, 23, true);
+               "0586300016", address, licenseTypes, learnningLicenseTypes, Gear.Automatic, "or Yarok", "18", 23, true);
 
             _blImp.AddTrainee(trainee);
         }
