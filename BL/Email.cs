@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Net;
-using BE;
 using BE.MainObjects;
 
 namespace BL
 {
-   public class Email
+    public class Email
     {
 
         private const string FromEmailAddress = "tests.miniproject@gmail.com";

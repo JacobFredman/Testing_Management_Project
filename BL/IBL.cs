@@ -7,8 +7,9 @@ using BE.MainObjects;
 
 namespace BL
 {
-    internal interface IBL
+    public interface IBL
     {
+
         //access testers
         void AddTester(Tester newTester);
         void RemoveTester(Tester testerToDelete);

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using BE;
 using BE.MainObjects;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;

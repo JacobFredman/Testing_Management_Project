@@ -7,12 +7,29 @@ using BE.MainObjects;
 
 namespace DAL
 {
+    /// <summary>
+    /// Get Instance of DAL
+    /// </summary>
+    public static class FactoryDal
+    {
+        private static DalImp _dal = null;
+        /// <summary>
+        /// Get the object
+        /// </summary>
+        public static DalImp GetObject => _dal ?? (_dal = new DalImp());
+    }
+
     /// <inheritdoc />
     /// <summary>
     /// DAL implantation
     /// </summary>
     public class DalImp : IDal
     {
+        /// <summary>
+        /// denay access to c-tor
+        /// </summary>
+        internal DalImp() { }
+
         #region Test
 
         /// <summary>

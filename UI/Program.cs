@@ -18,7 +18,7 @@ namespace UI
         static void Main(string[] args)
         {
          
-            BlImp _blImp = new BlImp();
+            BlImp _blImp = FactoryBl.GetObject;
           //  Trainee trainee, trainee2;
           //  Tester tester1;
            Test test;
