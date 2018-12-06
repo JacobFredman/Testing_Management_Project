@@ -10,7 +10,11 @@ namespace BL
     {
 
         private const string FromEmailAddress = "tests.miniproject@gmail.com";
-        private const string SenderPassword = "0586300016"; 
+        private const string SenderPassword = "0586300016";
+
+
+      
+       
 
         //private MailMessage _mail = new MailMessage("jacAndElisha@miniProject.com", "jacov141@gmail.com");
         //private readonly SmtpClient _client = new SmtpClient();
@@ -28,6 +32,7 @@ namespace BL
 
         public void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
         {
+           
             var subject = test.Passed ? "Congratulations for the new license"  : "we are sorry to inform you that you didn't Passed the test this time";
             var message = test.Passed ? "You successfully passed in the test in " + test.ActualTestTime + ", now you are allowed to drive" : "you have  do the test again";
           SentEmail(trainee.EmailAddress,subject,message,trainee.FirstName + " " + trainee.LastName,"D.M.V");
@@ -42,12 +47,15 @@ namespace BL
 
         private static void SentEmail(string toAddress,string subject,string bodyMessage,string toName, string fromName)
         {
+            Attachment attachment;
+            attachment = new Attachment("c:/textFile.txt");
+
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
-            const string fromPassword = SenderPassword; 
-          //  const string subject = "Subject";
-          //  const string body = "Body";
-
+            const string fromPassword = SenderPassword;
+            //  const string subject = "Subject";
+            //  const string body = "Body";
+           
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
@@ -55,17 +63,20 @@ namespace BL
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(@from.Address, fromPassword)
+                Credentials = new NetworkCredential(@from.Address, fromPassword),
             };
+            
 
             var message = new MailMessage(@from, to)
             {
                 Subject = subject,
-                Body = bodyMessage
+                Body = bodyMessage,
+               
             };
 
             try
             {
+                message.Attachments.Add(attachment);
                 smtp.Send(message);
             }
             catch (Exception e)

@@ -12,9 +12,7 @@ namespace UI
     class Program
     {
         
-
-
-     
+    
         static void Main(string[] args)
         {
          
@@ -23,6 +21,7 @@ namespace UI
           //  Tester tester1;
            Test test;
            Email email = new  Email();
+           // Pdf pdf = new Pdf();
 
             try
             {
@@ -37,8 +36,10 @@ namespace UI
               var testA =  _blImp.AllTests.First();
                 var traineeA = _blImp.AllTrainee.First();
 
-                email.SentEmailToTraineeBeforeTest(testA,traineeA);
-                email.SentEmailToTraineeAfterTest(testA,traineeA);
+                //   email.SentEmailToTraineeBeforeTest(testA,traineeA);
+                //   email.SentEmailToTraineeAfterTest(testA,traineeA);
+                // Pdf.CreateDocument(_blImp.AllTests.First,);
+                Pdf.CreateLicensePdf(_blImp.AllTests.First(), _blImp.AllTrainee.First());
 
             }
             catch (Exception e)
