@@ -2,16 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
-using BE.MainObjects;
 using BE.Routes;
+using BE.MainObjects;
 using DAL;
 using Exception = System.Exception;
 
 namespace BL
 {
-    public class BlImp //: IBL
+    /// <summary>
+    /// Get instance of BlImp
+    /// </summary>
+    public static class FactoryBl
+    {
+        private static BlImp _bl = null;
+        /// <summary>
+        /// Get the object
+        /// </summary>
+        public static BlImp GetObject => _bl ?? (_bl = new BlImp());
+    }
+
+    /// <summary>
+    /// Bl implemetion
+    /// </summary>
+    public class BlImp : IBL
     {
         private readonly IDal _dalImp = FactoryDal.GetObject;
+
+        /// <summary>
+        /// deny access to c-tor
+        /// </summary>
+        internal BlImp() { }
 
         #region Access Tester
         /// <summary>
@@ -84,7 +104,7 @@ namespace BL
                 (tester.Id == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
 
             var tooManyTestInWeek =
-                AllTests.Count(test => test.TesterId == newTest.Id && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) > AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
+                AllTests.Count(test => test.TesterId == newTest.TesterId && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) > AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
 
             var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.TestTime == test.TestTime));
             var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.TestTime == test.TestTime));
@@ -142,7 +162,7 @@ namespace BL
             if(updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("test date not updated");
             //update passed status
-         //   updatedTest.UpdatePassedTest();
+            updatedTest.UpdatePassedTest();
             //add the test to the trainee
             if(updatedTest.Passed==true)AllTrainee.First(trainee=>trainee.Id==updatedTest.TraineeId).LicenseType.Add(updatedTest.LicenseType);
             //update test
@@ -214,15 +234,15 @@ namespace BL
         /// </summary>
         /// <param name="date">Checks if the teacher is available on the given day and hour</param>
         /// <returns>List of Testers</returns>
-        //public IEnumerable<Tester> GetAvailableTesters(DateTime date)
-        //{
-        //return AllTesters.Where(tester =>
-        //    (tester.Schedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
-        //    !(AllTests.Any(test =>
-        //            (test.TesterId == tester.Id && test.TestTime.DayOfWeek == date.DayOfWeek && test.TestTime.Hour == TestTime .Hour))
-        //        )
-        //);
-        //}
+        public IEnumerable<Tester> GetAvailableTesters(DateTime date)
+        {
+            return AllTesters.Where(tester =>
+                (tester.Schedule.IsAvailable(date.DayOfWeek, date.Hour)) &&
+                !(AllTests.Any(test =>
+                        (test.TesterId == tester.Id && test.TestTime.DayOfWeek == date.DayOfWeek && test.TestTime.Hour == date.Hour))
+                    )
+            );
+        }
 
         /// <summary>
         /// Get all Tests sorted by Date
@@ -254,6 +274,99 @@ namespace BL
         {
             return AllTesters.Where(tester =>tester.Address!=null && Tools.GetDistanceGoogleMapsApi(tester.Address, a) <= r);
         }
+
+        /// <summary>
+        /// Get all the test in the month
+        /// </summary>
+        /// <param name="date">the month</param>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestInMonth(DateTime date)
+        {
+            return from test in AllTests
+                where test.TestTime.Month == date.Month && test.TestTime.Year == date.Year
+                select test;
+        }
+
+        /// <summary>
+        /// Get all the tests in the day
+        /// </summary>
+        /// <param name="date">the day</param>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestInDay(DateTime date)
+        {
+            return from test in AllTests
+                where test.TestTime.DayOfYear == date.DayOfYear && test.TestTime.Year == date.Year
+                select test;
+        }
+
+        /// <summary>
+        /// Get all the testers that are the best for the test ordered by the distance from the address
+        /// </summary>
+        /// <param name="date">the date</param>
+        /// <param name="address">the address</param>
+        /// <param name="license">the license</param>
+        /// <returns></returns>
+        public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
+        {
+            var testerDistance = from tester in GetAvailableTesters(date)
+                                 where tester.Address != null
+                                 let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                                 select new { tester, distance };
+
+            return from tester in testerDistance
+                   where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                   orderby tester.distance
+                   select tester.tester;
+
+        }
+
+        /// <summary>
+        /// get all tests that the resualts are not updated
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestsToCome()
+        {
+            return AllTests.Where(delegate (Test test)
+            {
+                return test.Passed == null;
+            });
+        }
+
+        /// <summary>
+        /// get all tests that the resualts are updated
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Test> GetAllTestsThatHappened()
+        {
+            Func<Test, bool> predicate = delegate (Test test) { return test.Passed != null; };
+            return AllTests.Where(predicate);
+        }
+
+        /// <summary>
+        /// Get all the trainee that passed test today
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date)
+        {
+            return from test in AllTests
+                   where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
+                         date.Year && test.Passed == true
+                   select AllTrainee.First(x => x.Id == test.TraineeId);
+        }
+
+        /// <summary>
+        /// Get all the trainee thatfail in the test today
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date)
+        {
+            return from test in AllTests
+                   where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
+                         date.Year && test.Passed == false
+                   select AllTrainee.First(x => x.Id == test.TraineeId);
+        }
         #endregion
 
         #region Grouping
@@ -262,28 +375,39 @@ namespace BL
         /// Get all Tester's grouped by License
         /// </summary>
         /// <returns>All Tester's grouped by license</returns>
-        public IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense()
+        public IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense(bool sorted=false)
         {
-            return AllTesters.GroupBy(x => x.LicenseTypeTeaching);
+            return (sorted ? AllTesters.OrderBy(x => x.Id) : AllTesters).GroupBy(x => x.LicenseTypeTeaching);
         }
 
         /// <summary>
         /// Get all Trainee's grouped by Their Tester's 
         /// </summary>
         /// <returns>All Trainee's grouped by Their Tester's </returns>
-        //public IEnumerable<IGrouping<Tester, Trainee>> GetAllTraineesByTester()
-        //{
-        //    return from trainee in AllTrainee
-        //        group trainee by trainee.TesterName;
-        //}
+        public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false)
+        {
+            return sorted?  
+                from trainee in AllTrainee
+                orderby trainee.Id
+                group trainee by trainee.TesterId:
+
+                from trainee in AllTrainee
+                group trainee by trainee.TesterId;
+        }
 
         /// <summary>
         /// Get all Trainee's grouped by Their school's 
         /// </summary>
         /// <returns>All Trainee's grouped by Their school's </returns>
-        public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool()
+        public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false)
         {
-            return from trainee in AllTrainee
+            return sorted ?
+                from trainee in AllTrainee
+                orderby trainee.Id
+                group trainee by trainee.SchoolName
+                : 
+                from trainee in AllTrainee
+                orderby trainee.Id
                 group trainee by trainee.SchoolName;
         }
 
@@ -291,10 +415,30 @@ namespace BL
         /// Get all Trainee's grouped by Their number of test's
         /// </summary>
         /// <returns>All Trainee's grouped by Their number of test's</returns>
-        public IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests()
+        public IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests(bool sorted = false)
         {
-            return (from trainee in AllTrainee
-                group trainee by GetNumberOfTests(trainee));
+            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(GetNumberOfTests); 
+        }
+
+        /// <summary>
+        /// Get all tests shortedby license
+        /// </summary>
+        /// <param name="sorted">if sorted</param>
+        /// <returns></returns>
+        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTestsByLicense(bool sorted = false)
+        {
+            return (sorted ? AllTests.OrderBy(x => x.Id) : AllTests).GroupBy(x => x.LicenseType);
+
+        }
+
+        /// <summary>
+        /// Get all trainee shortedby license
+        /// </summary>
+        /// <param name="sorted">if sorted</param>
+        /// <returns></returns>
+        public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
+        {
+            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning);
         }
         #endregion
 
@@ -349,13 +493,9 @@ namespace BL
             return AllTests.Any(test => test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
         }
 
+       
 
-
-
-
-
-
- 
+       
     }
 
 }

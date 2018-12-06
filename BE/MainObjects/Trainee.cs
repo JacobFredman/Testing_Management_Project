@@ -9,12 +9,12 @@ namespace BE.MainObjects
         public List<LicenseType> LicenseTypeLearning { set; get; }
         public Gear GearType { set; get; }
         public string SchoolName { set; get; }
-        public uint TesterId { set; get; }
+        public string TesterId { set; get; }
         public uint NumberOfLessons { set; get; }
         public bool ReadyForTest { set; get; }
 
         public Trainee(uint Id, string firstName, string lastName, Gender gender, string emailAddress, DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes,
-          List<LicenseType> licenseTypesLearning, Gear gearType, string schoolName, uint testerId, uint numberOfLessons, bool readyForTest ) 
+          List<LicenseType> licenseTypesLearning, Gear gearType, string schoolName, string testerId, uint numberOfLessons, bool readyForTest ) 
             : base(Id, firstName, lastName, gender, emailAddress, birthDate, phoneNumber, address, licenseTypes)
         {
             LicenseTypeLearning = licenseTypesLearning;
