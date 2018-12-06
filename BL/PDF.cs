@@ -25,7 +25,7 @@ namespace BL
             var font = new XFont("Verdana", 11, XFontStyle.Bold);
 
       
-           gfx.DrawString("Temporary License", title, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), format: TopCenter);
+           gfx.DrawString("Temporary License", title, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), format:XStringFormats.TopCenter);
       
             gfx.DrawString("Full name: " +fullName , font, XBrushes.Black, new XRect(0, -300, page.Width, page.Height), format: XStringFormats.Center);
             gfx.DrawString("Id: " + id.ToString(), font, XBrushes.Black, new XRect(0, -280, page.Width, page.Height), format: XStringFormats.Center);
