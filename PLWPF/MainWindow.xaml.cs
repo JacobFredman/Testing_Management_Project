@@ -76,7 +76,7 @@ namespace PLWPF
                 //if it is the admin
                 if (IdTextBox.Text == Configuration.AdminUser && BirthDateTextBox.Text == Configuration.AdminPassword)
                 {
-                    Admin Win = new Admin();
+                    Admin.Administrator Win = new Admin.Administrator();
                     Hide();
                     Win.ShowDialog();
                     IdTextBox.Text = "";

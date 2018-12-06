@@ -12,16 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PLWPF
+namespace PLWPF.Admin
 {
     /// <summary>
-    /// Interaction logic for Admin.xaml
+    /// Interaction logic for Administrator.xaml
     /// </summary>
-    public partial class Admin : Window
+    public partial class Administrator : Window
     {
-        public Admin()
+        public Administrator()
         {
             InitializeComponent();
+        }
+
+        private void AddTrainee_Click(object sender, RoutedEventArgs e)
+        {
+            ManageTrainee.AddTrainee win = new ManageTrainee.AddTrainee();
+            win.ShowDialog();
         }
     }
 }

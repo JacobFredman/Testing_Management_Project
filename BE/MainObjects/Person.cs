@@ -63,6 +63,8 @@ namespace BE.MainObjects
 
         public Address Address { set; get; }
         public List<LicenseType> LicenseType { set; get; }
+
+        public Person() { }
         /// <summary>
         /// a new person
         /// </summary>

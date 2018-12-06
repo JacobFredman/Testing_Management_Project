@@ -42,6 +42,7 @@ namespace BE.MainObjects
             NumberOfLessons = 0;
             ReadyForTest = false;
         }
+        public Trainee() { }
         public override string ToString()
         {
             return base.ToString() + " ,Job: Trainee";
