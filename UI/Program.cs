@@ -136,8 +136,8 @@ namespace UI
             var birthDate2 = new DateTime(1999, 12, 29);
             var address2 = new Address("Jerusalem", "King george", "55", "A");
             var licenseTypes2 = new List<LicenseType>();
-            var learningLicenseTypes2 = new List<LicenseType>();
-            learningLicenseTypes2.Add(LicenseType.A);
+            var learningLicenseTypes2 = new List<LessonsAndType>();
+            learningLicenseTypes2.Add(new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30 });
 
             trainee2 = new Trainee(300391737, "Elisha", "Mayer", Gender.Male, "elisha@gmail.com", birthDate2,
                "0586340000", address2, licenseTypes2, learningLicenseTypes2, Gear.Manual, "or Yarok", "12", 20, true);
@@ -153,8 +153,8 @@ namespace UI
             var birthDate = new DateTime(1985, 12, 29);
             var address = new Address("Jerusalem", "Shachal", "55", "A");
             var licenseTypes = new List<LicenseType>();
-            var learnningLicenseTypes = new List<LicenseType>();
-            learnningLicenseTypes.Add(LicenseType.A);
+            var learnningLicenseTypes = new List<LessonsAndType>();
+            learnningLicenseTypes.Add(new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30 });
 
             trainee = new Trainee(037982519, "Jacob", "Fredman", Gender.Male, "jacov141@gmail.com", birthDate,
                "0586300016", address, licenseTypes, learnningLicenseTypes, Gear.Automatic, "or Yarok", "18", 23, true);

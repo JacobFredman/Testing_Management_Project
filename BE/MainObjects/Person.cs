@@ -51,13 +51,13 @@ namespace BE.MainObjects
             get => _phoneNumber; set
             {
                 if (value[0] != '0')
-                    _phoneNumber = null;
+                   throw new Exception("Invalid phone number");
                 else if (value[1] == '5' && value.Length == 10)
                     _phoneNumber = value;
                 else if (value[1] != '5' && value.Length == 9)
                     _phoneNumber = value;
                 else
-                    _phoneNumber = null;
+                    throw new Exception("Invalid phone number");
             }
         }
 

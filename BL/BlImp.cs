@@ -96,10 +96,10 @@ namespace BL
                 (test.TraineeId == newTest.TraineeId) && (test.LicenseType == newTest.LicenseType) &&
                 ((newTest.TestTime - test.TestTime).TotalDays < Configuration.MinTimeBetweenTests));
 
-            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.Id == newTest.TraineeId) && trainee.NumberOfLessons < Configuration.MinLessons);
+            var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.Id == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l.License == newTest.LicenseType && l.NumberOfLessons < Configuration.MinLessons)));
 
             var traineeIsLearningLicense = AllTrainee.Any(trainee =>
-                (trainee.Id == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l == newTest.LicenseType)));
+                (trainee.Id == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l.License == newTest.LicenseType)));
             var testerIsTeachingLicense = AllTesters.Any(tester => 
                 (tester.Id == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
 
@@ -436,7 +436,7 @@ namespace BL
         /// </summary>
         /// <param name="sorted">if sorted</param>
         /// <returns></returns>
-        public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
+        public IEnumerable<IGrouping<List<LessonsAndType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
         {
             return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning);
         }

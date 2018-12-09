@@ -13,6 +13,7 @@ namespace BE
         /// <returns>true if it is valid</returns>
         public static bool CheckID_IL(uint Id)
         {
+            if (Id == 0) return false;
             uint[] idArr = new uint[9];
 
             //put the Id in an arr
