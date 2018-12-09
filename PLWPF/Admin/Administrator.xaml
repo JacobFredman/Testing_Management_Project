@@ -34,7 +34,26 @@
 
             </StackPanel>
         </GroupBox>
-      
+
+        <GroupBox Header="Tester" Margin="2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+            <StackPanel>
+                <Button x:Name="AddTester" Content="Add tester" Margin="10"  Width="100" Height="40" Grid.Column="1" Grid.Row="1"  RenderTransformOrigin="-0.409,-0.034" Click="AddTester_Click"/>
+                <GroupBox Header="Update" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1">
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="ComboxUpdateTester" ItemsSource="{Binding}" Width="110" Height="25" Margin="10"/>
+                        <Button x:Name="UpdateTester" Content="Update tester" Margin="10"  Height="23" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Right" Click="UpdateTester_Click" />
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Remove" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1">
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="ComboxRemoveTsster" ItemsSource="{Binding}" Width="110" Height="25" Margin="10"/>
+                        <Button x:Name="RemoveTester" Content="Remove tester" Margin="10"  Height="23" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Right" Click="RemoveTester_Click"  />
+                    </StackPanel>
+                </GroupBox>
+
+            </StackPanel>
+        </GroupBox>
+
 
 
     </Grid>

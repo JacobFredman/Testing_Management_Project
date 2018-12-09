@@ -59,6 +59,9 @@
     <Compile Include="Admin\Administrator.xaml.cs">
       <DependentUpon>Administrator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageTester\AddTester.xaml.cs">
+      <DependentUpon>AddTester.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ManageTrainee\AddTrainee.xaml.cs">
       <DependentUpon>AddTrainee.xaml</DependentUpon>
     </Compile>
@@ -69,6 +72,10 @@
       <DependentUpon>TraineeWin.xaml</DependentUpon>
     </Compile>
     <Page Include="Admin\Administrator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin\ManageTester\AddTester.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

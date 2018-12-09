@@ -26,6 +26,9 @@ namespace PLWPF.Admin
             InitializeComponent();
             ComboxUpdateTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
             ComboxRemoveTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
+
+            ComboxUpdateTester.ItemsSource = bL.AllTesters.Select(x => x.Id);
+            ComboxRemoveTsster.ItemsSource = bL.AllTesters.Select(x => x.Id);
         }
 
         private void AddTrainee_Click(object sender, RoutedEventArgs e)
@@ -60,6 +63,41 @@ namespace PLWPF.Admin
                 ComboxRemoveTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
             }
             catch { }
+        }
+
+        private void UpdateTester_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                ManageTester.AddTester win = new ManageTester.AddTester(uint.Parse(ComboxUpdateTester.SelectedItem.ToString()));
+                win.ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RemoveTester_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bL.RemoveTester(bL.AllTesters.First(x => x.Id == uint.Parse(ComboxRemoveTsster.SelectedItem.ToString())));
+                ComboxUpdateTester.ItemsSource = bL.AllTesters.Select(x => x.Id);
+                ComboxRemoveTsster.ItemsSource = bL.AllTesters.Select(x => x.Id);
+            }
+            catch { }
+        }
+
+        private void AddTester_Click(object sender, RoutedEventArgs e)
+        {
+            ManageTester.AddTester win = new ManageTester.AddTester();
+            win.ShowDialog();
+            ComboxUpdateTester.ItemsSource = bL.AllTesters.Select(x => x.Id);
+            ComboxRemoveTsster.ItemsSource = bL.AllTesters.Select(x => x.Id);
+
         }
     }
 }

@@ -1,0 +1,83 @@
+﻿<Window x:Class="PLWPF.Admin.ManageTester.AddTester"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF.Admin.ManageTester"
+        mc:Ignorable="d"
+        Validation.Error="validation_Error"
+        Title="AddTester" Height="600" Width="340">
+    <Grid>
+
+        <Grid x:Name="grid1" Margin="3"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Birth Date:"/>
+            <DatePicker x:Name="birthDateDatePicker" VerticalAlignment="Center" SelectedDate="{Binding BirthDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" />
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Email Address:"/>
+            <TextBox x:Name="emailAddressTextBox" Width="120" VerticalAlignment="Center" Text="{Binding EmailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="3" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" TextChanged="EmailAddressTextBox_TextChanged"/>
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="First Name:"/>
+            <TextBox x:Name="firstNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Max distance:"/>
+            <TextBox x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center" Text="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" TextChanged="IdTextBox_TextChanged"/>
+
+            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Gender:"/>
+            <ComboBox x:Name="genderComboBox" Width="120" VerticalAlignment="Center" Grid.Row="4" Margin="3" SelectedItem="{Binding Gender}" Height="Auto" HorizontalAlignment="Left"  Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Id:"/>
+            <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" TextChanged="IdTextBox_TextChanged"/>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Last Name:"/>
+            <TextBox x:Name="lastNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Phone Number:"/>
+            <TextBox x:Name="phoneNumberTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Expirience:"/>
+            <TextBox x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Address:"/>
+            <TextBox x:Name="AddressTextBox" Width="120" VerticalAlignment="Center"  Grid.Row="7" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" TextChanged="AddressTextBox_TextChanged"/>
+
+            <Label VerticalAlignment="Center" Grid.Row="11" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Max exams in week:"/>
+            <TextBox x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center"  Grid.Row="11" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" Text="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+
+            <TextBlock x:Name="ErrorMessage" Grid.Row="13"  Foreground="Red"/>
+            <Button Name="Save" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2" Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2">
+                <GroupBox Margin="5" Header="Licnse" BorderBrush="Black" BorderThickness="1">
+                    <ListBox x:Name="Chooselicense" ItemsSource="{Binding}" Height="100" Width="60" SelectionMode="Multiple" SelectionChanged="Chooselicense_SelectionChanged"/>
+                </GroupBox>
+                <GroupBox Margin="5" Header="Schdule" BorderBrush="Black" BorderThickness="1" >
+                    <StackPanel Orientation="Horizontal">
+                        <DockPanel>
+                            <ComboBox x:Name="DayWeek" DockPanel.Dock="Top" Height="23" Width="100" Margin="5" SelectionChanged="DayWeek_SelectionChanged" />
+                            <CheckBox x:Name="AllWeek" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="5" IsChecked="True" Checked="AllWeek_Checked" Unchecked="AllWeek_Unchecked" />
+                            <Label Content="All week" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                        </DockPanel>
+                        <ListBox x:Name="ChooseHours" ItemsSource="{Binding}" Height="100" Width="100" SelectionMode="Multiple" SelectionChanged="ChooseHours_SelectionChanged"/>
+
+                    </StackPanel>
+                </GroupBox>
+
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>

@@ -8,7 +8,7 @@ namespace BE
     {
         private const int DEFUALT_WEEK_DAYS = 5;
 
-        private readonly Day[] days;
+        public  Day[] days;
 
         /// <summary>
         /// a new schedule

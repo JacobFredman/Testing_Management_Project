@@ -29,6 +29,7 @@ namespace BE.MainObjects
         }
 
         public WeekSchedule Schedule { set; get; }
+        public Tester() { }
 
         /// <inheritdoc />
         /// <summary>
