@@ -133,8 +133,25 @@ namespace PLWPF
         {
             try
             {
-                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "Elisha", "Mayer") { BirthDate = new DateTime(1991, 1, 1) });
-                _blimp.AddTester(new Tester(319185989, "Amnon", "Mayer") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("jerusalem") });
+                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "aaaaa", "bbbbb") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(319185989, Gender.Male, "ccccc", "dddddd") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "sfsfss", "sdvzv") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "zzc", "zvzv") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(324126747, Gender.Male, "qrqf", "ghmgm") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(326591088, Gender.Male, "sdss", "cvb") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(342533643, Gender.Male, "zvvxv", "zvzv") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(339794166, Gender.Male, "xcvvxv", "zxvzv") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(336390885, Gender.Male, "zxvzv", "zxzvz") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(332484609, Gender.Male, "zxvzv", "zxvzvz") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(332307065, Gender.Male, "zzv", "Mazxvzvyer") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(332270446, Gender.Male, "zxvzv", "zxvzvzv") { BirthDate = new DateTime(1991, 1, 1) });
+                _blimp.AddTrainee(new Trainee(329043459, Gender.Male, "ghg,g", "asfasfaf") { BirthDate = new DateTime(1991, 1, 1) });
+
+                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") });
+                _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv") });
+                _blimp.AddTester(new Tester(323873182, "zxvzvz", "zxzv") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Beit shemesh") });
+                _blimp.AddTester(new Tester(323082321, "zxvzvz", "jljkl") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Holon") });
+
             }
             catch (Exception ex)
             {
