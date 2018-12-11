@@ -308,16 +308,24 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
         {
-            var testerDistance = from tester in GetAvailableTesters(date)
-                                 where tester.Address != null
-                                 let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
-                                 select new { tester, distance };
+            try
+            {
+                var testerDistance = from tester in GetAvailableTesters(date)
+                                     where tester.Address != null
+                                     let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                                     select new { tester, distance };
 
-            return from tester in testerDistance
-                   where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                   orderby tester.distance
-                   select tester.tester;
-
+                return from tester in testerDistance
+                       where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                       orderby tester.distance
+                       select tester.tester;
+            }
+            catch
+            {
+                return from tester in GetAvailableTesters(date)
+                       where tester.LicenseTypeTeaching.Any(x => x == license)
+                       select tester;
+            }
         }
 
         /// <summary>

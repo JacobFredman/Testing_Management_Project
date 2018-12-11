@@ -56,24 +56,31 @@ namespace BE
         /// <returns>the distance in meters</returns>
         public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
         {
-            //create the url
-            var request = Configuration.GoogleDistanceUrl + "key="+ Configuration.Key 
-                + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
-            //check it
-           if (request.ToLower().IndexOf("https:") > -1|| request.ToLower().IndexOf("http:") > -1)
+            try
             {
-                //download the data
-                System.Net.WebClient wc = new System.Net.WebClient();
-                byte[] response = wc.DownloadData(request);
-                var content = System.Text.Encoding.ASCII.GetString(response);
-                //parse it
-                var o = JObject.Parse(content);
-                var distance = (int)o.SelectToken("routes[0].legs[0].distance.value");
-                //return it
-                return distance;
+                //create the url
+                var request = Configuration.GoogleDistanceUrl + "json?" + "key=" + Configuration.Key
+                    + "&origin=" + origin.ToString() + "&destination=" + destination.ToString() + "&sensor=false";
+                //check it
+                if (request.ToLower().IndexOf("https:") > -1 || request.ToLower().IndexOf("http:") > -1)
+                {
+                    //download the data
+                    System.Net.WebClient wc = new System.Net.WebClient();
+                    byte[] response = wc.DownloadData(request);
+                    var content = System.Text.Encoding.ASCII.GetString(response);
+                    //parse it
+                    var o = JObject.Parse(content);
+                    var distance = (int)o.SelectToken("routes[0].legs[0].distance.value");
+                    //return it
+                    return distance;
+                }
+                else
+                    throw new Exception("Google URL is not correct");
             }
-            else
-                throw new Exception("Google URL is not correct");  
+            catch
+            {
+                return int.MaxValue;
+            }
         }
      }
 }

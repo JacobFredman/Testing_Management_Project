@@ -6,6 +6,7 @@ using BE;
 using BE.Routes;
 using BE.MainObjects;
 using BL;
+using System.Collections.Generic;
 
 namespace PLWPF
 {
@@ -133,7 +134,13 @@ namespace PLWPF
         {
             try
             {
-                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "aaaaa", "bbbbb") { BirthDate = new DateTime(1991, 1, 1) });
+                var test = new LessonsAndType() { License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true };
+                var list = new List<LessonsAndType>();
+                list.Add(test);
+                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "aaaaa", "bbbbb") { BirthDate = new DateTime(1991, 1, 1)
+                    , LicenseTypeLearning =list,
+                    Address = new Address("Jerusalem")
+                });
                 _blimp.AddTrainee(new Trainee(319185989, Gender.Male, "ccccc", "dddddd") { BirthDate = new DateTime(1991, 1, 1) });
                 _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "sfsfss", "sdvzv") { BirthDate = new DateTime(1991, 1, 1) });
                 _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "zzc", "zvzv") { BirthDate = new DateTime(1991, 1, 1) });
@@ -147,10 +154,14 @@ namespace PLWPF
                 _blimp.AddTrainee(new Trainee(332270446, Gender.Male, "zxvzv", "zxvzvzv") { BirthDate = new DateTime(1991, 1, 1) });
                 _blimp.AddTrainee(new Trainee(329043459, Gender.Male, "ghg,g", "asfasfaf") { BirthDate = new DateTime(1991, 1, 1) });
 
-                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") });
-                _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv") });
-                _blimp.AddTester(new Tester(323873182, "zxvzvz", "zxzv") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Beit shemesh") });
-                _blimp.AddTester(new Tester(323082321, "zxvzvz", "jljkl") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Holon") });
+                var sch = new WeekSchedule();
+                    sch.AddHoursAllDays(0, 23);
+                var list2 = new List<LicenseType>();
+                    list2.Add(LicenseType.A);
+                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") ,Schedule= sch ,LicenseTypeTeaching=list2});
+                _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch });
+                _blimp.AddTester(new Tester(323873182, "zxvzvz", "zxzv") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch });
+                _blimp.AddTester(new Tester(323082321, "zxvzvz", "jljkl") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Holon"), Schedule = sch });
 
             }
             catch (Exception ex)

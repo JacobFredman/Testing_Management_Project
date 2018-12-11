@@ -62,8 +62,14 @@
     <Compile Include="Admin\ManageTester\AddTester.xaml.cs">
       <DependentUpon>AddTester.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageTest\ShowTest.xaml.cs">
+      <DependentUpon>ShowTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ManageTrainee\AddTrainee.xaml.cs">
       <DependentUpon>AddTrainee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\TestLists\ShowList.xaml.cs">
+      <DependentUpon>ShowList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
@@ -79,7 +85,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Admin\ManageTest\ShowTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Admin\ManageTrainee\AddTrainee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin\TestLists\ShowList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,5 +158,6 @@
       <Name>BL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

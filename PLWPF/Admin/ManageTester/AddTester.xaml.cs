@@ -48,6 +48,7 @@ namespace PLWPF.Admin.ManageTester
                     AllWeek.IsEnabled = false;
                     AllWeek.IsChecked = false;
                     DayWeek.IsEnabled = true;
+                    AddressTextBox.Text = (tester.Address!=null)? tester.Address.ToString():"";
                 }
                 catch
                 {
@@ -133,6 +134,7 @@ namespace PLWPF.Admin.ManageTester
 
             try
             {
+                tester.Address = new BE.Routes.Address(AddressTextBox.Text);
                 if (update)
                     _blimp.UpdateTester(tester);
                 else

@@ -41,6 +41,7 @@ namespace PLWPF.Admin.ManageTrainee
                     DataContext = trainee;
                     idTextBox.IsEnabled = false;
                     update = true;
+                    AddressTextBox.Text =(trainee.Address!=null)? trainee.Address.ToString():"";
                 }
                 catch
                 {
