@@ -12,13 +12,15 @@ namespace BE.MainObjects
         public int NumberOfLessons { get => _numberOfLessons; set { _numberOfLessons = value; ReadyForTest = NumberOfLessons > Configuration.MinLessons; } }
         public bool ReadyForTest { set; get; }
     }
+
+
     public  class Trainee : Person
     {
         public List<LessonsAndType> LicenseTypeLearning { set; get; }
         public Gear GearType { set; get; }
         public string SchoolName { set; get; }
         public string TesterId { set; get; }
-        public uint NumberOfLessons { set; get; }
+     //   public uint NumberOfLessons { set; get; }
         public bool ReadyForTest { set; get; }
 
         public Trainee(uint Id, string firstName, string lastName, Gender gender, string emailAddress, DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes,
@@ -29,7 +31,7 @@ namespace BE.MainObjects
             GearType = gearType;
             SchoolName = schoolName;
             TesterId = testerId;
-            NumberOfLessons = numberOfLessons;
+         //   NumberOfLessons = numberOfLessons;
             ReadyForTest = readyForTest;
         }
 
@@ -47,7 +49,7 @@ namespace BE.MainObjects
             LicenseTypeLearning = new List<LessonsAndType>();
             this.GearType = Gear.Automatic;
             SchoolName = "";
-            NumberOfLessons = 0;
+           // NumberOfLessons = 0;
             ReadyForTest = false;
         }
         public Trainee() { }

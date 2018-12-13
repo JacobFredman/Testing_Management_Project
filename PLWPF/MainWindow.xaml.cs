@@ -21,8 +21,9 @@ namespace PLWPF
             InitializeComponent();
 
             AddInfo();
+            //_blimp.AllTrainee.ToExcel();
         }
-
+    
         /// <summary>
         /// Error in fild in invalid
         /// </summary>
@@ -159,8 +160,14 @@ namespace PLWPF
                 var list2 = new List<LicenseType>();
                     list2.Add(LicenseType.A);
                 _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") ,Schedule= sch ,LicenseTypeTeaching=list2});
+                sch = new WeekSchedule();
+                sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch });
+                sch = new WeekSchedule();
+                sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323873182, "zxvzvz", "zxzv") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch });
+                sch = new WeekSchedule();
+                sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323082321, "zxvzvz", "jljkl") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Holon"), Schedule = sch });
 
             }

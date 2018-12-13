@@ -94,7 +94,7 @@ namespace BL
 
             var twoTestesTooClose = AllTests.Any(test =>
                 (test.TraineeId == newTest.TraineeId) && (test.LicenseType == newTest.LicenseType) &&
-                ((newTest.TestTime - test.TestTime).TotalDays < Configuration.MinTimeBetweenTests));
+                (System.Math.Abs((newTest.TestTime - test.TestTime).TotalDays) < Configuration.MinTimeBetweenTests));
 
             var lessThenMinLessons = AllTrainee.Any(trainee => (trainee.Id == newTest.TraineeId) && (trainee.LicenseTypeLearning.Any(l => l.License == newTest.LicenseType && l.NumberOfLessons < Configuration.MinLessons)));
 
@@ -104,7 +104,7 @@ namespace BL
                 (tester.Id == newTest.TesterId) && (tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType)));
 
             var tooManyTestInWeek =
-                AllTests.Count(test => test.TesterId == newTest.TesterId && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) > AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
+                AllTests.Count(test => test.TesterId == newTest.TesterId && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime))+1 > AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
 
             var traineeHasTestInSameTime = AllTests.Any(test => (test.TraineeId == newTest.TraineeId) && (newTest.TestTime == test.TestTime));
             var testerHasTestInSameTime = AllTests.Any(test => (test.TesterId == newTest.TesterId) && (newTest.TestTime == test.TestTime));
@@ -310,6 +310,9 @@ namespace BL
         {
             try
             {
+                var wc = new System.Net.WebClient();
+                wc.DownloadData("https://www.google.com/");
+
                 var testerDistance = from tester in GetAvailableTesters(date)
                                      where tester.Address != null
                                      let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
@@ -487,7 +490,7 @@ namespace BL
         /// <returns>The number of Tests</returns>
         public int GetNumberOfTests(Trainee trainee)
         {
-           return AllTests.Count(x => x.TraineeId == trainee.Id && x.ActualTestTime > DateTime.Now.Date);
+           return AllTests.Count(x => x.TraineeId == trainee.Id);
         }
 
         /// <summary>

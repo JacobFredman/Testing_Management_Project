@@ -20,9 +20,10 @@ namespace PLWPF.Admin.TestLists
     public partial class ShowList : Window
     {
 
-        public ShowList()
+        public ShowList(object list)
         {
             InitializeComponent();
+            ListDataGrid.ItemsSource = (System.Collections.IEnumerable)list;
         }
         public void ShowListInGrade(IEnumerable<BE.MainObjects.Trainee> list)
         {

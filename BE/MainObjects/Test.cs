@@ -75,7 +75,6 @@ namespace BE.MainObjects
             TesterId = idTester;
             TraineeId = idTrainee;
             Id = "";
-            Passed = false;
             TestTime = new DateTime();
             ActualTestTime = DateTime.MinValue;
             Criteria = new List<Criterion>();

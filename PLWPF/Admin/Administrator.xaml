@@ -67,6 +67,8 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+
                         </Grid.RowDefinitions>
                         <Label Content="Trainee:" Grid.Column="0" Grid.Row="0"/>
                         <ComboBox x:Name="PickTrainee" Grid.Row="0" Grid.Column="1" Width="120" Margin="3" SelectionChanged="PickTrainee_SelectionChanged"/>
@@ -74,14 +76,18 @@
                         <TextBox x:Name="GetAddressTextBox" Grid.Row="1" Grid.Column="1" Width="120" Margin="3"/>
                         <Label Content="Date:" Grid.Row="2" Grid.Column="0"/>
                         <DatePicker x:Name="TestDatePick" Grid.Row="2" Grid.Column="1"/>
-                        <Label Content="Licnse:" Grid.Row="3"/>
-                        <ComboBox x:Name="testlicense" Grid.Row="3" Grid.Column="1" Width="120" Margin="3"/>
+                        <Label Content="Time" Grid.Row="3"/>
+                        <ComboBox x:Name="SelectTimeTest" Grid.Row="3" Grid.Column="1" Margin="3" Width="120" />
+                        <Label Content="Licnse:" Grid.Row="4"/>
+                        <ComboBox x:Name="testlicense" Grid.Row="4" Grid.Column="1" Width="120" Margin="3"/>
                     </Grid>
                     <Button x:Name="SetTestButton" Content="Set test" Margin="3" HorizontalAlignment="Center" Width="120" Click="SetTestButton_Click"/>
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="GetTestId" Width="120" Margin="3,10,3,3" HorizontalAlignment="Center"/>
-                        <Button x:Name="ShowTest" Content="Show" Width="50" Margin="3,10,3,3" HorizontalAlignment="Center" Click="ShowTest_Click"/>
-                        <Button x:Name="UpdateTest" Content="Update" Width="50" Margin="3,10,3,3" HorizontalAlignment="Center"/>
+                        <ComboBox x:Name="GetTestId" Width="90" Margin="3,10,3,3" HorizontalAlignment="Center"/>
+                        <Button x:Name="ShowTest" Content="Show"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="ShowTest_Click"/>
+                        <Button x:Name="UpdateTest" Content="Update"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="UpdateTest_Click"/>
+                        <Button x:Name="RemoveTest" Content="Delete"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="RemoveTest_Click" />
+
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -90,12 +96,16 @@
 
         </Grid>
 
-        <GroupBox Header="GetLists" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
+        <GroupBox Header="GetLists BL" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="GetAllTrainees" Content="All Trainees" Margin="3" Click="GetAllTrainees_Click"/>  
-                <DatePicker x:Name="PickDateTester" Margin="10,3,0,3"/>
-                <TextBox x:Name="AddressTextBox" Width="100" Margin="0,3,3,3"/>
-                <Button Content="Recommended Tester" Margin="0,3,3,3"/>
+                <ComboBox x:Name="SelectFuncBl" Width="200" Margin="3" SelectionChanged="SelectFuncBl_SelectionChanged" />
+                <DatePicker x:Name="PickDateTester" Margin="3" Visibility="Collapsed"/>
+                <Label x:Name="AddressLebel" Content="Address" Visibility="Collapsed"/>
+                <TextBox x:Name="AddressTextBox" Width="100" Margin="0,3,3,3" Visibility="Collapsed"/>
+                <Label x:Name="RadoisLabel" Content="Radios" Visibility="Collapsed"/>
+                <TextBox x:Name="Radios" Width="100" Margin="3" Visibility="Collapsed"/>
+                <ComboBox x:Name="GroupingBox" Width="130" Margin="3" Visibility="Collapsed"/>
+                <Button Content="Show List" Margin="3" Click="Button_Click" />
             </StackPanel>
         </GroupBox>
     </StackPanel>

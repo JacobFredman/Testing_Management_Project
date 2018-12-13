@@ -8,7 +8,7 @@
         /// <summary>
         /// the type of the criterion
         /// </summary>
-        public string Type {private set; get; }
+        public string Type { set; get; }
 
         /// <summary>
         /// Passed the criterion

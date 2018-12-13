@@ -65,6 +65,9 @@
     <Compile Include="Admin\ManageTest\ShowTest.xaml.cs">
       <DependentUpon>ShowTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageTest\UpdateTest.xaml.cs">
+      <DependentUpon>UpdateTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ManageTrainee\AddTrainee.xaml.cs">
       <DependentUpon>AddTrainee.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Admin\ManageTest\ShowTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin\ManageTest\UpdateTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

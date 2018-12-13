@@ -180,6 +180,7 @@ namespace PLWPF.Admin.ManageTester
             else
             {
                 var day = tester.Schedule[(DayOfWeek)DayWeek.SelectedItem];
+                day.ClearHours();
                 foreach (var hour in ChooseHours.SelectedItems)
                     day.Hours[int.Parse(((string)hour).Substring(0, 2))] = true;
             }
@@ -199,6 +200,8 @@ namespace PLWPF.Admin.ManageTester
             foreach (var item in list)
             {
                 ChooseHours.SelectedItems.Add(item);
+
+                
             }
         }
     }
