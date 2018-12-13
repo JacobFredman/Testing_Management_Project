@@ -227,7 +227,14 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void SetTestButton_Click(object sender, RoutedEventArgs e)
         {
-           // (new Thread(() => {
+            DateTime Date = (DateTime)TestDatePick.SelectedDate;
+            var time = double.Parse(SelectTimeTest.SelectedItem.ToString().Substring(0, 2));
+            var address = new BE.Routes.Address(GetAddressTextBox.Text);
+            var license = (BE.LicenseType)testlicense.SelectedItem;
+            var traineeId = uint.Parse(PickTrainee.SelectedItem.ToString());
+
+            //run it in a prosses becouse it can take time
+            (new Thread(() => {
                 try
             {
                 
@@ -237,9 +244,9 @@ namespace PLWPF.Admin
                     //try to get a tester 
                     try
                     {
-                        DateTime Date = (DateTime)TestDatePick.SelectedDate;
-                        Date = Date.AddHours(double.Parse(SelectTimeTest.SelectedItem.ToString().Substring(0, 2)));
-                        idtester = bL.GetRecommendedTesters(Date, new BE.Routes.Address(GetAddressTextBox.Text), (BE.LicenseType)testlicense.SelectedItem).First().Id;
+                        //DateTime Date = (DateTime)TestDatePick.SelectedDate;
+                        Date = Date.AddHours(time);
+                        idtester = bL.GetRecommendedTesters(Date,address ,license).First().Id;
                     }
                     catch (Exception ex)
                     {                                               //for debugging
@@ -247,41 +254,45 @@ namespace PLWPF.Admin
                     }
 
                     //create a new test
-                    Test test = new Test(idtester, uint.Parse(PickTrainee.SelectedItem.ToString()))
+                    Test test = new Test(idtester, traineeId)
                     {
-                        TestTime = (DateTime)TestDatePick.SelectedDate,
-                        LicenseType = (LicenseType)testlicense.SelectedItem
+                        TestTime = Date,
+                        LicenseType = license
                     };
                     //if the address is empty
-                    if (GetAddressTextBox.Text == "")
+                    if (address.ToString() == "")
                         throw new Exception("Please enter test address");
                     //try to find a route for the test
                     try
                     {
-                        test.SetRouteAndAddressToTest(new BE.Routes.Address(GetAddressTextBox.Text));
+                        test.SetRouteAndAddressToTest(address);
                     }
                     catch
                     {
-                        test.AddressOfBeginningTest = new BE.Routes.Address(GetAddressTextBox.Text);
+                        test.AddressOfBeginningTest = address;
                     }
                     //add the test
                     bL.AddTest(test);
 
                     //update combox
-                    GetTestId.ItemsSource = bL.AllTests.Select(x => x.Id);
+                    Action action = () => GetTestId.ItemsSource = bL.AllTests.Select(x => x.Id);
+                    Dispatcher.BeginInvoke(action);
+
                     //update tester id in trainee
                     var trainee = bL.AllTrainee.First(x => x.Id == test.TraineeId);
                     trainee.TesterId = test.TesterId.ToString();
                     bL.UpdateTrainee(trainee);
+
+                    MessageBox.Show("test added succecfuly.");
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-    //    })).Start();
-
-    }
+        })).Start();
+            
+        }
 
     /// <summary>
     /// On show test click
