@@ -19,7 +19,7 @@ using BL;
 namespace PLWPF
 {
     /// <summary>
-    /// Interaction logic for TesterWin.xaml
+    /// Interaction logic for TesterWin.xaml --- it is still empty ---
     /// </summary>
     public partial class TesterWin : Window
     {

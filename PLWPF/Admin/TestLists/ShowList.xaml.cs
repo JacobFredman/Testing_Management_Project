@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace PLWPF.Admin.TestLists
 {
     /// <summary>
-    /// Interaction logic for ShowList.xaml
+    /// show a Ienumerablbe in a DataGrid
     /// </summary>
     public partial class ShowList : Window
     {
@@ -25,14 +25,7 @@ namespace PLWPF.Admin.TestLists
             InitializeComponent();
             ListDataGrid.ItemsSource = (System.Collections.IEnumerable)list;
         }
-        public void ShowListInGrade(IEnumerable<BE.MainObjects.Trainee> list)
-        {
-            ListDataGrid.ItemsSource = list;
-        }
-        public void ShowListInGrade(IEnumerable<BE.MainObjects.Tester> list)
-        {
-            ListDataGrid.ItemsSource = list;
-        }
+    
     }
 }
     

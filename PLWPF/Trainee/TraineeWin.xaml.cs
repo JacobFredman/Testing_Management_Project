@@ -19,7 +19,7 @@ using BL;
 namespace PLWPF
 {
     /// <summary>
-    /// Interaction logic for TraineeWin.xaml
+    /// Interaction logic for TraineeWin.xaml --it is still emty--
     /// </summary>
     public partial class TraineeWin : Window
     {

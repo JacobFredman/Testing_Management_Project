@@ -15,17 +15,18 @@ namespace PLWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        //get an object of BL
         private IBL _blimp = FactoryBl.GetObject;
         public MainWindow()
         {
             InitializeComponent();
 
+            //Add information to test the program
             AddInfo();
-            //_blimp.AllTrainee.ToExcel();
         }
     
         /// <summary>
-        /// Error in fild in invalid
+        /// Set a error message if the ID is incorrect
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -45,7 +46,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// Error in fild in invalid
+        /// Set a error message if the password is incorrect
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -159,7 +160,7 @@ namespace PLWPF
                     sch.AddHoursAllDays(0, 23);
                 var list2 = new List<LicenseType>();
                     list2.Add(LicenseType.A);
-                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") ,Schedule= sch ,LicenseTypeTeaching=list2});
+                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") ,Schedule= sch,MaxWeekExams=10 ,LicenseTypeTeaching=list2});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch });

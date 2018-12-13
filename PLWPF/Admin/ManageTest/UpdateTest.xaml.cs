@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace PLWPF.Admin.ManageTest
 {
     /// <summary>
-    /// Interaction logic for UpdateTest.xaml
+    /// Update test resoults
     /// </summary>
     public partial class UpdateTest : Window
     {
@@ -24,6 +24,8 @@ namespace PLWPF.Admin.ManageTest
         public UpdateTest(BE.MainObjects.Test test)
         {
             InitializeComponent();
+
+            //initilize components data
             _test = test;
             licenseTypeComboBox.ItemsSource = Enum.GetValues(typeof(BE.LicenseType));
             licenseTypeComboBox.SelectedItem = _test.LicenseType;
@@ -35,24 +37,42 @@ namespace PLWPF.Admin.ManageTest
 
         }
 
+        /// <summary>
+        /// show test route in chrome
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowRoute_Click(object sender, RoutedEventArgs e)
         {
-            BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
+            if (_test.RouteUrl.ToString().Length > 1)
+                BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
         }
 
+        /// <summary>
+        /// On Add Criterion click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddCriterion_Click(object sender, RoutedEventArgs e)
         {
             if (CriterionTextBox.Text != null)
             {
+                //add the criterion
                 _test.Criteria.Add(new BE.Criterion(CriterionTextBox.Text, (bool)PassedCriterion.IsChecked));
                 CriterionsDataGrid.Items.Refresh();
             }
         }
 
+        /// <summary>
+        /// On update test click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                //update
                 BL.FactoryBl.GetObject.UpdateTest(_test);
                 this.Close();
             }

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace PLWPF.Admin.ManageTest
 {
     /// <summary>
-    /// Interaction logic for ShowTest.xaml
+    /// Show test details
     /// </summary>
     public partial class ShowTest : Window
     {
@@ -23,7 +23,10 @@ namespace PLWPF.Admin.ManageTest
         public ShowTest(BE.MainObjects.Test test)
         {
             InitializeComponent();
+            //get the test
             _test = test;
+
+            //initelize component data
             licenseTypeComboBox.ItemsSource = Enum.GetValues(typeof(BE.LicenseType));
             licenseTypeComboBox.SelectedItem = test.LicenseType;
             addressOfBeginningTestTextBox.Text = test.AddressOfBeginningTest.ToString();
@@ -31,15 +34,22 @@ namespace PLWPF.Admin.ManageTest
             DataContext = _test;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+  
+        /// <summary>
+        /// Show test route in chrome window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowRoute_Click(object sender, RoutedEventArgs e)
         {
-            if(_test.RouteUrl.ToString().Length>1)
-                 BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
+            try
+            {
+                if (_test.RouteUrl.ToString().Length > 1)
+                    BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
