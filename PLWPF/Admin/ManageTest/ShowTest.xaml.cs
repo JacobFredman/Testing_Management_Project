@@ -46,9 +46,10 @@ namespace PLWPF.Admin.ManageTest
             {
                 if (_test.RouteUrl.ToString().Length > 1)
                     BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Route not set.");
             }
         }
     }

@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using BL;
 using BE.MainObjects;
 using BE;
-
+using System.Threading;
 
 namespace PLWPF.Admin
 {
@@ -227,64 +227,78 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void SetTestButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+           // (new Thread(() => {
+                try
             {
-                uint idtester = 0;
+                
+                
+                    uint idtester = 0;
 
-                //try to get a tester 
-                try
-                {
-                    DateTime Date = (DateTime)TestDatePick.SelectedDate;
-                    Date = Date.AddHours(double.Parse(SelectTimeTest.SelectedItem.ToString().Substring(0, 2)));
-                    idtester = bL.GetRecommendedTesters(Date, new BE.Routes.Address(GetAddressTextBox.Text), (BE.LicenseType)testlicense.SelectedItem).First().Id;
-                }
-                catch (Exception ex)
-                {                                               //for debugging
-                    throw new Exception("Couldt find tester: " + ex.Message);
-                }
+                    //try to get a tester 
+                    try
+                    {
+                        DateTime Date = (DateTime)TestDatePick.SelectedDate;
+                        Date = Date.AddHours(double.Parse(SelectTimeTest.SelectedItem.ToString().Substring(0, 2)));
+                        idtester = bL.GetRecommendedTesters(Date, new BE.Routes.Address(GetAddressTextBox.Text), (BE.LicenseType)testlicense.SelectedItem).First().Id;
+                    }
+                    catch (Exception ex)
+                    {                                               //for debugging
+                        throw new Exception("Couldt find tester: " + ex.Message);
+                    }
 
-                //create a new test
-                Test test = new Test(idtester, uint.Parse(PickTrainee.SelectedItem.ToString()))
-                {
-                    TestTime = (DateTime)TestDatePick.SelectedDate,
-                    LicenseType = (LicenseType)testlicense.SelectedItem
-                };
-                //if the address is empty
-                if (GetAddressTextBox.Text == "")
-                    throw new Exception("Please enter test address");
-                //try to find a route for the test
-                try
-                {
-                    test.SetRouteAndAddressToTest(new BE.Routes.Address(GetAddressTextBox.Text));
-                }
-                catch { }
-                //add the test
-                bL.AddTest(test);
+                    //create a new test
+                    Test test = new Test(idtester, uint.Parse(PickTrainee.SelectedItem.ToString()))
+                    {
+                        TestTime = (DateTime)TestDatePick.SelectedDate,
+                        LicenseType = (LicenseType)testlicense.SelectedItem
+                    };
+                    //if the address is empty
+                    if (GetAddressTextBox.Text == "")
+                        throw new Exception("Please enter test address");
+                    //try to find a route for the test
+                    try
+                    {
+                        test.SetRouteAndAddressToTest(new BE.Routes.Address(GetAddressTextBox.Text));
+                    }
+                    catch
+                    {
+                        test.AddressOfBeginningTest = new BE.Routes.Address(GetAddressTextBox.Text);
+                    }
+                    //add the test
+                    bL.AddTest(test);
 
-                //update combox
-                GetTestId.ItemsSource = bL.AllTests.Select(x => x.Id);
-                //update tester id in trainee
-                var trainee = bL.AllTrainee.First(x => x.Id == test.TraineeId);
-                trainee.TesterId = test.TesterId.ToString();
-                bL.UpdateTrainee(trainee);
+                    //update combox
+                    GetTestId.ItemsSource = bL.AllTests.Select(x => x.Id);
+                    //update tester id in trainee
+                    var trainee = bL.AllTrainee.First(x => x.Id == test.TraineeId);
+                    trainee.TesterId = test.TesterId.ToString();
+                    bL.UpdateTrainee(trainee);
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
+    //    })).Start();
 
-        /// <summary>
-        /// On show test click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowTest_Click(object sender, RoutedEventArgs e)
+    }
+
+    /// <summary>
+    /// On show test click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void ShowTest_Click(object sender, RoutedEventArgs e)
         {
-            //show test in new window
-            ManageTest.ShowTest win = new ManageTest.ShowTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
-            win.ShowDialog();
+            try
+            {
+                //show test in new window
+                ManageTest.ShowTest win = new ManageTest.ShowTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
+                win.ShowDialog();
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -294,9 +308,16 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void UpdateTest_Click(object sender, RoutedEventArgs e)
         {
-            //open update test window
-            var win = new ManageTest.UpdateTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
+            try
+            {
+                //open update test window
+                var win = new ManageTest.UpdateTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
             win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -443,185 +464,228 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void SelectFuncBl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //set the window element according to the function
-            switch (SelectFuncBl.SelectedItem)
+            try
             {
-                case "AllTesters":
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                //set the window element according to the function
+                switch (SelectFuncBl.SelectedItem)
+                {
 
-                case "AllTests":
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "AllTesters":
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "AllTrainees":
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "AllTests":
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
+
+                    case "AllTrainees":
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
 
-                case "GetAvailableTesters":
-                    PickDateTester.Visibility = Visibility.Visible;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAvailableTesters":
+                        PickDateTester.Visibility = Visibility.Visible;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTestersInRadios":
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Visible;
-                    AddressTextBox.Visibility = Visibility.Visible;
-                    RadoisLabel.Visibility = Visibility.Visible;
-                    Radios.Visibility = Visibility.Visible;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestersInRadios":
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Visible;
+                        AddressTextBox.Visibility = Visibility.Visible;
+                        RadoisLabel.Visibility = Visibility.Visible;
+                        Radios.Visibility = Visibility.Visible;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTestsSortedByDate":
-                    PickDateTester.Visibility = Visibility.Visible;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestsSortedByDate":
+                        PickDateTester.Visibility = Visibility.Visible;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTestInMonth":
-                    PickDateTester.Visibility = Visibility.Visible;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestInMonth":
+                        PickDateTester.Visibility = Visibility.Visible;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTestInDay":
-                    PickDateTester.Visibility = Visibility.Visible;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestInDay":
+                        PickDateTester.Visibility = Visibility.Visible;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTestsToCome":
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestsToCome":
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTestsThatHappened":
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestsThatHappened":
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTraineeThatPassedToday":
-                    PickDateTester.Visibility = Visibility.Visible;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTraineeThatPassedToday":
+                        PickDateTester.Visibility = Visibility.Visible;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTraineeThatDidNotPassedToday":
-                    PickDateTester.Visibility = Visibility.Visible;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTraineeThatDidNotPassedToday":
+                        PickDateTester.Visibility = Visibility.Visible;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Collapsed;
+                        break;
 
-                //grouging functions
-                case "GetAllTestsByLicense":
-                    GroupingBox.ItemsSource = bL.GetAllTestsByLicense().Select(x => x.Key);
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Visible;
-                    break;
-   
-                case "GetAllTraineesByLicense":
-                    GroupingBox.ItemsSource = bL.GetAllTraineesByLicense().Select(x =>String.Join(" ", x.Key.Select(y=>y.License))).Distinct();
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Visible;
-                    break;
+                    //grouging functions
+                    case "GetAllTestsByLicense":
+                        GroupingBox.ItemsSource = bL.GetAllTestsByLicense().Select(x => x.Key);
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Visible;
+                        break;
 
-                case "GetAllTestersByLicense":
-                    GroupingBox.ItemsSource = bL.GetAllTestersByLicense().Select(x => String.Join(" ", x.Key)).Distinct();
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Visible;
-                    break;
+                    case "GetAllTraineesByLicense":
+                        GroupingBox.ItemsSource = bL.GetAllTraineesByLicense().Select(x => String.Join(" ", x.Key.Select(y => y.License))).Distinct();
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Visible;
+                        break;
 
-                case "GetAllTraineesByTester":
-                    GroupingBox.ItemsSource = bL.GetAllTraineesByTester().Select(x => x.Key);
-                    GroupingBox.Visibility = Visibility.Visible;
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    break;
+                    case "GetAllTestersByLicense":
+                        GroupingBox.ItemsSource = bL.GetAllTestersByLicense().Select(x => String.Join(" ", x.Key)).Distinct();
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Visible;
+                        break;
 
-                case "GetAllTraineesBySchool":
-                    GroupingBox.ItemsSource = bL.GetAllTraineesBySchool().Select(x => x.Key);
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Visible;
-                    break;
+                    case "GetAllTraineesByTester":
+                        GroupingBox.ItemsSource = bL.GetAllTraineesByTester().Select(x => x.Key);
+                        GroupingBox.Visibility = Visibility.Visible;
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "GetAllTraineeByNumberOfTests":
-                    GroupingBox.ItemsSource = bL.GetAllTraineeByNumberOfTests().Select(x => x.Key);
-                    PickDateTester.Visibility = Visibility.Collapsed;
-                    AddressLebel.Visibility = Visibility.Collapsed;
-                    AddressTextBox.Visibility = Visibility.Collapsed;
-                    RadoisLabel.Visibility = Visibility.Collapsed;
-                    Radios.Visibility = Visibility.Collapsed;
-                    GroupingBox.Visibility = Visibility.Visible;
-                    break;
+                    case "GetAllTraineesBySchool":
+                        GroupingBox.ItemsSource = bL.GetAllTraineesBySchool().Select(x => x.Key);
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Visible;
+                        break;
 
-                default:
-                    break;
+                    case "GetAllTraineeByNumberOfTests":
+                        GroupingBox.ItemsSource = bL.GetAllTraineeByNumberOfTests().Select(x => x.Key);
+                        PickDateTester.Visibility = Visibility.Collapsed;
+                        AddressLebel.Visibility = Visibility.Collapsed;
+                        AddressTextBox.Visibility = Visibility.Collapsed;
+                        RadoisLabel.Visibility = Visibility.Collapsed;
+                        Radios.Visibility = Visibility.Collapsed;
+                        GroupingBox.Visibility = Visibility.Visible;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
         #endregion
 
+        private void AllTraineeToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                (new Thread(() => bL.AllTrainee.ToExcel())).Start();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AllTestersToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                (new Thread(() => bL.AllTesters.ToExcel())).Start();             
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AllTestsToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                (new Thread(() => bL.AllTests.ToExcel())).Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

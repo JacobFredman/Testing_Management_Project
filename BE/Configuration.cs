@@ -74,5 +74,6 @@
         //admin user
         public static string AdminUser = "Admin";
         public static string AdminPassword = "admin";
+        public static bool firtOpenProgram = true;
     }
 }

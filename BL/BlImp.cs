@@ -310,12 +310,14 @@ namespace BL
         {
             try
             {
+                //check internet connectivity
                 var wc = new System.Net.WebClient();
                 wc.DownloadData("https://www.google.com/");
 
                 var testerDistance = from tester in GetAvailableTesters(date)
                                      where tester.Address != null
                                      let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                                     where distance < tester.MaxDistance
                                      select new { tester, distance };
 
                 return from tester in testerDistance

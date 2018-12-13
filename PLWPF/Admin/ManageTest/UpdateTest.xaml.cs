@@ -44,8 +44,15 @@ namespace PLWPF.Admin.ManageTest
         /// <param name="e"></param>
         private void ShowRoute_Click(object sender, RoutedEventArgs e)
         {
-            if (_test.RouteUrl.ToString().Length > 1)
-                BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
+            try
+            {
+                if (_test.RouteUrl.ToString().Length > 1)
+                    BL.Routes.ShowUrlInChromeWindow(_test.RouteUrl);
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Route not set.");
+            }
+
         }
 
         /// <summary>

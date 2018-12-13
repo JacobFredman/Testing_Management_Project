@@ -71,7 +71,7 @@ namespace BL
                 string licenseType = "";
                 foreach (var license in trainee.LicenseTypeLearning)
                 {
-                    licenseType += license.ToString()+" ";
+                    licenseType += license.License.ToString()+" ";
                 }
 
                 row++;

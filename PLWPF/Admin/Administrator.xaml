@@ -108,6 +108,14 @@
                 <Button Content="Show List" Margin="3" Click="Button_Click" />
             </StackPanel>
         </GroupBox>
+        <GroupBox Header="Export" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
+            <StackPanel Orientation="Horizontal">
+            <Button x:Name="AllTraineeToExcel" Content="All trainee" Margin="3" HorizontalAlignment="Center" Click="AllTraineeToExcel_Click" />
+            <Button x:Name="AllTestersToExcel" Content="All testers" Margin="3" HorizontalAlignment="Center" Click="AllTestersToExcel_Click" />
+            <Button x:Name="AllTestsToExcel" Content="All tests" Margin="3" HorizontalAlignment="Center" Click="AllTestsToExcel_Click" />
+            </StackPanel>
+        </GroupBox>
+
     </StackPanel>
  
 </Window>

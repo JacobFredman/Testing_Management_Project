@@ -19,7 +19,7 @@ using BL;
 namespace PLWPF.Admin.ManageTrainee
 {
     /// <summary>
-    /// Interaction logic for AddTrainee.xaml
+    /// Add or update trainee
     /// </summary>
     public partial class AddTrainee : Window
     {

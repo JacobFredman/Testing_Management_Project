@@ -23,6 +23,10 @@ namespace PLWPF
 
             //Add information to test the program
             AddInfo();
+
+            if (Configuration.firtOpenProgram)
+                MessageBox.Show("ברוכים הבאים לתונכנת ניהול טסטים.\n בחלון הבאה תוכלו להזין או ת.ז. ותארין לידה או שם משתמש וסיסמה של מנהל המערכת.\n שם משתמש: Admin\nסיסמא: admin");
+            Configuration.firtOpenProgram = false;
         }
     
         /// <summary>
@@ -160,7 +164,7 @@ namespace PLWPF
                     sch.AddHoursAllDays(0, 23);
                 var list2 = new List<LicenseType>();
                     list2.Add(LicenseType.A);
-                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Hardera") ,Schedule= sch,MaxWeekExams=10 ,LicenseTypeTeaching=list2});
+                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("בית שמש"),MaxDistance=10000000,Schedule= sch,MaxWeekExams=10 ,LicenseTypeTeaching=list2});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz") { BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch });
