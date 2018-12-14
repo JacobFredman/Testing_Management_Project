@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF.Admin"
         mc:Ignorable="d"
-        Title="Administrator" Height="400" Width="800">
+        Title="Administrator" Height="450" Width="800">
     <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -55,7 +55,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Test" Margin="2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="2">
+            <GroupBox x:Name="TestGroup" Header="Test" Margin="2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="2">
                 <StackPanel>
                     <Grid >
                         <Grid.ColumnDefinitions>
@@ -68,6 +68,8 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+
 
                         </Grid.RowDefinitions>
                         <Label Content="Trainee:" Grid.Column="0" Grid.Row="0"/>
@@ -80,8 +82,9 @@
                         <ComboBox x:Name="SelectTimeTest" Grid.Row="3" Grid.Column="1" Margin="3" Width="120" />
                         <Label Content="Licnse:" Grid.Row="4"/>
                         <ComboBox x:Name="testlicense" Grid.Row="4" Grid.Column="1" Width="120" Margin="3"/>
+                        <Button x:Name="SetTestButton" Content="Set test" Margin="3" HorizontalAlignment="Center" Width="60" Click="SetTestButton_Click" Grid.Row="5"/>
+                        <Label x:Name="testAdding" Content="Adding test please wait....." Foreground="Red" Grid.Row="5" Grid.Column="1" Visibility="Hidden"/>
                     </Grid>
-                    <Button x:Name="SetTestButton" Content="Set test" Margin="3" HorizontalAlignment="Center" Width="120" Click="SetTestButton_Click"/>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox x:Name="GetTestId" Width="90" Margin="3,10,3,3" HorizontalAlignment="Center"/>
                         <Button x:Name="ShowTest" Content="Show"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="ShowTest_Click"/>
@@ -108,13 +111,23 @@
                 <Button Content="Show List" Margin="3" Click="Button_Click" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Export" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
+        <GroupBox x:Name="ExportGroup" Header="Export" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
             <StackPanel Orientation="Horizontal">
             <Button x:Name="AllTraineeToExcel" Content="All trainee" Margin="3" HorizontalAlignment="Center" Click="AllTraineeToExcel_Click" />
             <Button x:Name="AllTestersToExcel" Content="All testers" Margin="3" HorizontalAlignment="Center" Click="AllTestersToExcel_Click" />
             <Button x:Name="AllTestsToExcel" Content="All tests" Margin="3" HorizontalAlignment="Center" Click="AllTestsToExcel_Click" />
+                <Label x:Name="exportingLabel" Content="Exporting please wait...." Foreground="Red" Visibility="Hidden"/>
             </StackPanel>
         </GroupBox>
+
+        <GroupBox x:Name="EmailGroup" Header="Emails" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="SendBeforeTest" Content="Send email before test" Margin="3" HorizontalAlignment="Center" Click="SendBeforeTest_Click"/>
+                <Button x:Name="SendAfterTest" Content="Send email After test" Margin="3" HorizontalAlignment="Center" Click="SendAfterTest_Click"/>
+                <Label x:Name="emailWaitLabel" Content="Sending emails please wait...." Foreground="Red" Visibility="Hidden" />
+            </StackPanel>
+        </GroupBox>
+
 
     </StackPanel>
  

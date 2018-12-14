@@ -233,12 +233,17 @@ namespace PLWPF.Admin
             var license = (BE.LicenseType)testlicense.SelectedItem;
             var traineeId = uint.Parse(PickTrainee.SelectedItem.ToString());
 
+            //disable test group
+            TestGroup.IsEnabled = false;
+            testAdding.Visibility = Visibility.Visible;
+
             //run it in a prosses becouse it can take time
-            (new Thread(() => {
-                try
+            (new Thread(() =>
             {
-                
-                
+                try
+                {
+
+
                     uint idtester = 0;
 
                     //try to get a tester 
@@ -246,7 +251,7 @@ namespace PLWPF.Admin
                     {
                         //DateTime Date = (DateTime)TestDatePick.SelectedDate;
                         Date = Date.AddHours(time);
-                        idtester = bL.GetRecommendedTesters(Date,address ,license).First().Id;
+                        idtester = bL.GetRecommendedTesters(Date, address, license).First().Id;
                     }
                     catch (Exception ex)
                     {                                               //for debugging
@@ -278,6 +283,10 @@ namespace PLWPF.Admin
                     Action action = () => GetTestId.ItemsSource = bL.AllTests.Select(x => x.Id);
                     Dispatcher.BeginInvoke(action);
 
+                    //enable test group
+                    action = () => { TestGroup.IsEnabled = true; testAdding.Visibility = Visibility.Hidden; };
+                    Dispatcher.BeginInvoke(action);
+
                     //update tester id in trainee
                     var trainee = bL.AllTrainee.First(x => x.Id == test.TraineeId);
                     trainee.TesterId = test.TesterId.ToString();
@@ -285,28 +294,32 @@ namespace PLWPF.Admin
 
                     MessageBox.Show("test added succecfuly.");
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        })).Start();
-            
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    //enable test group
+                    Action action = () => { TestGroup.IsEnabled = true; testAdding.Visibility = Visibility.Hidden; };
+                    Dispatcher.BeginInvoke(action);
+                }
+            })).Start();
+
         }
 
-    /// <summary>
-    /// On show test click
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void ShowTest_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// On show test click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowTest_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 //show test in new window
                 ManageTest.ShowTest win = new ManageTest.ShowTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
                 win.ShowDialog();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -323,7 +336,7 @@ namespace PLWPF.Admin
             {
                 //open update test window
                 var win = new ManageTest.UpdateTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
-            win.ShowDialog();
+                win.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -663,40 +676,167 @@ namespace PLWPF.Admin
 
         #endregion
 
+        #region Export to excel
+
+        /// <summary>
+        /// Export all trainees to excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AllTraineeToExcel_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                (new Thread(() => bL.AllTrainee.ToExcel())).Start();
+                disableExportGroup();
+                (new Thread(() => { bL.AllTrainee.ToExcel(); enableExportGroup(); })).Start();
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                enableExportGroup();
             }
         }
 
+        /// <summary>
+        /// expport all testers to excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AllTestersToExcel_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                (new Thread(() => bL.AllTesters.ToExcel())).Start();             
+                disableExportGroup();
+                (new Thread(() => { bL.AllTesters.ToExcel(); enableExportGroup(); })).Start();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                enableExportGroup();
             }
         }
 
+        /// <summary>
+        /// export all test to excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AllTestsToExcel_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                (new Thread(() => bL.AllTests.ToExcel())).Start();
+                disableExportGroup();
+                (new Thread(() => { bL.AllTests.ToExcel(); enableExportGroup(); })).Start();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                enableExportGroup();
             }
         }
+
+        /// <summary>
+        /// disable the export group
+        /// </summary>
+        private void disableExportGroup()
+        {
+            if (!CheckAccess())
+            {
+                Action action = disableExportGroup;
+                Dispatcher.BeginInvoke(action);
+            }
+            else
+            {
+                ExportGroup.IsEnabled = false;
+                exportingLabel.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// enable the export group
+        /// </summary>
+        private void enableExportGroup()
+        {
+            if (!CheckAccess())
+            {
+                Action action = enableExportGroup;
+                Dispatcher.BeginInvoke(action);
+            }
+            else
+            {
+                ExportGroup.IsEnabled = true;
+                exportingLabel.Visibility = Visibility.Hidden;
+            }
+        }
+        #endregion
+
+        #region Send email
+        /// <summary>
+        /// Send email before test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendBeforeTest_Click(object sender, RoutedEventArgs e)
+        {
+            disableEmailtGroup();
+            (new Thread(() =>
+            {
+                var number = bL.SendEmailToAllTraineeBeforeTest();
+                MessageBox.Show("you sended " + number + " emails.");
+                enableEmailtGroup();
+            })).Start();
+        }
+
+        /// <summary>
+        /// send email after test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendAfterTest_Click(object sender, RoutedEventArgs e)
+        {
+            disableEmailtGroup();
+            (new Thread(() =>
+            {
+                var number = bL.SendEmailToAllTraineeAfterTest();
+                MessageBox.Show("you sended " + number + " emails.");
+                enableEmailtGroup();
+            })).Start();
+        }
+
+        /// <summary>
+        /// enable the email group
+        /// </summary>
+        private void enableEmailtGroup()
+        {
+            if (!CheckAccess())
+            {
+                Action action = enableEmailtGroup;
+                Dispatcher.BeginInvoke(action);
+            }
+            else
+            {
+                EmailGroup.IsEnabled = true;
+                emailWaitLabel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// disable the email group
+        /// </summary>
+        private void disableEmailtGroup()
+        {
+            if (!CheckAccess())
+            {
+                Action action = disableEmailtGroup;
+                Dispatcher.BeginInvoke(action);
+            }
+            else
+            {
+                EmailGroup.IsEnabled = false;
+                emailWaitLabel.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
+
     }
 }

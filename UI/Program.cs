@@ -20,7 +20,7 @@ namespace UI
           //  Trainee trainee, trainee2;
           //  Tester tester1;
           // Test test;
-           Email email = new  Email();
+           //Email email = new  Email();
            // Pdf pdf = new Pdf();
 
             try

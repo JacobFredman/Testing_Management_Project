@@ -3,18 +3,49 @@ using System.Net.Mail;
 using System.Net;
 using BE;
 using BE.MainObjects;
+using System.Linq;
 
 namespace BL
 {
-   public class Email
+   public static class Email
     {
 
         private const string FromEmailAddress = "tests.miniproject@gmail.com";
         private const string SenderPassword = "0586300016";
 
+        public static int SendEmailToAllTraineeBeforeTest(this IBL bl)
+        {
+            int count = 0;
+            foreach(Test test in bl.GetAllTestsToCome())
+            {
+                var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
+                try
+                {
+                    SentEmailToTraineeBeforeTest(test, trainee);
+                    count++;
+                }
+                catch { }
+            }
+            return count;
+        }
 
-      
-       
+        public static int SendEmailToAllTraineeAfterTest(this IBL bl)
+        {
+            int count = 0;
+            foreach (Test test in bl.GetAllTestsThatHappened())
+            {
+                var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
+                try
+                {
+                    SentEmailToTraineeAfterTest(test, trainee);
+                    count++;
+                }
+                catch { }
+            }
+            return count;
+        }
+
+
 
         //private MailMessage _mail = new MailMessage("jacAndElisha@miniProject.com", "jacov141@gmail.com");
         //private readonly SmtpClient _client = new SmtpClient();
@@ -30,7 +61,7 @@ namespace BL
         //    _client.Send(_mail);
         //}
 
-        public void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
+        public static void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
         {
            
             var subject = test.Passed == true ? "Congratulations for the new license"  : "we are sorry to inform you that you didn't Passed the test this time";
@@ -38,7 +69,7 @@ namespace BL
           SentEmail(trainee.EmailAddress,subject,message,trainee.FirstName + " " + trainee.LastName,"D.M.V");
         }
 
-        public void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
+        public static void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
         {
              string subject = trainee.FirstName + ", you have a test today";
              string message = trainee.FirstName + ", are you prepared for test already?" + "the beginning place is: " + test.AddressOfBeginningTest + ". for more details please look in the attached";
@@ -47,8 +78,8 @@ namespace BL
 
         private static void SentEmail(string toAddress,string subject,string bodyMessage,string toName, string fromName)
         {
-            Attachment attachment;
-            attachment = new Attachment("c:/textFile.txt");
+          //  Attachment attachment;
+       //     attachment = new Attachment("c:/textFile.txt");
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
@@ -76,7 +107,7 @@ namespace BL
 
             try
             {
-                message.Attachments.Add(attachment);
+         //       message.Attachments.Add(attachment);
                 smtp.Send(message);
             }
             catch (Exception e)
