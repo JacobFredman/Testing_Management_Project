@@ -25,7 +25,10 @@ namespace PLWPF
             AddInfo();
 
             if (Configuration.firtOpenProgram)
-                MessageBox.Show("ברוכים הבאים לתונכנת ניהול טסטים.\n בחלון הבאה תוכלו להזין או ת.ז. ותארין לידה או שם משתמש וסיסמה של מנהל המערכת.\n שם משתמש: Admin\nסיסמא: admin");
+            {
+                IdTextBox.Text = "Admin";
+                BirthDateTextBox.Text = "admin";
+            }
             Configuration.firtOpenProgram = false;
         }
     

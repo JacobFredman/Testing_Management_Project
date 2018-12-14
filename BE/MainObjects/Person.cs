@@ -5,6 +5,9 @@ using BE.Routes;
 
 namespace BE.MainObjects
 {
+    /// <summary>
+    /// An person
+    /// </summary>
    public  class Person
     {
      
@@ -38,10 +41,26 @@ namespace BE.MainObjects
             }
         }
 
+        /// <summary>
+        /// First name
+        /// </summary>
         public string FirstName { set; get; }
+
+        /// <summary>
+        /// Last name
+        /// </summary>
         public string LastName { set; get; }
+
+        /// <summary>
+        /// Birth date
+        /// </summary>
         public DateTime BirthDate { set; get; }
+
+        /// <summary>
+        /// Gender
+        /// </summary>
         public Gender Gender { set; get; }
+
         private string _phoneNumber;
         /// <summary>
         /// set only israeli phone number like 0500000000 or 020000000
@@ -61,10 +80,21 @@ namespace BE.MainObjects
             }
         }
 
+        /// <summary>
+        /// Address
+        /// </summary>
         public Address Address { set; get; }
+
+        /// <summary>
+        /// license type
+        /// </summary>
         public List<LicenseType> LicenseType { set; get; }
 
+        /// <summary>
+        /// A new person
+        /// </summary>
         public Person() { }
+
         /// <summary>
         /// a new person
         /// </summary>
@@ -85,6 +115,18 @@ namespace BE.MainObjects
             _phoneNumber = "";
     }
 
+        /// <summary>
+        /// An new person
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="gender"></param>
+        /// <param name="emailAddress"></param>
+        /// <param name="birthDate"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="address"></param>
+        /// <param name="licenseTypes"></param>
         public Person(uint Id, string firstName, string lastName, Gender gender, string emailAddress,
             DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes)
         {
@@ -99,6 +141,7 @@ namespace BE.MainObjects
             LicenseType = licenseTypes;
         }
         
+        //Basic data about the person
         public override string ToString()
         {
             if (FirstName != "" && LastName != "")
