@@ -48,7 +48,7 @@ namespace BL
         private static void SentEmail(string toAddress,string subject,string bodyMessage,string toName, string fromName)
         {
             Attachment attachment;
-            attachment = new Attachment("c:/textFile.txt");
+            attachment = new Attachment("C:/Users/user/Source/Repos/Project01_5997_2519_dotNet5779/documents/license.pdf");
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);

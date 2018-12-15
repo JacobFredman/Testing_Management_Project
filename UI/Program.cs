@@ -37,10 +37,10 @@ namespace UI
                 var traineeA = _blImp.AllTrainee.First();
 
                 //   email.SentEmailToTraineeBeforeTest(testA,traineeA);
-                //   email.SentEmailToTraineeAfterTest(testA,traineeA);
+               
                 // Pdf.CreateDocument(_blImp.AllTests.First,);
                 Pdf.CreateLicensePdf(_blImp.AllTests.First(), _blImp.AllTrainee.First());
-
+                email.SentEmailToTraineeAfterTest(testA,traineeA);
             }
             catch (Exception e)
             {

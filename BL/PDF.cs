@@ -33,9 +33,9 @@ namespace BL
             gfx.DrawString("license Type: " + type, font, XBrushes.Black, new XRect(0, -240, page.Width, page.Height), format: XStringFormats.Center);
 
 
-            const string filename = "HelloWorld.pdf";
+            string filename = "C:/Users/user/Source/Repos/Project01_5997_2519_dotNet5779/documents/license.pdf";
             document.Save(filename);
-            Process.Start(filename);
+          //  Process.Start(filename);
         }
 
     }
