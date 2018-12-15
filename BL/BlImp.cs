@@ -4,6 +4,8 @@ using System.Linq;
 using BE;
 using BE.Routes;
 using BE.MainObjects;
+using System.Windows;
+
 using DAL;
 using Exception = System.Exception;
 
@@ -161,6 +163,8 @@ namespace BL
                 throw new Exception("not enough criterion");
             if(updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("test date not updated");
+            if (updatedTest.ActualTestTime< updatedTest.TestTime)
+                throw new Exception("Actual daet can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
             //add the test to the trainee
@@ -310,26 +314,37 @@ namespace BL
         {
             try
             {
+
+                var testerInDate = GetAvailableTesters(date);
+                if (testerInDate == null) throw new Exception("there are no testers for this date");
+
                 //check internet connectivity
                 var wc = new System.Net.WebClient();
                 wc.DownloadData("https://www.google.com/");
 
-                var testerDistance = from tester in GetAvailableTesters(date)
+                var testerDistance = from tester in testerInDate
                                      where tester.Address != null
                                      let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
                                      where distance < tester.MaxDistance
                                      select new { tester, distance };
+                if (!testerDistance.Any()) throw new Exception("There are no testers in the current addrress please try an other address");
 
-                return from tester in testerDistance
+                var testerLicense= from tester in testerDistance
                        where tester.tester.LicenseTypeTeaching.Any(x => x == license)
                        orderby tester.distance
                        select tester.tester;
+                if (!testerLicense.Any()) throw new Exception("there is no tester with the right license in the current date and location");
+
+                return testerLicense;
             }
             catch
             {
-                return from tester in GetAvailableTesters(date)
+                var testerLicense = from tester in GetAvailableTesters(date)
                        where tester.LicenseTypeTeaching.Any(x => x == license)
                        select tester;
+                if (!testerLicense.Any()) throw new Exception("there is no tester with the right license in the current date and location");
+
+                return testerLicense;
             }
         }
 

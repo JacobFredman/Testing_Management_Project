@@ -227,6 +227,7 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void SetTestButton_Click(object sender, RoutedEventArgs e)
         {
+            if (PickTrainee.SelectedItem == null) throw new Exception("Please select a trainee");
             DateTime Date = (DateTime)TestDatePick.SelectedDate;
             var time = double.Parse(SelectTimeTest.SelectedItem.ToString().Substring(0, 2));
             var address = new BE.Routes.Address(GetAddressTextBox.Text);
@@ -249,6 +250,9 @@ namespace PLWPF.Admin
                     //try to get a tester 
                     try
                     {
+                        if ((int)Date.DayOfWeek > 4) throw new Exception("Testers don't work on " + Date.DayOfWeek.ToString());
+
+
                         //DateTime Date = (DateTime)TestDatePick.SelectedDate;
                         Date = Date.AddHours(time);
                         idtester = bL.GetRecommendedTesters(Date, address, license).First().Id;
@@ -316,6 +320,7 @@ namespace PLWPF.Admin
             try
             {
                 //show test in new window
+                if (GetTestId.SelectedItem == null) throw new Exception("Please select a trainee");
                 ManageTest.ShowTest win = new ManageTest.ShowTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
                 win.ShowDialog();
             }
@@ -335,6 +340,7 @@ namespace PLWPF.Admin
             try
             {
                 //open update test window
+                if (GetTestId.SelectedItem == null) throw new Exception("Please select a trainee");
                 var win = new ManageTest.UpdateTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
                 win.ShowDialog();
             }
@@ -353,6 +359,7 @@ namespace PLWPF.Admin
         {
             try
             {
+                if (GetTestId.SelectedItem == null) throw new Exception("Please select a trainee");
                 //remove test
                 bL.RemoveTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
                 //update combox
@@ -541,7 +548,7 @@ namespace PLWPF.Admin
                         break;
 
                     case "GetAllTestsSortedByDate":
-                        PickDateTester.Visibility = Visibility.Visible;
+                        PickDateTester.Visibility = Visibility.Collapsed;
                         AddressLebel.Visibility = Visibility.Collapsed;
                         AddressTextBox.Visibility = Visibility.Collapsed;
                         RadoisLabel.Visibility = Visibility.Collapsed;
