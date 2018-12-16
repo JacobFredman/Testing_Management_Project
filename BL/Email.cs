@@ -92,7 +92,7 @@ namespace BL
         {
             Attachment attachment;
             attachment =
-                new Attachment(@".\license"+(string)Pdf.counter.ToString()+".pdf");
+                new Attachment(@".\license"+(Pdf.counter-1).ToString()+".pdf");
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);

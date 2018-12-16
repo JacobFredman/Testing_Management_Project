@@ -40,6 +40,7 @@ namespace BL
 
 
             var filename = @".\license"+counter.ToString()+".pdf";
+            counter++;
             document.Save(filename);
             document.Close();
 
