@@ -7,7 +7,9 @@ using BE.MainObjects;
 using BE.Routes;
 using BL;
 using PLWPF.Admin;
-
+/// <summary>
+/// Version 1.0
+/// </summary>
 namespace PLWPF
 {
     /// <summary>
