@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Net;
-using BE;
 using BE.MainObjects;
 
 namespace BL
