@@ -4,6 +4,7 @@ using System.Net;
 using BE;
 using BE.MainObjects;
 using System.Linq;
+using System.IO;
 
 namespace BL
 {
@@ -21,7 +22,6 @@ namespace BL
                 var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
                 try
                 {
-                    Pdf.CreateLicensePdf(test, trainee);
                     SentEmailToTraineeBeforeTest(test, trainee);
                     count++;
                 }
@@ -38,10 +38,15 @@ namespace BL
                 var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
                 try
                 {
+                    Pdf.CreateLicensePdf(test, trainee);
                     SentEmailToTraineeAfterTest(test, trainee);
+                    //if (File.Exists(@".\license.pdf"))
+                    //    File.Delete(@".\license.pdf");
                     count++;
                 }
-                catch { }
+                catch(Exception ex) {
+                    var ms=ex.Message;
+                }
             }
             return count;
         }
@@ -87,7 +92,7 @@ namespace BL
         {
             Attachment attachment;
             attachment =
-                new Attachment(@".\license.pdf");
+                new Attachment(@".\license"+(string)Pdf.counter.ToString()+".pdf");
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);

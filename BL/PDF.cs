@@ -1,13 +1,15 @@
 ﻿using BE.MainObjects;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System.IO;
+
 
 namespace BL
 {
     public class Pdf
     {
         // PdfDocument document;
-
+        public static int counter = 1;
         public static void CreateLicensePdf(Test test, Trainee trainee)
         {
             var traineeFullName = trainee.FirstName + trainee.LastName;
@@ -37,8 +39,11 @@ namespace BL
                 XStringFormats.Center);
 
 
-            var filename = @".\license.pdf";
+            var filename = @".\license"+counter.ToString()+".pdf";
             document.Save(filename);
+            document.Close();
+
+  
             //  Process.Start(filename);
         }
     }
