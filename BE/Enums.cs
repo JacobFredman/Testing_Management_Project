@@ -1,86 +1,99 @@
 ﻿namespace BE
 {
     /// <summary>
-    /// Gender
+    ///     Gender
     /// </summary>
     public enum Gender
     {
         /// <summary>
-        /// Male
+        ///     Male
         /// </summary>
         Male,
+
         /// <summary>
-        /// Female
+        ///     Female
         /// </summary>
         Female
     }
 
     /// <summary>
-    /// License types
+    ///     License types
     /// </summary>
     public enum LicenseType
     {
         /// <summary>
-        /// Car license
+        ///     Car license
         /// </summary>
         B,
+
         /// <summary>
-        /// Motorcycle license until 125
+        ///     Motorcycle license until 125
         /// </summary>
         A2,
+
         /// <summary>
-        /// Motorcycle license until 500
+        ///     Motorcycle license until 500
         /// </summary>
         A1,
+
         /// <summary>
-        /// Motorcycle license 
+        ///     Motorcycle license
         /// </summary>
         A,
+
         /// <summary>
-        /// Truck until 12 ton
+        ///     Truck until 12 ton
         /// </summary>
         C1,
+
         /// <summary>
-        /// Truck
+        ///     Truck
         /// </summary>
         C,
+
         /// <summary>
-        /// Bus
+        ///     Bus
         /// </summary>
         D,
+
         /// <summary>
-        /// Public transport until 5 ton and 16 passengers
+        ///     Public transport until 5 ton and 16 passengers
         /// </summary>
         D1,
+
         /// <summary>
-        /// Public bus until 5 ton
+        ///     Public bus until 5 ton
         /// </summary>
         D2,
+
         /// <summary>
-        /// Private bus until 5 ton 
+        ///     Private bus until 5 ton
         /// </summary>
         D3,
+
         /// <summary>
-        /// Truck + dragged
+        ///     Truck + dragged
         /// </summary>
         E,
+
         /// <summary>
-        /// Tractor
+        ///     Tractor
         /// </summary>
         _1
     }
 
     /// <summary>
-    /// Vehicle gear
+    ///     Vehicle gear
     /// </summary>
     public enum Gear
     {
         /// <summary>
-        /// Automatic gear
+        ///     Automatic gear
         /// </summary>
         Automatic,
+
         /// <summary>
-        /// Manual gear
+        ///     Manual gear
         /// </summary>
         Manual
     }

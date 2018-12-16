@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Xml.Linq;
 using BE;
 using BE.MainObjects;
@@ -16,7 +18,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Find a route for the test and set the address of the test
+        ///     Find a route for the test and set the address of the test
         /// </summary>
         /// <param name="test">the test</param>
         /// <param name="address">the address</param>
@@ -64,7 +66,7 @@ namespace BL
                 test.RouteUrl = null;
                 test.AddressOfBeginningTest = null;
                 //check that it throw an GoogleAddressException  
-                GoogleAddressException gex = ex as GoogleAddressException;
+                var gex = ex as GoogleAddressException;
                 if (gex == null)
                     throw new GoogleAddressException(ex.Message, "CONNECTION_FAILURE");
                 throw new GoogleAddressException(ex.Message + gex.ErrorCode, "ADDRESS_FAILURE");
@@ -74,7 +76,7 @@ namespace BL
         #region Help Functions
 
         /// <summary>
-        /// Get a arry of locations in the radios of the location
+        ///     Get a arry of locations in the radios of the location
         /// </summary>
         /// <param name="locationLatLog">the location in lat,log for example 31.750068,34.9907657 </param>
         /// <param name="radios">the radios in meters</param>
@@ -86,20 +88,20 @@ namespace BL
                       "&location=" + locationLatLog + "&radius=" + radios + " & language=wi";
 
             //download the data
-            XElement xml = DownloadDataIntoXml(url);
+            var xml = DownloadDataIntoXml(url);
 
             //get all the results
-            return ((from adr in xml.Elements()
-                     where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
-                     select new GoogleAddress()
-                     {
-                         Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
-                         Id = adr.Element("place_id").Value
-                     }).ToArray());
+            return (from adr in xml.Elements()
+                where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
+                select new GoogleAddress
+                {
+                    Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
+                    Id = adr.Element("place_id").Value
+                }).ToArray();
         }
 
         /// <summary>
-        /// get the lat log location from an address
+        ///     get the lat log location from an address
         /// </summary>
         /// <param name="address">the address</param>
         /// <returns>the location in lat,log for example 31.750068,34.9907657</returns>
@@ -110,7 +112,7 @@ namespace BL
                       "&query=" + address;
 
             //download the data
-            XElement xml = DownloadDataIntoXml(url);
+            var xml = DownloadDataIntoXml(url);
 
             //return the value
             return xml.Element("result").Element("geometry").Element("location").Element("lat").Value + "," +
@@ -118,7 +120,7 @@ namespace BL
         }
 
         /// <summary>
-        /// get the time in sec of an route
+        ///     get the time in sec of an route
         /// </summary>
         /// <param name="arr">the address</param>
         /// <returns>the time in sec</returns>
@@ -131,31 +133,25 @@ namespace BL
                       " &waypoints=";
 
             //add the waypoints
-            for (var i = 1; i < arr.Length - 1; i++)
-            {
-                url += arr[i].Name + "|";
-            }
+            for (var i = 1; i < arr.Length - 1; i++) url += arr[i].Name + "|";
             url = url.TrimEnd('|');
 
             //add the waypoints Id
             url += "&waypoint_place_ids=";
-            for (var i = 1; i < arr.Length - 1; i++)
-            {
-                url += arr[i].Id + "|";
-            }
+            for (var i = 1; i < arr.Length - 1; i++) url += arr[i].Id + "|";
             url = url.TrimEnd('|');
 
             //download the data
-            XElement xml = DownloadDataIntoXml(url);
+            var xml = DownloadDataIntoXml(url);
 
             //return the sum of the durations
             return (from leg in xml.Elements("route").Elements()
-                    where leg.Name == "leg"
-                    select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
+                where leg.Name == "leg"
+                select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
         }
 
         /// <summary>
-        /// Get the url to show the route on google maps
+        ///     Get the url to show the route on google maps
         /// </summary>
         /// <param name="arr">the address</param>
         /// <returns>an url</returns>
@@ -168,25 +164,19 @@ namespace BL
                       "&waypoints=";
 
             //add the waypoints
-            for (var i = 1; i < arr.Length; i++)
-            {
-                url += arr[i].Name + "|";
-            }
+            for (var i = 1; i < arr.Length; i++) url += arr[i].Name + "|";
             url = url.TrimEnd('|');
 
             //add the waypoints Id's
             url += "&waypoint_place_ids=";
-            for (var i = 1; i < arr.Length; i++)
-            {
-                url += arr[i].Id + "|";
-            }
+            for (var i = 1; i < arr.Length; i++) url += arr[i].Id + "|";
             url = url.TrimEnd('|');
 
             return url;
         }
 
         /// <summary>
-        /// download the data from the url address into an xml and check if the google api response was OK
+        ///     download the data from the url address into an xml and check if the google api response was OK
         /// </summary>
         /// <param name="url">the url</param>
         /// <returns>the xml</returns>
@@ -196,10 +186,10 @@ namespace BL
             if (url.ToLower().IndexOf("https:") > -1 || url.ToLower().IndexOf("http:") > -1)
             {
                 //download the data into an xml
-                var wc = new System.Net.WebClient();
+                var wc = new WebClient();
                 var response = wc.DownloadData(url);
-                var content = System.Text.Encoding.UTF8.GetString(response);
-                XElement xml = XElement.Parse(content);
+                var content = Encoding.UTF8.GetString(response);
+                var xml = XElement.Parse(content);
 
                 //check the request state
                 if (xml.Element("status").Value != "OK")
@@ -207,10 +197,10 @@ namespace BL
 
                 return xml;
             }
+
             throw new GoogleAddressException("Google URL is not correct", "WRONG_URL");
         }
 
         #endregion
-
     }
 }

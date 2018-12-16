@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="ShowList" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="ListDataGrid" IsReadOnly="True"/>
+        <DataGrid x:Name="ListDataGrid" IsReadOnly="True" />
     </Grid>
 </Window>

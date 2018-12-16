@@ -1,30 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using BL;
-using BE.MainObjects;
 using BE;
-using System.Threading;
+using BE.MainObjects;
+using BE.Routes;
+using BL;
+using PLWPF.Admin.ManageTest;
+using PLWPF.Admin.ManageTester;
+using PLWPF.Admin.ManageTrainee;
+using PLWPF.Admin.TestLists;
 
 namespace PLWPF.Admin
 {
     /// <summary>
-    /// The administrator Window
+    ///     The administrator Window
     /// </summary>
     public partial class Administrator : Window
     {
         //a BL object
-        private IBL bL = FactoryBl.GetObject;
+        private readonly IBL bL = FactoryBl.GetObject;
 
         public Administrator()
         {
@@ -47,10 +44,7 @@ namespace PLWPF.Admin
 
             //set source for time picker in test
             var TimesList = new List<string>();
-            for(int i = 0; i < 24; i++)
-            {
-                TimesList.Add(string.Format("{0:00}:00", i));
-            }
+            for (var i = 0; i < 24; i++) TimesList.Add(string.Format("{0:00}:00", i));
             SelectTimeTest.ItemsSource = TimesList;
             SelectTimeTest.SelectedItem = "12:00";
 
@@ -75,33 +69,31 @@ namespace PLWPF.Admin
             funcList.Add("GetAllTraineesBySchool");
             funcList.Add("GetAllTraineeByNumberOfTests");
             SelectFuncBl.ItemsSource = funcList;
- 
-            #endregion
 
+            #endregion
         }
 
         #region Manage Trainee
 
         /// <summary>
-        /// On Add Trainee
+        ///     On Add Trainee
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AddTrainee_Click(object sender, RoutedEventArgs e)
         {
             //open the add trainee window
-            ManageTrainee.AddTrainee win = new ManageTrainee.AddTrainee();
+            var win = new AddTrainee();
             win.ShowDialog();
 
             //update the comboxes
             ComboxUpdateTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
             ComboxRemoveTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
             PickTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
-
         }
 
         /// <summary>
-        /// On update trainee click
+        ///     On update trainee click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -111,52 +103,7 @@ namespace PLWPF.Admin
             {
                 //if there is a trainee selected the open update trainee window
                 if (ComboxUpdateTrainee.SelectedItem == null) throw new Exception("Please select a trainee");
-                ManageTrainee.AddTrainee win = new ManageTrainee.AddTrainee(uint.Parse(ComboxUpdateTrainee.SelectedItem.ToString()));
-                win.ShowDialog();
-
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// On remove trainee click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Removetrainee_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //if trainee selcted the remove trainee
-                if(ComboxRemoveTrainee.SelectedItem==null) throw new Exception("Please select a trainee");
-                bL.RemoveTrainee(bL.AllTrainee.First(x => x.Id == uint.Parse(ComboxRemoveTrainee.SelectedItem.ToString())));
-
-                //update comboxes
-                ComboxUpdateTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
-                ComboxRemoveTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
-                PickTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
-
-            }
-            catch { }
-        }
-        #endregion
-
-        #region Manage Testers
-        /// <summary>
-        /// On update tester click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UpdateTester_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //if tester is selected then open add tester window
-                if(ComboxUpdateTester.SelectedItem==null) throw new Exception("Please select a tester");
-                ManageTester.AddTester win = new ManageTester.AddTester(uint.Parse(ComboxUpdateTester.SelectedItem.ToString()));
+                var win = new AddTrainee(uint.Parse(ComboxUpdateTrainee.SelectedItem.ToString()));
                 win.ShowDialog();
             }
             catch (Exception ex)
@@ -166,7 +113,55 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On remove tester click
+        ///     On remove trainee click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Removetrainee_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //if trainee selcted the remove trainee
+                if (ComboxRemoveTrainee.SelectedItem == null) throw new Exception("Please select a trainee");
+                bL.RemoveTrainee(bL.AllTrainee.First(x =>
+                    x.Id == uint.Parse(ComboxRemoveTrainee.SelectedItem.ToString())));
+
+                //update comboxes
+                ComboxUpdateTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
+                ComboxRemoveTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
+                PickTrainee.ItemsSource = bL.AllTrainee.Select(x => x.Id);
+            }
+            catch
+            {
+            }
+        }
+
+        #endregion
+
+        #region Manage Testers
+
+        /// <summary>
+        ///     On update tester click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UpdateTester_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //if tester is selected then open add tester window
+                if (ComboxUpdateTester.SelectedItem == null) throw new Exception("Please select a tester");
+                var win = new AddTester(uint.Parse(ComboxUpdateTester.SelectedItem.ToString()));
+                win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     On remove tester click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -176,23 +171,26 @@ namespace PLWPF.Admin
             {
                 //if tester is selected then open remove tester window
                 if (ComboxRemoveTsster.SelectedItem == null) throw new Exception("Please select a tester");
-                bL.RemoveTester(bL.AllTesters.First(x => x.Id == uint.Parse(ComboxRemoveTsster.SelectedItem.ToString())));
+                bL.RemoveTester(
+                    bL.AllTesters.First(x => x.Id == uint.Parse(ComboxRemoveTsster.SelectedItem.ToString())));
                 //update combox
                 ComboxUpdateTester.ItemsSource = bL.AllTesters.Select(x => x.Id);
                 ComboxRemoveTsster.ItemsSource = bL.AllTesters.Select(x => x.Id);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         /// <summary>
-        /// on Add tester click
+        ///     on Add tester click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AddTester_Click(object sender, RoutedEventArgs e)
         {
             //open add tester window
-            ManageTester.AddTester win = new ManageTester.AddTester();
+            var win = new AddTester();
             win.ShowDialog();
 
             //update comboxes
@@ -203,8 +201,9 @@ namespace PLWPF.Admin
         #endregion
 
         #region Manage Tests
+
         /// <summary>
-        /// On select trainee in set test changed
+        ///     On select trainee in set test changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -213,25 +212,32 @@ namespace PLWPF.Admin
             try
             {
                 //set recommended test details
-                GetAddressTextBox.Text = bL.AllTrainee.First(x => x.Id == uint.Parse(PickTrainee.SelectedItem.ToString())).Address.ToString();
-                testlicense.ItemsSource = bL.AllTrainee.First(x => x.Id == uint.Parse(PickTrainee.SelectedItem.ToString())).LicenseTypeLearning.Select(x => x.License);
-                testlicense.SelectedItem = bL.AllTrainee.First(x => x.Id == uint.Parse(PickTrainee.SelectedItem.ToString())).LicenseTypeLearning.Select(x => x.License).First();
+                GetAddressTextBox.Text = bL.AllTrainee
+                    .First(x => x.Id == uint.Parse(PickTrainee.SelectedItem.ToString())).Address.ToString();
+                testlicense.ItemsSource = bL.AllTrainee
+                    .First(x => x.Id == uint.Parse(PickTrainee.SelectedItem.ToString())).LicenseTypeLearning
+                    .Select(x => x.License);
+                testlicense.SelectedItem = bL.AllTrainee
+                    .First(x => x.Id == uint.Parse(PickTrainee.SelectedItem.ToString())).LicenseTypeLearning
+                    .Select(x => x.License).First();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         /// <summary>
-        /// On set test click
+        ///     On set test click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SetTestButton_Click(object sender, RoutedEventArgs e)
         {
             if (PickTrainee.SelectedItem == null) throw new Exception("Please select a trainee");
-            DateTime Date = (DateTime)TestDatePick.SelectedDate;
+            var Date = (DateTime) TestDatePick.SelectedDate;
             var time = double.Parse(SelectTimeTest.SelectedItem.ToString().Substring(0, 2));
-            var address = new BE.Routes.Address(GetAddressTextBox.Text);
-            var license = (BE.LicenseType)testlicense.SelectedItem;
+            var address = new Address(GetAddressTextBox.Text);
+            var license = (LicenseType) testlicense.SelectedItem;
             var traineeId = uint.Parse(PickTrainee.SelectedItem.ToString());
 
             //disable test group
@@ -239,18 +245,16 @@ namespace PLWPF.Admin
             testAdding.Visibility = Visibility.Visible;
 
             //run it in a prosses becouse it can take time
-            (new Thread(() =>
+            new Thread(() =>
             {
                 try
                 {
-
-
                     uint idtester = 0;
 
                     //try to get a tester 
                     try
                     {
-                        if ((int)Date.DayOfWeek > 4) throw new Exception("Testers don't work on " + Date.DayOfWeek.ToString());
+                        if ((int) Date.DayOfWeek > 4) throw new Exception("Testers don't work on " + Date.DayOfWeek);
 
 
                         //DateTime Date = (DateTime)TestDatePick.SelectedDate;
@@ -258,12 +262,13 @@ namespace PLWPF.Admin
                         idtester = bL.GetRecommendedTesters(Date, address, license).First().Id;
                     }
                     catch (Exception ex)
-                    {                                               //for debugging
+                    {
+                        //for debugging
                         throw new Exception("Couldn't find tester: " + ex.Message);
                     }
 
                     //create a new test
-                    Test test = new Test(idtester, traineeId)
+                    var test = new Test(idtester, traineeId)
                     {
                         TestTime = Date,
                         LicenseType = license
@@ -280,6 +285,7 @@ namespace PLWPF.Admin
                     {
                         test.AddressOfBeginningTest = address;
                     }
+
                     //add the test
                     bL.AddTest(test);
 
@@ -288,7 +294,11 @@ namespace PLWPF.Admin
                     Dispatcher.BeginInvoke(action);
 
                     //enable test group
-                    action = () => { TestGroup.IsEnabled = true; testAdding.Visibility = Visibility.Hidden; };
+                    action = () =>
+                    {
+                        TestGroup.IsEnabled = true;
+                        testAdding.Visibility = Visibility.Hidden;
+                    };
                     Dispatcher.BeginInvoke(action);
 
                     //update tester id in trainee
@@ -297,21 +307,23 @@ namespace PLWPF.Admin
                     bL.UpdateTrainee(trainee);
 
                     MessageBox.Show("test added succecfuly.");
-
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                     //enable test group
-                    Action action = () => { TestGroup.IsEnabled = true; testAdding.Visibility = Visibility.Hidden; };
+                    Action action = () =>
+                    {
+                        TestGroup.IsEnabled = true;
+                        testAdding.Visibility = Visibility.Hidden;
+                    };
                     Dispatcher.BeginInvoke(action);
                 }
-            })).Start();
-
+            }).Start();
         }
 
         /// <summary>
-        /// On show test click
+        ///     On show test click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -321,7 +333,7 @@ namespace PLWPF.Admin
             {
                 //show test in new window
                 if (GetTestId.SelectedItem == null) throw new Exception("Please select a trainee");
-                ManageTest.ShowTest win = new ManageTest.ShowTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
+                var win = new ShowTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
                 win.ShowDialog();
             }
             catch (Exception ex)
@@ -331,7 +343,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On update test click
+        ///     On update test click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -341,7 +353,7 @@ namespace PLWPF.Admin
             {
                 //open update test window
                 if (GetTestId.SelectedItem == null) throw new Exception("Please select a trainee");
-                var win = new ManageTest.UpdateTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
+                var win = new UpdateTest(bL.AllTests.First(x => x.Id == GetTestId.Text));
                 win.ShowDialog();
             }
             catch (Exception ex)
@@ -351,7 +363,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On remove test click
+        ///     On remove test click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -374,8 +386,9 @@ namespace PLWPF.Admin
         #endregion
 
         #region Check BL Functions
+
         /// <summary>
-        /// On show lists click
+        ///     On show lists click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -383,113 +396,119 @@ namespace PLWPF.Admin
         {
             try
             {
-                TestLists.ShowList win;
+                ShowList win;
                 //on selcted function open a new window with a list of the data
                 switch (SelectFuncBl.SelectedItem)
                 {
                     case "AllTesters":
-                        win = new TestLists.ShowList(bL.AllTesters);
+                        win = new ShowList(bL.AllTesters);
                         win.ShowDialog();
                         break;
 
                     case "AllTests":
-                        win = new TestLists.ShowList(bL.AllTests);
+                        win = new ShowList(bL.AllTests);
                         win.ShowDialog();
                         break;
 
                     case "AllTrainees":
-                        win = new TestLists.ShowList(bL.AllTrainee);
+                        win = new ShowList(bL.AllTrainee);
                         win.ShowDialog();
                         break;
 
                     case "GetAvailableTesters":
-                        win = new TestLists.ShowList(bL.GetAvailableTesters((DateTime)PickDateTester.SelectedDate));
+                        win = new ShowList(bL.GetAvailableTesters((DateTime) PickDateTester.SelectedDate));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestersInRadios":
-                        win = new TestLists.ShowList(bL.GetAllTestersInRadios(int.Parse(Radios.Text), new BE.Routes.Address(AddressTextBox.Text)));
+                        win = new ShowList(bL.GetAllTestersInRadios(int.Parse(Radios.Text),
+                            new Address(AddressTextBox.Text)));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestsSortedByDate":
-                        win = new TestLists.ShowList(bL.GetAllTestsSortedByDate());
+                        win = new ShowList(bL.GetAllTestsSortedByDate());
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestInMonth":
-                        win = new TestLists.ShowList(bL.GetAllTestInMonth((DateTime)PickDateTester.SelectedDate));
+                        win = new ShowList(bL.GetAllTestInMonth((DateTime) PickDateTester.SelectedDate));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestInDay":
-                        win = new TestLists.ShowList(bL.GetAllTestInDay((DateTime)PickDateTester.SelectedDate));
+                        win = new ShowList(bL.GetAllTestInDay((DateTime) PickDateTester.SelectedDate));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestsToCome":
-                        win = new TestLists.ShowList(bL.GetAllTestsToCome());
+                        win = new ShowList(bL.GetAllTestsToCome());
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestsThatHappened":
-                        win = new TestLists.ShowList(bL.GetAllTestsThatHappened());
+                        win = new ShowList(bL.GetAllTestsThatHappened());
                         win.ShowDialog();
                         break;
 
                     case "GetAllTraineeThatPassedToday":
-                        win = new TestLists.ShowList(bL.GetAllTraineeThatPassedToday((DateTime)PickDateTester.SelectedDate));
+                        win = new ShowList(bL.GetAllTraineeThatPassedToday((DateTime) PickDateTester.SelectedDate));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTraineeThatDidNotPassedToday":
-                        win = new TestLists.ShowList(bL.GetAllTraineeThatDidNotPassedToday((DateTime)PickDateTester.SelectedDate));
+                        win = new ShowList(
+                            bL.GetAllTraineeThatDidNotPassedToday((DateTime) PickDateTester.SelectedDate));
                         win.ShowDialog();
                         break;
-                    
-                        //grouping functions
+
+                    //grouping functions
                     case "GetAllTestsByLicense":
-                        win = new TestLists.ShowList(bL.GetAllTestsByLicense().First(x => x.Key == (BE.LicenseType)GroupingBox.SelectedItem));
+                        win = new ShowList(bL.GetAllTestsByLicense()
+                            .First(x => x.Key == (LicenseType) GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTraineesByLicense":
-                        win = new TestLists.ShowList(bL.GetAllTraineesByLicense().First(x => String.Join(" ", x.Key.Select(y => y.License))
-                                == (string)GroupingBox.SelectedItem));
+                        win = new ShowList(bL.GetAllTraineesByLicense().First(x =>
+                            string.Join(" ", x.Key.Select(y => y.License))
+                            == (string) GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTestersByLicense":
-                        win = new TestLists.ShowList(bL.GetAllTestersByLicense().First(x => String.Join(" ", x.Key) == (string)GroupingBox.SelectedItem));
+                        win = new ShowList(bL.GetAllTestersByLicense()
+                            .First(x => string.Join(" ", x.Key) == (string) GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTraineesByTester":
-                        win = new TestLists.ShowList(bL.GetAllTraineesByTester().First(x => x.Key == (string)GroupingBox.SelectedItem));
+                        win = new ShowList(bL.GetAllTraineesByTester()
+                            .First(x => x.Key == (string) GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTraineesBySchool":
-                        win = new TestLists.ShowList(bL.GetAllTraineesBySchool().First(x => x.Key == (string)GroupingBox.SelectedItem));
+                        win = new ShowList(bL.GetAllTraineesBySchool()
+                            .First(x => x.Key == (string) GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
 
                     case "GetAllTraineeByNumberOfTests":
-                        win = new TestLists.ShowList(bL.GetAllTraineeByNumberOfTests().First(x => x.Key == (int)GroupingBox.SelectedItem));
+                        win = new ShowList(bL.GetAllTraineeByNumberOfTests()
+                            .First(x => x.Key == (int) GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
-
-                    default:
-                        break;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }    
+            }
         }
 
         /// <summary>
-        /// On selected function change
+        ///     On selected function change
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -500,7 +519,6 @@ namespace PLWPF.Admin
                 //set the window element according to the function
                 switch (SelectFuncBl.SelectedItem)
                 {
-
                     case "AllTesters":
                         PickDateTester.Visibility = Visibility.Collapsed;
                         AddressLebel.Visibility = Visibility.Collapsed;
@@ -622,7 +640,8 @@ namespace PLWPF.Admin
                         break;
 
                     case "GetAllTraineesByLicense":
-                        GroupingBox.ItemsSource = bL.GetAllTraineesByLicense().Select(x => String.Join(" ", x.Key.Select(y => y.License))).Distinct();
+                        GroupingBox.ItemsSource = bL.GetAllTraineesByLicense()
+                            .Select(x => string.Join(" ", x.Key.Select(y => y.License))).Distinct();
                         PickDateTester.Visibility = Visibility.Collapsed;
                         AddressLebel.Visibility = Visibility.Collapsed;
                         AddressTextBox.Visibility = Visibility.Collapsed;
@@ -632,7 +651,8 @@ namespace PLWPF.Admin
                         break;
 
                     case "GetAllTestersByLicense":
-                        GroupingBox.ItemsSource = bL.GetAllTestersByLicense().Select(x => String.Join(" ", x.Key)).Distinct();
+                        GroupingBox.ItemsSource =
+                            bL.GetAllTestersByLicense().Select(x => string.Join(" ", x.Key)).Distinct();
                         PickDateTester.Visibility = Visibility.Collapsed;
                         AddressLebel.Visibility = Visibility.Collapsed;
                         AddressTextBox.Visibility = Visibility.Collapsed;
@@ -670,9 +690,6 @@ namespace PLWPF.Admin
                         Radios.Visibility = Visibility.Collapsed;
                         GroupingBox.Visibility = Visibility.Visible;
                         break;
-
-                    default:
-                        break;
                 }
             }
             catch (Exception ex)
@@ -686,7 +703,7 @@ namespace PLWPF.Admin
         #region Export to excel
 
         /// <summary>
-        /// Export all trainees to excel
+        ///     Export all trainees to excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -695,12 +712,13 @@ namespace PLWPF.Admin
             try
             {
                 disableExportGroup();
-                (new Thread(() => {
+                new Thread(() =>
+                {
                     bL.AllTrainee.ToExcel();
                     enableExportGroup();
-                })).Start();
+                }).Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 enableExportGroup();
@@ -708,7 +726,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// expport all testers to excel
+        ///     expport all testers to excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -717,10 +735,11 @@ namespace PLWPF.Admin
             try
             {
                 disableExportGroup();
-                (new Thread(() => {
+                new Thread(() =>
+                {
                     bL.AllTesters.ToExcel();
                     enableExportGroup();
-                })).Start();
+                }).Start();
             }
             catch (Exception ex)
             {
@@ -730,7 +749,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// export all test to excel
+        ///     export all test to excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -739,10 +758,11 @@ namespace PLWPF.Admin
             try
             {
                 disableExportGroup();
-                (new Thread(() => {
+                new Thread(() =>
+                {
                     bL.AllTests.ToExcel();
                     enableExportGroup();
-                })).Start();
+                }).Start();
             }
             catch (Exception ex)
             {
@@ -752,7 +772,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// disable the export group
+        ///     disable the export group
         /// </summary>
         private void disableExportGroup()
         {
@@ -769,7 +789,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// enable the export group
+        ///     enable the export group
         /// </summary>
         private void enableExportGroup()
         {
@@ -784,43 +804,45 @@ namespace PLWPF.Admin
                 exportingLabel.Visibility = Visibility.Hidden;
             }
         }
+
         #endregion
 
         #region Send email
+
         /// <summary>
-        /// Send email before test
+        ///     Send email before test
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SendBeforeTest_Click(object sender, RoutedEventArgs e)
         {
             disableEmailtGroup();
-            (new Thread(() =>
+            new Thread(() =>
             {
                 var number = bL.SendEmailToAllTraineeBeforeTest();
                 MessageBox.Show("You sended " + number + " emails.");
                 enableEmailtGroup();
-            })).Start();
+            }).Start();
         }
 
         /// <summary>
-        /// send email after test
+        ///     send email after test
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SendAfterTest_Click(object sender, RoutedEventArgs e)
         {
             disableEmailtGroup();
-            (new Thread(() =>
+            new Thread(() =>
             {
                 var number = bL.SendEmailToAllTraineeAfterTest();
                 MessageBox.Show("You sended " + number + " emails.");
                 enableEmailtGroup();
-            })).Start();
+            }).Start();
         }
 
         /// <summary>
-        /// enable the email group
+        ///     enable the email group
         /// </summary>
         private void enableEmailtGroup()
         {
@@ -837,7 +859,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// disable the email group
+        ///     disable the email group
         /// </summary>
         private void disableEmailtGroup()
         {
@@ -852,7 +874,7 @@ namespace PLWPF.Admin
                 emailWaitLabel.Visibility = Visibility.Visible;
             }
         }
-        #endregion
 
+        #endregion
     }
 }

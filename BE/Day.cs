@@ -4,25 +4,23 @@ using System.Collections;
 namespace BE
 {
     /// <summary>
-    /// A day schedule
+    ///     A day schedule
     /// </summary>
-    public class Day:IEnumerable,ICloneable
+    public class Day : IEnumerable, ICloneable
     {
         /// <summary>
-        /// the hours in the day. if available then is true
+        ///     the hours in the day. if available then is true
         /// </summary>
-        public bool[]Hours=new bool[24];
+        public bool[] Hours = new bool[24];
 
         /// <summary>
-        /// the day in the week
-        /// </summary>
-        public DayOfWeek TheDay { set; get; }
-
-        /// <summary>
-        /// A new day
+        ///     A new day
         /// </summary>
         /// <param name="d">the day</param>
-        /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
+        /// <param name="range">
+        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     pairs!
+        /// </param>
         public Day(DayOfWeek d = DayOfWeek.Sunday, params uint[] range)
         {
             ClearHours();
@@ -34,68 +32,88 @@ namespace BE
         }
 
         /// <summary>
-        /// add hours to day
+        ///     the day in the week
         /// </summary>
-        /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
-        public void AddHours( params uint[] range)
+        public DayOfWeek TheDay { set; get; }
+
+        public object Clone()
+        {
+            return new Day {TheDay = TheDay, Hours = Hours.Clone() as bool[]};
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Hours.GetEnumerator();
+        }
+
+        /// <summary>
+        ///     add hours to day
+        /// </summary>
+        /// <param name="range">
+        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     pairs!
+        /// </param>
+        public void AddHours(params uint[] range)
         {
             if (range == null)
                 return;
             if (range.Length % 2 != 0)
                 throw new Exception("Invalied hour format");
-           int i = 0;
-           //add hours
-           for( i = 0; i < range.Length-1; i+=2)
+            var i = 0;
+            //add hours
+            for (i = 0; i < range.Length - 1; i += 2)
             {
                 if (range[i] > range[i + 1])
                     throw new Exception("Invalied hours range");
-                for(uint j = range[i]; j <= range[i + 1]; j++)
-                {
-                    Hours[j] = true;
-                }
+                for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = true;
             }
+
             if (i != range.Length)
                 Hours[range[i]] = true;
         }
 
         /// <summary>
-        /// remove hours
+        ///     remove hours
         /// </summary>
-        /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
+        /// <param name="range">
+        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     pairs!
+        /// </param>
         public void RemoveHours(params uint[] range)
         {
             if (range == null)
                 return;
             if (range.Length % 2 != 0)
                 throw new Exception("Invalied hour format");
-            int i = 0;
+            var i = 0;
             //remove the hours
             for (i = 0; i < range.Length - 1; i += 2)
             {
                 if (range[i] > range[i + 1])
                     throw new Exception("Invalied hours range");
-                for (uint j = range[i]; j <= range[i + 1]; j++)
-                {
-                    Hours[j] = false;
-                }
+                for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = false;
             }
+
             if (i != range.Length)
                 Hours[range[i]] = true;
         }
 
         /// <summary>
-        /// clear hours
+        ///     clear hours
         /// </summary>
         public void ClearHours()
         {
-            for (int i = 0; i < 24; i++)
+            for (var i = 0; i < 24; i++)
                 Hours[i] = false;
         }
 
         /// <summary>
-        /// set new hours for the whole day
+        ///     set new hours for the whole day
         /// </summary>
-        /// <param name="range">the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in pairs!</param>
+        /// <param name="range">
+        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     pairs!
+        /// </param>
         public void SetHours(params uint[] range)
         {
             ClearHours();
@@ -103,7 +121,7 @@ namespace BE
         }
 
         /// <summary>
-        /// check if he is working on the hour
+        ///     check if he is working on the hour
         /// </summary>
         /// <param name="i">the hour. for example 12</param>
         /// <returns>true if he is working</returns>
@@ -115,67 +133,50 @@ namespace BE
         }
 
         /// <summary>
-        /// latest hour that he is working
+        ///     latest hour that he is working
         /// </summary>
         /// <returns>the hour</returns>
         public int LatestWorkHour()
         {
-            for(int i = 23; i >= 0; i--)
-            {
+            for (var i = 23; i >= 0; i--)
                 if (Hours[i])
                     return i;
-               
-            }
             return -1;
         }
 
         /// <summary>
-        /// the urliest hour that he is working
+        ///     the urliest hour that he is working
         /// </summary>
         /// <returns>the hours</returns>
         public int UrliestWorkHour()
         {
-            for (int i = 0; i <24; i++)
-            {
+            for (var i = 0; i < 24; i++)
                 if (Hours[i])
                     return i;
-
-            }
             return -1;
         }
 
         /// <summary>
-        /// Get all the work hours in the day
+        ///     Get all the work hours in the day
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            string str=TheDay.ToString()+": ";
+            var str = TheDay + ": ";
             int j;
-            for (int i = 0; i < 24; i++)
-            {
+            for (var i = 0; i < 24; i++)
                 if (Hours[i])
                 {
-                    for ( j = i ; j < 23 && Hours[j+1]; j++) ;
+                    for (j = i; j < 23 && Hours[j + 1]; j++) ;
                     if (j != i)
                         str += string.Format("{0:00}:00 - {1:00}:00 ,", i, j);
                     else
                         str += string.Format("{0:00}:00 ,", i);
                     i = j;
                 }
-            }
+
             str = str.TrimEnd(',');
             return str;
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return Hours.GetEnumerator();
-        }
-
-        public object Clone()
-        {
-            return new Day() { TheDay = this.TheDay, Hours = this.Hours.Clone() as bool[] };
         }
     }
 }
