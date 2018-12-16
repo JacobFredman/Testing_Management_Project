@@ -5,108 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF.Admin.ManageTest"
         mc:Ignorable="d"
-        Title="UpdateTest" Height="600" Width="450">
+        Title="Update Test" Height="600" Width="450">
     <Grid>
 
-        <Grid x:Name="grid1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3">
+        <Grid x:Name="grid1" VerticalAlignment="Top"  HorizontalAlignment="Left" Margin="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
 
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Actual Test Time:" />
-            <DatePicker x:Name="actualTestTimeDatePicker" VerticalAlignment="Center"
-                        SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                        Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="true" />
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Actual Test Time:"/>
+            <DatePicker x:Name="actualTestTimeDatePicker" VerticalAlignment="Center" SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="true"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Address Of Beginning Test:" />
-            <TextBox x:Name="addressOfBeginningTestTextBox" Width="120" VerticalAlignment="Center" Grid.Row="7"
-                     Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Address Of Beginning Test:"/>
+            <TextBox x:Name="addressOfBeginningTestTextBox" Width="120" VerticalAlignment="Center"  Grid.Row="7" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Id:" />
-            <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="ID:"/>
+            <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="License Type:" />
-            <ComboBox x:Name="licenseTypeComboBox" Width="120" VerticalAlignment="Center" Grid.Row="4" Margin="3"
-                      Height="Auto" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="License Type:"/>
+            <ComboBox x:Name="licenseTypeComboBox" Width="120" VerticalAlignment="Center" Grid.Row="4" Margin="3"  Height="Auto" HorizontalAlignment="Left"  Grid.Column="1" IsEnabled="False"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Passed:" />
-            <TextBox x:Name="passedTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="5" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Passed:"/>
+            <TextBox x:Name="passedTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Route:" />
-            <Button x:Name="ShowRoute" Content="Show Route" Grid.Column="1" Grid.Row="6" Margin="3"
-                    Click="ShowRoute_Click" />
-            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Tester Id:" />
-            <TextBox x:Name="testerIdTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding TesterId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Route:"/>
+            <Button x:Name="ShowRoute" Content="Show Route" Grid.Column="1" Grid.Row="6" Margin="3" Click="ShowRoute_Click"/>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Tester ID:"/>
+            <TextBox x:Name="testerIdTextBox" Width="120" VerticalAlignment="Center" Text="{Binding TesterId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Test Time:" />
-            <DatePicker x:Name="testTimeDatePicker" VerticalAlignment="Center"
-                        SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                        Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Test Time:"/>
+            <DatePicker x:Name="testTimeDatePicker" VerticalAlignment="Center" SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Trainee Id:" />
-            <TextBox x:Name="traineeIdTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding TraineeId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False" />
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Trainee ID:"/>
+            <TextBox x:Name="traineeIdTextBox" Width="120" VerticalAlignment="Center" Text="{Binding TraineeId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" IsEnabled="False"/>
 
 
-            <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Comment:" />
-            <TextBox x:Name="CommentTextBlock" Width="200" VerticalAlignment="Center"
-                     Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="9" Margin="3" Height="60" HorizontalAlignment="Left" Grid.Column="1" />
+            <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Comment:"/>
+            <TextBox x:Name="CommentTextBlock" Width="200" VerticalAlignment="Center" Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="9" Margin="3" Height="60" HorizontalAlignment="Left" Grid.Column="1" />
 
 
-            <StackPanel Background="LightBlue" Orientation="Horizontal" Grid.Row="10" Grid.Column="0"
-                        Grid.ColumnSpan="2">
-                <Label Content="Passed: " />
-                <CheckBox x:Name="PassedCriterion" Margin="6" />
+            <StackPanel Background="LightBlue" Orientation="Horizontal" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+                <Label Content="Passed: "/>
+                <CheckBox x:Name="PassedCriterion" Margin="6"/>
                 <TextBox x:Name="CriterionTextBox" Grid.Row="9" Grid.Column="0" Margin="3" Width="180" />
-                <Button x:Name="AddCriterion" HorizontalAlignment="Center" Content="Add" Margin="3" Width="50"
-                        Click="AddCriterion_Click" />
+                <Button x:Name="AddCriterion" HorizontalAlignment="Center" Content="Add" Margin="3" Width="50" Click="AddCriterion_Click"/>
             </StackPanel>
-            <DataGrid x:Name="CriterionsDataGrid" Margin="3" HorizontalAlignment="Stretch" Height="100"
-                      ItemsSource="{Binding}" AutoGenerateColumns="False" Width="300" Grid.Row="11" Grid.ColumnSpan="2"
-                      Grid.Column="0" IsEnabled="True">
+            <DataGrid x:Name="CriterionsDataGrid" Margin="3" HorizontalAlignment="Stretch" Height="100" ItemsSource="{Binding}" AutoGenerateColumns="False" Width="300"   Grid.Row="11" Grid.ColumnSpan="2" Grid.Column="0" IsEnabled="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}" />
-                    <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}" />
+                    <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}"/>
+                    <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="Update" Margin="3" Content="Update" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2"
-                    HorizontalAlignment="Center" Width="70" Click="Update_Click" />
+            <Button x:Name="Update" Margin="3" Content="Update" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="70" Click="Update_Click"/>
         </Grid>
 
     </Grid>

@@ -8,27 +8,22 @@
         Title="Login" Width="480" Height="180" MinWidth="480" MinHeight="180">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Id / user name :" Grid.Column="0" Grid.Row="0" Margin="10,10,10,10" Height="23" />
-        <Label Content="Birth date / password :" Grid.Column="0" Grid.Row="1" Margin="10,10,10,10" Height="23" />
-        <Label x:Name="IdErrorLabel" Content="Invalid id" Grid.Column="3" Grid.Row="0" Height="23" Visibility="Hidden"
-               Foreground="Red" />
-        <Label x:Name="BirthDateError" Content="Invalid Date" Grid.Column="3" Grid.Row="1" Height="23"
-               Visibility="Hidden" Foreground="Red" />
-        <TextBox x:Name="IdTextBox" Grid.Column="1" Margin="11,10,9,10" Grid.Row="0" Height="23" Width="220"
-                 TextChanged="IdTextBox_TextChanged" />
-        <TextBox x:Name="BirthDateTextBox" Grid.Column="1" Margin="11,10,9,10" Grid.Row="1" Height="23" Width="220"
-                 TextChanged="BirthDateTextBox_TextChanged" />
-        <Button x:Name="LoginButton" Content="Login" Width="150" Grid.Column="0" Margin="10" Grid.Row="2"
-                Grid.ColumnSpan="3" Height="30" Click="LoginButton_Click" />
+        <Label Content="Id / user name :" Grid.Column="0" Grid.Row="0" Margin="10,10,10,10" />
+        <Label Content="Birth date / password :" Grid.Column="0" Grid.Row="1" Margin="10,10,10,10" />
+        <Label x:Name="IdErrorLabel" Content="Invalid id" Grid.Column="3" Grid.Row="0"  Height="23" Visibility="Hidden" Foreground="Red" />
+        <Label x:Name="BirthDateError" Content="Invalid Date" Grid.Column="3" Grid.Row="1"  Height="23" Visibility="Hidden" Foreground="Red"/>
+        <TextBox x:Name="IdTextBox" Grid.Column="1"  Margin="11,10,9,10" Grid.Row="0" Height="23" Width="220" TextChanged="IdTextBox_TextChanged"/>
+        <TextBox x:Name="BirthDateTextBox" Grid.Column="1"  Margin="11,10,9,10" Grid.Row="1" Height="23" Width="220" TextChanged="BirthDateTextBox_TextChanged"/>
+        <Button x:Name="LoginButton" Content="Login"  Width="150" Grid.Column="0" Margin="10" Grid.Row="2" Grid.ColumnSpan="3" Height="30" Click="LoginButton_Click"/>
 
     </Grid>
 </Window>
