@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using BE;
 using BE.MainObjects;
+using BL;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using  BL;
 
 namespace UnitTest
 {
@@ -13,7 +13,7 @@ namespace UnitTest
         public void Insert_new_tester_and_get_it_back()
         {
             // Arrange
-          var bl = FactoryBl.GetObject;
+            var bl = FactoryBl.GetObject;
             var tester = new Tester(037982519, "Jacov", "Fredman", Gender.Male);
 
             // Act
@@ -53,7 +53,5 @@ namespace UnitTest
             //Assert
             Assert.IsTrue(result);
         }
-
-
     }
 }

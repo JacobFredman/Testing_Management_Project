@@ -8,24 +8,19 @@ using BL;
 
 namespace UI
 {
-
-    class Program
+    internal class Program
     {
-        
-    
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-         
-            BlImp _blImp = FactoryBl.GetObject;
-          //  Trainee trainee, trainee2;
-          //  Tester tester1;
-          // Test test;
-           //Email email = new  Email();
-           // Pdf pdf = new Pdf();
+            var _blImp = FactoryBl.GetObject;
+            //  Trainee trainee, trainee2;
+            //  Tester tester1;
+            // Test test;
+            //Email email = new  Email();
+            // Pdf pdf = new Pdf();
 
             try
             {
-
                 AddTrainee1(_blImp);
                 AddTrainee2(_blImp);
 
@@ -33,14 +28,13 @@ namespace UI
 
                 AddTest(_blImp);
 
-              var testA =  _blImp.AllTests.First();
+                var testA = _blImp.AllTests.First();
                 var traineeA = _blImp.AllTrainee.First();
 
                 //   email.SentEmailToTraineeBeforeTest(testA,traineeA);
                 //   email.SentEmailToTraineeAfterTest(testA,traineeA);
                 // Pdf.CreateDocument(_blImp.AllTests.First,);
                 Pdf.CreateLicensePdf(_blImp.AllTests.First(), _blImp.AllTrainee.First());
-
             }
             catch (Exception e)
             {
@@ -49,28 +43,17 @@ namespace UI
             }
 
 
-
-
             try
             {
-              //  _blImp.RemoveTrainee(trainee);
+                //  _blImp.RemoveTrainee(trainee);
                 var trainees = _blImp.AllTrainee.ToList();
-                foreach (var trainee in trainees)
-                {
-                    Console.WriteLine(trainee.ToString());
-                }
+                foreach (var trainee in trainees) Console.WriteLine(trainee.ToString());
 
                 var testers = _blImp.AllTesters.ToList();
-                foreach (var tester in testers)
-                {
-                    Console.WriteLine(tester.ToString());
-                }
+                foreach (var tester in testers) Console.WriteLine(tester.ToString());
 
                 var testes = _blImp.AllTests.ToList();
-                foreach (var test1 in testes)
-                {
-                    Console.WriteLine(test1.ToString());
-                }
+                foreach (var test1 in testes) Console.WriteLine(test1.ToString());
             }
             catch (Exception e)
             {
@@ -86,7 +69,7 @@ namespace UI
             //    {
             //        Test test = new Test(319185997, 319185997);
             //        Console.WriteLine("enter an address: ");
-                    
+
             //        test.SetRouteAndAddressToTest(new Address(Console.ReadLine()));
             //        Console.WriteLine("lunching chrome....");
             //        Routes.ShowUrlInChromeWindow(test.RouteUrl);
@@ -103,9 +86,9 @@ namespace UI
         private static void AddTest(BlImp _blImp)
         {
             Test test;
-            DateTime testTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1);
-            Address testAddress = new Address("jerusalem", "havaad aluemi", "3", "A");
-            List<Criterion> cariteria = new List<Criterion>();
+            var testTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1);
+            var testAddress = new Address("jerusalem", "havaad aluemi", "3", "A");
+            var cariteria = new List<Criterion>();
             cariteria.Add(new Criterion("looking in mirrors", true));
 
 
@@ -129,7 +112,7 @@ namespace UI
             _blImp.AddTester(tester1);
         }
 
-        private static void  AddTrainee2(BlImp _blImp)
+        private static void AddTrainee2(BlImp _blImp)
         {
             Trainee trainee2;
             // add trainne2
@@ -137,16 +120,16 @@ namespace UI
             var address2 = new Address("Jerusalem", "King george", "55", "A");
             var licenseTypes2 = new List<LicenseType>();
             var learningLicenseTypes2 = new List<LessonsAndType>();
-            learningLicenseTypes2.Add(new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30 });
+            learningLicenseTypes2.Add(new LessonsAndType {License = LicenseType.A, NumberOfLessons = 30});
 
             trainee2 = new Trainee(300391737, "Elisha", "Mayer", Gender.Male, "elisha@gmail.com", birthDate2,
-               "0586340000", address2, licenseTypes2, learningLicenseTypes2, Gear.Manual, "or Yarok", "12", 20, true);
+                "0586340000", address2, licenseTypes2, learningLicenseTypes2, Gear.Manual, "or Yarok", "12", 20, true);
 
 
             _blImp.AddTrainee(trainee2);
         }
 
-        private static void  AddTrainee1(BlImp _blImp)
+        private static void AddTrainee1(BlImp _blImp)
         {
             Trainee trainee;
             // add trainne1
@@ -154,10 +137,10 @@ namespace UI
             var address = new Address("Jerusalem", "Shachal", "55", "A");
             var licenseTypes = new List<LicenseType>();
             var learnningLicenseTypes = new List<LessonsAndType>();
-            learnningLicenseTypes.Add(new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30 });
+            learnningLicenseTypes.Add(new LessonsAndType {License = LicenseType.A, NumberOfLessons = 30});
 
             trainee = new Trainee(037982519, "Jacob", "Fredman", Gender.Male, "jacov141@gmail.com", birthDate,
-               "0586300016", address, licenseTypes, learnningLicenseTypes, Gear.Automatic, "or Yarok", "18", 23, true);
+                "0586300016", address, licenseTypes, learnningLicenseTypes, Gear.Automatic, "or Yarok", "18", 23, true);
 
             _blImp.AddTrainee(trainee);
         }
