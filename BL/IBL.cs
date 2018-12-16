@@ -49,7 +49,7 @@ namespace BL
 
         //get groups
         IEnumerable<IGrouping<LicenseType,Test>> GetAllTestsByLicense(bool sorted = false);
-        IEnumerable<IGrouping<List<LessonsAndType>, Trainee>> GetAllTraineesByLicense(bool sorted = false);
+        IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false);
         IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense(bool sorted = false);
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false);
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false);

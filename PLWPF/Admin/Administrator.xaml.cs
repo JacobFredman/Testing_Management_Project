@@ -454,7 +454,7 @@ namespace PLWPF.Admin
                         break;
 
                     case "GetAllTraineesByLicense":
-                        win = new TestLists.ShowList(bL.GetAllTraineesByLicense().First(x => String.Join(" ", x.Key.Select(y => y.License))
+                        win = new TestLists.ShowList(bL.GetAllTraineesByLicense().First(x => String.Join(" ", x.Key)
                                 == (string)GroupingBox.SelectedItem));
                         win.ShowDialog();
                         break;
@@ -622,7 +622,7 @@ namespace PLWPF.Admin
                         break;
 
                     case "GetAllTraineesByLicense":
-                        GroupingBox.ItemsSource = bL.GetAllTraineesByLicense().Select(x => String.Join(" ", x.Key.Select(y => y.License))).Distinct();
+                        GroupingBox.ItemsSource = bL.GetAllTraineesByLicense().Select(x => String.Join(" ", x.Key)).Distinct();
                         PickDateTester.Visibility = Visibility.Collapsed;
                         AddressLebel.Visibility = Visibility.Collapsed;
                         AddressTextBox.Visibility = Visibility.Collapsed;

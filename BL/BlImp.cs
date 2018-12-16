@@ -464,9 +464,9 @@ namespace BL
         /// </summary>
         /// <param name="sorted">if sorted</param>
         /// <returns></returns>
-        public IEnumerable<IGrouping<List<LessonsAndType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
+        public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
         {
-            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning);
+            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning.Select(y=>y.License).ToList());
         }
         #endregion
 
