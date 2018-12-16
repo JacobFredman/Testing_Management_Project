@@ -145,57 +145,58 @@ namespace PLWPF
                 var test = new LessonsAndType {License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true};
                 var list = new List<LessonsAndType>();
                 list.Add(test);
-                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "aaaaa", "bbbbb")
+                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
                 {
-                    BirthDate = new DateTime(1991, 1, 1), LicenseTypeLearning = list,
-                    Address = new Address("Jerusalem")
+                    BirthDate = new DateTime(1995, 1, 1), LicenseTypeLearning = list,
+                    Address = new Address("Jerusalem"),
+                    EmailAddress = "elisja.sc@gmail.com"
                 });
-                _blimp.AddTrainee(new Trainee(319185989, Gender.Male, "ccccc", "dddddd")
+                _blimp.AddTrainee(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
+                    {BirthDate = new DateTime(1985, 29, 12)});
+                _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
+                    {BirthDate = new DateTime(1987, 1, 1)});
+                _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "Bob", "Ray")
+                    {BirthDate = new DateTime(1980, 1, 1)});
+                _blimp.AddTrainee(new Trainee(324126747, Gender.Male, "Avi", "Alon")
+                    {BirthDate = new DateTime(1970, 1, 1)});
+                _blimp.AddTrainee(new Trainee(326591088, Gender.Female, "Avia", "Abu")
+                    {BirthDate = new DateTime(2014, 1, 1)});
+                _blimp.AddTrainee(new Trainee(342533643, Gender.Male, "Gil", "Rami")
+                    {BirthDate = new DateTime(2000, 1, 1)});
+                _blimp.AddTrainee(new Trainee(339794166, Gender.Male, "David", "Aboulafia")
+                    {BirthDate = new DateTime(2002, 1, 1)});
+                _blimp.AddTrainee(new Trainee(336390885, Gender.Male, "Shlomo", "Simchon")
                     {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "sfsfss", "sdvzv")
+                _blimp.AddTrainee(new Trainee(332484609, Gender.Female, "Gavriela", "Abuxsis")
                     {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "zzc", "zvzv")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(324126747, Gender.Male, "qrqf", "ghmgm")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(326591088, Gender.Male, "sdss", "cvb")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(342533643, Gender.Male, "zvvxv", "zvzv")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(339794166, Gender.Male, "xcvvxv", "zxvzv")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(336390885, Gender.Male, "zxvzv", "zxzvz")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(332484609, Gender.Male, "zxvzv", "zxvzvz")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(332307065, Gender.Male, "zzv", "Mazxvzvyer")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(332270446, Gender.Male, "zxvzv", "zxvzvzv")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(329043459, Gender.Male, "ghg,g", "asfasfaf")
-                    {BirthDate = new DateTime(1991, 1, 1)});
+                _blimp.AddTrainee(new Trainee(332307065, Gender.Female, "Yafa", "Alaluf")
+                    {BirthDate = new DateTime(1999, 1, 1)});
+                _blimp.AddTrainee(new Trainee(332270446, Gender.Male, "Dudu", "Tapiro")
+                    {BirthDate = new DateTime(2005, 1, 1)});
+                _blimp.AddTrainee(new Trainee(329043459, Gender.Male, "Pinchas", "Moshe")
+                    {BirthDate = new DateTime(1988, 1, 1)});
 
                 var sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 var list2 = new List<LicenseType>();
                 list2.Add(LicenseType.A);
-                _blimp.AddTester(new Tester(328729660, "zvzv", "dsadada")
+                _blimp.AddTester(new Tester(328729660, "meir", "")
                 {
-                    BirthDate = new DateTime(1960, 1, 1), Address = new Address("בית שמש"), MaxDistance = 10000000,
+                    BirthDate = new DateTime(1985, 1, 1), Address = new Address("בית שמש"), MaxDistance = 10000000,
                     Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
                 });
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
-                _blimp.AddTester(new Tester(324040443, "vmm,", "vzxvz")
-                    {BirthDate = new DateTime(1960, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch});
+                _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
+                    {BirthDate = new DateTime(1977, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
-                _blimp.AddTester(new Tester(323873182, "zxvzvz", "zxzv")
-                    {BirthDate = new DateTime(1960, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch});
+                _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
+                    {BirthDate = new DateTime(1982, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
-                _blimp.AddTester(new Tester(323082321, "zxvzvz", "jljkl")
-                    {BirthDate = new DateTime(1960, 1, 1), Address = new Address("Holon"), Schedule = sch});
+                _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
+                    {BirthDate = new DateTime(1992, 1, 1), Address = new Address("Holon"), Schedule = sch});
             }
             catch (Exception ex)
             {
