@@ -60,7 +60,7 @@ namespace BE
                     //download the data
                     var wc = new WebClient();
                     var response = wc.DownloadData(request);
-                    var content = Encoding.ASCII.GetString(response);
+                    var content = Encoding.UTF8.GetString(response);
                     //parse it
                     var o = JObject.Parse(content);
                     var distance = (int) o.SelectToken("routes[0].legs[0].distance.value");

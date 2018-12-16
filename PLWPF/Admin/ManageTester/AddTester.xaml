@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PLWPF.Admin.ManageTester"
         mc:Ignorable="d"
         Validation.Error="validation_Error"
-        Title="AddTester" Height="600" Width="340">
+        Title="Add Tester" Height="600" Width="340">
     <Grid>
 
         <Grid x:Name="grid1" Margin="3">
@@ -48,7 +48,7 @@
                      Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Max distance:" />
+                   Content="Max Distance:" />
             <TextBox x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
                      Text="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
@@ -75,7 +75,7 @@
                      Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Expirience:" />
+                   Content="Experience:" />
             <TextBox x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center"
                      Text="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
@@ -85,7 +85,7 @@
                      HorizontalAlignment="Left" Grid.Column="1" TextChanged="AddressTextBox_TextChanged" />
 
             <Label VerticalAlignment="Center" Grid.Row="11" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Max exams in week:" />
+                   Content="Max Exams in Week:" />
             <TextBox x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="11" Margin="3"
                      Height="23" HorizontalAlignment="Left" Grid.Column="1"
                      Text="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
@@ -95,11 +95,11 @@
             <Button Name="Save" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2"
                     Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False" />
             <StackPanel Orientation="Horizontal" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2">
-                <GroupBox Margin="5" Header="Licnse" BorderBrush="Black" BorderThickness="1">
+                <GroupBox Margin="5" Header="License" BorderBrush="Black" BorderThickness="1">
                     <ListBox x:Name="Chooselicense" ItemsSource="{Binding}" Height="100" Width="60"
                              SelectionMode="Multiple" SelectionChanged="Chooselicense_SelectionChanged" />
                 </GroupBox>
-                <GroupBox Margin="5" Header="Schdule" BorderBrush="Black" BorderThickness="1">
+                <GroupBox Margin="5" Header="Schedule" BorderBrush="Black" BorderThickness="1">
                     <StackPanel Orientation="Horizontal">
                         <DockPanel>
                             <ComboBox x:Name="DayWeek" DockPanel.Dock="Top" Height="23" Width="100" Margin="5"
