@@ -6,7 +6,7 @@ namespace BE
     /// <summary>
     /// A day schedule
     /// </summary>
-    public class Day:IEnumerable
+    public class Day:IEnumerable,ICloneable
     {
         /// <summary>
         /// the hours in the day. if available then is true
@@ -171,6 +171,11 @@ namespace BE
         public IEnumerator GetEnumerator()
         {
             return Hours.GetEnumerator();
+        }
+
+        public object Clone()
+        {
+            return new Day() { TheDay = this.TheDay, Hours = this.Hours.Clone() as bool[] };
         }
     }
 }

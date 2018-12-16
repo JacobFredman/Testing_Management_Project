@@ -8,7 +8,7 @@ namespace BE.MainObjects
     /// <summary>
     /// A vehicle test
     /// </summary>
-   public class Test
+   public class Test :ICloneable
     {
 
         public string Id { get; set; }
@@ -95,17 +95,36 @@ namespace BE.MainObjects
             return "Tester Id: " + TesterId + " Trainee Id: " + TraineeId + " Test Code: " + Id + " Passed Test: " + (Passed ==true ? "yes" : "no");
         }
 
-   /// <summary>
-   /// For debbuging
-   /// </summary>
-   /// <param name="testerId"></param>
-   /// <param name="traineeId"></param>
-   /// <param name="testTime"></param>
-   /// <param name="addressOfBeginningTest"></param>
-   /// <param name="criteria"></param>
-   /// <param name="passed"></param>
-   /// <param name="Id"></param>
-   /// <param name="licenseType"></param>
+        public object Clone()
+        {
+            var newCriteria = new List<Criterion>();
+            foreach (var item in Criteria)
+                newCriteria.Add(item.Clone() as Criterion);
+            return new Test(TesterId, TraineeId)
+            {
+                TestTime = this.TestTime,
+                ActualTestTime = this.ActualTestTime,
+                AddressOfBeginningTest = (AddressOfBeginningTest != null) ? this.AddressOfBeginningTest.Clone() as Address : null,
+                Criteria = newCriteria,
+                Passed = this.Passed,
+                Id = this.Id,
+                LicenseType = this.LicenseType,
+                RouteUrl = (RouteUrl != null) ? this.RouteUrl : null
+                
+            };
+        }
+
+        /// <summary>
+        /// For debbuging
+        /// </summary>
+        /// <param name="testerId"></param>
+        /// <param name="traineeId"></param>
+        /// <param name="testTime"></param>
+        /// <param name="addressOfBeginningTest"></param>
+        /// <param name="criteria"></param>
+        /// <param name="passed"></param>
+        /// <param name="Id"></param>
+        /// <param name="licenseType"></param>
         public Test(uint testerId, uint traineeId, DateTime testTime, Address addressOfBeginningTest,
             List<Criterion> criteria, bool passed, string Id, LicenseType licenseType)
         {

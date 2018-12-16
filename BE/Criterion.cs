@@ -1,9 +1,11 @@
-﻿namespace BE
+﻿using System;
+
+namespace BE
 {
     /// <summary>
     /// A criterion for passing the test
     /// </summary>
-   public  class Criterion
+   public  class Criterion : ICloneable
     {
         /// <summary>
         /// the type of the criterion
@@ -33,6 +35,11 @@
         public override string ToString()
         {
             return "Type: " + Type + " ,Passed: " + (Pass ? "yes" : "no");
+        }
+
+        public object Clone()
+        {
+            return new Criterion(Type, Pass); 
         }
     }
 }

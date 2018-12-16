@@ -28,7 +28,7 @@ namespace PLWPF.Admin.ManageTrainee
         //true if it is an update
         private bool update=false;
         //collection to work with the license
-        private ObservableCollection<BE.MainObjects.LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
+        private ObservableCollection<BE.LessonsAndType> licenses = new ObservableCollection<BE.LessonsAndType>();
         //all the exceptions
         private List<string> errorMessage = new List<string>();
 
@@ -161,7 +161,7 @@ namespace PLWPF.Admin.ManageTrainee
 
             //Add the new license
             var number = int.Parse(NumberOfLessonsTextBox.Text);
-            licenses.Add(new LessonsAndType
+            licenses.Add(new BE.LessonsAndType()
             {
                 License = (BE.LicenseType)ChooseLicense.SelectedItem,
                 NumberOfLessons = number,

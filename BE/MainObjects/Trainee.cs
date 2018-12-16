@@ -4,40 +4,12 @@ using BE.Routes;
 
 namespace BE.MainObjects
 {
-    /// <summary>
-    /// Licnese lessons
-    /// </summary>
-    public class LessonsAndType
-    {
-        private int _numberOfLessons;
-
-        /// <summary>
-        /// license
-        /// </summary>
-        public LicenseType License { set; get; }
-
-        /// <summary>
-        /// number of lessons
-        /// </summary>
-        public int NumberOfLessons { get => _numberOfLessons; set { _numberOfLessons = value; ReadyForTest = NumberOfLessons > Configuration.MinLessons; } }
-
-        //ready for test
-        public bool ReadyForTest { set; get; }
-
-        /// <summary>
-        /// lesson details
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return "License type: "+License.ToString()+", Num of lessons: "+NumberOfLessons+", ready for test: "+((ReadyForTest)?"yes":"no");
-        }
-    }
+   
 
     /// <summary>
     /// A person
     /// </summary>
-    public  class Trainee : Person
+    public  class Trainee : Person,ICloneable
     {
         /// <summary>
         /// License type learning
@@ -86,6 +58,33 @@ namespace BE.MainObjects
         public override string ToString()
         {
             return base.ToString() + " ,Job: Trainee";
+        }
+
+        public object Clone()
+        {
+            var newLicnse = new List<LicenseType>();
+            foreach (var item in LicenseType)
+                newLicnse.Add(item);
+            var newLicenseTypeLearning = new List<LessonsAndType>();
+            foreach (var item in LicenseTypeLearning)
+                newLicenseTypeLearning.Add(item.Clone() as LessonsAndType);
+            var trainee= new Trainee()
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                Gender = this.Gender,
+                BirthDate = this.BirthDate,
+                LicenseType = newLicnse,
+                LicenseTypeLearning=newLicenseTypeLearning,
+                GearType=this.GearType,
+                SchoolName=this.SchoolName,
+                TesterId=this.TesterId
+            };
+            if (Address != null) trainee.Address = Address.Clone() as Address;
+            if (Id != 0) trainee.Id = Id;
+            if (PhoneNumber != "" && PhoneNumber!=null) trainee.PhoneNumber = PhoneNumber;
+            if (EmailAddress != null && EmailAddress!="") trainee.EmailAddress = EmailAddress;
+            return trainee;
         }
 
         /// <summary>

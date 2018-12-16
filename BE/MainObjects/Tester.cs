@@ -7,7 +7,7 @@ namespace BE.MainObjects
    /// <summary>
    /// A tester
    /// </summary>
-   public class Tester:Person
+   public class Tester: Person ,ICloneable
     {
         /// <summary>
         /// Tester expirience
@@ -96,6 +96,34 @@ namespace BE.MainObjects
         public override string ToString()
         {
             return base.ToString() + " ,Job: A Tester ";
+        }
+
+        public object Clone()
+        {
+            var newLicnse = new List<LicenseType>();
+            foreach (var item in LicenseType)
+                newLicnse.Add(item);
+            var newLicenseTypeTeaching = new List<LicenseType>();
+            foreach (var item in LicenseTypeTeaching)
+                newLicenseTypeTeaching.Add(item);
+            var tester= new Tester()
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                Gender = this.Gender,
+                BirthDate = this.BirthDate,
+                LicenseType = newLicnse,
+                Experience = this.Experience,
+                MaxDistance = this.MaxDistance,
+                LicenseTypeTeaching = newLicenseTypeTeaching,
+                MaxWeekExams = this.MaxWeekExams,
+            };
+            if (Id != 0) tester.Id = Id;
+            if (PhoneNumber != null && PhoneNumber != "") tester.PhoneNumber = PhoneNumber;
+            if (EmailAddress != null && EmailAddress != "") tester.EmailAddress = EmailAddress;
+            if (Address != null) tester.Address = Address.Clone() as Address;
+            if (Schedule != null) tester.Schedule = Schedule.Clone() as WeekSchedule;
+            return tester;
         }
     }
 }

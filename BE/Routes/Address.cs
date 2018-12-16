@@ -1,9 +1,11 @@
-﻿namespace BE.Routes
+﻿using System;
+
+namespace BE.Routes
 {
     /// <summary>
     /// Represents an address
     /// </summary>
-    public class Address
+    public class Address: ICloneable
     {
         /// <summary>
         /// The city or the whole address
@@ -51,6 +53,11 @@
             if (Entrance != "")
                 str += ", " + Entrance;
             return str;
+        }
+
+        public object Clone()
+        {
+            return new Address(City, Street, Building, Entrance);
         }
     }
 }

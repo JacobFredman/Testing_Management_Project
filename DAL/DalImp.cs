@@ -53,7 +53,7 @@ namespace DAL
             if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
                 throw new Exception("Test doesn't exist");
 
-            DataSource.Tests.Remove(testToDelete);
+            DataSource.Tests.RemoveAll(x => x.Id == testToDelete.Id);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace DAL
             if (DataSource.Testers.All(x => x.Id != testerToDelete.Id))
                 throw new Exception("Tester doesn't exist");
 
-            DataSource.Testers.Remove(testerToDelete);
+            DataSource.Testers.RemoveAll(x=> x.Id==testerToDelete.Id);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace DAL
                 throw new Exception("Trainee doesn't exist");
 
 
-            DataSource.Trainees.Remove(traineeToDelete);
+            DataSource.Trainees.RemoveAll(x=>x.Id== traineeToDelete.Id);
         }
 
         /// <summary>
@@ -162,18 +162,44 @@ namespace DAL
         /// <summary>
         /// return a copy of all testers
         /// </summary>
-        public IEnumerable<Tester> AllTesters => new List<Tester>(DataSource.Testers);
+        public IEnumerable<Tester> AllTesters
+        {
+            get
+            {
+                var allTesters = new List<Tester>();
+                foreach (var item in DataSource.Testers)
+                    allTesters.Add(item.Clone() as Tester);
+                return allTesters;
+            }
+        }
 
         /// <summary>
         /// return a copy of all tests
         /// </summary>
-        public IEnumerable<Test> AllTests => new List<Test>(DataSource.Tests);
+        public IEnumerable<Test> AllTests
+        {
+            get
+            {
+                var allTest = new List<Test>();
+                foreach (var item in DataSource.Tests)
+                    allTest.Add(item.Clone() as Test);
+                return allTest;
+            }
+        }
 
         /// <summary>
         /// return a copy of all trainees
         /// </summary>
-        public IEnumerable<Trainee> AllTrainee => new List<Trainee>(DataSource.Trainees);
-
+        public IEnumerable<Trainee> AllTrainee
+        {
+            get
+            {
+                var allTrainee = new List<Trainee>();
+                foreach (var item in DataSource.Trainees)
+                    allTrainee.Add(item.Clone() as Trainee);
+                return allTrainee;
+            }
+        }
         #endregion
     }
 }

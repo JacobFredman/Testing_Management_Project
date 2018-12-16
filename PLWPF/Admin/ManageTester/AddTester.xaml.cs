@@ -31,7 +31,7 @@ namespace PLWPF.Admin.ManageTester
         private IBL _blimp = FactoryBl.GetObject;
         //if it is an update
         private bool update = false;
-        private ObservableCollection<BE.MainObjects.LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
+        private ObservableCollection<BE.LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
         //all the errors
         private List<string> errorMessage = new List<string>();
 
