@@ -152,7 +152,7 @@ namespace PLWPF
                     EmailAddress = "elisja.sc@gmail.com"
                 });
                 _blimp.AddTrainee(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
-                    {BirthDate = new DateTime(1985, 29, 12)});
+                    {BirthDate = new DateTime(1985, 1, 12)});
                 _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
                     {BirthDate = new DateTime(1987, 1, 1)});
                 _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "Bob", "Ray")
@@ -160,11 +160,11 @@ namespace PLWPF
                 _blimp.AddTrainee(new Trainee(324126747, Gender.Male, "Avi", "Alon")
                     {BirthDate = new DateTime(1970, 1, 1)});
                 _blimp.AddTrainee(new Trainee(326591088, Gender.Female, "Avia", "Abu")
-                    {BirthDate = new DateTime(2014, 1, 1)});
+                    {BirthDate = new DateTime(1999, 1, 1)});
                 _blimp.AddTrainee(new Trainee(342533643, Gender.Male, "Gil", "Rami")
                     {BirthDate = new DateTime(2000, 1, 1)});
                 _blimp.AddTrainee(new Trainee(339794166, Gender.Male, "David", "Aboulafia")
-                    {BirthDate = new DateTime(2002, 1, 1)});
+                    {BirthDate = new DateTime(2000, 1, 1)});
                 _blimp.AddTrainee(new Trainee(336390885, Gender.Male, "Shlomo", "Simchon")
                     {BirthDate = new DateTime(1991, 1, 1)});
                 _blimp.AddTrainee(new Trainee(332484609, Gender.Female, "Gavriela", "Abuxsis")
@@ -172,7 +172,7 @@ namespace PLWPF
                 _blimp.AddTrainee(new Trainee(332307065, Gender.Female, "Yafa", "Alaluf")
                     {BirthDate = new DateTime(1999, 1, 1)});
                 _blimp.AddTrainee(new Trainee(332270446, Gender.Male, "Dudu", "Tapiro")
-                    {BirthDate = new DateTime(2005, 1, 1)});
+                    {BirthDate = new DateTime(2000, 1, 1)});
                 _blimp.AddTrainee(new Trainee(329043459, Gender.Male, "Pinchas", "Moshe")
                     {BirthDate = new DateTime(1988, 1, 1)});
 
@@ -182,21 +182,21 @@ namespace PLWPF
                 list2.Add(LicenseType.A);
                 _blimp.AddTester(new Tester(328729660, "meir", "")
                 {
-                    BirthDate = new DateTime(1985, 1, 1), Address = new Address("בית שמש"), MaxDistance = 10000000,
+                    BirthDate = new DateTime(1945, 1, 1), Address = new Address("בית שמש"), MaxDistance = 10000000,
                     Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
                 });
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
-                    {BirthDate = new DateTime(1977, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch});
+                    {BirthDate = new DateTime(1970, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
-                    {BirthDate = new DateTime(1982, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch});
+                    {BirthDate = new DateTime(1961, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
-                    {BirthDate = new DateTime(1992, 1, 1), Address = new Address("Holon"), Schedule = sch});
+                    {BirthDate = new DateTime(1950, 1, 1), Address = new Address("Holon"), Schedule = sch});
             }
             catch (Exception ex)
             {
