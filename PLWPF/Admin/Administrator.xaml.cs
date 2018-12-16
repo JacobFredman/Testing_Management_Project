@@ -259,7 +259,7 @@ namespace PLWPF.Admin
                     }
                     catch (Exception ex)
                     {                                               //for debugging
-                        throw new Exception("Couldt find tester: " + ex.Message);
+                        throw new Exception("Couldn't find tester: " + ex.Message);
                     }
 
                     //create a new test
@@ -695,7 +695,10 @@ namespace PLWPF.Admin
             try
             {
                 disableExportGroup();
-                (new Thread(() => { bL.AllTrainee.ToExcel(); enableExportGroup(); })).Start();
+                (new Thread(() => {
+                    bL.AllTrainee.ToExcel();
+                    enableExportGroup();
+                })).Start();
             }
             catch(Exception ex)
             {
@@ -714,7 +717,10 @@ namespace PLWPF.Admin
             try
             {
                 disableExportGroup();
-                (new Thread(() => { bL.AllTesters.ToExcel(); enableExportGroup(); })).Start();
+                (new Thread(() => {
+                    bL.AllTesters.ToExcel();
+                    enableExportGroup();
+                })).Start();
             }
             catch (Exception ex)
             {
@@ -733,7 +739,10 @@ namespace PLWPF.Admin
             try
             {
                 disableExportGroup();
-                (new Thread(() => { bL.AllTests.ToExcel(); enableExportGroup(); })).Start();
+                (new Thread(() => {
+                    bL.AllTests.ToExcel();
+                    enableExportGroup();
+                })).Start();
             }
             catch (Exception ex)
             {
@@ -789,7 +798,7 @@ namespace PLWPF.Admin
             (new Thread(() =>
             {
                 var number = bL.SendEmailToAllTraineeBeforeTest();
-                MessageBox.Show("you sended " + number + " emails.");
+                MessageBox.Show("You sended " + number + " emails.");
                 enableEmailtGroup();
             })).Start();
         }
@@ -805,7 +814,7 @@ namespace PLWPF.Admin
             (new Thread(() =>
             {
                 var number = bL.SendEmailToAllTraineeAfterTest();
-                MessageBox.Show("you sended " + number + " emails.");
+                MessageBox.Show("You sended " + number + " emails.");
                 enableEmailtGroup();
             })).Start();
         }

@@ -34,6 +34,7 @@ namespace PLWPF.Admin.ManageTest
             if(_test.Criteria==null)
                 _test.Criteria = new List<BE.Criterion>();
             CriterionsDataGrid.ItemsSource = _test.Criteria;
+            _test.ActualTestTime = DateTime.Now;
 
         }
 
