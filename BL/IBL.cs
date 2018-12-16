@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
-using BE.Routes;
 using BE.MainObjects;
+using BE.Routes;
 
 namespace BL
 {
     public interface IBL
     {
+        //get list copy's
+        IEnumerable<Trainee> AllTrainee { get; }
+        IEnumerable<Tester> AllTesters { get; }
+        IEnumerable<Test> AllTests { get; }
 
         //access testers
         void AddTester(Tester newTester);
@@ -25,15 +29,10 @@ namespace BL
         void RemoveTrainee(Trainee traineeToDelete);
         void UpdateTrainee(Trainee updatedTrainee);
 
-        //get list copy's
-        IEnumerable<Trainee> AllTrainee { get; }
-        IEnumerable<Tester> AllTesters { get; }
-        IEnumerable<Test> AllTests { get; }
-
         //get list of testers that..
         IEnumerable<Tester> GetAvailableTesters(DateTime date);
         IEnumerable<Tester> GetAllTestersInRadios(int r, Address a);
-        IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address,LicenseType license);
+        IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license);
 
 
         //get tests that..
@@ -48,7 +47,7 @@ namespace BL
 
 
         //get groups
-        IEnumerable<IGrouping<LicenseType,Test>> GetAllTestsByLicense(bool sorted = false);
+        IEnumerable<IGrouping<LicenseType, Test>> GetAllTestsByLicense(bool sorted = false);
         IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false);
         IEnumerable<IGrouping<List<LicenseType>, Tester>> GetAllTestersByLicense(bool sorted = false);
         IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false);

@@ -2,38 +2,41 @@
 using System.Collections.Generic;
 using System.Linq;
 using BE;
-using DS;
 using BE.MainObjects;
+using DS;
 
 namespace DAL
 {
     /// <summary>
-    /// Get Instance of DAL
+    ///     Get Instance of DAL
     /// </summary>
     public static class FactoryDal
     {
-        private static DalImp _dal = null;
+        private static DalImp _dal;
+
         /// <summary>
-        /// Get the object
+        ///     Get the object
         /// </summary>
         public static DalImp GetObject => _dal ?? (_dal = new DalImp());
     }
 
     /// <inheritdoc />
     /// <summary>
-    /// DAL implantation
+    ///     DAL implantation
     /// </summary>
     public class DalImp : IDal
     {
         /// <summary>
-        /// denay access to c-tor
+        ///     denay access to c-tor
         /// </summary>
-        internal DalImp() { }
+        internal DalImp()
+        {
+        }
 
         #region Test
 
         /// <summary>
-        /// Add a new test
+        ///     Add a new test
         /// </summary>
         /// <param name="newTest"></param>
         public void AddTest(Test newTest)
@@ -45,7 +48,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// remove a test
+        ///     remove a test
         /// </summary>
         /// <param name="testToDelete"></param>
         public void RemoveTest(Test testToDelete)
@@ -57,7 +60,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// update an existing test
+        ///     update an existing test
         /// </summary>
         /// <param name="updatedTest"></param>
         public void UpdateTest(Test updatedTest)
@@ -75,7 +78,7 @@ namespace DAL
         #region Tester
 
         /// <summary>
-        /// Add tester
+        ///     Add tester
         /// </summary>
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
@@ -87,7 +90,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// Remove a tester
+        ///     Remove a tester
         /// </summary>
         /// <param name="testerToDelete"></param>
         public void RemoveTester(Tester testerToDelete)
@@ -99,7 +102,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// update existing Tester
+        ///     update existing Tester
         /// </summary>
         /// <param name="updatedTester"></param>
         public void UpdateTester(Tester updatedTester)
@@ -117,7 +120,7 @@ namespace DAL
         #region Trainee
 
         /// <summary>
-        /// Add trainee
+        ///     Add trainee
         /// </summary>
         /// <param name="newTrainee"></param>
         public void AddTrainee(Trainee newTrainee)
@@ -129,7 +132,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// remove trainee
+        ///     remove trainee
         /// </summary>
         /// <param name="traineeToDelete"></param>
         public void RemoveTrainee(Trainee traineeToDelete)
@@ -142,7 +145,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// update an existing trainee
+        ///     update an existing trainee
         /// </summary>
         /// <param name="updatedTrainee"></param>
         public void UpdateTrainee(Trainee updatedTrainee)
@@ -160,17 +163,17 @@ namespace DAL
         #region Return lists
 
         /// <summary>
-        /// return a copy of all testers
+        ///     return a copy of all testers
         /// </summary>
         public IEnumerable<Tester> AllTesters => new List<Tester>(DataSource.Testers);
 
         /// <summary>
-        /// return a copy of all tests
+        ///     return a copy of all tests
         /// </summary>
         public IEnumerable<Test> AllTests => new List<Test>(DataSource.Tests);
 
         /// <summary>
-        /// return a copy of all trainees
+        ///     return a copy of all trainees
         /// </summary>
         public IEnumerable<Trainee> AllTrainee => new List<Trainee>(DataSource.Trainees);
 
