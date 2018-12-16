@@ -61,19 +61,22 @@
             <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Comment:"/>
             <TextBox x:Name="CommentTextBlock" Width="200" VerticalAlignment="Center" Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="9" Margin="3" Height="60" HorizontalAlignment="Left" Grid.Column="1" />
 
-
-            <StackPanel Background="LightBlue" Orientation="Horizontal" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+            <GroupBox Background="LightBlue" BorderBrush="Black" BorderThickness="1" Header="Criterion" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+            <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+                <StackPanel Background="LightBlue" Orientation="Horizontal" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
                 <Label Content="Passed: "/>
                 <CheckBox x:Name="PassedCriterion" Margin="6"/>
                 <TextBox x:Name="CriterionTextBox" Grid.Row="9" Grid.Column="0" Margin="3" Width="180" />
                 <Button x:Name="AddCriterion" HorizontalAlignment="Center" Content="Add" Margin="3" Width="50" Click="AddCriterion_Click"/>
             </StackPanel>
-            <DataGrid x:Name="CriterionsDataGrid" Margin="3" HorizontalAlignment="Stretch" Height="100" ItemsSource="{Binding}" AutoGenerateColumns="False" Width="300"   Grid.Row="11" Grid.ColumnSpan="2" Grid.Column="0" IsEnabled="True">
+            <DataGrid x:Name="CriterionsDataGrid"  HorizontalAlignment="Stretch" Height="100" ItemsSource="{Binding}" AutoGenerateColumns="False" Width="365"   Grid.Row="11" Grid.ColumnSpan="2" Grid.Column="0" IsEnabled="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}"/>
                     <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            </StackPanel>
+            </GroupBox>
             <Button x:Name="Update" Margin="3" Content="Update" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="70" Click="Update_Click"/>
         </Grid>
 
