@@ -92,6 +92,8 @@
     <Compile Include="Admin\TestLists\ShowList.xaml.cs">
       <DependentUpon>ShowList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\LessonAndTypeToString.cs" />
+    <Compile Include="Converters\LicenseTypeLearningToString.cs" />
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
     </Compile>

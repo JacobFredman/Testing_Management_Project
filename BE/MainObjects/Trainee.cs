@@ -85,8 +85,12 @@ namespace BE.MainObjects
         public object Clone()
         {
             var newLicnse = new List<LicenseType>();
-            foreach (var item in LicenseType)
-                newLicnse.Add(item);
+            if (LicenseType != null)
+            {
+                foreach (var item in LicenseType)
+                    newLicnse.Add(item);
+            }
+            else newLicnse = null;        
             var newLicenseTypeLearning = new List<LessonsAndType>();
             foreach (var item in LicenseTypeLearning)
                 newLicenseTypeLearning.Add(item.Clone() as LessonsAndType);

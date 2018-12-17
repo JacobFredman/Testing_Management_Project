@@ -26,7 +26,7 @@ namespace BL
         void UpdateTrainee(Trainee updatedTrainee);
 
         //get list copy's
-        IEnumerable<Trainee> AllTrainee { get; }
+        IEnumerable<Trainee> AllTrainees { get; }
         IEnumerable<Tester> AllTesters { get; }
         IEnumerable<Test> AllTests { get; }
 

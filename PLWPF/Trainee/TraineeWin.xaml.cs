@@ -18,7 +18,7 @@ namespace PLWPF
             InitializeComponent();
             try
             {
-                _trainee = _blimp.AllTrainee.First(x => x.Id == id);
+                _trainee = _blimp.AllTrainees.First(x => x.Id == id);
                 _textbox.Text = _trainee.ToString();
             }
             catch
