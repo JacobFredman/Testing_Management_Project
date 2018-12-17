@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BE;
 using BE.MainObjects;
 using BE.Routes;
 using BL;
 using PLWPF.Admin;
-/// <summary>
-/// Version 1.0
-/// </summary>
+
 namespace PLWPF
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    ///     Login window
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -27,118 +27,19 @@ namespace PLWPF
             //Add information to test the program
             AddInfo();
 
+            //On first login enter username and password
             if (Configuration.firtOpenProgram)
             {
-                IdTextBox.Text = "Admin";
-                BirthDateTextBox.Text = "admin";
+                AdminUsernameTextBox.Text = Configuration.AdminUser;
+                AdminPasswordTextBox.Password = Configuration.AdminPassword;
             }
-
             Configuration.firtOpenProgram = false;
         }
 
-        /// <summary>
-        ///     Set a error message if the ID is incorrect
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void IdTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if (IdTextBox.Text != Configuration.AdminUser && !Tools.CheckID_IL(uint.Parse(IdTextBox.Text)))
-                    IdErrorLabel.Visibility = Visibility.Visible;
-                else
-                    IdErrorLabel.Visibility = Visibility.Hidden;
-            }
-            catch
-            {
-                IdErrorLabel.Visibility = Visibility.Visible;
-            }
-        }
+   
 
         /// <summary>
-        ///     Set a error message if the password is incorrect
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BirthDateTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                var date = DateTime.MaxValue;
-
-                if (BirthDateTextBox.Text != Configuration.AdminPassword &&
-                    !DateTime.TryParse(BirthDateTextBox.Text, out date))
-                    BirthDateError.Visibility = Visibility.Visible;
-                else
-                    BirthDateError.Visibility = Visibility.Hidden;
-            }
-            catch
-            {
-                BirthDateError.Visibility = Visibility.Visible;
-            }
-        }
-
-        /// <summary>
-        ///     Try to login
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //if it is the admin
-                if (IdTextBox.Text == Configuration.AdminUser && BirthDateTextBox.Text == Configuration.AdminPassword)
-                {
-                    var Win = new Administrator();
-                    Hide();
-                    Win.ShowDialog();
-                    IdTextBox.Text = "";
-                    BirthDateTextBox.Text = "";
-                    IdErrorLabel.Visibility = Visibility.Hidden;
-                    BirthDateError.Visibility = Visibility.Hidden;
-                    Show();
-                    return;
-                }
-
-
-                //if it is a tester or a trainee
-                switch (_blimp.GetTypeFromId(int.Parse(IdTextBox.Text), DateTime.Parse(BirthDateTextBox.Text)))
-                {
-                    //it is a testr
-                    case "BE.MainObjects.Tester":
-                        var Win = new TesterWin(int.Parse(IdTextBox.Text));
-                        Hide();
-                        Win.ShowDialog();
-                        IdTextBox.Text = "";
-                        BirthDateTextBox.Text = "";
-                        IdErrorLabel.Visibility = Visibility.Hidden;
-                        BirthDateError.Visibility = Visibility.Hidden;
-                        Show();
-                        return;
-
-                    //it is a trainee
-                    case "BE.MainObjects.Trainee":
-                        var Win2 = new TraineeWin(int.Parse(IdTextBox.Text));
-                        Hide();
-                        Win2.ShowDialog();
-                        IdTextBox.Text = "";
-                        BirthDateTextBox.Text = "";
-                        IdErrorLabel.Visibility = Visibility.Hidden;
-                        BirthDateError.Visibility = Visibility.Hidden;
-                        Show();
-                        return;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        /// <summary>
-        ///     for debbuging only !!!!!!!!!!!!!!!!!!!!!!
+        ///     for debugging only !!!!!!!!!!!!!!!!!!!!!!
         /// </summary>
         private void AddInfo()
         {
@@ -203,6 +104,107 @@ namespace PLWPF
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// check the id .if it is correct the enable the button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TesterIDTestBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (Tools.CheckID_IL((uint.Parse(TesterIDTestBox.Text))))
+                {
+                    TesterLoginButton.IsEnabled = true;
+                    TesterIDTestBox.BorderBrush = Brushes.Black;
+                }
+                else throw new Exception();
+            }
+            catch
+            {
+                TesterLoginButton.IsEnabled = false;
+                TesterIDTestBox.BorderBrush = Brushes.Red;
+            }
+        }
+
+        /// <summary>
+        /// check the id .if it is correct the enable the button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TraineeIDTestBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (Tools.CheckID_IL((uint.Parse(TraineeIDTestBox.Text))))
+                {
+                    TraineeLoginButton.IsEnabled = true;
+                    TraineeIDTestBox.BorderBrush = Brushes.Black;
+                }
+                else throw new Exception();
+            }
+            catch
+            {
+                TraineeLoginButton.IsEnabled = false;
+                TraineeIDTestBox.BorderBrush = Brushes.Red;
+            }
+        }
+
+        /// <summary>
+        /// On login click open trainee window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TraineeLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var win = new TraineeWin(int.Parse(TraineeIDTestBox.Text));
+                win.ShowDialog();
+            }
+            catch
+            {
+                MessageBox.Show("Trainee doesn't exist please contact the administrator.");
+            }
+        }
+
+        /// <summary>
+        /// On login click open tester window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TesterLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var win = new TesterWin(int.Parse(TesterIDTestBox.Text));
+                win.ShowDialog();
+            }
+            catch
+            {
+                MessageBox.Show("Tester doesn't exist please contact the administrator.");
+            }
+        }
+
+        /// <summary>
+        /// On login Click open administrator window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AdminLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AdminUsernameTextBox.Text == Configuration.AdminUser &&
+                AdminPasswordTextBox.Password == Configuration.AdminPassword)
+            {
+                var win =new Administrator();
+                win.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Wrong Password or UserName.");
             }
         }
     }

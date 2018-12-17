@@ -17,7 +17,7 @@ namespace PLWPF.Admin.ManageTest
         public UpdateTest(Test test)
         {
             InitializeComponent();
-
+            
             //initilize components data
             _test = test;
             licenseTypeComboBox.ItemsSource = Enum.GetValues(typeof(LicenseType));
