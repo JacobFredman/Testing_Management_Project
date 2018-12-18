@@ -5,17 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Linq;
-using BE;
 
 namespace PLWPF.Converters
 {
-    public class LessonAndTypeToString : IValueConverter
+    public class ActualTestTimeConv : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var lesson = value as List<LessonsAndType>;
-            return String.Join(", ", lesson.Select(x => x.License.ToString())).TrimEnd(',', ' ');
+            if ((DateTime)value == DateTime.MinValue) return "";
+            else return ((DateTime) value).ToString("d");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

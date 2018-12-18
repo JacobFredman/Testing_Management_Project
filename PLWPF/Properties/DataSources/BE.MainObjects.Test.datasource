@@ -28,7 +28,7 @@
                <PropertyUISetting Name="Test.RouteUrl">
                   <ControlSettings>
                      <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+                        <BindableControlInfo Name="Button" Type="System.Windows.Controls.Button" AssemblyName="PresentationFramework, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                      </ControlSetting>
                   </ControlSettings>
                </PropertyUISetting>
@@ -75,6 +75,13 @@
             </ControlSettings>
          </PropertyUISetting>
          <PropertyUISetting Name="TesterId">
+            <ControlSettings>
+               <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                  <BindableControlInfo Name="ComboBox" Type="System.Windows.Controls.ComboBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+               </ControlSetting>
+            </ControlSettings>
+         </PropertyUISetting>
+         <PropertyUISetting Name="TraineeId">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
                   <BindableControlInfo Name="ComboBox" Type="System.Windows.Controls.ComboBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />

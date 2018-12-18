@@ -11,13 +11,14 @@
     <Window.Resources>
         <local:LessonAndTypeToString x:Key="LessonAndTypeToString"></local:LessonAndTypeToString>
         <local:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString"></local:LicenseTypeLearningToString>
+        <local:ActualTestTimeConv x:Key="ActualTestTimeConv"></local:ActualTestTimeConv>
     </Window.Resources>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Add">
+        <Menu DockPanel.Dock="Top" Height="25">
+            <MenuItem Header="Add new">
                 <MenuItem Header="Trainee" Click="AddTraineeClick"></MenuItem>
                 <MenuItem Header="Tester" Click="AddTesterClick"></MenuItem>
-                <MenuItem Header="Test"></MenuItem>
+                <MenuItem Header="Test" Click="AddTestClick"></MenuItem>
             </MenuItem>
             <MenuItem Header="Manage">
                 <MenuItem Header="Export to Excel">
@@ -218,6 +219,85 @@
             </TabItem>
 
             <TabItem Header="Tests">
+                <DockPanel  LastChildFill="True" >
+                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                        <Expander x:Name="FilterTestExpander" Header="Filter">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="License: " Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTest" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
+
+                                    <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
+
+                                    <Button x:Name="ClearFilterButtonTest" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                        <Expander x:Name="SearchTraineeExpanderTest" Header="Search">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchIdTest" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchFirstNameTest" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchLastNameTest" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Button x:Name="SearchTestButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                    </StackPanel>
+
+                    <DataGrid  x:Name="TestGrid" ItemsSource="{Binding AllTests }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" >
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Update" Click="UpdateTestClick"></MenuItem>
+                                <MenuItem Header="Remove" Click="RemoveTestClick"></MenuItem>
+                                <MenuItem Header="Add new Tester"  Click="AddTestClick" ></MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource ID}" Binding="{Binding Id}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="License Type" Binding="{Binding LicenseType}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Test Time" Binding="{Binding TestTime, StringFormat=d/M/yyyy hh:mm}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Actual Test Time" Binding="{Binding ActualTestTime ,Converter={StaticResource ActualTestTimeConv}}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Beginning Address" Binding="{Binding AddressOfBeginningTest}"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Passed Test" Binding="{Binding Passed}"></DataGridCheckBoxColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </DockPanel>
 
             </TabItem>
         </TabControl>

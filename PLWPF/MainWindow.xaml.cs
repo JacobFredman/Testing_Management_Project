@@ -24,6 +24,8 @@ namespace PLWPF
         {
             InitializeComponent();
 
+     
+
             //Add information to test the program
             AddInfo();
 
@@ -100,6 +102,22 @@ namespace PLWPF
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
                     {BirthDate = new DateTime(1950, 1, 1), Address = new Address("Holon"), Schedule = sch});
+
+                var test1 = new Test(328729660, 319185997)
+                {
+                    TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
+                   AddressOfBeginningTest = new Address("jerusalem"),
+                    LicenseType = LicenseType.A
+                };
+                try
+                {
+                  //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
+                }
+                catch
+                {
+                }
+
+                _blimp.AddTest(test1);
             }
             catch (Exception ex)
             {
@@ -162,8 +180,10 @@ namespace PLWPF
         {
             try
             {
+                Hide();
                 var win = new TraineeWin(int.Parse(TraineeIDTestBox.Text));
                 win.ShowDialog();
+                Show();
             }
             catch
             {
@@ -180,8 +200,10 @@ namespace PLWPF
         {
             try
             {
+                Hide();
                 var win = new TesterWin(int.Parse(TesterIDTestBox.Text));
                 win.ShowDialog();
+                Show();
             }
             catch
             {
@@ -199,8 +221,12 @@ namespace PLWPF
             if (AdminUsernameTextBox.Text == Configuration.AdminUser &&
                 AdminPasswordTextBox.Password == Configuration.AdminPassword)
             {
+                AdminUsernameTextBox.Text = "";
+                AdminPasswordTextBox.Password = "";
+                Hide();
                 var win =new Administrator();
                 win.ShowDialog();
+                Show();
             }
             else
             {

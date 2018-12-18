@@ -20,6 +20,10 @@ namespace BE.MainObjects
         /// </summary>
         private uint _traineeId;
 
+        public Test()
+        {
+        }
+
         public Test(uint idTester, uint idTrainee)
         {
             TesterId = idTester;
@@ -109,8 +113,13 @@ namespace BE.MainObjects
         public object Clone()
         {
             var newCriteria = new List<Criterion>();
-            foreach (var item in Criteria)
-                newCriteria.Add(item.Clone() as Criterion);
+            if (Criteria != null)
+            {
+                foreach (var item in Criteria)
+                    newCriteria.Add(item.Clone() as Criterion);
+            }
+            else newCriteria = null;
+         
             return new Test(TesterId, TraineeId)
             {
                 TestTime = TestTime,
