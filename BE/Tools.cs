@@ -11,17 +11,18 @@ namespace BE
         /// <summary>
         ///     Check if Israely Id is valid
         /// </summary>
-        /// <param name="id">Id</param>
+        /// <param name="Id">Id</param>
         /// <returns>true if it is valid</returns>
-        public static bool CheckID_IL(uint id)
+        public static bool CheckID_IL(uint Id)
         {
+            if (Id == 0) return false;
             var idArr = new uint[9];
 
             //put the Id in an arr
             for (var i = 8; i >= 0; i--)
             {
-                idArr[i] = id % 10;
-                id /= 10;
+                idArr[i] = Id % 10;
+                Id /= 10;
             }
 
             //multiply the odd digits and add one
@@ -44,28 +45,35 @@ namespace BE
         ///     returns the distance between to points from google maps
         /// </summary>
         /// <param name="origin">an addressLatLog</param>
-        /// <param name="destination">an address</param>
+        /// <param name="destination">an addres</param>
         /// <returns>the distance in meters</returns>
         public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
         {
-            //create the url
-            var request = Configuration.GoogleDistanceUrl + "key=" + Configuration.Key
-                          + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
-            //check it
-            if (request.ToLower().IndexOf("https:") > -1 || request.ToLower().IndexOf("http:") > -1)
+            try
             {
-                //download the data
-                var wc = new WebClient();
-                var response = wc.DownloadData(request);
-                var content = Encoding.ASCII.GetString(response);
-                //parse it
-                var o = JObject.Parse(content);
-                var distance = (int) o.SelectToken("routes[0].legs[0].distance.value");
-                //return it
-                return distance;
-            }
+                //create the url
+                var request = Configuration.GoogleDistanceUrl + "json?" + "key=" + Configuration.Key
+                              + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
+                //check it
+                if (request.ToLower().IndexOf("https:") > -1 || request.ToLower().IndexOf("http:") > -1)
+                {
+                    //download the data
+                    var wc = new WebClient();
+                    var response = wc.DownloadData(request);
+                    var content = Encoding.UTF8.GetString(response);
+                    //parse it
+                    var o = JObject.Parse(content);
+                    var distance = (int) o.SelectToken("routes[0].legs[0].distance.value");
+                    //return it
+                    return distance;
+                }
 
-            throw new Exception("Google URL is not correct");
+                throw new Exception("Google URL is not correct");
+            }
+            catch
+            {
+                return int.MaxValue;
+            }
         }
     }
 }

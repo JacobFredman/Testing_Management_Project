@@ -70,5 +70,20 @@
         ///     Min test route duration
         /// </summary>
         public static int MinTestDurationSec = 800;
+
+        /// <summary>
+        ///     Administrator user name
+        /// </summary>
+        public static string AdminUser = "Admin";
+
+        /// <summary>
+        ///     Administrator password
+        /// </summary>
+        public static string AdminPassword = "admin";
+
+        /// <summary>
+        ///     If the program is opend for the first time
+        /// </summary>
+        public static bool firtOpenProgram = true;
     }
 }

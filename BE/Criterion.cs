@@ -1,9 +1,11 @@
-﻿namespace BE
+﻿using System;
+
+namespace BE
 {
     /// <summary>
     ///     A criterion for passing the test
     /// </summary>
-    public class Criterion
+    public class Criterion : ICloneable
     {
         /// <summary>
         ///     new Criteria
@@ -19,12 +21,17 @@
         /// <summary>
         ///     the type of the criterion
         /// </summary>
-        public string Type { get; }
+        public string Type { set; get; }
 
         /// <summary>
         ///     Passed the criterion
         /// </summary>
         public bool Pass { set; get; }
+
+        public object Clone()
+        {
+            return new Criterion(Type, Pass);
+        }
 
         /// <summary>
         ///     type the criterion

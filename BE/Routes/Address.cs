@@ -1,9 +1,11 @@
-﻿namespace BE.Routes
+﻿using System;
+
+namespace BE.Routes
 {
     /// <summary>
     ///     Represents an address
     /// </summary>
-    public class Address
+    public class Address : ICloneable
     {
         /// <summary>
         ///     A new AddressOfBeginningTest Must include at least one string
@@ -39,6 +41,11 @@
         ///     The Building entrance
         /// </summary>
         public string Entrance { set; get; }
+
+        public object Clone()
+        {
+            return new Address(City, Street, Building, Entrance);
+        }
 
         /// <summary>
         ///     Get the full address

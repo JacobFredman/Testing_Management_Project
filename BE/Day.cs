@@ -6,12 +6,12 @@ namespace BE
     /// <summary>
     ///     A day schedule
     /// </summary>
-    public class Day : IEnumerable
+    public class Day : IEnumerable, ICloneable
     {
         /// <summary>
         ///     the hours in the day. if available then is true
         /// </summary>
-        private readonly bool[] _hours = new bool[24];
+        public bool[] Hours = new bool[24];
 
         /// <summary>
         ///     A new day
@@ -36,9 +36,14 @@ namespace BE
         /// </summary>
         public DayOfWeek TheDay { set; get; }
 
+        public object Clone()
+        {
+            return new Day {TheDay = TheDay, Hours = Hours.Clone() as bool[]};
+        }
+
         public IEnumerator GetEnumerator()
         {
-            return _hours.GetEnumerator();
+            return Hours.GetEnumerator();
         }
 
         /// <summary>
@@ -60,11 +65,11 @@ namespace BE
             {
                 if (range[i] > range[i + 1])
                     throw new Exception("Invalied hours range");
-                for (var j = range[i]; j <= range[i + 1]; j++) _hours[j] = true;
+                for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = true;
             }
 
             if (i != range.Length)
-                _hours[range[i]] = true;
+                Hours[range[i]] = true;
         }
 
         /// <summary>
@@ -86,11 +91,11 @@ namespace BE
             {
                 if (range[i] > range[i + 1])
                     throw new Exception("Invalied hours range");
-                for (var j = range[i]; j <= range[i + 1]; j++) _hours[j] = false;
+                for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = false;
             }
 
             if (i != range.Length)
-                _hours[range[i]] = true;
+                Hours[range[i]] = true;
         }
 
         /// <summary>
@@ -99,7 +104,7 @@ namespace BE
         public void ClearHours()
         {
             for (var i = 0; i < 24; i++)
-                _hours[i] = false;
+                Hours[i] = false;
         }
 
         /// <summary>
@@ -124,7 +129,7 @@ namespace BE
         {
             if (i < 0 || i > 24)
                 throw new Exception("Hour is not valied");
-            return _hours[i];
+            return Hours[i];
         }
 
         /// <summary>
@@ -134,7 +139,7 @@ namespace BE
         public int LatestWorkHour()
         {
             for (var i = 23; i >= 0; i--)
-                if (_hours[i])
+                if (Hours[i])
                     return i;
             return -1;
         }
@@ -146,7 +151,7 @@ namespace BE
         public int UrliestWorkHour()
         {
             for (var i = 0; i < 24; i++)
-                if (_hours[i])
+                if (Hours[i])
                     return i;
             return -1;
         }
@@ -160,9 +165,9 @@ namespace BE
             var str = TheDay + ": ";
             int j;
             for (var i = 0; i < 24; i++)
-                if (_hours[i])
+                if (Hours[i])
                 {
-                    for (j = i; j < 23 && _hours[j + 1]; j++) ;
+                    for (j = i; j < 23 && Hours[j + 1]; j++) ;
                     if (j != i)
                         str += string.Format("{0:00}:00 - {1:00}:00 ,", i, j);
                     else

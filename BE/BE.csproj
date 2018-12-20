@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LessonAndType.cs" />
     <Compile Include="Routes\Address.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Criterion.cs" />

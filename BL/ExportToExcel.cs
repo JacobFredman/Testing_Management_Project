@@ -69,7 +69,7 @@ namespace BL
             {
                 //Get all the license types
                 var licenseType = "";
-                foreach (var license in trainee.LicenseTypeLearning) licenseType += license + " ";
+                foreach (var license in trainee.LicenseTypeLearning) licenseType += license.License + " ";
 
                 row++;
 

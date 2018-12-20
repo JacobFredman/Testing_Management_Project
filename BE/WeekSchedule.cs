@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace BE
 {
-    public class WeekSchedule : IEnumerable
+    public class WeekSchedule : IEnumerable, ICloneable
     {
         private const int DEFUALT_WEEK_DAYS = 5;
 
-        private readonly Day[] days;
+        public Day[] days;
 
         /// <summary>
         ///     a new schedule
@@ -49,6 +49,20 @@ namespace BE
                     return days[(int) d];
                 return null;
             }
+        }
+
+        public object Clone()
+        {
+            var newDays = new Day[days.Length];
+            var i = 0;
+            foreach (var item in days)
+            {
+                if (item != null)
+                    newDays[i] = item.Clone() as Day;
+                i++;
+            }
+
+            return new WeekSchedule(days.Length) {days = newDays};
         }
 
         public IEnumerator GetEnumerator()

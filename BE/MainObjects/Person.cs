@@ -5,12 +5,23 @@ using BE.Routes;
 
 namespace BE.MainObjects
 {
+    /// <summary>
+    ///     An person
+    /// </summary>
     public class Person
     {
         private string _emailAddress;
 
         private uint _id;
+
         private string _phoneNumber;
+
+        /// <summary>
+        ///     A new person
+        /// </summary>
+        public Person()
+        {
+        }
 
         /// <summary>
         ///     a new person
@@ -32,6 +43,18 @@ namespace BE.MainObjects
             _phoneNumber = "";
         }
 
+        /// <summary>
+        ///     An new person
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="gender"></param>
+        /// <param name="emailAddress"></param>
+        /// <param name="birthDate"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="address"></param>
+        /// <param name="licenseTypes"></param>
         public Person(uint Id, string firstName, string lastName, Gender gender, string emailAddress,
             DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes)
         {
@@ -75,9 +98,24 @@ namespace BE.MainObjects
             }
         }
 
+        /// <summary>
+        ///     First name
+        /// </summary>
         public string FirstName { set; get; }
+
+        /// <summary>
+        ///     Last name
+        /// </summary>
         public string LastName { set; get; }
+
+        /// <summary>
+        ///     Birth date
+        /// </summary>
         public DateTime BirthDate { set; get; }
+
+        /// <summary>
+        ///     Gender
+        /// </summary>
         public Gender Gender { set; get; }
 
         /// <summary>
@@ -89,19 +127,27 @@ namespace BE.MainObjects
             set
             {
                 if (value[0] != '0')
-                    _phoneNumber = null;
-                else if (value[1] == '5' && value.Length == 10)
+                    throw new Exception("Invalid phone number");
+                if (value[1] == '5' && value.Length == 10)
                     _phoneNumber = value;
                 else if (value[1] != '5' && value.Length == 9)
                     _phoneNumber = value;
                 else
-                    _phoneNumber = null;
+                    throw new Exception("Invalid phone number");
             }
         }
 
+        /// <summary>
+        ///     Address
+        /// </summary>
         public Address Address { set; get; }
+
+        /// <summary>
+        ///     license type
+        /// </summary>
         public List<LicenseType> LicenseType { set; get; }
 
+        //Basic data about the person
         public override string ToString()
         {
             if (FirstName != "" && LastName != "")

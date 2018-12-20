@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using BE;
 using BE.MainObjects;
 using BE.Routes;
@@ -43,7 +44,7 @@ namespace BL
         /// <returns>The number of Tests</returns>
         public int GetNumberOfTests(Trainee trainee)
         {
-            return AllTests.Count(x => x.TraineeId == trainee.Id && x.ActualTestTime > DateTime.Now.Date);
+            return AllTests.Count(x => x.TraineeId == trainee.Id);
         }
 
         /// <summary>
@@ -56,6 +57,28 @@ namespace BL
         {
             return AllTests.Any(test =>
                 test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
+        }
+
+        public string GetTypeFromId(int id, DateTime birthDate)
+        {
+            try
+            {
+                var tester = AllTesters.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                return tester.GetType().ToString();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var trainee = AllTrainee.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                return trainee.GetType().ToString();
+            }
+            catch
+            {
+                throw new Exception("Id and birth don't exist");
+            }
         }
 
         #region Access Tester
@@ -122,19 +145,21 @@ namespace BL
 
             var twoTestesTooClose = AllTests.Any(test =>
                 test.TraineeId == newTest.TraineeId && test.LicenseType == newTest.LicenseType &&
-                (newTest.TestTime - test.TestTime).TotalDays < Configuration.MinTimeBetweenTests);
+                Math.Abs((newTest.TestTime - test.TestTime).TotalDays) < Configuration.MinTimeBetweenTests);
 
             var lessThenMinLessons = AllTrainee.Any(trainee =>
-                trainee.Id == newTest.TraineeId && trainee.NumberOfLessons < Configuration.MinLessons);
+                trainee.Id == newTest.TraineeId && trainee.LicenseTypeLearning.Any(l =>
+                    l.License == newTest.LicenseType && l.NumberOfLessons < Configuration.MinLessons));
 
             var traineeIsLearningLicense = AllTrainee.Any(trainee =>
-                trainee.Id == newTest.TraineeId && trainee.LicenseTypeLearning.Any(l => l == newTest.LicenseType));
+                trainee.Id == newTest.TraineeId &&
+                trainee.LicenseTypeLearning.Any(l => l.License == newTest.LicenseType));
             var testerIsTeachingLicense = AllTesters.Any(tester =>
                 tester.Id == newTest.TesterId && tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType));
 
             var tooManyTestInWeek =
                 AllTests.Count(test =>
-                    test.TesterId == newTest.TesterId && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) >
+                    test.TesterId == newTest.TesterId && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) + 1 >
                 AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
 
             var traineeHasTestInSameTime = AllTests.Any(test =>
@@ -196,6 +221,8 @@ namespace BL
                 throw new Exception("not enough criterion");
             if (updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("test date not updated");
+            if (updatedTest.ActualTestTime < updatedTest.TestTime)
+                throw new Exception("Actual daet can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
             //add the test to the trainee
@@ -350,15 +377,42 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
         {
-            var testerDistance = from tester in GetAvailableTesters(date)
-                where tester.Address != null
-                let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
-                select new {tester, distance};
+            try
+            {
+                var testerInDate = GetAvailableTesters(date);
+                if (testerInDate == null) throw new Exception("there are no testers for this date");
 
-            return from tester in testerDistance
-                where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                orderby tester.distance
-                select tester.tester;
+                //check internet connectivity
+                var wc = new WebClient();
+                wc.DownloadData("https://www.google.com/");
+
+                var testerDistance = from tester in testerInDate
+                    where tester.Address != null
+                    let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                    where distance < tester.MaxDistance
+                    select new {tester, distance};
+                if (!testerDistance.Any())
+                    throw new Exception("There are no testers in the current addrress please try an other address");
+
+                var testerLicense = from tester in testerDistance
+                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                    orderby tester.distance
+                    select tester.tester;
+                if (!testerLicense.Any())
+                    throw new Exception("there is no tester with the right license in the current date and location");
+
+                return testerLicense;
+            }
+            catch
+            {
+                var testerLicense = from tester in GetAvailableTesters(date)
+                    where tester.LicenseTypeTeaching.Any(x => x == license)
+                    select tester;
+                if (!testerLicense.Any())
+                    throw new Exception("there is no tester with the right license in the current date and location");
+
+                return testerLicense;
+            }
         }
 
         /// <summary>
@@ -474,7 +528,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
         {
-            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning);
+            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning.Select(y=>y.License).ToList());
         }
 
         #endregion

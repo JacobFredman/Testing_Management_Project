@@ -1,14 +1,54 @@
 ﻿using System;
-using System.Net;
 using System.Net.Mail;
+using System.Net;
 using BE.MainObjects;
+using System.Linq;
 
 namespace BL
 {
-    public class Email
+    public static class Email
     {
+
         private const string FromEmailAddress = "tests.miniproject@gmail.com";
         private const string SenderPassword = "0586300016";
+
+        public static int SendEmailToAllTraineeBeforeTest(this IBL bl)
+        {
+            int count = 0;
+            foreach (Test test in bl.GetAllTestsToCome())
+            {
+                var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
+                try
+                {
+                    SentEmailToTraineeBeforeTest(test, trainee);
+                    count++;
+                }
+                catch { }
+            }
+            return count;
+        }
+
+        public static int SendEmailToAllTraineeAfterTest(this IBL bl)
+        {
+            int count = 0;
+            foreach (Test test in bl.GetAllTestsThatHappened())
+            {
+                var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
+                try
+                {
+                    Pdf.CreateLicensePdf(test, trainee);
+                    SentEmailToTraineeAfterTest(test, trainee);
+                    //if (File.Exists(@".\license.pdf"))
+                    //    File.Delete(@".\license.pdf");
+                    count++;
+                }
+                catch(Exception ex) {
+                    var ms=ex.Message;
+                }
+            }
+            return count;
+        }
+
 
 
         //private MailMessage _mail = new MailMessage("jacAndElisha@miniProject.com", "jacov141@gmail.com");
@@ -25,18 +65,19 @@ namespace BL
         //    _client.Send(_mail);
         //}
 
-        public void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
+        public static void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
         {
+
             var subject = test.Passed == true
-                ? "Congratulations for the new license"
-                : "we are sorry to inform you that you didn't Passed the test this time";
+                       ? "Congratulations for the new license"
+                       : "we are sorry to inform you that you didn't Passed the test this time";
             var message = test.Passed == true
                 ? "You successfully passed in the test in " + test.ActualTestTime + ", now you are allowed to drive"
                 : "you have  do the test again";
             SentEmail(trainee.EmailAddress, subject, message, trainee.FirstName + " " + trainee.LastName, "D.M.V");
         }
 
-        public void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
+        public static void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
         {
             var subject = trainee.FirstName + ", you have a test today";
             var message = trainee.FirstName + ", are you prepared for test already?" + "the beginning place is: " +
@@ -49,7 +90,7 @@ namespace BL
         {
             Attachment attachment;
             attachment =
-                new Attachment("C:/Users/user/Source/Repos/Project01_5997_2519_dotNet5779/documents/license.pdf");
+                new Attachment(@".\license"+(Pdf.counter-1).ToString()+".pdf");
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
@@ -85,5 +126,11 @@ namespace BL
                 throw;
             }
         }
+
     }
+
 }
+
+
+
+

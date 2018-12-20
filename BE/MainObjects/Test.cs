@@ -8,7 +8,7 @@ namespace BE.MainObjects
     /// <summary>
     ///     A vehicle test
     /// </summary>
-    public class Test
+    public class Test : ICloneable
     {
         /// <summary>
         ///     tester id
@@ -25,7 +25,6 @@ namespace BE.MainObjects
             TesterId = idTester;
             TraineeId = idTrainee;
             Id = "";
-            Passed = false;
             TestTime = new DateTime();
             ActualTestTime = DateTime.MinValue;
             Criteria = new List<Criterion>();
@@ -106,6 +105,25 @@ namespace BE.MainObjects
         ///     url for the test route on google maps
         /// </summary>
         public Uri RouteUrl { set; get; }
+
+        public object Clone()
+        {
+            var newCriteria = new List<Criterion>();
+            foreach (var item in Criteria)
+                newCriteria.Add(item.Clone() as Criterion);
+            return new Test(TesterId, TraineeId)
+            {
+                TestTime = TestTime,
+                ActualTestTime = ActualTestTime,
+                AddressOfBeginningTest =
+                    AddressOfBeginningTest != null ? AddressOfBeginningTest.Clone() as Address : null,
+                Criteria = newCriteria,
+                Passed = Passed,
+                Id = Id,
+                LicenseType = LicenseType,
+                RouteUrl = RouteUrl != null ? RouteUrl : null
+            };
+        }
 
         /// <summary>
         ///     update test results
