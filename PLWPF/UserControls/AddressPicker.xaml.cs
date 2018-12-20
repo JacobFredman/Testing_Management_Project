@@ -26,10 +26,12 @@ namespace PLWPF.UserControls
         {
             set
             {
-                try
-                {
+               
+                    TexBoxAddress.Text = (value!=null)?value.ToString():"";
                     new Thread(() =>
                     {
+                        try
+                        {
                         var text= Routes.GetAddressSuggestionsGoogle(value.ToString()).First();
                         Action action = () =>
                         {
@@ -37,12 +39,14 @@ namespace PLWPF.UserControls
                             TexBoxAddress.BorderBrush = Brushes.Black;
                         };
                         Dispatcher.BeginInvoke(action);
+                        }
+                        catch
+                        {
+                            Action act = () => {  TexBoxAddress.BorderBrush = Brushes.Red; };
+                            Dispatcher.BeginInvoke(act);
+                        }
                     }).Start();
-                }
-                catch
-                {
-                    TexBoxAddress.BorderBrush = Brushes.Red;
-                }
+            
             }
             get =>new Address(TexBoxAddress.Text);
         }
@@ -51,42 +55,48 @@ namespace PLWPF.UserControls
             InitializeComponent();
         }
 
+        public event EventHandler TextChanged;
+
         private void TexBoxAddress_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TexBoxAddress.Text != "")
+            try
             {
-               
+                if (TexBoxAddress.Text != "")
+                {
+
                     var text = TexBoxAddress.Text;
                     new Thread(() =>
                     {
                         try
                         {
-                        var list = Routes.GetAddressSuggestionsGoogle(text);
+                            var list = Routes.GetAddressSuggestionsGoogle(text);
                             if (list.Any(x => x == text))
                             {
+                                Action act = () => { ListBoxSuggestions.Visibility = Visibility.Hidden; };
+                                Dispatcher.BeginInvoke(act);
                                 return;
                             }
-                        Action action = () =>
-                        {
-                            ListBoxSuggestions.ItemsSource = list;
-                            ListBoxSuggestions.Visibility = Visibility.Visible;
-                            ListBoxSuggestions.UnselectAll();
-                            TexBoxAddress.BorderBrush = Brushes.Black;
-                        };
-                        Dispatcher.BeginInvoke(action);
-                        }
-                        catch
-                        {
-                            Action action= () =>
+
+                            Action action = () =>
                             {
-                                TexBoxAddress.BorderBrush = System.Windows.Media.Brushes.Red;
+                                ListBoxSuggestions.ItemsSource = list;
+                                ListBoxSuggestions.Visibility = Visibility.Visible;
+                                ListBoxSuggestions.UnselectAll();
+                                TexBoxAddress.BorderBrush = Brushes.Black;
                             };
                             Dispatcher.BeginInvoke(action);
                         }
+                        catch
+                        {
+                            Action action = () => { TexBoxAddress.BorderBrush = System.Windows.Media.Brushes.Red; };
+                            Dispatcher.BeginInvoke(action);
+                        }
                     }).Start();
-            
 
+                    TextChanged(this, e);
+                }
             }
+            catch { }
         }
 
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)

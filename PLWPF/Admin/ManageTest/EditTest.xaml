@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:PLWPF.Admin.ManageTest"
         xmlns:MainObjects="clr-namespace:BE.MainObjects;assembly=BE" x:Class="PLWPF.Admin.ManageTest.EditTest"
         mc:Ignorable="d"
-        Title="EditTest" Height="500" Width="700" >
+        Validation.Error="EditTest_OnError"
+        Title="EditTest" Height="500" Width="700"  >
     <DockPanel LastChildFill="True">
-        <Grid x:Name="grid1" Margin="20" DockPanel.Dock="Left">
+        <Grid x:Name="grid1" Margin="20" DockPanel.Dock="Left" Panel.ZIndex="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -43,73 +44,85 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Label Content="Tester Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}"  Grid.Column="1"  HorizontalAlignment="Left" Height="Auto"  Grid.Row="2" VerticalAlignment="Center" Width="120" Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged" >
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="ID: "></Label>
-                            <Label Content="{Binding Id }" ></Label>
-                            <Label Content="Name:"></Label>
-                            <Label Content="{Binding FirstName}" ></Label>
-                            <Label Content="{Binding LastName}" ></Label>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
 
-            <Label Content="License Type:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-            <ComboBox x:Name="licenseTypeComBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" SelectedItem="{Binding LicenseType, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" SelectionChanged="LicenseTypeComBox_OnSelectionChanged"/>
+            <Label Content="License Type:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <ComboBox x:Name="licenseTypeComBox" ItemsSource="{Binding}" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2"  VerticalAlignment="Center" Width="120" SelectionChanged="LicenseTypeComBox_OnSelectionChanged"/>
+
+
+            <Label Content="Tester Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}"  Grid.Column="1"  HorizontalAlignment="Left" Height="Auto"  Grid.Row="2" VerticalAlignment="Center" Width="120" Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="ID: "></Label>
+                                <Label Content="{Binding Id }" ></Label>
+                                <Label Content="Name:"></Label>
+                                <Label Content="{Binding FirstName}" ></Label>
+                                <Label Content="{Binding LastName}" ></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label x:Name="WaitTraineeLabel" Content="Finding Tester..." Foreground="Red" Visibility="Hidden"></Label>
+            </StackPanel>
+
 
             <Label Content="Test Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
-          <StackPanel Grid.Row="4" Grid.Column="1">
-              <DatePicker x:Name="testTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="4" SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-<UserControls:TimePicker x:Name="TimePickerTest" Margin="3" SelectionChanged="TimePicker_OnSelectionChanged"/>
-          </StackPanel>
-
+            <GroupBox Grid.Row="4" Grid.Column="1">
+            <StackPanel Grid.Row="4" Grid.Column="1" >
+                <DatePicker x:Name="testTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="4" SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" SelectedDateChanged="TestTimeDatePicker_SelectedDateChanged"/>
+                <UserControls:TimePicker  x:Name="TimePickerTest" Margin="3" SelectionChanged="TimePicker_OnSelectionChanged"/>
+            </StackPanel>
+         </GroupBox>
             <Label Content="Address Of Beginning Test:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
-            <TextBox x:Name="addressOfBeginningTestTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" Text="{Binding AddressOfBeginningTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
 
+            <StackPanel  ZIndex="1" Grid.Column="1" HorizontalAlignment="Left"   Margin="3" Grid.Row="5" Grid.RowSpan="4" VerticalAlignment="Top" Width="180">
+                <UserControls:AddressPicker x:Name="addressOfBeginningTestTextBox"  />
+
+               
+            </StackPanel>
             <Label Content="Actual Test Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
-            <DatePicker x:Name="actualTestTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="6" SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-           
+            <GroupBox Grid.Column="1" Grid.Row="6">
+            <StackPanel >
+                <DatePicker x:Name="actualTestTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="6" SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+                <UserControls:TimePicker  x:Name="actualTimePickerTest" Margin="3" SelectionChanged="TimePicker_OnSelectionChanged"/>
+
+            </StackPanel>
+            </GroupBox>
             <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center"  Margin="3" Grid.Row="7" IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" IsEnabled="False" />
 
             <GroupBox Header="Test Route" Grid.ColumnSpan="2" Grid.Row="8">
-                <StackPanel>
-                    <Button x:Name="routeUrlButton" Content="Show Test Route"  HorizontalAlignment="Stretch"  Margin="3"  />
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Address:"></Label>
-                        <UserControls:AddressPicker Margin="3" Width="150" VerticalAlignment="Center"/>
-                        <Button x:Name="SetRouteButton" Content="Set new Route" Margin="3"></Button>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="ShowRouteUrlButton" Content="Show Test Route"  HorizontalAlignment="Stretch"  Margin="10,3,10,3" Click="ShowRouteUrlButton_Click" />
+                    <Button x:Name="SetRouteButton" Content="Set new Route" Margin="10,3,10,3" Click="SetRouteButton_Click"></Button>
                 </StackPanel>
             </GroupBox>
 
-  
+
         </Grid>
-            <Button x:Name="Save" Width="100" Content="Save" HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom" Click="Save_Click"></Button>
-        <StackPanel>
-          
-            <GroupBox x:Name="TestResolutsGroupBox" Header="Test Results">
+        <Button x:Name="Save" Width="100" Content="Save" HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom" Click="Save_Click"></Button>
+        <StackPanel >
+
+            <GroupBox x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results">
                 <StackPanel>
                     <Label Content="Comments: "></Label>
                     <TextBox x:Name="TextBoxComment" Height="50" Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"></TextBox>
                     <GroupBox   Header="Criterion" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
 
                         <DataGrid x:Name="CriterionsDataGrid" ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  HorizontalAlignment="Stretch" Height="150"  AutoGenerateColumns="False" >
-                                <DataGrid.Columns>
+                            <DataGrid.Columns>
                                 <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}" IsReadOnly="False"/>
-                                    <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </GroupBox>
 
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Errors">
-                <TextBlock x:Name="Errors" Margin="10" Height="70"></TextBlock>
+            <GroupBox Header="Notifications" Margin="3">
+                <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red"></TextBlock>
             </GroupBox>
         </StackPanel>
     </DockPanel>

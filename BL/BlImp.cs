@@ -416,6 +416,51 @@ namespace BL
         }
 
         /// <summary>
+        ///     Get all the testers that are the best for the test ordered by the distance from the address
+        /// </summary>
+        /// <param name="date">the date</param>
+        /// <param name="address">the address</param>
+        /// <param name="license">the license</param>
+        /// <returns></returns>
+        public IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license)
+        {
+            try
+            {
+               
+
+                //check internet connectivity
+                var wc = new WebClient();
+                wc.DownloadData("https://www.google.com/");
+
+                var testerDistance = from tester in AllTesters
+                                     where tester.Address != null
+                                     let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                                     select new { tester, distance };
+                if (!testerDistance.Any())
+                    throw new Exception("There are no testers in the current address please try an other address");
+
+                var testerLicense = from tester in testerDistance
+                                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                                    orderby tester.distance
+                                    select tester.tester;
+                if (!testerLicense.Any())
+                    throw new Exception("there is no tester with the right license in the current date and location");
+
+                return testerLicense;
+            }
+            catch
+            {
+                var testerLicense = from tester in AllTesters
+                                    where tester.LicenseTypeTeaching.Any(x => x == license)
+                                    select tester;
+                if (!testerLicense.Any())
+                    throw new Exception("there is no tester with the right license");
+
+                return testerLicense;
+            }
+        }
+
+        /// <summary>
         ///     get all tests that the resualts are not updated
         /// </summary>
         /// <returns></returns>

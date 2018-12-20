@@ -33,8 +33,7 @@ namespace BL
         //get list of testers that..
         IEnumerable<Tester> GetAvailableTesters(DateTime date);
         IEnumerable<Tester> GetAllTestersInRadios(int r, Address a);
-        IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address,LicenseType license);
-
+        IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license);
 
         //get tests that..
         IEnumerable<Test> GetAllTestsSortedByDate();

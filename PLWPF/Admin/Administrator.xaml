@@ -7,7 +7,7 @@
         xmlns:mainObjects="clr-namespace:BE.MainObjects;assembly=BE"
         mc:Ignorable="d"
         xmlns:Converters="clr-namespace:PLWPF.Converters"
-        Title="Administrator" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        Title="Administrator" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <local:LessonAndTypeToString x:Key="LessonAndTypeToString"></local:LessonAndTypeToString>
         <local:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString"></local:LicenseTypeLearningToString>

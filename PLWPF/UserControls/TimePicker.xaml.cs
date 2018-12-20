@@ -22,11 +22,7 @@ namespace PLWPF.UserControls
     {
         public int SelectedHour
         {
-            set
-            {
-                var time = $"{value:00}:00";
-                ComboxTime.SelectedItem = time;
-            }
+            set { ComboxTime.SelectedItem = string.Format("{0:00}:00", value);}
             get { return int.Parse(ComboxTime.SelectedItem.ToString().Substring(0, 2)); }
         }
         private bool[] hoursToShow=new bool[24];
@@ -40,7 +36,7 @@ namespace PLWPF.UserControls
                 {
                     if (value[i])
                     {
-                        listHours[i] = $"{i:00}:00";
+                        listHours.Add(string.Format("{0:00}:00", i));
                         hoursToShow[i] = true;
                     }
                 }
@@ -57,7 +53,7 @@ namespace PLWPF.UserControls
             int i = 0;
             for (;i<24;i++)
             {
-                listHours.Add($"{i:00}:00");
+                listHours.Add(string.Format("{0:00}:00", i));
                 hoursToShow[i] = true;
             }
 
@@ -68,7 +64,11 @@ namespace PLWPF.UserControls
 
         private void ComboxTime_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectionChanged(this, e);
+            try
+            {
+                SelectionChanged(this, e);
+            }
+            catch { }
         }
     }
 }

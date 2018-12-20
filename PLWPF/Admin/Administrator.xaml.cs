@@ -168,6 +168,7 @@ namespace PLWPF.Admin
             try
             {
                 var win = new EditTest((TestGrid.SelectedItem as Test).Id);
+
                 win.ShowDialog();
                 RefreshData();
             }

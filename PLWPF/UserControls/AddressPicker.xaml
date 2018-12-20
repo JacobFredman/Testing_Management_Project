@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PLWPF.UserControls"
              mc:Ignorable="d" LostFocus="UserControl_LostFocus" 
             >
-    <StackPanel MinWidth="100">
+    <StackPanel MinWidth="100" ZIndex="0">
             <TextBox x:Name="TexBoxAddress" HorizontalAlignment="Stretch" TextChanged="TexBoxAddress_TextChanged"></TextBox>
         <ListBox x:Name="ListBoxSuggestions" Height="120" Visibility="Collapsed" SelectionChanged="ListBoxSuggestions_SelectionChanged"></ListBox>
     </StackPanel>
