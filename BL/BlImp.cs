@@ -72,7 +72,7 @@ namespace BL
 
             try
             {
-                var trainee = AllTrainee.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                var trainee = AllTrainees.Where(x => x.Id == id && x.BirthDate == birthDate).First();
                 return trainee.GetType().ToString();
             }
             catch
@@ -141,17 +141,17 @@ namespace BL
             var testMissingDate = newTest.TestTime == DateTime.MinValue;
 
             var testerExist = AllTesters.Any(tester => tester.Id == newTest.TesterId);
-            var traineeExist = AllTrainee.Any(trainee => trainee.Id == newTest.TraineeId);
+            var traineeExist = AllTrainees.Any(trainee => trainee.Id == newTest.TraineeId);
 
             var twoTestesTooClose = AllTests.Any(test =>
                 test.TraineeId == newTest.TraineeId && test.LicenseType == newTest.LicenseType &&
                 Math.Abs((newTest.TestTime - test.TestTime).TotalDays) < Configuration.MinTimeBetweenTests);
 
-            var lessThenMinLessons = AllTrainee.Any(trainee =>
+            var lessThenMinLessons = AllTrainees.Any(trainee =>
                 trainee.Id == newTest.TraineeId && trainee.LicenseTypeLearning.Any(l =>
                     l.License == newTest.LicenseType && l.NumberOfLessons < Configuration.MinLessons));
 
-            var traineeIsLearningLicense = AllTrainee.Any(trainee =>
+            var traineeIsLearningLicense = AllTrainees.Any(trainee =>
                 trainee.Id == newTest.TraineeId &&
                 trainee.LicenseTypeLearning.Any(l => l.License == newTest.LicenseType));
             var testerIsTeachingLicense = AllTesters.Any(tester =>
@@ -167,7 +167,7 @@ namespace BL
             var testerHasTestInSameTime =
                 AllTests.Any(test => test.TesterId == newTest.TesterId && newTest.TestTime == test.TestTime);
 
-            var traineeHasLicenseAlready = AllTrainee.Any(trainee =>
+            var traineeHasLicenseAlready = AllTrainees.Any(trainee =>
                 trainee.Id == newTest.TraineeId && trainee.LicenseType.Any(license => license == newTest.LicenseType));
 
             var traineePassedTestAlready = AllTests.Any(test =>
@@ -227,7 +227,7 @@ namespace BL
             updatedTest.UpdatePassedTest();
             //add the test to the trainee
             if (updatedTest.Passed == true)
-                AllTrainee.First(trainee => trainee.Id == updatedTest.TraineeId).LicenseType
+                AllTrainees.First(trainee => trainee.Id == updatedTest.TraineeId).LicenseType
                     .Add(updatedTest.LicenseType);
             //update test
             _dalImp.UpdateTest(updatedTest);
@@ -243,7 +243,7 @@ namespace BL
         /// <param name="newTrainee">The Trainee to add</param>
         public void AddTrainee(Trainee newTrainee)
         {
-            if (AllTrainee.Any(trainee => trainee.Id == newTrainee.Id)) throw new Exception("Trainee already exist");
+            if (AllTrainees.Any(trainee => trainee.Id == newTrainee.Id)) throw new Exception("Trainee already exist");
             if (GetAge(newTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("the trainee is too young");
             if (newTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
@@ -257,7 +257,7 @@ namespace BL
         /// <param name="traineeToDelete">The Trainee to add</param>
         public void RemoveTrainee(Trainee traineeToDelete)
         {
-            if (AllTrainee.All(trainee => trainee.Id != traineeToDelete.Id))
+            if (AllTrainees.All(trainee => trainee.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
             _dalImp.RemoveTrainee(traineeToDelete);
         }
@@ -268,7 +268,7 @@ namespace BL
         /// <param name="updatedTrainee">The Trainee to update</param>
         public void UpdateTrainee(Trainee updatedTrainee)
         {
-            if (AllTrainee.All(trainee => trainee.Id != updatedTrainee.Id))
+            if (AllTrainees.All(trainee => trainee.Id != updatedTrainee.Id))
                 throw new Exception("Trainee doesn't exist");
             if (GetAge(updatedTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("the trainee is too young");
@@ -284,7 +284,7 @@ namespace BL
         /// <summary>
         ///     Get All Trainee's
         /// </summary>
-        public IEnumerable<Trainee> AllTrainee => _dalImp.AllTrainee;
+        public IEnumerable<Trainee> AllTrainees => _dalImp.AllTrainee;
 
         /// <summary>
         ///     Get all Tester's
@@ -416,6 +416,51 @@ namespace BL
         }
 
         /// <summary>
+        ///     Get all the testers that are the best for the test ordered by the distance from the address
+        /// </summary>
+        /// <param name="date">the date</param>
+        /// <param name="address">the address</param>
+        /// <param name="license">the license</param>
+        /// <returns></returns>
+        public IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license)
+        {
+            try
+            {
+               
+
+                //check internet connectivity
+                var wc = new WebClient();
+                wc.DownloadData("https://www.google.com/");
+
+                var testerDistance = from tester in AllTesters
+                                     where tester.Address != null
+                                     let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                                     select new { tester, distance };
+                if (!testerDistance.Any())
+                    throw new Exception("There are no testers in the current address please try an other address");
+
+                var testerLicense = from tester in testerDistance
+                                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                                    orderby tester.distance
+                                    select tester.tester;
+                if (!testerLicense.Any())
+                    throw new Exception("there is no tester with the right license in the current date and location");
+
+                return testerLicense;
+            }
+            catch
+            {
+                var testerLicense = from tester in AllTesters
+                                    where tester.LicenseTypeTeaching.Any(x => x == license)
+                                    select tester;
+                if (!testerLicense.Any())
+                    throw new Exception("there is no tester with the right license");
+
+                return testerLicense;
+            }
+        }
+
+        /// <summary>
         ///     get all tests that the resualts are not updated
         /// </summary>
         /// <returns></returns>
@@ -444,7 +489,7 @@ namespace BL
             return from test in AllTests
                 where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
                       date.Year && test.Passed == true
-                select AllTrainee.First(x => x.Id == test.TraineeId);
+                select AllTrainees.First(x => x.Id == test.TraineeId);
         }
 
         /// <summary>
@@ -457,7 +502,7 @@ namespace BL
             return from test in AllTests
                 where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
                       date.Year && test.Passed == false
-                select AllTrainee.First(x => x.Id == test.TraineeId);
+                select AllTrainees.First(x => x.Id == test.TraineeId);
         }
 
         #endregion
@@ -480,10 +525,10 @@ namespace BL
         public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false)
         {
             return sorted
-                ? from trainee in AllTrainee
+                ? from trainee in AllTrainees
                 orderby trainee.Id
                 group trainee by trainee.TesterId
-                : from trainee in AllTrainee
+                : from trainee in AllTrainees
                 group trainee by trainee.TesterId;
         }
 
@@ -494,10 +539,10 @@ namespace BL
         public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false)
         {
             return sorted
-                ? from trainee in AllTrainee
+                ? from trainee in AllTrainees
                 orderby trainee.Id
                 group trainee by trainee.SchoolName
-                : from trainee in AllTrainee
+                : from trainee in AllTrainees
                 orderby trainee.Id
                 group trainee by trainee.SchoolName;
         }
@@ -508,7 +553,7 @@ namespace BL
         /// <returns>All Trainee's grouped by Their number of test's</returns>
         public IEnumerable<IGrouping<int, Trainee>> GetAllTraineeByNumberOfTests(bool sorted = false)
         {
-            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(GetNumberOfTests);
+            return (sorted ? AllTrainees.OrderBy(x => x.Id) : AllTrainees).GroupBy(GetNumberOfTests);
         }
 
         /// <summary>
@@ -528,7 +573,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
         {
-            return (sorted ? AllTrainee.OrderBy(x => x.Id) : AllTrainee).GroupBy(x => x.LicenseTypeLearning.Select(y=>y.License).ToList());
+            return (sorted ? AllTrainees.OrderBy(x => x.Id) : AllTrainees).GroupBy(x => x.LicenseTypeLearning.Select(y=>y.License).ToList());
         }
 
         #endregion

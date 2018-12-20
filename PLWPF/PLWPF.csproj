@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,11 +81,8 @@
     <Compile Include="Admin\ManageTester\AddTester.xaml.cs">
       <DependentUpon>AddTester.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Admin\ManageTest\ShowTest.xaml.cs">
-      <DependentUpon>ShowTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\ManageTest\UpdateTest.xaml.cs">
-      <DependentUpon>UpdateTest.xaml</DependentUpon>
+    <Compile Include="Admin\ManageTest\EditTest.xaml.cs">
+      <DependentUpon>EditTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Admin\ManageTrainee\AddTrainee.xaml.cs">
       <DependentUpon>AddTrainee.xaml</DependentUpon>
@@ -92,11 +90,20 @@
     <Compile Include="Admin\TestLists\ShowList.xaml.cs">
       <DependentUpon>ShowList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ActualTestTimeConv.cs" />
+    <Compile Include="Converters\LessonAndTypeToString.cs" />
+    <Compile Include="Converters\LicenseTypeLearningToString.cs" />
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Trainee\TraineeWin.xaml.cs">
       <DependentUpon>TraineeWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AddressPicker.xaml.cs">
+      <DependentUpon>AddressPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
     <Page Include="Admin\Administrator.xaml">
       <SubType>Designer</SubType>
@@ -106,11 +113,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Admin\ManageTest\ShowTest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Admin\ManageTest\UpdateTest.xaml">
+    <Page Include="Admin\ManageTest\EditTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,11 +137,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="res\lang\en.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="res\theme\theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="res\theme\LightBlue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Terter\TesterWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Trainee\TraineeWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\AddressPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

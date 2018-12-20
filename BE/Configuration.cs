@@ -1,4 +1,6 @@
-﻿namespace BE
+﻿using System.Collections.Generic;
+
+namespace BE
 {
     /// <summary>
     ///     static configurations for the program
@@ -85,5 +87,19 @@
         ///     If the program is opend for the first time
         /// </summary>
         public static bool firtOpenProgram = true;
+
+        public static string[] Criterions = new string[]
+        {
+            "Kept Distance",
+            "Parking",
+            "Reverse Parking",
+            "Check Mirrors",
+            "Used Signal",
+            "kept Right of Presidence",
+            "Stopped at Red",
+            "Stopped At Cross Walk",
+            "Right Turn",
+            "Immediate Stop"
+        };
     }
 }

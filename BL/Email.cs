@@ -17,7 +17,7 @@ namespace BL
             int count = 0;
             foreach (Test test in bl.GetAllTestsToCome())
             {
-                var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
+                var trainee = bl.AllTrainees.First(x => x.Id == test.TraineeId);
                 try
                 {
                     SentEmailToTraineeBeforeTest(test, trainee);
@@ -33,7 +33,7 @@ namespace BL
             int count = 0;
             foreach (Test test in bl.GetAllTestsThatHappened())
             {
-                var trainee = bl.AllTrainee.First(x => x.Id == test.TraineeId);
+                var trainee = bl.AllTrainees.First(x => x.Id == test.TraineeId);
                 try
                 {
                     Pdf.CreateLicensePdf(test, trainee);

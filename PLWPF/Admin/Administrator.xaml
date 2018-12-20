@@ -3,132 +3,304 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PLWPF.Admin"
+        xmlns:local="clr-namespace:PLWPF.Converters"
+        xmlns:mainObjects="clr-namespace:BE.MainObjects;assembly=BE"
         mc:Ignorable="d"
-        Title="Administrator" Height="450" Width="800">
-    <StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+        xmlns:Converters="clr-namespace:PLWPF.Converters"
+        Title="Administrator" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:LessonAndTypeToString x:Key="LessonAndTypeToString"></local:LessonAndTypeToString>
+        <local:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString"></local:LicenseTypeLearningToString>
+        <local:ActualTestTimeConv x:Key="ActualTestTimeConv"></local:ActualTestTimeConv>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Height="25">
+            <MenuItem Header="Add new">
+                <MenuItem Header="Trainee" Click="AddTraineeClick"></MenuItem>
+                <MenuItem Header="Tester" Click="AddTesterClick"></MenuItem>
+                <MenuItem Header="Test" Click="AddTestClick"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Manage">
+                <MenuItem Header="Export to Excel">
+                    <MenuItem Header="All Trainee"></MenuItem>
+                    <MenuItem Header="All Testers"></MenuItem>
+                    <MenuItem Header="All Tests"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Send Email"></MenuItem>
+                <MenuItem Header="Settings"></MenuItem>
+                <MenuItem Header="Help"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal" Background="{DynamicResource LoginBackground}">
+            <Label Content="Trainees: "></Label>
+            <Label x:Name="NumberOfTraineesLabel" Content="0"></Label>
+            <Label Content="     Testers: "></Label>
+            <Label x:Name="NumberOfTestersLabel" Content="0"></Label>
+            <Label Content="     Tests: "></Label>
+            <Label x:Name="NumberOfTestsLabel" Content="0"></Label>
+            <Label x:Name="ProgressLabel" Margin="100,0,0,0"></Label>
+        </StackPanel>
+        <TabControl >
+            <TabItem Header="Trainees">
+                <DockPanel LastChildFill="True" >
+                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200"  DockPanel.Dock="Right">
+                        <Expander x:Name="FilterTraineeExpander" Header="Filter">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="License: " Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTrainee" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
 
-            </Grid.RowDefinitions>
-            <GroupBox Header="Trainee" Margin="2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0">
-                <StackPanel>
-                    <Button x:Name="AddTrainee" Content="Add Trainee" Margin="10"  Width="100" Height="40" Grid.Column="1" Grid.Row="1" Click="AddTrainee_Click" RenderTransformOrigin="-0.409,-0.034"/>
-                    <GroupBox Header="Update" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1">
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox x:Name="ComboxUpdateTrainee" ItemsSource="{Binding}" Width="110" Height="25" Margin="10"/>
-                            <Button x:Name="Updatetrainee" Content="Update Trainee" Margin="10"  Height="23" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Right" Click="Updatetrainee_Click"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Remove" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1">
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox x:Name="ComboxRemoveTrainee" ItemsSource="{Binding}" Width="110" Height="25" Margin="10"/>
-                            <Button x:Name="Removetrainee" Content="Remove Trainee" Margin="10"  Height="23" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Right" Click="Removetrainee_Click" />
-                        </StackPanel>
-                    </GroupBox>
+                                    <Label Content="School: " Grid.Row="1" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterSchoolTrainee" Grid.Row="1" Grid.Column="1" Margin="3"></ComboBox>
 
-                </StackPanel>
-            </GroupBox>
+                                    <Label Content="Tester: " Grid.Row="2" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterTesterIdTrainee" Grid.Row="2" Grid.Column="1" Margin="3"></ComboBox>
 
-            <GroupBox Header="Tester" Margin="2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="1">
-                <StackPanel>
-                    <Button x:Name="AddTester" Content="Add Tester" Margin="10"  Width="100" Height="40" Grid.Column="1" Grid.Row="1"  RenderTransformOrigin="-0.409,-0.034" Click="AddTester_Click"/>
-                    <GroupBox Header="Update" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1">
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox x:Name="ComboxUpdateTester" ItemsSource="{Binding}" Width="110" Height="25" Margin="10"/>
-                            <Button x:Name="UpdateTester" Content="Update Tester" Margin="10"  Height="23" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Right" Click="UpdateTester_Click" />
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Remove" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1">
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox x:Name="ComboxRemoveTsster" ItemsSource="{Binding}" Width="110" Height="25" Margin="10"/>
-                            <Button x:Name="RemoveTester" Content="Remove Tester" Margin="10"  Height="23" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Right" Click="RemoveTester_Click"  />
-                        </StackPanel>
-                    </GroupBox>
+                                    <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterOtherTrainee" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
-                </StackPanel>
-            </GroupBox>
+                                    <Button x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                        <Expander x:Name="SearchTraineeExpander" Header="Search">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchIdTrainee" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
 
-            <GroupBox x:Name="TestGroup" Header="Test" Margin="2" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="2">
-                <StackPanel>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchFirstNameTrainee" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
 
+                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchLastNameTrainee" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
 
-                        </Grid.RowDefinitions>
-                        <Label Content="Trainee:" Grid.Column="0" Grid.Row="0"/>
-                        <ComboBox x:Name="PickTrainee" Grid.Row="0" Grid.Column="1" Width="120" Margin="3" SelectionChanged="PickTrainee_SelectionChanged"/>
-                        <Label Content="Address: " Grid.Row="1" Grid.Column="0"/>
-                        <TextBox x:Name="GetAddressTextBox" Grid.Row="1" Grid.Column="1" Width="120" Margin="3"/>
-                        <Label Content="Date:" Grid.Row="2" Grid.Column="0"/>
-                        <DatePicker x:Name="TestDatePick" Grid.Row="2" Grid.Column="1"/>
-                        <Label Content="Time" Grid.Row="3"/>
-                        <ComboBox x:Name="SelectTimeTest" Grid.Row="3" Grid.Column="1" Margin="3" Width="120" />
-                        <Label Content="License:" Grid.Row="4"/>
-                        <ComboBox x:Name="testlicense" Grid.Row="4" Grid.Column="1" Width="120" Margin="3"/>
-                        <Button x:Name="SetTestButton" Content="Set Test" Margin="3" HorizontalAlignment="Center" Width="60" Click="SetTestButton_Click" Grid.Row="5"/>
-                        <Label x:Name="testAdding" Content="Adding test please wait....." Foreground="Red" Grid.Row="5" Grid.Column="1" Visibility="Hidden"/>
-                    </Grid>
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="GetTestId" Width="90" Margin="3,10,3,3" HorizontalAlignment="Center"/>
-                        <Button x:Name="ShowTest" Content="Show"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="ShowTest_Click"/>
-                        <Button x:Name="UpdateTest" Content="Update"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="UpdateTest_Click"/>
-                        <Button x:Name="RemoveTest" Content="Delete"  Margin="3,10,3,3" HorizontalAlignment="Center" Click="RemoveTest_Click" />
-
+                                    <Button x:Name="SearchTraineeButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
                     </StackPanel>
-                </StackPanel>
-            </GroupBox>
 
+                    <DataGrid   x:Name="TraineeGrid" ItemsSource="{Binding AllTrainees }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" >
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Update" Click="UpdateTraineeClick"></MenuItem>
+                                <MenuItem Header="Remove" Click="RemoveTraineeClick"></MenuItem>
+                                <MenuItem Header="Add new Trainee" Click="AddTraineeClick"  ></MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource ID}" Binding="{Binding Id}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d/M/yyyy}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="License Type Learning" Binding="{Binding LicenseTypeLearning ,Converter={StaticResource LessonAndTypeToString} }"></DataGridTextColumn>
+                            <DataGridTextColumn Header="School Name" Binding="{Binding SchoolName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterId}"></DataGridTextColumn>
 
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-        </Grid>
+                </DockPanel>
+            </TabItem>
 
-        <GroupBox Header="Get Lists BL" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
-            <StackPanel Orientation="Horizontal">
-                <ComboBox x:Name="SelectFuncBl" Width="200" Margin="3" SelectionChanged="SelectFuncBl_SelectionChanged" />
-                <DatePicker x:Name="PickDateTester" Margin="3" Visibility="Collapsed"/>
-                <Label x:Name="AddressLebel" Content="Address" Visibility="Collapsed"/>
-                <TextBox x:Name="AddressTextBox" Width="100" Margin="0,3,3,3" Visibility="Collapsed"/>
-                <Label x:Name="RadoisLabel" Content="Radios" Visibility="Collapsed"/>
-                <TextBox x:Name="Radios" Width="100" Margin="3" Visibility="Collapsed"/>
-                <ComboBox x:Name="GroupingBox" Width="130" Margin="3" Visibility="Collapsed"/>
-                <Button Content="Show List" Margin="3" Click="Button_Click" />
-            </StackPanel>
-        </GroupBox>
-        <GroupBox x:Name="ExportGroup" Header="Export" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
-            <StackPanel Orientation="Horizontal">
-            <Button x:Name="AllTraineeToExcel" Content="All Trainee" Margin="3" HorizontalAlignment="Center" Click="AllTraineeToExcel_Click" />
-            <Button x:Name="AllTestersToExcel" Content="All Testers" Margin="3" HorizontalAlignment="Center" Click="AllTestersToExcel_Click" />
-            <Button x:Name="AllTestsToExcel" Content="All Tests" Margin="3" HorizontalAlignment="Center" Click="AllTestsToExcel_Click" />
-                <Label x:Name="exportingLabel" Content="Exporting Please Wait...." Foreground="Red" Visibility="Hidden"/>
-            </StackPanel>
-        </GroupBox>
+            <TabItem Header="Testers">
+                <DockPanel  LastChildFill="True" >
+                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                        <Expander x:Name="FilterTesterExpander" Header="Filter">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="License: " Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTester" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
 
-        <GroupBox x:Name="EmailGroup" Header="Emails" Background="LightBlue" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Margin="1" >
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="SendBeforeTest" Content="Send Email Before Test" Margin="3" HorizontalAlignment="Center" Click="SendBeforeTest_Click"/>
-                <Button x:Name="SendAfterTest" Content="Send Email After Test" Margin="3" HorizontalAlignment="Center" Click="SendAfterTest_Click"/>
-                <Label x:Name="emailWaitLabel" Content="Sending Emails Please Wait...." Foreground="Red" Visibility="Hidden" />
-            </StackPanel>
-        </GroupBox>
+                                    <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterOtherTester" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
+                                    <Button x:Name="ClearFilterButtonTester" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                        <Expander x:Name="SearchTraineeExpanderTester" Header="Search">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchIdTester" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
 
-    </StackPanel>
- 
+                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchFirstNameTester" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchLastNameTester" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Button x:Name="SearchTesterButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                    </StackPanel>
+
+                    <DataGrid  x:Name="TesterGrid" ItemsSource="{Binding AllTesters }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick" >
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Update" Click="UpdateTesterClick"></MenuItem>
+                                <MenuItem Header="Remove" Click="RemoveTesterClick"></MenuItem>
+                                <MenuItem Header="Add new Tester"  Click="AddTesterClick" ></MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource ID}" Binding="{Binding Id}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d/M/yyyy}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="License Type Learning" Binding="{Binding LicenseTypeTeaching ,Converter={StaticResource LicenseTypeLearningToString} }"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Experience" Binding="{Binding Experience}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Max Exams in Week" Binding="{Binding MaxWeekExams}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Max Distance" Binding="{Binding MaxDistance}"></DataGridTextColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Tests">
+                <DockPanel  LastChildFill="True" >
+                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                        <Expander x:Name="FilterTestExpander" Header="Filter">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="License: " Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTest" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
+
+                                    <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
+
+                                    <Button x:Name="ClearFilterButtonTest" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                        <Expander x:Name="SearchTraineeExpanderTest" Header="Search">
+                            <Expander.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchIdTest" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchFirstNameTest" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchLastNameTest" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+
+                                    <Button x:Name="SearchTestButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                    </StackPanel>
+
+                    <DataGrid  x:Name="TestGrid" ItemsSource="{Binding AllTests }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" >
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Update" Click="UpdateTestClick"></MenuItem>
+                                <MenuItem Header="Remove" Click="RemoveTestClick"></MenuItem>
+                                <MenuItem Header="Add new Tester"  Click="AddTestClick" ></MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource ID}" Binding="{Binding Id}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="License Type" Binding="{Binding LicenseType}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Test Time" Binding="{Binding TestTime, StringFormat=d/M/yyyy hh:mm}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Actual Test Time" Binding="{Binding ActualTestTime ,Converter={StaticResource ActualTestTimeConv}}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Beginning Address" Binding="{Binding AddressOfBeginningTest}"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Passed Test" Binding="{Binding Passed}"></DataGridCheckBoxColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </DockPanel>
+
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
 </Window>

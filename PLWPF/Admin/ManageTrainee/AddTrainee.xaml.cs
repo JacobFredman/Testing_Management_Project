@@ -48,7 +48,7 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 try
                 {
-                    trainee = _blimp.AllTrainee.First(x => x.Id == id);
+                    trainee = _blimp.AllTrainees.First(x => x.Id == id);
                     DataContext = trainee;
                     idTextBox.IsEnabled = false;
                     update = true;

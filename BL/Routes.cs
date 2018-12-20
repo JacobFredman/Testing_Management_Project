@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -70,6 +72,24 @@ namespace BL
                 if (gex == null)
                     throw new GoogleAddressException(ex.Message, "CONNECTION_FAILURE");
                 throw new GoogleAddressException(ex.Message + gex.ErrorCode, "ADDRESS_FAILURE");
+            }
+        }
+
+        public static List<string> GetAddressSuggestionsGoogle(string input)
+        {
+            var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
+                      "&types=address&location=31.728220,34.983749&radius=300000&key=" + Configuration.Key;
+            try
+            {
+                var xml = DownloadDataIntoXml(url);
+                return (from adr in xml.Elements()
+                        where adr.Name == "prediction"
+                        select (string) adr.Element("description").Value
+                    ).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

@@ -26,15 +26,14 @@ namespace BL
         void UpdateTrainee(Trainee updatedTrainee);
 
         //get list copy's
-        IEnumerable<Trainee> AllTrainee { get; }
+        IEnumerable<Trainee> AllTrainees { get; }
         IEnumerable<Tester> AllTesters { get; }
         IEnumerable<Test> AllTests { get; }
 
         //get list of testers that..
         IEnumerable<Tester> GetAvailableTesters(DateTime date);
         IEnumerable<Tester> GetAllTestersInRadios(int r, Address a);
-        IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address,LicenseType license);
-
+        IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license);
 
         //get tests that..
         IEnumerable<Test> GetAllTestsSortedByDate();

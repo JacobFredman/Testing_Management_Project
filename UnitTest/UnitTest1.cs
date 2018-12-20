@@ -33,7 +33,7 @@ namespace UnitTest
 
             // Act
             bl.AddTrainee(trainee);
-            var result = bl.AllTrainee.Any(t => t.Id == trainee.Id);
+            var result = bl.AllTrainees.Any(t => t.Id == trainee.Id);
 
             //Assert
             Assert.IsTrue(result);
@@ -48,7 +48,7 @@ namespace UnitTest
 
             // Act
             bl.AddTest(test);
-            var result = bl.AllTrainee.Any(t => t.Id == test.TraineeId);
+            var result = bl.AllTrainees.Any(t => t.Id == test.TraineeId);
 
             //Assert
             Assert.IsTrue(result);

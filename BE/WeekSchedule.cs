@@ -180,7 +180,7 @@ namespace BE
         /// <returns></returns>
         public override string ToString()
         {
-            return days.Aggregate("", (current, d) => current + d.ToString() + "\n");
+            return days.Aggregate("", (current, d) => current + d.ToString() + ", ");
         }
     }
 }

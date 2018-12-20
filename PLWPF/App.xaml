@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:PLWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="res/theme/theme.xaml"/>
+                <ResourceDictionary Source="res/lang/en.xaml"/>
 
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
+  
 </Application>

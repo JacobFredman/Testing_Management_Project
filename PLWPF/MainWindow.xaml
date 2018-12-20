@@ -1,29 +1,51 @@
-﻿<Window x:Name="MainWindow1" x:Class="PLWPF.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="PLWPF.MainWindow"
         mc:Ignorable="d"
-        Title="Login" Width="480" Height="180" MinWidth="480" MinHeight="180">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Label Content="Id / user name :" Grid.Column="0" Grid.Row="0" Margin="10,10,10,10" />
-        <Label Content="Birth date / password :" Grid.Column="0" Grid.Row="1" Margin="10,10,10,10" />
-        <Label x:Name="IdErrorLabel" Content="Invalid id" Grid.Column="3" Grid.Row="0"  Height="23" Visibility="Hidden" Foreground="Red" />
-        <Label x:Name="BirthDateError" Content="Invalid Date" Grid.Column="3" Grid.Row="1"  Height="23" Visibility="Hidden" Foreground="Red"/>
-        <TextBox x:Name="IdTextBox" Grid.Column="1"  Margin="11,10,9,10" Grid.Row="0" Height="23" Width="220" TextChanged="IdTextBox_TextChanged"/>
-        <TextBox x:Name="BirthDateTextBox" Grid.Column="1"  Margin="11,10,9,10" Grid.Row="1" Height="23" Width="220" TextChanged="BirthDateTextBox_TextChanged"/>
-        <Button x:Name="LoginButton" Content="Login"  Width="150" Grid.Column="0" Margin="10" Grid.Row="2" Grid.ColumnSpan="3" Height="30" Click="LoginButton_Click"/>
+        Title="Login" SizeToContent="WidthAndHeight">
 
-    </Grid>
+
+    <TabControl>
+        <!--Administrator Login-->
+        <TabItem Header="{DynamicResource Administrator}" >
+            <StackPanel  Background="{DynamicResource LoginBackground}">
+                <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3"/>
+                <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,10,10,3">
+                    <Label Content="{DynamicResource Username}"/>
+                    <TextBox x:Name="AdminUsernameTextBox" Margin="3" Width="120" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,3,10,10">
+                    <Label Content="Password:  "/>
+                    <PasswordBox x:Name="AdminPasswordTextBox" Margin="3" Width="120"/>
+                </StackPanel>
+                <Button x:Name="AdminLoginButton" Content="{DynamicResource Login}" Margin="10,3,10,10" HorizontalAlignment="Center" Padding="3" Width="50" Click="AdminLoginButton_Click"/>
+            </StackPanel>
+        </TabItem>
+        <!--Tester login-->
+        <TabItem Header="{DynamicResource Tester}">
+            <StackPanel Background="{DynamicResource ResourceKey=LoginBackground}">
+                <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
+                <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Label Content="{DynamicResource ID}"/>
+                    <TextBox x:Name="TesterIDTestBox" Margin="3" Width="120" HorizontalAlignment="Center" TextChanged="TesterIDTestBox_TextChanged"/>
+                </StackPanel>
+                <Button x:Name="TesterLoginButton" Padding="3" Margin="10" HorizontalAlignment="Center" Width="50" Content="{DynamicResource Login}" IsEnabled="False" Click="TesterLoginButton_Click"/>
+            </StackPanel>
+        </TabItem>
+        <!--Trainee login-->
+        <TabItem Header="{DynamicResource Trainee}">
+            <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource LoginBackground}">
+                <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
+                <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Label Content="{DynamicResource ID}"/>
+                    <TextBox x:Name="TraineeIDTestBox" Margin="3" Width="120" HorizontalAlignment="Center" TextChanged="TraineeIDTestBox_TextChanged"/>
+                </StackPanel>
+                <Button x:Name="TraineeLoginButton" Content="{DynamicResource Login}" Padding="3" Margin="10" HorizontalAlignment="Center" Width="50" IsEnabled="False" Click="TraineeLoginButton_Click"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
 </Window>
