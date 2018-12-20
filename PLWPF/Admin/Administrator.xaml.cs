@@ -34,6 +34,10 @@ namespace PLWPF.Admin
             InitializeComponent();
 
             RefreshData();
+            TraineeGrid.DataContext = bL.AllTrainees;
+            TesterGrid.DataContext = bL.AllTesters;
+            TestGrid.DataContext = bL.AllTests;
+
 
         }
         #region Trainee
@@ -223,9 +227,70 @@ namespace PLWPF.Admin
         {
             DataContext = null;
             DataContext = bL;
+
+            TraineeGrid.DataContext = null;
+            TraineeGrid.DataContext = bL.AllTrainees;
+
+            TesterGrid.DataContext = null;
+            TesterGrid.DataContext = bL.AllTesters;
+
+            TestGrid.DataContext = null;
+            TestGrid.DataContext = bL.AllTests;
+
             NumberOfTraineesLabel.Content = bL.AllTrainees.Count().ToString();
             NumberOfTestersLabel.Content = bL.AllTesters.Count().ToString();
             NumberOfTestsLabel.Content = bL.AllTests.Count().ToString();
+
+        }
+
+        private void TextBoxSearchTrainee_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextBoxSearchTrainee.Text == "")
+                TraineeGrid.DataContext = bL.AllTrainees.ToList();
+            else
+            {
+                TraineeGrid.DataContext = bL.SearchTrainee(TextBoxSearchTrainee.Text);
+            }
+        }
+
+        private void SearchTextBoxTester_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SearchTextBoxTester.Text == "")
+                TesterGrid.DataContext = bL.AllTesters.ToList();
+            else
+            {
+                TesterGrid.DataContext = bL.SearchTester(SearchTextBoxTester.Text);
+            }
+        }
+
+        private void TextBoxSearchTest_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextBoxSearchTest.Text == "")
+                TestGrid.DataContext = bL.AllTests.ToList();
+            else
+            {
+                TestGrid.DataContext = bL.SearchTest(TextBoxSearchTest.Text);
+            }
+        }
+
+        private void SearchTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string id = (TextBoxSearchIdTrainee.Text != "") ? TextBoxSearchIdTrainee.Text : null;
+            string FName= (TextBoxSearchFirstNameTrainee.Text != "") ? TextBoxSearchFirstNameTrainee.Text : null;
+            string LName = (TextBoxSearchLastNameTrainee.Text != "") ? TextBoxSearchLastNameTrainee.Text : null;
+            var list = bL.AllTrainees.Where(p =>
+            {
+                if (id != null && id == p.Id.ToString()) return true;
+                if (FName != null && FName.ToLower() == p.FirstName.ToLower()) return true;
+                if (LName != null && LName.ToLower() == p.LastName.ToLower()) return true;
+                return false;
+            });
+            TraineeGrid.DataContext = list;
+        }
+
+        private void SearchClearTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
         }
     }
 }

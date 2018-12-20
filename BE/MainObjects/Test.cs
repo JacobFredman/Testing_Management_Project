@@ -128,6 +128,7 @@ namespace BE.MainObjects
                     AddressOfBeginningTest != null ? AddressOfBeginningTest.Clone() as Address : null,
                 Criteria = newCriteria,
                 Passed = Passed,
+                Comment = Comment,
                 Id = Id,
                 LicenseType = LicenseType,
                 RouteUrl = RouteUrl != null ? RouteUrl : null

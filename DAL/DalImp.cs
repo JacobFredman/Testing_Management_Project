@@ -172,7 +172,7 @@ namespace DAL
                 var allTesters = new List<Tester>();
                 foreach (var item in DataSource.Testers)
                     allTesters.Add(item.Clone() as Tester);
-                return allTesters;
+                return allTesters.OrderBy(x=>x.Id);
             }
         }
 
@@ -186,7 +186,7 @@ namespace DAL
                 var allTest = new List<Test>();
                 foreach (var item in DataSource.Tests)
                     allTest.Add(item.Clone() as Test);
-                return allTest;
+                return allTest.OrderBy(x => x.Id); ;
             }
         }
 
@@ -200,7 +200,7 @@ namespace DAL
                 var allTrainee = new List<Trainee>();
                 foreach (var item in DataSource.Trainees)
                     allTrainee.Add(item.Clone() as Trainee);
-                return allTrainee;
+                return allTrainee.OrderBy(x => x.Id); ;
             }
         }
 

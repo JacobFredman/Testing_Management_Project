@@ -93,7 +93,7 @@
             <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center"  Margin="3" Grid.Row="7" IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" IsEnabled="False" />
 
-            <GroupBox Header="Test Route" Grid.ColumnSpan="2" Grid.Row="8">
+            <GroupBox Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2" Grid.Row="8">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="ShowRouteUrlButton" Content="Show Test Route"  HorizontalAlignment="Stretch"  Margin="10,3,10,3" Click="ShowRouteUrlButton_Click" />
                     <Button x:Name="SetRouteButton" Content="Set new Route" Margin="10,3,10,3" Click="SetRouteButton_Click"></Button>
@@ -105,11 +105,11 @@
         <Button x:Name="Save" Width="100" Content="Save" HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom" Click="Save_Click"></Button>
         <StackPanel >
 
-            <GroupBox x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results">
+            <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results">
                 <StackPanel>
                     <Label Content="Comments: "></Label>
                     <TextBox x:Name="TextBoxComment" Height="50" Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"></TextBox>
-                    <GroupBox   Header="Criterion" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+                    <GroupBox BorderBrush="Black" BorderThickness="1"  Header="Criterion" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
 
                         <DataGrid x:Name="CriterionsDataGrid" ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  HorizontalAlignment="Stretch" Height="150"  AutoGenerateColumns="False" >
                             <DataGrid.Columns>
@@ -121,7 +121,7 @@
 
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Notifications" Margin="3">
+            <GroupBox Header="Notifications" BorderBrush="Black" Margin="3">
                 <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red"></TextBlock>
             </GroupBox>
         </StackPanel>

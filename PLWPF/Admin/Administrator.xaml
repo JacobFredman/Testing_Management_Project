@@ -31,7 +31,7 @@
                 <MenuItem Header="Help"></MenuItem>
             </MenuItem>
         </Menu>
-        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal" Background="{DynamicResource LoginBackground}">
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal" Background="{DynamicResource Background}">
             <Label Content="Trainees: "></Label>
             <Label x:Name="NumberOfTraineesLabel" Content="0"></Label>
             <Label Content="     Testers: "></Label>
@@ -43,7 +43,7 @@
         <TabControl >
             <TabItem Header="Trainees">
                 <DockPanel LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200"  DockPanel.Dock="Right">
+                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" Width="200"  DockPanel.Dock="Right">
                         <Expander x:Name="FilterTraineeExpander" Header="Filter">
                             <Expander.Content>
                                 <Grid>
@@ -75,37 +75,50 @@
                                 </Grid>
                             </Expander.Content>
                         </Expander>
-                        <Expander x:Name="SearchTraineeExpander" Header="Search">
-                            <Expander.Content>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchIdTrainee" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+                        <GroupBox Header="Search" BorderBrush="Black">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Search: " Grid.Row="3" Margin="3"></Label>
+                                    <TextBox x:Name="TextBoxSearchTrainee" Width="140" Margin="3" TextChanged="TextBoxSearchTrainee_TextChanged"></TextBox>
+                                </StackPanel>
+                                <Expander x:Name="SearchTraineeExpander" Header="Advanced Search">
+                                    <Expander.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchIdTrainee" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchFirstNameTrainee" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchFirstNameTrainee" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchLastNameTrainee" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchLastNameTrainee" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Button x:Name="SearchTraineeButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
-                                </Grid>
-                            </Expander.Content>
-                        </Expander>
-                    </StackPanel>
+                                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="4">
+                                                <Button x:Name="SearchTraineeButton" HorizontalAlignment="Center" Content="Search" Margin="3"  Width="80" Click="SearchTraineeButton_Click"></Button>
+                                                <Button x:Name="SearchClearTraineeButton" HorizontalAlignment="Center" Content="Clear" Margin="3"  Width="80" Click="SearchClearTraineeButton_Click" ></Button>
 
-                    <DataGrid   x:Name="TraineeGrid" ItemsSource="{Binding AllTrainees }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" >
+                                            </StackPanel>
+                                        </Grid>
+                                    </Expander.Content>
+                                </Expander>
+
+                            </StackPanel>
+                        </GroupBox>
+                   </StackPanel>
+
+                    <DataGrid   x:Name="TraineeGrid" ItemsSource="{Binding }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" >
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Update" Click="UpdateTraineeClick"></MenuItem>
@@ -124,7 +137,7 @@
                             <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}"></DataGridTextColumn>
                             <DataGridTextColumn Header="License Type Learning" Binding="{Binding LicenseTypeLearning ,Converter={StaticResource LessonAndTypeToString} }"></DataGridTextColumn>
                             <DataGridTextColumn Header="School Name" Binding="{Binding SchoolName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterId}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Tester ID" Binding="{Binding TeacherName}"></DataGridTextColumn>
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -134,7 +147,7 @@
 
             <TabItem Header="Testers">
                 <DockPanel  LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
                         <Expander x:Name="FilterTesterExpander" Header="Filter">
                             <Expander.Content>
                                 <Grid>
@@ -160,37 +173,48 @@
                                 </Grid>
                             </Expander.Content>
                         </Expander>
-                        <Expander x:Name="SearchTraineeExpanderTester" Header="Search">
-                            <Expander.Content>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchIdTester" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+                        <GroupBox Header="Search" BorderBrush="Black">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Search: "></Label>
+                                    <TextBox x:Name="SearchTextBoxTester" Width="140" TextChanged="SearchTextBoxTester_TextChanged"></TextBox>
 
-                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchFirstNameTester" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+                                </StackPanel>
+                                <Expander x:Name="SearchTraineeExpanderTester" Header="Advanced Search">
+                                    <Expander.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchIdTester" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchLastNameTester" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchFirstNameTester" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Button x:Name="SearchTesterButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
-                                </Grid>
-                            </Expander.Content>
-                        </Expander>
+                                            <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchLastNameTester" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+
+                                            <Button x:Name="SearchTesterButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                        </Grid>
+                                    </Expander.Content>
+                                </Expander>
+
+                            </StackPanel>
+
+                        </GroupBox>
                     </StackPanel>
 
-                    <DataGrid  x:Name="TesterGrid" ItemsSource="{Binding AllTesters }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick" >
+                    <DataGrid  x:Name="TesterGrid" ItemsSource="{Binding  }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick" >
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Update" Click="UpdateTesterClick"></MenuItem>
@@ -220,7 +244,7 @@
 
             <TabItem Header="Tests">
                 <DockPanel  LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource LoginBackground}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
                         <Expander x:Name="FilterTestExpander" Header="Filter">
                             <Expander.Content>
                                 <Grid>
@@ -246,42 +270,51 @@
                                 </Grid>
                             </Expander.Content>
                         </Expander>
-                        <Expander x:Name="SearchTraineeExpanderTest" Header="Search">
-                            <Expander.Content>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchIdTest" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
+                        <GroupBox Header="Search" BorderBrush="Black">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Search: "></Label>
+                                    <TextBox x:Name="TextBoxSearchTest" Width="140" TextChanged="TextBoxSearchTest_TextChanged"></TextBox>
+                                </StackPanel>
+                                <Expander x:Name="SearchTraineeExpanderTest" Header="Advanced Search">
+                                    <Expander.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchIdTest" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchFirstNameTest" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchFirstNameTest" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
-                                    <TextBox x:Name="TextBoxSearchLastNameTest" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchLastNameTest" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
 
-                                    <Button x:Name="SearchTestButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
-                                </Grid>
-                            </Expander.Content>
-                        </Expander>
+                                            <Button x:Name="SearchTestButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                        </Grid>
+                                    </Expander.Content>
+                                </Expander>
+
+                            </StackPanel>
+                        </GroupBox>
                     </StackPanel>
 
-                    <DataGrid  x:Name="TestGrid" ItemsSource="{Binding AllTests }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" >
+                    <DataGrid  x:Name="TestGrid" ItemsSource="{Binding  }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" >
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Update" Click="UpdateTestClick"></MenuItem>
                                 <MenuItem Header="Remove" Click="RemoveTestClick"></MenuItem>
-                                <MenuItem Header="Add new Tester"  Click="AddTestClick" ></MenuItem>
+                                <MenuItem Header="Add new Test"  Click="AddTestClick" ></MenuItem>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>

@@ -12,7 +12,7 @@
     <TabControl>
         <!--Administrator Login-->
         <TabItem Header="{DynamicResource Administrator}" >
-            <StackPanel  Background="{DynamicResource LoginBackground}">
+            <StackPanel  Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,10,10,3">
                     <Label Content="{DynamicResource Username}"/>
@@ -27,7 +27,7 @@
         </TabItem>
         <!--Tester login-->
         <TabItem Header="{DynamicResource Tester}">
-            <StackPanel Background="{DynamicResource ResourceKey=LoginBackground}">
+            <StackPanel Background="{DynamicResource ResourceKey=Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
                     <Label Content="{DynamicResource ID}"/>
@@ -38,7 +38,7 @@
         </TabItem>
         <!--Trainee login-->
         <TabItem Header="{DynamicResource Trainee}">
-            <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource LoginBackground}">
+            <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
                     <Label Content="{DynamicResource ID}"/>

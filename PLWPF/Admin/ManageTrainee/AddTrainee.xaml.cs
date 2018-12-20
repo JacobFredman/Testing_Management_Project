@@ -42,17 +42,19 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 DataContext = trainee;
                 trainee.BirthDate = DateTime.Now.Date;
+                Title = "Add New Trainee";
             }
             //initialize as update
             else
             {
                 try
                 {
+                    Title = "Update Trainee";
                     trainee = _blimp.AllTrainees.First(x => x.Id == id);
                     DataContext = trainee;
                     idTextBox.IsEnabled = false;
                     update = true;
-                    AddressTextBox.Text = trainee.Address != null ? trainee.Address.ToString() : "";
+                    AddressTextBox.Address =( trainee.Address != null) ? trainee.Address : null;
                 }
                 catch
                 {
@@ -60,6 +62,7 @@ namespace PLWPF.Admin.ManageTrainee
                 }
             }
 
+            AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             //set combox source
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             gearTypeComboBox.ItemsSource = Enum.GetValues(typeof(Gear));
@@ -129,15 +132,15 @@ namespace PLWPF.Admin.ManageTrainee
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddressTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void AddressTextBox_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                trainee.Address = new Address(AddressTextBox.Text);
+                trainee.Address = AddressTextBox.Address;
             }
             catch
             {
-                AddressTextBox.Text = "";
+                AddressTextBox.Address = null;
             }
         }
 

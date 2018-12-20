@@ -47,19 +47,19 @@ namespace BE.MainObjects
         /// <param name="licenseTypesLearning"></param>
         /// <param name="gearType"></param>
         /// <param name="schoolName"></param>
-        /// <param name="testerId"></param>
+        /// <param name="teacherName"></param>
         /// <param name="numberOfLessons"></param>
         /// <param name="readyForTest"></param>
         public Trainee(uint Id, string firstName, string lastName, Gender gender, string emailAddress,
             DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes,
-            List<LessonsAndType> licenseTypesLearning, Gear gearType, string schoolName, string testerId,
+            List<LessonsAndType> licenseTypesLearning, Gear gearType, string schoolName, string teacherName,
             uint numberOfLessons, bool readyForTest)
             : base(Id, firstName, lastName, gender, emailAddress, birthDate, phoneNumber, address, licenseTypes)
         {
             LicenseTypeLearning = licenseTypesLearning;
             GearType = gearType;
             SchoolName = schoolName;
-            TesterId = testerId;
+            TeacherName = teacherName;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace BE.MainObjects
         /// <summary>
         ///     last Tester id
         /// </summary>
-        public string TesterId { set; get; }
+        public string TeacherName { set; get; }
 
         public object Clone()
         {
@@ -104,7 +104,7 @@ namespace BE.MainObjects
                 LicenseTypeLearning = newLicenseTypeLearning,
                 GearType = GearType,
                 SchoolName = SchoolName,
-                TesterId = TesterId
+                TeacherName = TeacherName
             };
             if (Address != null) trainee.Address = Address.Clone() as Address;
             if (Id != 0) trainee.Id = Id;
