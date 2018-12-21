@@ -15,16 +15,16 @@
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Height="25">
-            <MenuItem Header="Add new">
+            <MenuItem Header="Create">
                 <MenuItem Header="Trainee" Click="AddTraineeClick"></MenuItem>
                 <MenuItem Header="Tester" Click="AddTesterClick"></MenuItem>
                 <MenuItem Header="Test" Click="AddTestClick"></MenuItem>
             </MenuItem>
             <MenuItem Header="Manage">
                 <MenuItem Header="Export to Excel">
-                    <MenuItem Header="All Trainee"></MenuItem>
-                    <MenuItem Header="All Testers"></MenuItem>
-                    <MenuItem Header="All Tests"></MenuItem>
+                    <MenuItem Name="ExportTraineeesToExcel" Header="Trainees in Grid" Click="ExportAllTraineeesToExcel_Click"></MenuItem>
+                    <MenuItem Name="ExportTestersToExcel" Header="Testers in Grid" Click="ExportTestersToExcel_Click"></MenuItem>
+                    <MenuItem Name="ExportTestsToExcel" Header="Tests in Grid" Click="ExportTestsToExcel_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Send Email"></MenuItem>
                 <MenuItem Header="Settings"></MenuItem>
@@ -38,7 +38,7 @@
             <Label x:Name="NumberOfTestersLabel" Content="0"></Label>
             <Label Content="     Tests: "></Label>
             <Label x:Name="NumberOfTestsLabel" Content="0"></Label>
-            <Label x:Name="ProgressLabel" Margin="100,0,0,0"></Label>
+            <Label x:Name="ProgressLabel" Margin="100,0,0,0" Foreground="Red"></Label>
         </StackPanel>
         <TabControl >
             <TabItem Header="Trainees">
@@ -60,18 +60,18 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <Label Content="License: " Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxLicenseFilterTrainee" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTrainee" Margin="3" Grid.Row="0" Grid.Column="1" SelectionChanged="ComboBoxLicenseFilterTrainee_SelectionChanged"></ComboBox>
 
                                     <Label Content="School: " Grid.Row="1" Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxFilterSchoolTrainee" Grid.Row="1" Grid.Column="1" Margin="3"></ComboBox>
+                                    <ComboBox x:Name="ComboBoxFilterSchoolTrainee" Grid.Row="1" Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterSchoolTrainee_SelectionChanged"></ComboBox>
 
-                                    <Label Content="Tester: " Grid.Row="2" Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxFilterTesterIdTrainee" Grid.Row="2" Grid.Column="1" Margin="3"></ComboBox>
+                                    <Label Content="Teacher: " Grid.Row="2" Margin="3"></Label>
+                                    <ComboBox x:Name="ComboBoxFilterTesterIdTrainee" Grid.Row="2" Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterTesterIdTrainee_SelectionChanged"></ComboBox>
 
                                     <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
                                     <ComboBox x:Name="ComboBoxFilterOtherTrainee" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
-                                    <Button x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                    <Button x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTrainee_Click"></Button>
                                 </Grid>
                             </Expander.Content>
                         </Expander>
@@ -137,7 +137,7 @@
                             <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}"></DataGridTextColumn>
                             <DataGridTextColumn Header="License Type Learning" Binding="{Binding LicenseTypeLearning ,Converter={StaticResource LessonAndTypeToString} }"></DataGridTextColumn>
                             <DataGridTextColumn Header="School Name" Binding="{Binding SchoolName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Tester ID" Binding="{Binding TeacherName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Teacher" Binding="{Binding TeacherName}"></DataGridTextColumn>
 
                         </DataGrid.Columns>
                     </DataGrid>
@@ -164,12 +164,12 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <Label Content="License: " Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxLicenseFilterTester" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTester" Margin="3" Grid.Row="0" Grid.Column="1" SelectionChanged="ComboBoxLicenseFilterTester_SelectionChanged"></ComboBox>
 
                                     <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
                                     <ComboBox x:Name="ComboBoxFilterOtherTester" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
-                                    <Button x:Name="ClearFilterButtonTester" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                    <Button x:Name="ClearFilterButtonTester" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTester_Click"></Button>
                                 </Grid>
                             </Expander.Content>
                         </Expander>
@@ -264,12 +264,12 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <Label Content="License: " Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxLicenseFilterTest" Margin="3" Grid.Row="0" Grid.Column="1"></ComboBox>
+                                    <ComboBox x:Name="ComboBoxLicenseFilterTest" Margin="3" Grid.Row="0" Grid.Column="1" SelectionChanged="ComboBoxLicenseFilterTest_SelectionChanged"></ComboBox>
 
                                     <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
                                     <ComboBox x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
-                                    <Button x:Name="ClearFilterButtonTest" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100"></Button>
+                                    <Button x:Name="ClearFilterButtonTest" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTest_Click"></Button>
                                 </Grid>
                             </Expander.Content>
                         </Expander>
