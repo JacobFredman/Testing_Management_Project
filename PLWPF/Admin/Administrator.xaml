@@ -203,8 +203,11 @@
 
                                             <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
                                             <TextBox x:Name="TextBoxSearchLastNameTester" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+                                            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Center">
+                                                <Button x:Name="SearchTesterButton" Content="Search" Margin="3"  Width="80" Click="SearchTesterButton_Click"></Button>
+                                                <Button x:Name="ClearSearchTesterButton" Content="Clear" Margin="3"  Width="80" Click="ClearSearchTesterButton_Click"></Button>
 
-                                            <Button x:Name="SearchTesterButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                            </StackPanel>
                                         </Grid>
                                     </Expander.Content>
                                 </Expander>
@@ -294,13 +297,16 @@
                                             <Label Content="ID: " Grid.Row="0" Margin="3"></Label>
                                             <TextBox x:Name="TextBoxSearchIdTest" Grid.Row="0" Grid.Column="1" Margin="3"></TextBox>
 
-                                            <Label Content="First Name: " Grid.Row="1" Margin="3"></Label>
-                                            <TextBox x:Name="TextBoxSearchFirstNameTest" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="Tester ID: " Grid.Row="1" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchTesterIDTest" Grid.Row="1" Grid.Column="1" Margin="3"></TextBox>
 
-                                            <Label Content="Last Name: " Grid.Row="2" Margin="3"></Label>
-                                            <TextBox x:Name="TextBoxSearchLastNameTest" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+                                            <Label Content="Trainee ID: " Grid.Row="2" Margin="3"></Label>
+                                            <TextBox x:Name="TextBoxSearchTraineeIDTest" Grid.Row="2" Grid.Column="1" Margin="3"></TextBox>
+                                            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Center">
+                                                <Button x:Name="SearchTestButton" Content="Search" Margin="3"  Width="80" Click="SearchTestButton_Click"></Button>
+                                                <Button x:Name="ClaerSearchTestButton" Content="Clear" Margin="3"  Width="80" Click="ClaerSearchTestButton_Click"></Button>
 
-                                            <Button x:Name="SearchTestButton" Content="Search" Margin="3" Grid.ColumnSpan="2" Grid.Row="3" Width="80"></Button>
+                                            </StackPanel>
                                         </Grid>
                                     </Expander.Content>
                                 </Expander>

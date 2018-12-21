@@ -292,5 +292,45 @@ namespace PLWPF.Admin
         {
             RefreshData();
         }
+
+        private void SearchTesterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string id = (TextBoxSearchIdTester.Text != "") ? TextBoxSearchIdTester.Text : null;
+            string FName = (TextBoxSearchFirstNameTester.Text != "") ? TextBoxSearchFirstNameTester.Text : null;
+            string LName = (TextBoxSearchLastNameTester.Text != "") ? TextBoxSearchLastNameTester.Text : null;
+            var list = bL.AllTesters.Where(p =>
+            {
+                if (id != null && id == p.Id.ToString()) return true;
+                if (FName != null && FName.ToLower() == p.FirstName.ToLower()) return true;
+                if (LName != null && LName.ToLower() == p.LastName.ToLower()) return true;
+                return false;
+            });
+            TesterGrid.DataContext = list;
+        }
+
+        private void ClearSearchTesterButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void SearchTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            string id = (TextBoxSearchIdTest.Text != "") ? TextBoxSearchIdTest.Text : null;
+            string traineId = (TextBoxSearchTraineeIDTest.Text != "") ? TextBoxSearchTraineeIDTest.Text : null;
+            string testerId = (TextBoxSearchTesterIDTest.Text != "") ? TextBoxSearchTesterIDTest.Text : null;
+            var list = bL.AllTests.Where(p =>
+            {
+                if (id != null && id == p.Id.ToString()) return true;
+                if (traineId != null && traineId.ToLower() == p.TraineeId.ToString().ToLower()) return true;
+                if (testerId != null && testerId.ToLower() == p.TesterId.ToString().ToLower()) return true;
+                return false;
+            });
+            TestGrid.DataContext = list;
+        }
+
+        private void ClaerSearchTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
+        }
     }
 }

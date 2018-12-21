@@ -249,16 +249,24 @@ namespace PLWPF.Admin.ManageTest
                 testTimeDatePicker.BlackoutDates.AddDatesInPast();
                 testTimeDatePicker.BlackoutDates.Add(
                     new CalendarDateRange(DateTime.Now.AddMonths(2), DateTime.MaxValue));
+
                 var date = DateTime.Now;
                 var weekSchedule = new bool[7] {false, false, false, false, false, false, false};
                 foreach (var day in schedule.days)
                     if (day.Hours.Any(x => x))
                         weekSchedule[(int) day.TheDay] = true;
-
+                var dateNow = DateTime.Today;
                 for (var i = 0; i < 64; i++)
                 {
                     if (!weekSchedule[(int) date.DayOfWeek])
+                    {
+                        if (date.DayOfYear == dateNow.DayOfYear)
+                        {
+                            dateNow = dateNow.AddDays(1);
+                            testTimeDatePicker.SelectedDate = _test.TestTime.AddDays(1);;
+                        }
                         testTimeDatePicker.BlackoutDates.Add(new CalendarDateRange(date));
+                    }
                     date = date.AddDays(1);
                 }
             }
