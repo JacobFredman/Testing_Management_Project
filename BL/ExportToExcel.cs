@@ -48,7 +48,7 @@ namespace BL
             workSheet.Cells[1, "F"] = "Phone Number";
             workSheet.Cells[1, "F"].EntireColumn.NumberFormat = "@"; //Make it strings
             workSheet.Cells[1, "G"] = "Gender";
-            workSheet.Cells[1, "H"] = "Tester Id";
+            workSheet.Cells[1, "H"] = "Teacher";
             workSheet.Cells[1, "H"].EntireColumn.NumberFormat = "@"; //Make it strings
             workSheet.Cells[1, "I"] = "School Name";
             workSheet.Cells[1, "J"] = "License Type";

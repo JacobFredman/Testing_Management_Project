@@ -75,16 +75,16 @@ namespace BL
             }
         }
 
-        public static List<string> GetAddressSuggestionsGoogle(string input)
+        public static List<string> GetAddressSuggestionsGoogle(string input, string token)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
-                      "&types=address&location=31.728220,34.983749&radius=300000&key=" + Configuration.Key;
+                      "&types=address&location=31.728220,34.983749&radius=300000&key=" + Configuration.Key + "&sessiontoken=" + token;
             try
             {
                 var xml = DownloadDataIntoXml(url);
                 return (from adr in xml.Elements()
                         where adr.Name == "prediction"
-                        select (string) adr.Element("description").Value
+                        select (string)adr.Element("description").Value
                     ).ToList();
             }
             catch (Exception ex)
