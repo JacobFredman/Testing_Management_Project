@@ -57,10 +57,10 @@
             <TextBox x:Name="phoneNumberTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
 
             <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Address:"/>
-            <UserControls:AddressPicker Panel.ZIndex="1" x:Name="AddressTextBox" Height="120" Width="180" VerticalAlignment="Top" Grid.RowSpan="6"  Grid.Row="7" Margin="5"  HorizontalAlignment="Left" Grid.Column="1"/>
+            <UserControls:AddressPicker Panel.ZIndex="1" x:Name="AddressTextBox" Height="120" Width="180" VerticalAlignment="Top" Grid.RowSpan="6"  Grid.Row="7" Margin="5,13,5,5"  HorizontalAlignment="Left" Grid.Column="1"/>
 
-            <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Gear Type:"/>
-            <ComboBox x:Name="gearTypeComboBox" Width="120" VerticalAlignment="Center" Grid.Row="8" Margin="3" SelectedItem="{Binding GearType}" Height="Auto" HorizontalAlignment="Left"  Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Visibility="Collapsed" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Gear Type:"/>
+            <ComboBox x:Name="gearTypeComboBox" Visibility="Collapsed" Width="120" VerticalAlignment="Center" Grid.Row="8" Margin="3" SelectedItem="{Binding GearType}" Height="Auto" HorizontalAlignment="Left"  Grid.Column="1"/>
 
             <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="School Name:"/>
             <TextBox x:Name="schoolNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding SchoolName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
@@ -87,7 +87,8 @@
                 <DataGrid x:Name="LicenseDataGrid" HorizontalAlignment="Stretch" Height="150" ItemsSource="{Binding}" AutoGenerateColumns="False" CurrentCellChanged="RefreshLicense" CanUserAddRows="False" CellEditEnding="RefreshLicense" BeginningEdit="RefreshLicense" KeyDown="RefreshLicense">
                     <DataGrid.Columns >
                         <DataGridTextColumn Header="License" IsReadOnly="True" Binding="{Binding License}"/>
-                        <DataGridTextColumn Header="Number of lessons" IsReadOnly="False" Binding="{Binding NumberOfLessons }"/>
+                            <DataGridComboBoxColumn x:Name="BoxColumnGear" Width="100" Header="Gear" ItemsSource="{Binding}"  SelectedItemBinding="{Binding GearType}"/>
+                            <DataGridTextColumn Header="Number of lessons" IsReadOnly="False" Binding="{Binding NumberOfLessons }"/>
                         <DataGridCheckBoxColumn Header="Is ready" IsReadOnly="True" Binding="{Binding ReadyForTest}"/>
                     </DataGrid.Columns>
                 </DataGrid>

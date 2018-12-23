@@ -113,7 +113,7 @@
 
                         <DataGrid x:Name="CriterionsDataGrid" ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  HorizontalAlignment="Stretch" Height="150"  AutoGenerateColumns="False" >
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}" IsReadOnly="True"/>
                                 <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}"/>
                             </DataGrid.Columns>
                         </DataGrid>

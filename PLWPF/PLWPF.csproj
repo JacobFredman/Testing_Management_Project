@@ -87,6 +87,9 @@
     <Compile Include="Admin\ManageTrainee\AddTrainee.xaml.cs">
       <DependentUpon>AddTrainee.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin\TestLists\ShowList.xaml.cs">
       <DependentUpon>ShowList.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,9 @@
     </Compile>
     <Compile Include="UserControls\AddressPicker.xaml.cs">
       <DependentUpon>AddressPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NumPicker.xaml.cs">
+      <DependentUpon>NumPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
@@ -118,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Admin\ManageTrainee\AddTrainee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,6 +167,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\NumPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -180,6 +194,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\BE.Configuration.datasource" />
     <None Include="Properties\DataSources\BE.MainObjects.Person.datasource" />
     <None Include="Properties\DataSources\BE.MainObjects.Test.datasource" />
     <None Include="Properties\DataSources\BE.MainObjects.Tester.datasource" />

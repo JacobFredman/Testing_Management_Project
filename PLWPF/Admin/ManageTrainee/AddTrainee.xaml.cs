@@ -61,6 +61,7 @@ namespace PLWPF.Admin.ManageTrainee
                     Close();
                 }
             }
+            BoxColumnGear.ItemsSource= Enum.GetValues(typeof(Gear));
 
             AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             //set combox source
@@ -161,7 +162,8 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 License = (LicenseType) ChooseLicense.SelectedItem,
                 NumberOfLessons = number,
-                ReadyForTest = number > Configuration.MinLessons
+                ReadyForTest = number > Configuration.MinLessons,
+                GearType = Gear.Automatic
             });
         }
 

@@ -554,5 +554,17 @@ namespace PLWPF.Admin
                 Dispatcher.BeginInvoke(action);
             })).Start();
         }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Settings win = new Settings();
+                win.ShowDialog();
+            }
+            catch { }
+        
+
+        }
     }
 }
