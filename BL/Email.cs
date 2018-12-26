@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Net;
 using BE.MainObjects;
 using System.Linq;
+using BE;
 
 namespace BL
 {
@@ -38,9 +39,6 @@ namespace BL
                 {
                     Pdf.CreateLicensePdf(test, trainee);
                     SentEmailToTraineeAfterTest(test, trainee);
-                    //if (File.Exists(@".\license.pdf"))
-                    //    File.Delete(@".\license.pdf");
-                    count++;
                 }
                 catch(Exception ex) {
                     var ms=ex.Message;
@@ -90,7 +88,7 @@ namespace BL
         {
             Attachment attachment;
             attachment =
-                new Attachment(@".\license"+(Pdf.counter-1).ToString()+".pdf");
+                new Attachment(Configuration.getPdfFullpath());
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);

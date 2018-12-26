@@ -21,6 +21,9 @@
             </PropertyUISettings>
          </TypeUISetting>
       </GenericObjectDataSource>
+      <GenericObjectDataSource DisplayName="Criteria" Version="1.0">
+         <TypeInfo>BE.Criterion, BE, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+      </GenericObjectDataSource>
       <GenericObjectDataSource DisplayName="RouteUrl" Version="1.0">
          <TypeInfo>System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</TypeInfo>
          <TypeUISetting>
@@ -42,14 +45,14 @@
          <PropertyUISetting Name="ActualTestTime">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="DatePicker" Type="System.Windows.Controls.DatePicker" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+                  <BindableControlInfo Name="TextBox" Type="System.Windows.Controls.TextBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
          <PropertyUISetting Name="Comment">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="TextBlock" Type="System.Windows.Controls.TextBlock" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+                  <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
@@ -63,7 +66,7 @@
          <PropertyUISetting Name="Passed">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="TextBox" Type="System.Windows.Controls.TextBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+                  <BindableControlInfo Name="CheckBox" Type="System.Windows.Controls.CheckBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
@@ -77,7 +80,7 @@
          <PropertyUISetting Name="TesterId">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="ComboBox" Type="System.Windows.Controls.ComboBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+                  <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
@@ -85,6 +88,13 @@
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
                   <BindableControlInfo Name="ComboBox" Type="System.Windows.Controls.ComboBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+               </ControlSetting>
+            </ControlSettings>
+         </PropertyUISetting>
+         <PropertyUISetting Name="TestTime">
+            <ControlSettings>
+               <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                  <BindableControlInfo Name="TextBox" Type="System.Windows.Controls.TextBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>

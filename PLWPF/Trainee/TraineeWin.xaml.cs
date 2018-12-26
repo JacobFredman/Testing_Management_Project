@@ -19,12 +19,14 @@ namespace PLWPF
             try
             {
                 _trainee = _blimp.AllTrainees.First(x => x.Id == id);
-                _textbox.Text = _trainee.ToString();
+                  testDataGrid.DataContext = _blimp.AllTests.Where(x => x.TraineeId == _trainee.Id);
             }
             catch
             {
                 Close();
             }
         }
+
+      
     }
 }

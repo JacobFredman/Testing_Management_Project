@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -56,8 +55,15 @@ namespace PLWPF
                     Address = new Address("Jerusalem"),
                     EmailAddress = "elisja.sc@gmail.com"
                 });
+
                 _blimp.AddTrainee(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
-                    {BirthDate = new DateTime(1985, 1, 12)});
+                {
+                    BirthDate = new DateTime(1985, 12, 29),
+                    LicenseTypeLearning = list,
+                    Address = new Address("Jerusalem"),
+                    EmailAddress = "jacov141@gmail.com"
+                });
+               
                 _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
                     {BirthDate = new DateTime(1987, 1, 1)});
                 _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "Bob", "Ray")
@@ -109,15 +115,26 @@ namespace PLWPF
                    AddressOfBeginningTest = new Address("jerusalem"),
                     LicenseType = LicenseType.A
                 };
+
+                var test2 = new Test(328729660, 037982519)
+                {
+                    TestTime = new DateTime(2018, 12, 19, 12, 00, 00),
+                    AddressOfBeginningTest = new Address("jerusalem"),
+                    LicenseType = LicenseType.A
+                };
                 try
                 {
                   //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
                 }
                 catch
                 {
+
                 }
 
-                _blimp.AddTest(test1);
+                test2.Passed = true;
+               // _blimp.AddTest(test1);
+                _blimp.AddTest(test2);
+                _blimp.SendEmailToAllTraineeAfterTest();
             }
             catch (Exception ex)
             {
