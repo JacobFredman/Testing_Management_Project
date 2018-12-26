@@ -15,6 +15,7 @@ using BL;
 using BE.MainObjects;
 using BE;
 using System.Threading;
+using MahApps.Metro.Controls;
 using PLWPF.Admin.ManageTest;
 using PLWPF.Admin.ManageTester;
 using PLWPF.Admin.ManageTrainee;
@@ -24,7 +25,7 @@ namespace PLWPF.Admin
     /// <summary>
     /// The administrator Window
     /// </summary>
-    public partial class Administrator : Window
+    public partial class Administrator : MetroWindow
     {
         //a BL object
         private IBL bL = FactoryBl.GetObject;

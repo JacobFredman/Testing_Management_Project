@@ -97,7 +97,7 @@
         <DockPanel LastChildFill="True" Margin="3">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2">
                 <GroupBox Background="{DynamicResource Background}" Margin="5" Header="License" BorderBrush="Black" BorderThickness="1">
-                    <ListBox x:Name="Chooselicense" ItemsSource="{Binding}" Height="100" Width="60"
+                    <ListBox x:Name="Chooselicense" ItemsSource="{Binding}" Height="180" Width="60"
                             SelectionMode="Multiple" SelectionChanged="Chooselicense_SelectionChanged" />
                 </GroupBox>
                 <GroupBox Margin="5" Background="{DynamicResource Background}" Header="Schedule" BorderBrush="Black" BorderThickness="1">
@@ -109,7 +109,7 @@
                                      IsChecked="True" Checked="AllWeek_Checked" Unchecked="AllWeek_Unchecked" />
                             <Label Content="All week" VerticalAlignment="Center" DockPanel.Dock="Left" />
                         </DockPanel>
-                        <ListBox x:Name="ChooseHours" ItemsSource="{Binding}" Height="100" Width="100"
+                        <ListBox x:Name="ChooseHours" ItemsSource="{Binding}" Height="180" Width="100"
                                 SelectionMode="Multiple" SelectionChanged="ChooseHours_SelectionChanged" />
 
                     </StackPanel>
@@ -120,7 +120,7 @@
             <Button DockPanel.Dock="Bottom" Name="Save" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2"
                    Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False" />
             <GroupBox Margin="5" BorderThickness="1" BorderBrush="Black" Header="Errors" DockPanel.Dock="Right">
-                <TextBlock  x:Name="ErrorMessage" Grid.Row="13" Foreground="Red" />
+                <TextBlock  x:Name="ErrorMessage" Grid.Row="13" Foreground="Red" MinHeight="100"/>
 
             </GroupBox>
         </DockPanel>

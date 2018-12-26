@@ -85,7 +85,7 @@ namespace PLWPF.Admin.ManageTester
 
             //set hours combox
             var hours = new List<string>();
-            for (var i = 0; i < 24; i++) hours.Add(string.Format("{0:00}:00", i));
+            for (var i = Configuration.MinStartHourWork; i < Configuration.MaxEndHourWork+1; i++) hours.Add(string.Format("{0:00}:00", i));
             ChooseHours.ItemsSource = hours;
             DayWeek.SelectedItem = "All Days";
 

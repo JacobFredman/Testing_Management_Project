@@ -8,13 +8,14 @@ using BE;
 using BE.MainObjects;
 using BE.Routes;
 using BL;
+using MahApps.Metro.Controls;
 
 namespace PLWPF.Admin.ManageTest
 {
     /// <summary>
     ///     Interaction logic for EditTest.xaml
     /// </summary>
-    public partial class EditTest : Window
+    public partial class EditTest : MetroWindow
     {
         private readonly List<string> errorMessage = new List<string>();
         private readonly List<string> notifications = new List<string>();
@@ -49,7 +50,7 @@ namespace PLWPF.Admin.ManageTest
                 testerIdComboBox.SelectionChanged -= TesterIdComboBox_OnSelectionChanged;
                 traineeIdComboBox.SelectionChanged -= TraineeIdComboBox_SelectionChanged;
                 licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
-                testTimeDatePicker.SelectedDateChanged -= TestTimeDatePicker_SelectedDateChanged;
+                testTimeDatePicker.CalendarOpened-= TestTimeDatePicker_OnCalendarOpened;
                 TimePickerTest.SelectionChanged -= TimePicker_OnSelectionChanged;
                 traineeIdComboBox.ItemsSource = new List<Trainee>
                     {FactoryBl.GetObject.AllTrainees.First(x => x.Id == _test.TraineeId)};
@@ -101,6 +102,8 @@ namespace PLWPF.Admin.ManageTest
         {
             try
             {
+                if (addressOfBeginningTestTextBox.Address.ToString() == "")
+                    throw new Exception("Please Select an Address for the test");
                 if ((string) Save.Content == "Save")
                     FactoryBl.GetObject.AddTest(_test);
                 else
@@ -138,6 +141,7 @@ namespace PLWPF.Admin.ManageTest
                 TimePickerTest.IsEnabled = false;
                 testTimeDatePicker.IsEnabled = false;
                 Save.IsEnabled = false;
+                RemoveShowMessage();
                 AddShowMessage("Please Select license.");
                 licenseTypeComBox.Focus();
             }
@@ -150,7 +154,8 @@ namespace PLWPF.Admin.ManageTest
         {
             try
             {
-                WaitTraineeLabel.Visibility = Visibility.Visible;
+                RemoveShowMessage();
+                AddShowMessage("Searching for Tester. Please wait.");
                 var address = addressOfBeginningTestTextBox.Address;
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
                 _test.LicenseType = license;
@@ -172,7 +177,6 @@ namespace PLWPF.Admin.ManageTest
 
                     Action action1 = () =>
                     {
-                        WaitTraineeLabel.Visibility = Visibility.Hidden;
                         RemoveShowMessage();
                         AddShowMessage("Please Select Tester.");
                         testerIdComboBox.IsEnabled = true;
@@ -200,7 +204,7 @@ namespace PLWPF.Admin.ManageTest
                 TimePickerTest.IsEnabled = false;
                 Save.IsEnabled = false;
                 RemoveShowMessage();
-                AddShowMessage("Please Select Test Date.");
+                AddShowMessage("Please Select Test Date an Time.");
                 testTimeDatePicker.Focus();
             }
             catch
@@ -208,12 +212,12 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        private void TestTimeDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void TestTimeDatePicker_OnCalendarOpened(object sender, RoutedEventArgs e)
         {
             try
             {
-                TimePickerTest.HourToShow = ((Tester) testerIdComboBox.SelectedItem).Schedule
-                    .days[(int) ((DateTime) testTimeDatePicker.SelectedDate).DayOfWeek].Hours;
+                TimePickerTest.HourToShow = ((Tester)testerIdComboBox.SelectedItem).Schedule
+                    .days[(int)((DateTime)testTimeDatePicker.SelectedDate).DayOfWeek].Hours;
                 TimePickerTest.IsEnabled = true;
                 Save.IsEnabled = false;
                 RemoveShowMessage();
@@ -225,6 +229,7 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
+     
 
         private void TimePicker_OnSelectionChanged(object sender, EventArgs e)
         {
@@ -283,6 +288,10 @@ namespace PLWPF.Admin.ManageTest
                 _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
                 testerIdComboBox.SelectedIndex = -1;
                 licenseTypeComBox.SelectedIndex = -1;
+                TimePickerTest.ResetSelection();
+                RemoveShowMessage();
+                AddShowMessage("Please Select license.");
+                testerIdComboBox.ItemsSource = null;
                 testerIdComboBox.IsEditable = false;
                 TimePickerTest.IsEnabled = false;
                 testTimeDatePicker.IsEnabled = false;
@@ -360,5 +369,7 @@ namespace PLWPF.Admin.ManageTest
                 MessageBox.Show(ex.Message);
             }
         }
+
+   
     }
 }
