@@ -8,7 +8,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="PLWPF.MainWindow"
         mc:Ignorable="d"
         Title="Login" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
-   <!-- <Window.Resources>
+    <!-- <Window.Resources>
         <Style TargetType="{x:Type Control}" x:Key="baseStyle">
             <Setter Property="FontSize" Value="20" />
         </Style>
@@ -19,15 +19,15 @@
         <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource baseStyle}"></Style>
 
     </Window.Resources -->
-<Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.Resources>
         <Style x:Key="TabStyle" TargetType="TabItem">
             <Setter Property="FontSize" Value="14"></Setter>
         </Style>
-</Controls:MetroWindow.Resources>
+    </Controls:MetroWindow.Resources>
     <TabControl >
         <!--Administrator Login-->
         <TabItem Header="{DynamicResource Administrator}" Style="{StaticResource TabStyle}">
-            
+
             <StackPanel VerticalAlignment="Stretch"  Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal" Margin="10,10,10,3">

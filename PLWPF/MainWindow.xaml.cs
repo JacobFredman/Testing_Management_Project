@@ -10,6 +10,7 @@ using BE.Routes;
 using BL;
 using MahApps.Metro.Controls;
 using PLWPF.Admin;
+using PLWPF.TraineeArea;
 
 namespace PLWPF
 {
