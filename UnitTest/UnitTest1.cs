@@ -8,7 +8,7 @@ namespace UnitTest
     {
         private PLWPF.MainWindow main = new MainWindow();
 
-        [TestMethod]
+       // [TestMethod]
         //public void Insert_new_tester_and_get_it_back()
         //{
         //    // Arrange
@@ -16,6 +16,7 @@ namespace UnitTest
         //    var tester = new Tester(037982519, "Jacov", "Fredman", Gender.Male);
 
         //    // Act
+        //    bl.AddTester(tester);
         //    bl.AddTester(tester);
         //    var result = bl.AllTesters.Any(t => t.Id == tester.Id);
 
