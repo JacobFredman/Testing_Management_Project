@@ -7,6 +7,7 @@ using BE;
 using BE.MainObjects;
 using BE.Routes;
 using BL;
+using MahApps.Metro.Controls;
 using PLWPF.Admin;
 
 namespace PLWPF
@@ -14,7 +15,7 @@ namespace PLWPF
     /// <summary>
     ///     Login window
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         //get an object of BL
         private readonly IBL _blimp = FactoryBl.GetObject;
@@ -88,7 +89,7 @@ namespace PLWPF
                     {BirthDate = new DateTime(1988, 1, 1)});
 
                 var sch = new WeekSchedule();
-                sch.AddHoursAllDays(0, 23);
+                sch.AddHoursAllDays(12, 15);
                 var list2 = new List<LicenseType>();
                 list2.Add(LicenseType.A);
                 _blimp.AddTester(new Tester(328729660, "meir", "")

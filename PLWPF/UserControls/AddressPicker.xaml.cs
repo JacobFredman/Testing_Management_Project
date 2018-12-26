@@ -13,37 +13,46 @@ namespace PLWPF.UserControls
     /// </summary>
     public partial class AddressPicker : UserControl
     {
+        private string token;
+
         public Address Address
         {
             set
             {
-               
-                    TexBoxAddress.Text = (value!=null)?value.ToString():"";
-                    new Thread(() =>
+
+                TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
+                TexBoxAddress.Text = (value != null) ? value.ToString() : "";
+                new Thread(() =>
+                {
+                    try
                     {
-                        try
-                        {
-                        var text= Routes.GetAddressSuggestionsGoogle(value.ToString()).First();
+                        generateNewToken();
+                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), token).First();
                         Action action = () =>
                         {
                             TexBoxAddress.Text = text;
+                            TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
                             TexBoxAddress.BorderBrush = Brushes.Black;
                         };
                         Dispatcher.BeginInvoke(action);
-                        }
-                        catch
-                        {
-                            Action act = () => {  TexBoxAddress.BorderBrush = Brushes.Red; };
-                            Dispatcher.BeginInvoke(act);
-                        }
-                    }).Start();
-            
+                    }
+                    catch
+                    {
+                        Action act = () => {
+                            TexBoxAddress.BorderBrush = Brushes.Red;
+                            TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
+                        };
+                        Dispatcher.BeginInvoke(act);
+                    }
+                }).Start();
+
             }
-            get =>new Address(TexBoxAddress.Text);
+            get => new Address(TexBoxAddress.Text);
         }
         public AddressPicker()
         {
             InitializeComponent();
+            generateNewToken();
         }
 
         public event EventHandler TextChanged;
@@ -60,7 +69,7 @@ namespace PLWPF.UserControls
                     {
                         try
                         {
-                            var list = Routes.GetAddressSuggestionsGoogle(text);
+                            var list = Routes.GetAddressSuggestionsGoogle(text, token);
                             if (list.Any(x => x == text))
                             {
                                 Action act = () => { ListBoxSuggestions.Visibility = Visibility.Hidden; };
@@ -99,9 +108,16 @@ namespace PLWPF.UserControls
         {
             if (ListBoxSuggestions.SelectedItem != null)
             {
-                TexBoxAddress.Text = (string) ListBoxSuggestions.SelectedItem;
+                TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
                 ListBoxSuggestions.Visibility = Visibility.Collapsed;
+                generateNewToken();
             }
+        }
+
+        private void generateNewToken()
+        {
+            token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")
+                .Replace(@"\", "").Replace("/", "").Replace(".", "").Replace(":", "");
         }
     }
 }

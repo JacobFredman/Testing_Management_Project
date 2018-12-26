@@ -221,7 +221,7 @@ namespace BL
                 throw new Exception("not enough criterion");
             if (updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("test date not updated");
-            if (updatedTest.ActualTestTime < updatedTest.TestTime)
+            if (Math.Abs((updatedTest.ActualTestTime -updatedTest.TestTime).Days)>30)
                 throw new Exception("Actual daet can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
@@ -232,6 +232,7 @@ namespace BL
             //update test
             _dalImp.UpdateTest(updatedTest);
         }
+
 
         #endregion
 
@@ -527,9 +528,9 @@ namespace BL
             return sorted
                 ? from trainee in AllTrainees
                 orderby trainee.Id
-                group trainee by trainee.TesterId
+                group trainee by trainee.TeacherName
                 : from trainee in AllTrainees
-                group trainee by trainee.TesterId;
+                group trainee by trainee.TeacherName;
         }
 
         /// <summary>
@@ -606,6 +607,59 @@ namespace BL
             var d2 = date2.Date.AddDays(-1 * (int) cal.GetDayOfWeek(date2));
             return d1 == d2;
         }
+
+        #endregion
+
+        #region SearchTrainee
+
+        public IEnumerable<Trainee>  SearchTrainee(string key)
+        {
+            var keys = key.ToLower().Split();
+            keys = keys.Where(x => x != "").ToArray();
+       
+
+            return AllTrainees.Where(x => keys.Any(y =>
+                x.Id.ToString()?.ToLower()?.Contains(y) == true ||
+                x.FirstName?.ToLower()?.Contains(y) ==true|| 
+                x.LastName?.ToLower()?.Contains(y) == true ||
+                x.SchoolName?.ToLower()?.Contains(y) == true || 
+                x.Address?.ToString()?.ToLower().Contains(y) == true ||
+                x.TeacherName?.ToLower()?.Contains(y) == true || 
+                x.EmailAddress?.ToLower()?.Contains(y) == true ||
+                x.PhoneNumber?.ToLower()?.Contains(y) == true));
+        }
+
+        public IEnumerable<Tester> SearchTester(string key)
+        {
+            var keys = key.ToLower().Split();
+            keys = keys.Where(x => x != "").ToArray();
+
+
+            return AllTesters.Where(x => keys.Any(y =>
+                x.Id.ToString()?.ToLower()?.Contains(y) == true ||
+                x.FirstName?.ToLower()?.Contains(y) == true ||
+                x.LastName?.ToLower()?.Contains(y) == true ||
+                x.Address?.ToString()?.ToLower().Contains(y) == true ||
+                x.EmailAddress?.ToLower()?.Contains(y) == true ||
+                x.PhoneNumber?.ToLower()?.Contains(y) == true));
+        }
+
+        public IEnumerable<Test> SearchTest(string key)
+        {
+            var keys = key.ToLower().Split();
+            keys = keys.Where(x => x != "").ToArray();
+
+
+            return AllTests.Where(x => keys.Any(y =>
+                x.Id.ToString()?.ToLower()?.Contains(y) == true ||
+                x.AddressOfBeginningTest?.ToString().ToLower()?.Contains(y) == true ||
+                x.TraineeId.ToString()?.ToLower()?.Contains(y) == true ||
+                x.TesterId.ToString()?.ToString()?.ToLower().Contains(y) == true ||
+                x.Comment?.ToLower()?.Contains(y) == true));
+        }
+
+
+
 
         #endregion
     }

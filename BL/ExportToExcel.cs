@@ -48,7 +48,7 @@ namespace BL
             workSheet.Cells[1, "F"] = "Phone Number";
             workSheet.Cells[1, "F"].EntireColumn.NumberFormat = "@"; //Make it strings
             workSheet.Cells[1, "G"] = "Gender";
-            workSheet.Cells[1, "H"] = "Tester Id";
+            workSheet.Cells[1, "H"] = "Teacher";
             workSheet.Cells[1, "H"].EntireColumn.NumberFormat = "@"; //Make it strings
             workSheet.Cells[1, "I"] = "School Name";
             workSheet.Cells[1, "J"] = "License Type";
@@ -81,7 +81,7 @@ namespace BL
                 workSheet.Cells[row, "E"] = trainee.Address != null ? trainee.Address.ToString() : "";
                 workSheet.Cells[row, "F"] = trainee.PhoneNumber;
                 workSheet.Cells[row, "G"] = trainee.Gender.ToString();
-                workSheet.Cells[row, "H"] = trainee.TesterId != null ? trainee.TesterId : "";
+                workSheet.Cells[row, "H"] = trainee.TeacherName != null ? trainee.TeacherName : "";
                 workSheet.Cells[row, "I"] = trainee.SchoolName;
                 workSheet.Cells[row, "J"] = licenseType;
                 workSheet.Cells[row, "K"] = trainee.GearType.ToString();

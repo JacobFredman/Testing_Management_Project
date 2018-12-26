@@ -43,6 +43,7 @@ namespace PLWPF.Admin.ManageTester
                 //set defualt falues
                 tester.BirthDate = DateTime.Now.Date;
                 tester.Schedule = new WeekSchedule();
+                Title = "Add New Tester";
             }
             else
             {
@@ -59,12 +60,16 @@ namespace PLWPF.Admin.ManageTester
                     AllWeek.IsChecked = false;
                     DayWeek.IsEnabled = true;
                     //set the address
-                    AddressTextBox.Text = tester.Address != null ? tester.Address.ToString() : "";
+                    AddressTextBox.Address = tester.Address != null ? tester.Address : null;
+
+                    Title = "Update Tester";
                 }
                 catch
                 {
                     Close();
                 }
+
+                AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             }
 
             //set combox source
@@ -80,7 +85,7 @@ namespace PLWPF.Admin.ManageTester
 
             //set hours combox
             var hours = new List<string>();
-            for (var i = 0; i < 24; i++) hours.Add(string.Format("{0:00}:00", i));
+            for (var i = Configuration.MinStartHourWork; i < Configuration.MaxEndHourWork+1; i++) hours.Add(string.Format("{0:00}:00", i));
             ChooseHours.ItemsSource = hours;
             DayWeek.SelectedItem = "All Days";
 
@@ -118,15 +123,15 @@ namespace PLWPF.Admin.ManageTester
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddressTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void AddressTextBox_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                tester.Address = new Address(AddressTextBox.Text);
+                tester.Address = AddressTextBox.Address;
             }
             catch
             {
-                AddressTextBox.Text = "";
+                AddressTextBox.Address = null;
             }
         }
 
@@ -141,7 +146,7 @@ namespace PLWPF.Admin.ManageTester
             //update or save the tester
             try
             {
-                tester.Address = new Address(AddressTextBox.Text);
+                tester.Address = AddressTextBox.Address;
                 if (update)
                     _blimp.UpdateTester(tester);
                 else

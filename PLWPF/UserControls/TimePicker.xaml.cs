@@ -59,5 +59,10 @@ namespace PLWPF.UserControls
             }
             catch { }
         }
+
+        public void ResetSelection()
+        {
+            ComboxTime.SelectedIndex = -1;
+        }
     }
 }

@@ -104,6 +104,10 @@ namespace BE
         /// </summary>
         public static bool firtOpenProgram = true;
 
+        public static int MinStartHourWork = 9;
+        public static int MaxEndHourWork = 15;
+
+
         public static string[] Criterions = new string[]
         {
             "Kept Distance",

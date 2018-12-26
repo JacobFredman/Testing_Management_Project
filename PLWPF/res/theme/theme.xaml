@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:PLWPF.res.theme">
-    <SolidColorBrush x:Key="LoginBackground" Color="Aquamarine"/>
+    <SolidColorBrush x:Key="Background" Color="Aquamarine"/>
 
 </ResourceDictionary>
