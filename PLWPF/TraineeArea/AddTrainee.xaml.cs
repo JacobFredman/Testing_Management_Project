@@ -5,10 +5,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BE;
-using BE.MainObjects;
 using BL;
 
-namespace PLWPF.Admin.ManageTrainee
+namespace PLWPF.TraineeArea
 {
     /// <summary>
     ///     Add or update trainee
@@ -23,7 +22,7 @@ namespace PLWPF.Admin.ManageTrainee
         //collection to work with the license
         private readonly ObservableCollection<LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
 
-        private readonly Trainee trainee = new Trainee();
+        private readonly BE.MainObjects.Trainee trainee = new BE.MainObjects.Trainee();
 
         //true if it is an update
         private readonly bool update;

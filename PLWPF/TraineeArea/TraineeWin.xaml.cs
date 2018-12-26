@@ -2,9 +2,11 @@
 using System.Windows;
 using BE.MainObjects;
 using BL;
+using PLWPF.TraineeArea;
 
-namespace PLWPF
+namespace PLWPF.TraineeArea
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Interaction logic for TraineeWin.xaml --it is still emty--
     /// </summary>
@@ -27,6 +29,12 @@ namespace PLWPF
             }
         }
 
-      
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win2 = new AddTrainee();
+            win2.Show();
+           // this.Close();
+        }
     }
 }

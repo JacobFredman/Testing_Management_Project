@@ -108,7 +108,10 @@
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Trainee\TraineeWin.xaml.cs">
+    <Compile Include="TraineeArea\AddTrainee.xaml.cs">
+      <DependentUpon>AddTrainee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TraineeArea\TraineeWin.xaml.cs">
       <DependentUpon>TraineeWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AddressPicker.xaml.cs">
@@ -168,7 +171,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Trainee\TraineeWin.xaml">
+    <Page Include="TraineeArea\AddTrainee.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TraineeArea\TraineeWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

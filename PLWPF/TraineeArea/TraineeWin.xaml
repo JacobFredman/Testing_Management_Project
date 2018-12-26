@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
-        xmlns:MainObjects="clr-namespace:BE.MainObjects;assembly=BE"  x:Class="PLWPF.TraineeWin"
+        xmlns:MainObjects="clr-namespace:BE.MainObjects;assembly=BE"  x:Class="PLWPF.TraineeArea.TraineeWin"
         mc:Ignorable="d"
         Title="TraineeWin" Height="450" Width="800" >
   
@@ -18,7 +18,7 @@
                     <DataGridTextColumn x:Name="licenseTypeColumn" Binding="{Binding LicenseType}" Header="License Type" Width="SizeToHeader"/>
                     <DataGridCheckBoxColumn x:Name="passedColumn" Binding="{Binding Passed}" Header="Passed" Width="SizeToHeader"/>
                     <DataGridTextColumn x:Name="testTimeColumn" Binding="{Binding TestTime}" Header="Test Time" Width="SizeToHeader"/>
-         
+         <Button Click="ButtonBase_OnClick"/>
                 </DataGrid.Columns>
             </DataGrid>
 
