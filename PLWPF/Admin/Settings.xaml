@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="Settings" SizeToContent="WidthAndHeight">
     <StackPanel Background="LightGray" Orientation="Horizontal">
+
+        <!-- The parameters-->
         <GroupBox Header="Parameters" Margin="3">
             <Grid  >
                 <Grid.RowDefinitions>
@@ -50,9 +52,11 @@
 
 
             </Grid>
-
         </GroupBox>
+
         <DockPanel>
+
+            <!-- Password Changing-->
             <GroupBox DockPanel.Dock="Top" Header="Admin Password" Margin="3">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -66,18 +70,21 @@
                         <RowDefinition Height="*"></RowDefinition>
 
                     </Grid.RowDefinitions>
-                        <Label Content="Username: " Grid.Row="0"></Label>
-                        <TextBox x:Name="UserNameBox" Grid.Row="0" Grid.Column="1" Width="200" Margin="3"></TextBox>
-                     
-                        <Label Content="Password  " Grid.Row="1" Grid.Column="0"></Label>
-                        <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Width="200" Margin="3"></PasswordBox>
-             
-                        <Label Content="Renter Password:  " Grid.Row="2"></Label>
-                        <PasswordBox x:Name="RePasswordBox" Grid.Row="2" Grid.Column="1" Width="200" Margin="3"></PasswordBox>
+                    <Label Content="Username: " Grid.Row="0"></Label>
+                    <TextBox x:Name="UserNameBox" Grid.Row="0" Grid.Column="1" Width="200" Margin="3"></TextBox>
+
+                    <Label Content="Password  " Grid.Row="1" Grid.Column="0"></Label>
+                    <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Width="200" Margin="3"></PasswordBox>
+
+                    <Label Content="Renter Password:  " Grid.Row="2"></Label>
+                    <PasswordBox x:Name="RePasswordBox" Grid.Row="2" Grid.Column="1" Width="200" Margin="3"></PasswordBox>
                 </Grid>
-              
             </GroupBox>
+
+            <!-- Save button-->
             <Button x:Name="SaveButton" Content="Save" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10" Padding="5" Width="70" Click="SaveButton_Click"></Button>
+
+            <!-- Criterion Edit -->
             <GroupBox BorderBrush="Gray" Background="Gray" Header="Criterions">
                 <StackPanel>
                     <StackPanel  Orientation="Horizontal">

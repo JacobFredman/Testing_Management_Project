@@ -216,6 +216,7 @@ namespace PLWPF.Admin.ManageTest
         {
             try
             {
+                TimePickerTest.ResetSelection();
                 TimePickerTest.HourToShow = ((Tester)testerIdComboBox.SelectedItem).Schedule
                     .days[(int)((DateTime)testTimeDatePicker.SelectedDate).DayOfWeek].Hours;
                 TimePickerTest.IsEnabled = true;
