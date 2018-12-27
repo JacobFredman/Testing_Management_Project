@@ -13,7 +13,7 @@
 
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Left">
-<GroupBox Header="Details" Margin="3">
+<GroupBox Header="Details" Margin="3" Background="{DynamicResource Background}">
             <Grid x:Name="grid1" Margin="20"  DockPanel.Dock="Left" Panel.ZIndex="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -130,11 +130,11 @@
 
             <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results" VerticalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Stretch">
-                    <GroupBox VerticalAlignment="Stretch" Header="Comment" Margin="3">
+                    <GroupBox Background="{DynamicResource Background}" VerticalAlignment="Stretch" Header="Comment" Margin="3">
                         <TextBox VerticalAlignment="Stretch" x:Name="TextBoxComment" MinHeight="50" Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"></TextBox>
 
                     </GroupBox>
-                    <GroupBox VerticalAlignment="Stretch" Margin="3" BorderBrush="Black" BorderThickness="1"  Header="Criterion" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+                    <GroupBox Background="{DynamicResource Background}" VerticalAlignment="Stretch" Margin="3" BorderBrush="Black" BorderThickness="1"  Header="Criterion" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
 
                         <DataGrid MaxHeight="180" x:Name="CriterionsDataGrid" ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  HorizontalAlignment="Stretch" MinHeight="150"  AutoGenerateColumns="False" >
                             <DataGrid.Columns>
@@ -146,7 +146,7 @@
 
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Notifications" BorderBrush="Black" Margin="3">
+            <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3">
                 <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red"></TextBlock>
             </GroupBox>
         </StackPanel>

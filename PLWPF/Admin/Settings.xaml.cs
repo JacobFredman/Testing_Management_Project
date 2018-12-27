@@ -13,13 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BE;
+using MahApps.Metro;
+using MahApps.Metro.Controls;
 
 namespace PLWPF.Admin
 {
     /// <summary>
     ///Logic for setting window
     /// </summary>
-    public partial class Settings : Window
+    public partial class Settings : MetroWindow
     {
         //collection  for the criterions
         private ObservableCollection<string> criterions = new ObservableCollection<string>();
@@ -38,6 +40,11 @@ namespace PLWPF.Admin
             foreach (var item in Configuration.Criterions)
                 criterions.Add(item);
             CriterionsListBox.DataContext = criterions;
+
+            //Set theme ComBox
+            Theme.ItemsSource = new List<string>() {"Orange", "Green", "Gray", "Blue"};
+            Theme.SelectedItem = "Blue";
+
         }
 
         //On Add new criterion click
@@ -107,6 +114,32 @@ namespace PLWPF.Admin
             Configuration.PercentOfCritirionsToPassTest = this.PercentOfCritirionsToPassTestBox.Number;
             Close();
 
+        }
+
+        private void Theme_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Resources["Background"] = Brushes.LightSalmon;
+        }
+
+        //Change theme
+        private void Theme_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (Theme.SelectedItem.ToString())
+            {
+                case "Orange":
+                    Application.Current.Resources["Background"] = Brushes.Orange;
+                    break;
+                case "Green":
+                    Application.Current.Resources["Background"] = Brushes.LightGreen;
+                    break;
+                case "Gray":
+                    Application.Current.Resources["Background"] = Brushes.LightGray;
+                    break;
+                case "Blue":
+                    Application.Current.Resources["Background"] = Brushes.Aquamarine;
+                    break;
+
+            }
         }
     }
 }

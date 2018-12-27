@@ -742,7 +742,7 @@ namespace PLWPF.Admin
                 var win = new Settings();
                 win.ShowDialog();
             }
-            catch
+            catch(Exception x)
             {
             }
         }
