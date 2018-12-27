@@ -37,6 +37,11 @@ namespace PLWPF.Admin
             ComboBoxLicenseFilterTest.ItemsSource = Enum.GetValues(typeof(LicenseType));
             ComboBoxLicenseFilterTester.ItemsSource = Enum.GetValues(typeof(LicenseType));
             ComboBoxLicenseFilterTrainee.ItemsSource = Enum.GetValues(typeof(LicenseType));
+
+
+            ComboBoxFilterOtherTest.ItemsSource = new List<string>()
+                {"Not Updated Tests", "Updated Tests", "Test That Passed", "Tests That Didn't Pass"};
+
         }
 
         #region Trainee
@@ -226,6 +231,22 @@ namespace PLWPF.Admin
             }
         }
 
+        //disable update and remove in context menu when nothing is selected
+        private void TraineeGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TraineeGrid.SelectedItem == null)
+            {
+                MenuItemUpdateTrainee.IsEnabled = false;
+                MenuItemRemoveTrainee.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemUpdateTrainee.IsEnabled = true;
+                MenuItemRemoveTrainee.IsEnabled = true;
+            }
+        }
+
+
         #endregion
 
         #region Tester
@@ -357,6 +378,21 @@ namespace PLWPF.Admin
             ComboBoxLicenseFilterTester.SelectedIndex = -1;
         }
 
+        //disable update and remove in context menu when nothing is selected
+        private void TesterGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TesterGrid.SelectedItem == null)
+            {
+                MenuItemUpdateTester.IsEnabled = false;
+                MenuItemRemoveTester.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemUpdateTester.IsEnabled = true;
+                MenuItemRemoveTester.IsEnabled = true;
+            }
+        }
+
         #endregion
 
         #region Test
@@ -423,36 +459,44 @@ namespace PLWPF.Admin
         //On search Test update grid
         private void TextBoxSearchTest_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxSearchTest.Text == "")
+            try
             {
-                TestGrid.DataContext = bL.AllTests.ToList();
-                TestList = bL.AllTests.ToList();
+                if (TextBoxSearchTest.Text == "")
+                {
+                    TestGrid.DataContext = bL.AllTests.ToList();
+                    TestList = bL.AllTests.ToList();
+                }
+                else
+                {
+                    TestGrid.DataContext = bL.SearchTest(TextBoxSearchTest.Text);
+                    TestList = bL.SearchTest(TextBoxSearchTest.Text);
+                }
             }
-            else
-            {
-                TestGrid.DataContext = bL.SearchTest(TextBoxSearchTest.Text);
-                TestList = bL.SearchTest(TextBoxSearchTest.Text);
-            }
+            catch { }
         }
 
         //On Advanced search click
         private void SearchTestButton_Click(object sender, RoutedEventArgs e)
         {
-            //Get the search data
-            var id = TextBoxSearchIdTest.Text != "" ? TextBoxSearchIdTest.Text : null;
-            var traineeId = TextBoxSearchTraineeIDTest.Text != "" ? TextBoxSearchTraineeIDTest.Text : null;
-            var testerId = TextBoxSearchTesterIDTest.Text != "" ? TextBoxSearchTesterIDTest.Text : null;
-
-            var list = bL.AllTests.Where(p =>
+            try
             {
-                if (id != null && id == p.Id.ToString()) return true;
-                if (traineeId != null && traineeId.ToLower() == p.TraineeId.ToString().ToLower()) return true;
-                if (testerId != null && testerId.ToLower() == p.TesterId.ToString().ToLower()) return true;
-                return false;
-            });
+                //Get the search data
+                var id = TextBoxSearchIdTest.Text != "" ? TextBoxSearchIdTest.Text : null;
+                var traineeId = TextBoxSearchTraineeIDTest.Text != "" ? TextBoxSearchTraineeIDTest.Text : null;
+                var testerId = TextBoxSearchTesterIDTest.Text != "" ? TextBoxSearchTesterIDTest.Text : null;
 
-            TestGrid.DataContext = list;
-            TestList = list;
+                var list = bL.AllTests.Where(p =>
+                {
+                    if (id != null && id == p.Id.ToString()) return true;
+                    if (traineeId != null && traineeId.ToLower() == p.TraineeId.ToString().ToLower()) return true;
+                    if (testerId != null && testerId.ToLower() == p.TesterId.ToString().ToLower()) return true;
+                    return false;
+                });
+
+                TestGrid.DataContext = list;
+                TestList = list;
+            }
+            catch { }
         }
 
         //clear all filters
@@ -477,13 +521,82 @@ namespace PLWPF.Admin
             }
         }
 
+        //filer test grid on selection
+        private void ComboBoxFilterOtherTest_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var selection = ComboBoxFilterOtherTest.SelectedItem.ToString();
+                IEnumerable<Test> tests = new List<Test>();
+                switch (selection)
+                {
+                    case "Not Updated Tests":
+                        tests = bL.GetAllTestsToCome();
+                        break;
+                    case "Updated Tests":
+                        tests = bL.GetAllTestsThatHappened();
+                        break;
+                    case "Test That Passed":
+                        tests = bL.AllTests.Where(x => x.Passed != null);
+                        break;
+                    case "Tests That Didn't Pass":
+                        tests = bL.AllTests.Where(x => x.Passed == null);
+                        break;
+                }
+
+                TestList = tests;
+                TestGrid.DataContext = tests;
+            }
+            catch { }
+        }
+
+        //filter on selected dates
+        private void Calendar_OnSelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var dates = CalendarFilter.SelectedDates;
+                TestList = bL.AllTests.Where(
+                    x => x.TestTime >= dates.First() && x.TestTime <= dates.Last().AddHours(23));
+                TestGrid.DataContext = TestList;
+            }
+            catch { }
+        }
+
         //Clear all filters
         private void ClearFilterButtonTest_Click(object sender, RoutedEventArgs e)
         {
-            RefreshData();
-            ComboBoxLicenseFilterTest.SelectedIndex = -1;
+            try
+            {
+                ComboBoxLicenseFilterTest.SelectedIndex = -1;
+                ComboBoxFilterOtherTest.SelectedIndex = -1;
+                CalendarFilter.SelectedDate = null;
+                RefreshData();
+            }
+            catch
+            {
+
+            }
         }
 
+        //disable update and remove in context menu when nothing is selected
+        private void TestGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (TestGrid.SelectedItem == null)
+                {
+                    MenuItemUpdateTest.IsEnabled = false;
+                    MenuItemRemoveTest.IsEnabled = false;
+                }
+                else
+                {
+                    MenuItemUpdateTest.IsEnabled = true;
+                    MenuItemRemoveTest.IsEnabled = true;
+                }
+            }
+            catch { }
+        }
         #endregion
 
         /// <summary>
@@ -633,5 +746,8 @@ namespace PLWPF.Admin
             {
             }
         }
+
+
+     
     }
 }

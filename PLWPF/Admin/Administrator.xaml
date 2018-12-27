@@ -118,8 +118,8 @@
                                     <Label Content="Teacher: " Grid.Row="2" Margin="3"></Label>
                                     <ComboBox x:Name="ComboBoxFilterTesterIdTrainee" Grid.Row="2" Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterTesterIdTrainee_SelectionChanged"></ComboBox>
 
-                                    <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxFilterOtherTrainee" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
+                                    <Label Visibility="Collapsed" Content="Other: " Grid.Row="3" Margin="3"></Label>
+                                    <ComboBox Visibility="Collapsed" x:Name="ComboBoxFilterOtherTrainee" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
                                     <Button FontSize="12" x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTrainee_Click"></Button>
                                 </Grid>
@@ -127,11 +127,11 @@
                         </Expander>
                    </StackPanel>
 <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
-                    <DataGrid GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" >
+                    <DataGrid GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding }" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" SelectionChanged="TraineeGrid_OnSelectionChanged">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Update" Click="UpdateTraineeClick"></MenuItem>
-                                <MenuItem Header="Remove" Click="RemoveTraineeClick"></MenuItem>
+                                    <MenuItem IsEnabled="False" x:Name="MenuItemUpdateTrainee"  Header="Update" Click="UpdateTraineeClick"></MenuItem>
+                                <MenuItem IsEnabled="False" x:Name="MenuItemRemoveTrainee" Header="Remove" Click="RemoveTraineeClick"></MenuItem>
                                 <MenuItem Header="Add new Trainee" Click="AddTraineeClick"  ></MenuItem>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
@@ -223,8 +223,8 @@
                                     <Label Content="License: " Margin="3"></Label>
                                     <ComboBox x:Name="ComboBoxLicenseFilterTester" Margin="3" Grid.Row="0" Grid.Column="1" SelectionChanged="ComboBoxLicenseFilterTester_SelectionChanged"></ComboBox>
 
-                                    <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxFilterOtherTester" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
+                                    <Label Visibility="Collapsed" Content="Other: " Grid.Row="3" Margin="3"></Label>
+                                    <ComboBox Visibility="Collapsed" x:Name="ComboBoxFilterOtherTester" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
 
                                     <Button x:Name="ClearFilterButtonTester" FontSize="12" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTester_Click"></Button>
                                 </Grid>
@@ -233,12 +233,12 @@
                     </StackPanel>
                     <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
 
-                        <DataGrid  x:Name="TesterGrid" ItemsSource="{Binding  }" GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick" >
+                        <DataGrid  x:Name="TesterGrid" ItemsSource="{Binding  }" GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick" SelectionChanged="TesterGrid_OnSelectionChanged">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Update" Click="UpdateTesterClick"></MenuItem>
-                                <MenuItem Header="Remove" Click="RemoveTesterClick"></MenuItem>
-                                <MenuItem Header="Add new Tester"  Click="AddTesterClick" ></MenuItem>
+                                    <MenuItem Header="Update" x:Name="MenuItemUpdateTester" IsEnabled="False" Click="UpdateTesterClick"></MenuItem>
+                                    <MenuItem Header="Remove" x:Name="MenuItemRemoveTester" IsEnabled="False" Click="RemoveTesterClick"></MenuItem>
+                                    <MenuItem Header="Add new Tester"   Click="AddTesterClick" ></MenuItem>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -269,12 +269,12 @@
                 </TabItem.Style>
 
                 <DockPanel  LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" MinWidth="200" DockPanel.Dock="Right">
                         <GroupBox Header="Search" >
                             <StackPanel>
                                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                                     <Label Content="Search: " HorizontalAlignment="Stretch"></Label>
-                                    <TextBox x:Name="TextBoxSearchTest" HorizontalAlignment="Stretch" Width="122" Margin="3" TextChanged="TextBoxSearchTest_TextChanged"></TextBox>
+                                    <TextBox x:Name="TextBoxSearchTest" HorizontalAlignment="Stretch" Width="160" Margin="3" TextChanged="TextBoxSearchTest_TextChanged"></TextBox>
                                 </StackPanel>
                                 <Expander x:Name="SearchTraineeExpanderTest" Header="Advanced Search">
                                     <Expander.Content>
@@ -325,26 +325,30 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                         <RowDefinition Height="*"></RowDefinition>
                                         <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+
                                     </Grid.RowDefinitions>
                                     <Label Content="License: " Margin="3"></Label>
                                     <ComboBox x:Name="ComboBoxLicenseFilterTest" Margin="3" Grid.Row="0" Grid.Column="1" SelectionChanged="ComboBoxLicenseFilterTest_SelectionChanged"></ComboBox>
 
                                     <Label Content="Other: " Grid.Row="3" Margin="3"></Label>
-                                    <ComboBox x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3"></ComboBox>
+                                    <ComboBox MinWidth="150" x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterOtherTest_OnSelectionChanged"></ComboBox>
 
-                                    <Button FontSize="12" x:Name="ClearFilterButtonTest" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTest_Click"></Button>
+                                    <Button Grid.Column="0" FontSize="12" x:Name="ClearFilterButtonTest" Content="Clear Filters" Grid.Row="6" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTest_Click"></Button>
+                                    <Label Content="Filter on Date range" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center"></Label>
+                                    <Calendar x:Name="CalendarFilter" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" SelectionMode="SingleRange" SelectedDatesChanged="Calendar_OnSelectedDatesChanged"/>
                                 </Grid>
                             </Expander.Content>
                         </Expander>
                     </StackPanel>
                     <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
 
-                        <DataGrid  x:Name="TestGrid" ItemsSource="{Binding  }" GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" >
+                        <DataGrid  x:Name="TestGrid" ItemsSource="{Binding  }" GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" SelectionChanged="TestGrid_OnSelectionChanged">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Update" Click="UpdateTestClick"></MenuItem>
-                                <MenuItem Header="Remove" Click="RemoveTestClick"></MenuItem>
-                                <MenuItem Header="Add new Test"  Click="AddTestClick" ></MenuItem>
+                                    <MenuItem Header="Update" x:Name="MenuItemUpdateTest" IsEnabled="False" Click="UpdateTestClick"></MenuItem>
+                                    <MenuItem Header="Remove" x:Name="MenuItemRemoveTest" IsEnabled="False" Click="RemoveTestClick"></MenuItem>
+                                    <MenuItem Header="Add new Test"  Click="AddTestClick" ></MenuItem>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>

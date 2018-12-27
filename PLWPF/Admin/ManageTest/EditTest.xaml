@@ -107,7 +107,7 @@
             <Label Content="Actual Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
                 <DatePicker Height="30" x:Name="actualTestTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="6" SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-                <UserControls:TimePicker Height="30"  x:Name="actualTimePickerTest" Margin="3" Width="100" SelectionChanged="TimePicker_OnSelectionChanged"/>
+                <UserControls:TimePicker Height="30"  x:Name="actualTimePickerTest" Margin="3" Width="100" />
 
             </StackPanel>
             <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
@@ -118,7 +118,7 @@
 
         </Grid>
 </GroupBox>
-            <GroupBox Margin="5,45,5,5" Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2" Grid.Row="8">
+            <GroupBox Margin="3" Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2" Grid.Row="8">
             <StackPanel MinHeight="60" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button VerticalAlignment="Center" FontSize="12" x:Name="ShowRouteUrlButton" Content="Show Test Route"  HorizontalAlignment="Stretch"  Margin="10,3,10,3" Click="ShowRouteUrlButton_Click" />
                 <Button VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route" Margin="10,3,10,3" Click="SetRouteButton_Click"></Button>
