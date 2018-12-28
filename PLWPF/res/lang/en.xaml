@@ -20,7 +20,7 @@
     <System:String x:Key="Trainees">Trainees</System:String>
     <System:String x:Key="Testers">Testers</System:String>
     <System:String x:Key="Tests">Tests</System:String>
-    <System:String x:Key="SendEmail">Send Email</System:String>
+    <System:String x:Key="SendEmail">Send Email Before Tests That Are Today</System:String>
     <System:String x:Key="Setting">Settings</System:String>
     <System:String x:Key="Help">Help</System:String>
     <System:String x:Key="Search">Search</System:String>

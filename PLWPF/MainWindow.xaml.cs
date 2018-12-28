@@ -54,7 +54,7 @@ namespace PLWPF
                 _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
                 {
                     BirthDate = new DateTime(1995, 1, 1), LicenseTypeLearning = list,
-                    Address = new Address("Jerusalem"),
+                    Address = new Address("הועד הלאומי 14, ירושלים, ישראל"),
                     EmailAddress = "elisja.sc@gmail.com"
                 });
                 _blimp.AddTrainee(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
@@ -88,7 +88,7 @@ namespace PLWPF
                 list2.Add(LicenseType.A);
                 _blimp.AddTester(new Tester(328729660, "meir", "")
                 {
-                    BirthDate = new DateTime(1945, 1, 1), Address = new Address("בית שמש"), MaxDistance = 10000000,
+                    BirthDate = new DateTime(1945, 1, 1), Address = new Address("הרצל 30, בית שמש, ישראל"), MaxDistance = 10000000,
                     Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
                 });
                 sch = new WeekSchedule();

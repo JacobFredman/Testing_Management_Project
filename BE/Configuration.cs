@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace BE
 {
@@ -105,5 +106,17 @@ namespace BE
             "Right Turn",
             "Immediate Stop"
         };
+
+        /// <summary>
+        ///     return the path of the pdf license file for any computer 
+        /// </summary>
+        /// <returns></returns>
+        public static string getPdfFullpath()
+        {
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            path = Path.GetFullPath(Path.Combine(path, @"..\..\..\"));
+            var fileName = Path.Combine(path, "license.pdf");
+            return fileName;
+        }
     }
 }

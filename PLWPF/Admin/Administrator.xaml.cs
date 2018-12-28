@@ -406,10 +406,40 @@ namespace PLWPF.Admin
         {
             try
             {
-                var win = new EditTest((TestGrid.SelectedItem as Test).Id);
+                var test = (TestGrid.SelectedItem as Test);
+                var win = new EditTest(test.Id);
 
                 win.ShowDialog();
                 RefreshData();
+
+                //get trainee and updated test
+                var trainee = bL.AllTrainees.First(x => x.Id == test.TraineeId);
+                test = bL.AllTests.First(x => x.Id == test.Id);
+
+                //Set Label
+                ProgressLabel.Content = "Sending Email to " + trainee.FirstName + " " + trainee.LastName + "...";
+                ProgressLabel.Visibility = Visibility.Visible;
+
+                //Send Email
+                (new Thread(() =>
+                {
+                    try
+                    {
+                        Pdf.CreateLicensePdf(test, trainee);
+                        Email.SentEmailToTraineeAfterTest(test, trainee);
+                        MessageBox.Show("Successfully Send Email to " + trainee.FirstName + " " + trainee.LastName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    Action action = () => {
+                        ProgressLabel.Visibility = Visibility.Hidden;
+                    };
+                    Dispatcher.BeginInvoke(action);
+                })).Start();
+
             }
             catch (Exception ex)
             {
@@ -747,7 +777,34 @@ namespace PLWPF.Admin
             }
         }
 
+        //Send Email Before Test
+        private void MenuItem_OnClickEmail(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ProgressLabel.Content = "Sending Emails Before Tests ...";
+                ProgressLabel.Visibility = Visibility.Visible;
+                (new Thread(() =>
+                {
+                    try
+                    {
+                        var count = TestList
+                            .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
+                                        x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
+                            .SendEmailToAllTraineeBeforeTest();
+                        MessageBox.Show("You Send " + count + " Emails");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
 
-     
+                    Action action = () => { ProgressLabel.Visibility = Visibility.Hidden; };
+                    Dispatcher.BeginInvoke(action);
+                })).Start();
+            }
+            catch { }
+
+        }
     }
 }

@@ -42,8 +42,8 @@ namespace PLWPF.Admin
             CriterionsListBox.DataContext = criterions;
 
             //Set theme ComBox
-            Theme.ItemsSource = new List<string>() {"Orange", "Green", "Gray", "Blue"};
-            Theme.SelectedItem = "Blue";
+            Theme.ItemsSource = new List<string>() {"Orange", "Green", "Gray", "Light Blue" ,"Blue"};
+            Theme.SelectedItem = "Light Blue";
 
         }
 
@@ -135,8 +135,11 @@ namespace PLWPF.Admin
                 case "Gray":
                     Application.Current.Resources["Background"] = Brushes.LightGray;
                     break;
-                case "Blue":
+                case "Light Blue":
                     Application.Current.Resources["Background"] = Brushes.Aquamarine;
+                    break;
+                case "Blue":
+                    Application.Current.Resources["Background"] = Application.Current.Resources["AccentBaseColorBrush"];
                     break;
 
             }

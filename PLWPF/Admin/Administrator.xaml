@@ -31,7 +31,7 @@
                     <MenuItem x:Name="ExportTestersToExcel" Header="{DynamicResource TestersInGridLb}" Click="ExportTestersToExcel_Click"/>
                     <MenuItem x:Name="ExportTestsToExcel" Header="{DynamicResource TestsInGridLb}" Click="ExportTestsToExcel_Click"/>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource SendEmail}"/>
+                <MenuItem Header="{DynamicResource SendEmail}" Click="MenuItem_OnClickEmail"/>
                 <MenuItem Header="{DynamicResource Setting}" Click="MenuItem_OnClick"/>
                 <MenuItem Header="{DynamicResource Help}"/>
             </MenuItem>
@@ -46,8 +46,8 @@
             <Label x:Name="NumberOfTestsLabel" Content="0"/>
             <Label x:Name="ProgressLabel" Margin="100,0,0,0" Foreground="Red"/>
         </StackPanel>
-        <TabControl >
-            <TabItem Header="{DynamicResource Trainees}">
+        <TabControl Padding="0" >
+            <TabItem Header="{DynamicResource Trainees}" >
                 <TabItem.Style>
                     <Style TargetType="{x:Type Control}">
                         <Setter Property="FontSize" Value="15"/>
@@ -124,9 +124,10 @@
                                 <Button FontSize="12" x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTrainee_Click"/>
                             </Grid>
                         </Expander>
+                        <Button Content="Add New Trainee" VerticalAlignment="Bottom" Margin="10" FontSize="12" Click="AddTraineeClick"></Button>
                     </StackPanel>
                     <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
-                        <DataGrid GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding ''}" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" SelectionChanged="TraineeGrid_OnSelectionChanged">
+                        <DataGrid GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" SelectionChanged="TraineeGrid_OnSelectionChanged">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem IsEnabled="False" x:Name="MenuItemUpdateTrainee"  Header="Update" Click="UpdateTraineeClick"/>
@@ -225,6 +226,7 @@
                                 <Button x:Name="ClearFilterButtonTester" FontSize="12" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTester_Click"/>
                             </Grid>
                         </Expander>
+                        <Button Content="Add New Tester" FontSize="12" Margin="10" Click="AddTesterClick"></Button>
                     </StackPanel>
                     <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
 
@@ -331,6 +333,7 @@
                                 <Calendar ToolTip="Hold and Drag To Choose a Range." x:Name="CalendarFilter" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" SelectionMode="SingleRange" SelectedDatesChanged="Calendar_OnSelectedDatesChanged"/>
                             </Grid>
                         </Expander>
+                        <Button Content="Set New Test" Margin="10" FontSize="12" Click="AddTestClick"></Button>
                     </StackPanel>
                     <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
 

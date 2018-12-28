@@ -34,7 +34,7 @@
             <Label Content="Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
             <TextBox x:Name="idTextBox" IsEnabled="False" Grid.Column="1"  HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" />
 
-            <Label Content="Trainee Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label Content="Trainee:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
             <ComboBox x:Name="traineeIdComboBox" ItemsSource="{Binding}" Grid.Column="1"  HorizontalAlignment="Stretch" Height="30"  Margin="3" Grid.Row="1" VerticalAlignment="Center" SelectionChanged="TraineeIdComboBox_SelectionChanged" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -50,11 +50,11 @@
             </ComboBox>
 
 
-            <Label Content="License Type:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
             <ComboBox x:Name="licenseTypeComBox" ItemsSource="{Binding}" Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="2"  VerticalAlignment="Center" SelectionChanged="LicenseTypeComBox_OnSelectionChanged"/>
 
 
-            <Label Content="Tester Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <Label Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}"  Grid.Column="1"  HorizontalAlignment="Stretch" Height="30"  Grid.Row="3" VerticalAlignment="Center" Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
