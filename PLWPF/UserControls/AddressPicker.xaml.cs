@@ -13,7 +13,7 @@ namespace PLWPF.UserControls
     /// </summary>
     public partial class AddressPicker : UserControl
     {
-        private string token;
+        private string _token;
 
         /// <summary>
         /// The Selected address
@@ -31,23 +31,27 @@ namespace PLWPF.UserControls
                 {
                     try
                     {
-                        generateNewToken();
-                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), token).First();
-                        Action action = () =>
+                        GenerateNewToken();
+                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).First();
+
+                        void Action()
                         {
                             TexBoxAddress.Text = text;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
                             TexBoxAddress.BorderBrush = Brushes.LightGray;
-                        };
-                        Dispatcher.BeginInvoke(action);
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Action);
                     }
                     catch
                     {
-                        Action act = () => {
+                        void Act()
+                        {
                             TexBoxAddress.BorderBrush = Brushes.Red;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
-                        };
-                        Dispatcher.BeginInvoke(act);
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
                     }
                 }).Start();
 
@@ -59,7 +63,7 @@ namespace PLWPF.UserControls
         public AddressPicker()
         {
             InitializeComponent();
-            generateNewToken();
+            GenerateNewToken();
         }
 
         /// <summary>
@@ -85,40 +89,52 @@ namespace PLWPF.UserControls
                     {
                         try
                         {
-                            var list = Routes.GetAddressSuggestionsGoogle(text, token);
+                            var list = Routes.GetAddressSuggestionsGoogle(text, _token);
                             //if the address is already typed
                             if (list.Any(x => x == text))
                             {
-                                Action act = () => { ListBoxSuggestions.Visibility = Visibility.Hidden; };
-                                Dispatcher.BeginInvoke(act);
+                                void Act()
+                                {
+                                    ListBoxSuggestions.Visibility = Visibility.Hidden;
+                                }
+
+                                Dispatcher.BeginInvoke((Action) Act);
                                 return;
                             }
 
                             //open the suggestions list
-                            Action action = () =>
+                            void Action()
                             {
                                 ListBoxSuggestions.ItemsSource = list;
                                 ListBoxSuggestions.Visibility = Visibility.Visible;
                                 ListBoxSuggestions.UnselectAll();
                                 TexBoxAddress.BorderBrush = Brushes.LightGray;
-                            };
-                            Dispatcher.BeginInvoke(action);
+                            }
+
+                            Dispatcher.BeginInvoke((Action) Action);
                         }
                         catch
                         {
                             //make the border red if there is no internet or on invalid address
-                            Action action = () => { TexBoxAddress.BorderBrush = Brushes.Red; };
-                            Dispatcher.BeginInvoke(action);
+                            void Action()
+                            {
+                                TexBoxAddress.BorderBrush = Brushes.Red;
+                            }
+
+                            Dispatcher.BeginInvoke((Action) Action);
                         }
                     }).Start();
 
-                    TextChanged(this, e);
+                    TextChanged?.Invoke(this, e);
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
-        //close suggetions on lost focus
+        //close suggestions on lost focus
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
@@ -128,20 +144,18 @@ namespace PLWPF.UserControls
         private void ListBoxSuggestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //set the selected address
-            if (ListBoxSuggestions.SelectedItem != null)
-            {
-                TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
-                TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
-                TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
-                ListBoxSuggestions.Visibility = Visibility.Collapsed;
-                generateNewToken();
-            }
+            if (ListBoxSuggestions.SelectedItem == null) return;
+            TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
+            TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
+            TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
+            ListBoxSuggestions.Visibility = Visibility.Collapsed;
+            GenerateNewToken();
         }
 
         //generate token for a new session
-        private void generateNewToken()
+        private void GenerateNewToken()
         {
-            token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")
+            _token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")
                 .Replace(@"\", "").Replace("/", "").Replace(".", "").Replace(":", "");
         }
     }

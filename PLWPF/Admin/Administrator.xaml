@@ -11,6 +11,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="PLWPF.Admin.Administrator"
         mc:Ignorable="d"
         Title="Administrator" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+ 
     <Controls:MetroWindow.Resources>
         <Converters:LessonAndTypeToString x:Key="LessonAndTypeToString"/>
         <Converters:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString"/>
