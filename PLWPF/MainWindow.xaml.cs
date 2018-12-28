@@ -92,15 +92,15 @@ namespace PLWPF
                     Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
                 });
                 sch = new WeekSchedule();
-                sch.AddHoursAllDays(0, 23);
+                sch.AddHoursAllDays(12, 15);
                 _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
                     {BirthDate = new DateTime(1970, 1, 1), Address = new Address("תל אביב, נס ציונה, ישראל"), Schedule = sch});
                 sch = new WeekSchedule();
-                sch.AddHoursAllDays(0, 23);
+                sch.AddHoursAllDays(12, 15);
                 _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
                     {BirthDate = new DateTime(1961, 1, 1), Address = new Address("רחוב הנשיא, קרית שמונה, ישראל"), Schedule = sch});
                 sch = new WeekSchedule();
-                sch.AddHoursAllDays(0, 23);
+                sch.AddHoursAllDays(12, 15);
                 _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
                     {BirthDate = new DateTime(1950, 1, 1), Address = new Address("חולות גאולים, קדימה צורן, ישראל"), Schedule = sch});
 

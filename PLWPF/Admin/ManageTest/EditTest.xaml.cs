@@ -164,6 +164,10 @@ namespace PLWPF.Admin.ManageTest
                 //Show wait message
                 ClearAllMessages();
                 AddMessage("Searching for Tester. Please wait.");
+                licenseTypeComBox.IsEnabled = false;
+                traineeIdComboBox.IsEnabled = false;
+                addressOfBeginningTestTextBox.IsEnabled = false;
+                ProgressRing.IsActive = true;
 
                 //Get the data
                 var address = addressOfBeginningTestTextBox.Address;
@@ -194,10 +198,15 @@ namespace PLWPF.Admin.ManageTest
                         AddMessage("Please Select Tester.");
 
                         //Enable tester comBox and disable the rest
+                        addressOfBeginningTestTextBox.IsEnabled = true;
+                        traineeIdComboBox.IsEnabled = true;
+                        licenseTypeComBox.IsEnabled = true;
                         testerIdComboBox.IsEnabled = true;
                         TimePickerTest.IsEnabled = false;
                         testTimeDatePicker.IsEnabled = false;
                         Save.IsEnabled = false;
+
+                        ProgressRing.IsActive = false;
 
                         //focus oon testers
                         testerIdComboBox.Focus();
