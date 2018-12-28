@@ -7,13 +7,14 @@ using System.Windows.Controls;
 using BE;
 using BE.MainObjects;
 using BL;
+using MahApps.Metro.Controls;
 
 namespace PLWPF.Admin.ManageTester
 {
     /// <summary>
     ///     Add or update tester
     /// </summary>
-    public partial class AddTester : Window
+    public partial class AddTester : MetroWindow
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
 
@@ -133,31 +134,7 @@ namespace PLWPF.Admin.ManageTester
                 AddressTextBox.Address = null;
             }
         }
-
-
-        /// <summary>
-        ///     On save clicked
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            //update or save the tester
-            try
-            {
-                tester.Address = AddressTextBox.Address;
-                if (update)
-                    _blimp.UpdateTester(tester);
-                else
-                    _blimp.AddTester(tester);
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+  
         /// <summary>
         ///     when license selection changed update license list
         /// </summary>
@@ -168,6 +145,8 @@ namespace PLWPF.Admin.ManageTester
             tester.LicenseTypeTeaching = new List<LicenseType>();
             foreach (var item in Chooselicense.SelectedItems) tester.LicenseTypeTeaching.Add((LicenseType) item);
         }
+
+        #region Schedule
 
         /// <summary>
         ///     disable day of week combox
@@ -203,16 +182,16 @@ namespace PLWPF.Admin.ManageTester
                 {
                     day.ClearHours();
                     foreach (var hour in ChooseHours.SelectedItems)
-                        day.Hours[int.Parse(((string) hour).Substring(0, 2))] = true;
+                        day.Hours[int.Parse(((string)hour).Substring(0, 2))] = true;
                 }
             }
             //update one day hours
             else
             {
-                var day = tester.Schedule[(DayOfWeek) DayWeek.SelectedItem];
+                var day = tester.Schedule[(DayOfWeek)DayWeek.SelectedItem];
                 day.ClearHours();
                 foreach (var hour in ChooseHours.SelectedItems)
-                    day.Hours[int.Parse(((string) hour).Substring(0, 2))] = true;
+                    day.Hours[int.Parse(((string)hour).Substring(0, 2))] = true;
             }
         }
 
@@ -223,7 +202,7 @@ namespace PLWPF.Admin.ManageTester
         /// <param name="e"></param>
         private void DayWeek_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var day = tester.Schedule[(DayOfWeek) DayWeek.SelectedItem];
+            var day = tester.Schedule[(DayOfWeek)DayWeek.SelectedItem];
             var i = 0;
             var list = new List<string>();
             foreach (var hour in day.Hours)
@@ -235,6 +214,9 @@ namespace PLWPF.Admin.ManageTester
             ChooseHours.UnselectAll();
             foreach (var item in list) ChooseHours.SelectedItems.Add(item);
         }
+
+
+        #endregion
 
         /// <summary>
         ///     When an error is thowed in data binding
@@ -248,5 +230,29 @@ namespace PLWPF.Admin.ManageTester
             ErrorMessage.Text = "";
             foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
         }
+
+        /// <summary>
+        ///     On save clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            //update or save the tester
+            try
+            {
+                tester.Address = AddressTextBox.Address;
+                if (update)
+                    _blimp.UpdateTester(tester);
+                else
+                    _blimp.AddTester(tester);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }

@@ -9,12 +9,15 @@ using BL;
 namespace PLWPF.UserControls
 {
     /// <summary>
-    /// Interaction logic for AddressPicker.xaml
+    /// A control to Pick an address
     /// </summary>
     public partial class AddressPicker : UserControl
     {
         private string token;
 
+        /// <summary>
+        /// The Selected address
+        /// </summary>
         public Address Address
         {
             set
@@ -22,6 +25,8 @@ namespace PLWPF.UserControls
 
                 TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
                 TexBoxAddress.Text = (value != null) ? value.ToString() : "";
+
+                //search address on google
                 new Thread(() =>
                 {
                     try
@@ -49,14 +54,24 @@ namespace PLWPF.UserControls
             }
             get => new Address(TexBoxAddress.Text);
         }
+
+        //ctor
         public AddressPicker()
         {
             InitializeComponent();
             generateNewToken();
         }
 
+        /// <summary>
+        /// Called on address changed
+        /// </summary>
         public event EventHandler TextChanged;
 
+        /// <summary>
+        /// On Text changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TexBoxAddress_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -65,11 +80,13 @@ namespace PLWPF.UserControls
                 {
 
                     var text = TexBoxAddress.Text;
+                    //get suggestions from google
                     new Thread(() =>
                     {
                         try
                         {
                             var list = Routes.GetAddressSuggestionsGoogle(text, token);
+                            //if the address is already typed
                             if (list.Any(x => x == text))
                             {
                                 Action act = () => { ListBoxSuggestions.Visibility = Visibility.Hidden; };
@@ -77,6 +94,7 @@ namespace PLWPF.UserControls
                                 return;
                             }
 
+                            //open the suggestions list
                             Action action = () =>
                             {
                                 ListBoxSuggestions.ItemsSource = list;
@@ -88,6 +106,7 @@ namespace PLWPF.UserControls
                         }
                         catch
                         {
+                            //make the border red if there is no internet or on invalid address
                             Action action = () => { TexBoxAddress.BorderBrush = System.Windows.Media.Brushes.Red; };
                             Dispatcher.BeginInvoke(action);
                         }
@@ -99,13 +118,16 @@ namespace PLWPF.UserControls
             catch { }
         }
 
+        //close suggetions on lost focus
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
         }
 
+        //on select suggestion
         private void ListBoxSuggestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //set the selected address
             if (ListBoxSuggestions.SelectedItem != null)
             {
                 TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
@@ -114,6 +136,7 @@ namespace PLWPF.UserControls
             }
         }
 
+        //generate token for a new session
         private void generateNewToken()
         {
             token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")

@@ -7,13 +7,14 @@ using System.Windows.Controls;
 using BE;
 using BE.MainObjects;
 using BL;
+using MahApps.Metro.Controls;
 
 namespace PLWPF.Admin.ManageTrainee
 {
     /// <summary>
     ///     Add or update trainee
     /// </summary>
-    public partial class AddTrainee : Window
+    public partial class AddTrainee : MetroWindow
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
 
@@ -144,6 +145,8 @@ namespace PLWPF.Admin.ManageTrainee
             }
         }
 
+        #region License
+
         /// <summary>
         ///     On add license click, add a new licnese
         /// </summary>
@@ -152,14 +155,14 @@ namespace PLWPF.Admin.ManageTrainee
         private void AddLicnseButton_Click(object sender, RoutedEventArgs e)
         {
             //if he is learning it already
-            if (licenses.Any(x => x.License == (LicenseType) ChooseLicense.SelectedItem))
+            if (licenses.Any(x => x.License == (LicenseType)ChooseLicense.SelectedItem))
                 return;
 
             //Add the new license
             var number = int.Parse(NumberOfLessonsTextBox.Text);
             licenses.Add(new LessonsAndType
             {
-                License = (LicenseType) ChooseLicense.SelectedItem,
+                License = (LicenseType)ChooseLicense.SelectedItem,
                 NumberOfLessons = number,
                 ReadyForTest = number > Configuration.MinLessons,
                 GearType = Gear.Automatic
@@ -175,7 +178,7 @@ namespace PLWPF.Admin.ManageTrainee
         {
             try
             {
-                licenses.Remove(licenses.First(x => x.License == (LicenseType) ChooseLicense.SelectedItem));
+                licenses.Remove(licenses.First(x => x.License == (LicenseType)ChooseLicense.SelectedItem));
             }
             catch
             {
@@ -197,6 +200,8 @@ namespace PLWPF.Admin.ManageTrainee
             {
             }
         }
+
+        #endregion
 
         /// <summary>
         ///     When an error occured  in the data binding

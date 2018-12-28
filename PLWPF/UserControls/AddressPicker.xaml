@@ -7,7 +7,7 @@
              mc:Ignorable="d" LostFocus="UserControl_LostFocus" 
             >
     <StackPanel MinWidth="100" ZIndex="0">
-         <TextBox x:Name="TexBoxAddress" HorizontalAlignment="Stretch" TextChanged="TexBoxAddress_TextChanged"></TextBox>
-        <ListBox x:Name="ListBoxSuggestions" Height="120" Visibility="Collapsed" SelectionChanged="ListBoxSuggestions_SelectionChanged"></ListBox>
+         <TextBox x:Name="TexBoxAddress" Height="30" HorizontalAlignment="Stretch" TextChanged="TexBoxAddress_TextChanged"></TextBox>
+        <ListBox x:Name="ListBoxSuggestions" BorderBrush="Black" BorderThickness="1" Height="120" Visibility="Collapsed" SelectionChanged="ListBoxSuggestions_SelectionChanged"></ListBox>
     </StackPanel>
 </UserControl>
