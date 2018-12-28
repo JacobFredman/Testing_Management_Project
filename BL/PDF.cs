@@ -2,6 +2,7 @@
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System.IO;
+using BE;
 
 
 namespace BL
@@ -9,7 +10,7 @@ namespace BL
     public class Pdf
     {
         // PdfDocument document;
-        public static int counter = 1;
+      //  public static int counter = 1;
         public static void CreateLicensePdf(Test test, Trainee trainee)
         {
             var traineeFullName = trainee.FirstName + trainee.LastName;
@@ -39,13 +40,11 @@ namespace BL
                 XStringFormats.Center);
 
 
-            var filename = @".\license"+counter.ToString()+".pdf";
-            counter++;
-            document.Save(filename);
+            if (File.Exists(Configuration.getPdfFullpath()))
+                File.Delete(Configuration.getPdfFullpath());
+            document.Save(Configuration.getPdfFullpath());
+            //Process.Start(Configuration.getPdfFullpath());
             document.Close();
-
-  
-            //  Process.Start(filename);
         }
     }
 }
