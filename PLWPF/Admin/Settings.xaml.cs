@@ -1,6 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using BE;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
@@ -105,10 +109,7 @@ namespace PLWPF.Admin
 
         }
 
-        private void Theme_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Application.Current.Resources["Background"] = Brushes.LightSalmon;
-        }
+   
 
         //Change theme
         private void Theme_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

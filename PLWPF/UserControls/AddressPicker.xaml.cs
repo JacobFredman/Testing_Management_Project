@@ -37,7 +37,7 @@ namespace PLWPF.UserControls
                         {
                             TexBoxAddress.Text = text;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
-                            TexBoxAddress.BorderBrush = Brushes.Black;
+                            TexBoxAddress.BorderBrush = Brushes.LightGray;
                         };
                         Dispatcher.BeginInvoke(action);
                     }
@@ -100,14 +100,14 @@ namespace PLWPF.UserControls
                                 ListBoxSuggestions.ItemsSource = list;
                                 ListBoxSuggestions.Visibility = Visibility.Visible;
                                 ListBoxSuggestions.UnselectAll();
-                                TexBoxAddress.BorderBrush = Brushes.Black;
+                                TexBoxAddress.BorderBrush = Brushes.LightGray;
                             };
                             Dispatcher.BeginInvoke(action);
                         }
                         catch
                         {
                             //make the border red if there is no internet or on invalid address
-                            Action action = () => { TexBoxAddress.BorderBrush = System.Windows.Media.Brushes.Red; };
+                            Action action = () => { TexBoxAddress.BorderBrush = Brushes.Red; };
                             Dispatcher.BeginInvoke(action);
                         }
                     }).Start();
@@ -130,7 +130,9 @@ namespace PLWPF.UserControls
             //set the selected address
             if (ListBoxSuggestions.SelectedItem != null)
             {
+                TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
                 TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
+                TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
                 ListBoxSuggestions.Visibility = Visibility.Collapsed;
                 generateNewToken();
             }

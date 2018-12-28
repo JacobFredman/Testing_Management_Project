@@ -94,20 +94,20 @@ namespace PLWPF
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
-                    {BirthDate = new DateTime(1970, 1, 1), Address = new Address("Tel Aviv"), Schedule = sch});
+                    {BirthDate = new DateTime(1970, 1, 1), Address = new Address("תל אביב, נס ציונה, ישראל"), Schedule = sch});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
-                    {BirthDate = new DateTime(1961, 1, 1), Address = new Address("Beit shemesh"), Schedule = sch});
+                    {BirthDate = new DateTime(1961, 1, 1), Address = new Address("רחוב הנשיא, קרית שמונה, ישראל"), Schedule = sch});
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(0, 23);
                 _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
-                    {BirthDate = new DateTime(1950, 1, 1), Address = new Address("Holon"), Schedule = sch});
+                    {BirthDate = new DateTime(1950, 1, 1), Address = new Address("חולות גאולים, קדימה צורן, ישראל"), Schedule = sch});
 
                 var test1 = new Test(328729660, 319185997)
                 {
                     TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
-                   AddressOfBeginningTest = new Address("jerusalem"),
+                   AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
                     LicenseType = LicenseType.A
                 };
                 try
