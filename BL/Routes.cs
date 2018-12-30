@@ -59,7 +59,7 @@ namespace BL
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr));
 
-                test.AddressOfBeginningTest = new Address(arr[0].Name);
+                test.AddressOfBeginningTest = new Address(arr[0].AddressToHe());
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace BL
         public static List<string> GetAddressSuggestionsGoogle(string input, string token)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
-                      "&types=address&location=31.728220,34.983749&radius=300000&key=" + Configuration.Key + "&sessiontoken=" + token;
+                      "&types=address&components=country:il&language=iw&key=" + Configuration.Key + "&sessiontoken=" + token;
             try
             {
                 var xml = DownloadDataIntoXml(url);
@@ -218,6 +218,15 @@ namespace BL
             }
 
             throw new GoogleAddressException("Google URL is not correct", "WRONG_URL");
+        }
+
+        private static string AddressToHe(this GoogleAddress address)
+        {
+            var url =
+                "https://maps.googleapis.com/maps/api/place/details/xml?placeid="+address.Id+ "&language=iw&key=" +
+                Configuration.Key;
+            var xml = DownloadDataIntoXml(url);
+            return xml.Element("result").Element("formatted_address").Value;
         }
 
         #endregion

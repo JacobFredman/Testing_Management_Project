@@ -20,13 +20,34 @@
 
     </Window.Resources -->
     <Controls:MetroWindow.Resources>
-        <Style x:Key="TabStyle" TargetType="TabItem">
-            <Setter Property="FontSize" Value="14"></Setter>
+        <Style x:Name="TabStyle" TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="{StaticResource AccentColorBrush}" Margin="1">
+                            <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"
+                                              Margin="10,5"
+                                              />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush2}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Controls:MetroWindow.Resources>
     <TabControl >
         <!--Administrator Login-->
-        <TabItem Header="{DynamicResource Administrator}" Style="{StaticResource TabStyle}">
+        <TabItem Header="{DynamicResource Administrator}" >
 
             <StackPanel VerticalAlignment="Stretch"  Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3"/>
@@ -38,29 +59,29 @@
                     <Label Content="Password:  "/>
                     <PasswordBox x:Name="AdminPasswordTextBox" Margin="3" Width="120"/>
                 </StackPanel>
-                <Button FontSize="12" x:Name="AdminLoginButton" Padding="6"  Margin="10" Content="{DynamicResource Login}"  HorizontalAlignment="Center"   Click="AdminLoginButton_Click"/>
+                <Button  Style="{DynamicResource SquareButtonStyle}" FontSize="12" x:Name="AdminLoginButton" Padding="8"  Margin="10" Content="{DynamicResource Login}"  HorizontalAlignment="Center"   Click="AdminLoginButton_Click"/>
             </StackPanel>
         </TabItem>
         <!--Tester login-->
-        <TabItem  Header="{DynamicResource Tester}" Style="{StaticResource TabStyle}">
+        <TabItem  Header="{DynamicResource Tester}" >
             <StackPanel Background="{DynamicResource ResourceKey=Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
                     <Label Content="{DynamicResource ID}"/>
                     <TextBox x:Name="TesterIDTestBox" Margin="3" Width="120" HorizontalAlignment="Center" TextChanged="TesterIDTestBox_TextChanged"/>
                 </StackPanel>
-                <Button x:Name="TesterLoginButton" Padding="6" FontSize="12" Margin="10" HorizontalAlignment="Center" Content="{DynamicResource Login}" IsEnabled="False" Click="TesterLoginButton_Click"/>
+                <Button Style="{DynamicResource SquareButtonStyle}" x:Name="TesterLoginButton" Padding="6" FontSize="12" Margin="10" HorizontalAlignment="Center" Content="{DynamicResource Login}" IsEnabled="False" Click="TesterLoginButton_Click"/>
             </StackPanel>
         </TabItem>
         <!--Trainee login-->
-        <TabItem Style="{StaticResource TabStyle}" Header="{DynamicResource Trainee}">
+        <TabItem  Header="{DynamicResource Trainee}">
             <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
                     <Label Content="{DynamicResource ID}"/>
                     <TextBox x:Name="TraineeIDTestBox" Margin="3" Width="120" HorizontalAlignment="Center" TextChanged="TraineeIDTestBox_TextChanged"/>
                 </StackPanel>
-                <Button x:Name="TraineeLoginButton"  Content="{DynamicResource Login}" Padding="6" FontSize="12"  Margin="10" HorizontalAlignment="Center"  IsEnabled="False" Click="TraineeLoginButton_Click"/>
+                <Button Style="{DynamicResource SquareButtonStyle}" x:Name="TraineeLoginButton"  Content="{DynamicResource Login}" Padding="6" FontSize="12"  Margin="10" HorizontalAlignment="Center"  IsEnabled="False" Click="TraineeLoginButton_Click"/>
             </StackPanel>
         </TabItem>
     </TabControl>

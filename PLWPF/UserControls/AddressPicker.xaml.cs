@@ -9,12 +9,15 @@ using BL;
 namespace PLWPF.UserControls
 {
     /// <summary>
-    /// Interaction logic for AddressPicker.xaml
+    /// A control to Pick an address
     /// </summary>
     public partial class AddressPicker : UserControl
     {
-        private string token;
+        private string _token;
 
+        /// <summary>
+        /// The Selected address
+        /// </summary>
         public Address Address
         {
             set
@@ -22,41 +25,57 @@ namespace PLWPF.UserControls
 
                 TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
                 TexBoxAddress.Text = (value != null) ? value.ToString() : "";
+
+                //search address on google
                 new Thread(() =>
                 {
                     try
                     {
-                        generateNewToken();
-                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), token).First();
-                        Action action = () =>
+                        GenerateNewToken();
+                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).First();
+
+                        void Action()
                         {
                             TexBoxAddress.Text = text;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
-                            TexBoxAddress.BorderBrush = Brushes.Black;
-                        };
-                        Dispatcher.BeginInvoke(action);
+                            TexBoxAddress.BorderBrush = Brushes.LightGray;
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Action);
                     }
                     catch
                     {
-                        Action act = () => {
+                        void Act()
+                        {
                             TexBoxAddress.BorderBrush = Brushes.Red;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
-                        };
-                        Dispatcher.BeginInvoke(act);
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
                     }
                 }).Start();
 
             }
             get => new Address(TexBoxAddress.Text);
         }
+
+        //ctor
         public AddressPicker()
         {
             InitializeComponent();
-            generateNewToken();
+            GenerateNewToken();
         }
 
+        /// <summary>
+        /// Called on address changed
+        /// </summary>
         public event EventHandler TextChanged;
 
+        /// <summary>
+        /// On Text changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TexBoxAddress_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -65,58 +84,78 @@ namespace PLWPF.UserControls
                 {
 
                     var text = TexBoxAddress.Text;
+                    //get suggestions from google
                     new Thread(() =>
                     {
                         try
                         {
-                            var list = Routes.GetAddressSuggestionsGoogle(text, token);
+                            var list = Routes.GetAddressSuggestionsGoogle(text, _token);
+                            //if the address is already typed
                             if (list.Any(x => x == text))
                             {
-                                Action act = () => { ListBoxSuggestions.Visibility = Visibility.Hidden; };
-                                Dispatcher.BeginInvoke(act);
+                                void Act()
+                                {
+                                    ListBoxSuggestions.Visibility = Visibility.Hidden;
+                                }
+
+                                Dispatcher.BeginInvoke((Action) Act);
                                 return;
                             }
 
-                            Action action = () =>
+                            //open the suggestions list
+                            void Action()
                             {
                                 ListBoxSuggestions.ItemsSource = list;
                                 ListBoxSuggestions.Visibility = Visibility.Visible;
                                 ListBoxSuggestions.UnselectAll();
-                                TexBoxAddress.BorderBrush = Brushes.Black;
-                            };
-                            Dispatcher.BeginInvoke(action);
+                                TexBoxAddress.BorderBrush = Brushes.LightGray;
+                            }
+
+                            Dispatcher.BeginInvoke((Action) Action);
                         }
                         catch
                         {
-                            Action action = () => { TexBoxAddress.BorderBrush = System.Windows.Media.Brushes.Red; };
-                            Dispatcher.BeginInvoke(action);
+                            //make the border red if there is no internet or on invalid address
+                            void Action()
+                            {
+                                TexBoxAddress.BorderBrush = Brushes.Red;
+                            }
+
+                            Dispatcher.BeginInvoke((Action) Action);
                         }
                     }).Start();
 
-                    TextChanged(this, e);
+                    TextChanged?.Invoke(this, e);
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
+        //close suggestions on lost focus
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
         }
 
+        //on select suggestion
         private void ListBoxSuggestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListBoxSuggestions.SelectedItem != null)
-            {
-                TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
-                ListBoxSuggestions.Visibility = Visibility.Collapsed;
-                generateNewToken();
-            }
+            //set the selected address
+            if (ListBoxSuggestions.SelectedItem == null) return;
+            TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
+            TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
+            TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
+            ListBoxSuggestions.Visibility = Visibility.Collapsed;
+            GenerateNewToken();
         }
 
-        private void generateNewToken()
+        //generate token for a new session
+        private void GenerateNewToken()
         {
-            token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")
+            _token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")
                 .Replace(@"\", "").Replace("/", "").Replace(".", "").Replace(":", "");
         }
     }
