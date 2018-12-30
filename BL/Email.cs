@@ -72,7 +72,10 @@ namespace BL
             var message = test.Passed == true
                 ? "You successfully passed in the test in " + test.ActualTestTime + ", now you are allowed to drive"
                 : "you have  do the test again";
-            SentEmail(trainee.EmailAddress, subject, message, trainee.FirstName + " " + trainee.LastName, "D.M.V");
+            bool addAttachemnt;
+            if (test.Passed == true) addAttachemnt = true;
+            else addAttachemnt = false;
+            SentEmail(addAttachemnt, trainee.EmailAddress, subject, message, trainee.FirstName + " " + trainee.LastName, "D.M.V");
         }
 
         public static void SentEmailToTraineeBeforeTest(Test test, Trainee trainee)
@@ -80,15 +83,13 @@ namespace BL
             var subject = trainee.FirstName + ", you have a test today";
             var message = trainee.FirstName + ", are you prepared for test already?" + "the beginning place is: " +
                           test.AddressOfBeginningTest + ". for more details please look in the attached";
-            SentEmail(trainee.EmailAddress, subject, message, trainee.FirstName + " " + trainee.LastName, "D.M.V");
+            SentEmail(false, trainee.EmailAddress, subject, message, trainee.FirstName + " " + trainee.LastName, "D.M.V");
         }
 
-        private static void SentEmail(string toAddress, string subject, string bodyMessage, string toName,
+        private static void SentEmail(bool addAttachment,  string toAddress, string subject, string bodyMessage, string toName,
             string fromName)
         {
-            Attachment attachment;
-            attachment =
-                new Attachment(Configuration.getPdfFullpath());
+            var attachment = new Attachment(Configuration.getPdfFullpath());
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
@@ -115,7 +116,9 @@ namespace BL
 
             try
             {
-                message.Attachments.Add(attachment);
+                if(addAttachment)
+                    message.Attachments.Add(attachment);
+
                 smtp.Send(message);
             }
             catch (Exception e)
