@@ -817,7 +817,9 @@ namespace PLWPF.Admin
                             .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
                                         x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
                             .SendEmailToAllTraineeBeforeTest();
-                        MessageBox.Show("You Send " + count + " Emails");
+                        Action act = () => { ExceptionMessage.Show("You Send " + count + " Emails"); };
+                        Dispatcher.BeginInvoke(act);
+                        
                     }
                     catch (Exception ex)
                     {
