@@ -20,13 +20,34 @@
 
     </Window.Resources -->
     <Controls:MetroWindow.Resources>
-        <Style x:Key="TabStyle" TargetType="TabItem">
-            <Setter Property="FontSize" Value="14"></Setter>
+        <Style x:Name="TabStyle" TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="{StaticResource AccentColorBrush}" Margin="1">
+                            <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"
+                                              Margin="10,5"
+                                              />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush2}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Controls:MetroWindow.Resources>
     <TabControl >
         <!--Administrator Login-->
-        <TabItem Header="{DynamicResource Administrator}" Style="{StaticResource TabStyle}">
+        <TabItem Header="{DynamicResource Administrator}" >
 
             <StackPanel VerticalAlignment="Stretch"  Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3"/>
@@ -42,7 +63,7 @@
             </StackPanel>
         </TabItem>
         <!--Tester login-->
-        <TabItem  Header="{DynamicResource Tester}" Style="{StaticResource TabStyle}">
+        <TabItem  Header="{DynamicResource Tester}" >
             <StackPanel Background="{DynamicResource ResourceKey=Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
@@ -53,7 +74,7 @@
             </StackPanel>
         </TabItem>
         <!--Trainee login-->
-        <TabItem Style="{StaticResource TabStyle}" Header="{DynamicResource Trainee}">
+        <TabItem  Header="{DynamicResource Trainee}">
             <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10"/>
                 <StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">

@@ -18,6 +18,7 @@
         <Converters:ActualTestTimeConv x:Key="ActualTestTimeConv"/>
         <System:String x:Key="TestLb">Test</System:String>
     </Controls:MetroWindow.Resources>
+
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top" Background="LightGray">
 
@@ -48,12 +49,34 @@
             <Label x:Name="ProgressLabel" Margin="100,0,0,0" Foreground="Red"/>
         </StackPanel>
         <TabControl Padding="0" >
+            <TabControl.Resources>
+                <Style  TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="{StaticResource AccentColorBrush}" Margin="1">
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"
+                                                      ContentSource="Header"
+                                                      Margin="10,5"
+                                    />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource  AccentColorBrush2}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
             <TabItem Header="{DynamicResource Trainees}" >
-                <TabItem.Style>
-                    <Style TargetType="{x:Type Control}">
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </TabItem.Style>
+              
                 <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" ></ColumnDefinition>
@@ -167,11 +190,7 @@
             </TabItem>
 
             <TabItem Header="{DynamicResource Testers}">
-                <TabItem.Style>
-                    <Style TargetType="{x:Type Control}">
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </TabItem.Style>
+           
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -187,7 +206,7 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
 
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Content="Search: "/>
+                                    <Label Grid.Column="0" Content="Search: " Grid.Row="3" Margin="3"/>
                                     <TextBox Grid.Column="1" x:Name="SearchTextBoxTester" Margin="3" HorizontalAlignment="Stretch" TextChanged="SearchTextBoxTester_TextChanged"/>
 
                                 </Grid>
@@ -283,11 +302,7 @@
             </TabItem>
 
             <TabItem Header="{DynamicResource Tests}">
-                <TabItem.Style>
-                    <Style TargetType="{x:Type Control}">
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </TabItem.Style>
+            
 
                 <Grid   >
                     <Grid.ColumnDefinitions>
@@ -305,7 +320,7 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
 
                                     </Grid.ColumnDefinitions>
-                                    <Label Content="{DynamicResource Search}" HorizontalAlignment="Stretch"/>
+                                    <Label Grid.Column="0" Content="Search: " Grid.Row="3" Margin="3"/>
                                     <TextBox Grid.Column="1" x:Name="TextBoxSearchTest" HorizontalAlignment="Stretch"  Margin="3" TextChanged="TextBoxSearchTest_TextChanged" />
                                 </Grid>
                                 <Expander x:Name="SearchTraineeExpanderTest" Header="Advanced Search">

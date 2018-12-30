@@ -113,7 +113,7 @@
             <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center"  Margin="3" Grid.Row="7" IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" IsEnabled="False" />
 
-                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" IsActive="False" />
+                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70" Height="70" IsActive="False" />
 
 
         </Grid>
