@@ -8,6 +8,7 @@ using BE;
 using BE.MainObjects;
 using BL;
 using MahApps.Metro.Controls;
+using PLWPF.Nofitications;
 
 namespace PLWPF.Admin.ManageTrainee
 {
@@ -103,7 +104,7 @@ namespace PLWPF.Admin.ManageTrainee
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 

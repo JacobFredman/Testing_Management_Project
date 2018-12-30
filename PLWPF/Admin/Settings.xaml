@@ -24,31 +24,31 @@
                 </Grid.RowDefinitions>
                 <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                     <Label Content="Minimum Lesson to Do a Test: "  Margin="3"></Label>
-                    <UserControls:NumPicker  x:Name="MinLessonsBox"  Margin="3"></UserControls:NumPicker>
+                    <mah:NumericUpDown Minimum="0"  x:Name="MinLessonsBox"   Margin="3"></mah:NumericUpDown>
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
                     <Label Content="Minimum Tester Age: "  Margin="3"></Label>
-                    <UserControls:NumPicker  x:Name="MinTesterAgeBox"  Margin="3"></UserControls:NumPicker>
+                    <mah:NumericUpDown Minimum="0"  x:Name="MinTesterAgeBox"  Margin="3"></mah:NumericUpDown>
                 </StackPanel>
                 <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
                     <Label Content="Minimum Trainee Age: "  Margin="3"></Label>
-                    <UserControls:NumPicker  x:Name="MinTraineeAgeBox"  Margin="3"></UserControls:NumPicker>
+                    <mah:NumericUpDown Minimum="0"  x:Name="MinTraineeAgeBox"  Margin="3"></mah:NumericUpDown>
                 </StackPanel>
 
                 <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
                     <Label Content="Minimum Time Between Tests: "  Margin="3"></Label>
-                    <UserControls:NumPicker  x:Name="MinTimeBetweenTestsBox"  Margin="3"></UserControls:NumPicker>
+                    <mah:NumericUpDown Minimum="0"  x:Name="MinTimeBetweenTestsBox"  Margin="3"></mah:NumericUpDown>
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
                     <Label Content="Minimum Criterions: "  Margin="3"></Label>
-                    <UserControls:NumPicker  x:Name="MinimumCriterionsBox"  Margin="3"></UserControls:NumPicker>
+                    <mah:NumericUpDown Minimum="0"  x:Name="MinimumCriterionsBox"  Margin="3"></mah:NumericUpDown>
                 </StackPanel>
 
                 <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="5" Grid.Column="0">
                     <Label Content="Percent Of Critirions To Pass Test: "  Margin="3"></Label>
-                    <UserControls:NumPicker  x:Name="PercentOfCritirionsToPassTestBox" Margin="3"></UserControls:NumPicker>
+                    <mah:NumericUpDown Maximum="100" Minimum="0" StringFormat="{}{0:P0}"  x:Name="PercentOfCritirionsToPassTestBox" Margin="3"></mah:NumericUpDown>
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="6">
                     <Label Content="Change Theme:" Margin="3"></Label>
@@ -88,15 +88,15 @@
             </GroupBox>
 
             <!-- Save button-->
-            <Button x:Name="SaveButton" Content="Save" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10" Padding="5" Width="70" Click="SaveButton_Click"></Button>
+            <Button Style="{DynamicResource SquareButtonStyle}"  x:Name="SaveButton" Content="Save" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10" Padding="5" Width="70" Click="SaveButton_Click"></Button>
 
             <!-- Criterion Edit -->
             <GroupBox Margin="3" BorderBrush="Gray" Background="{DynamicResource Background}" Header="Criterions">
                 <StackPanel>
                     <StackPanel  Orientation="Horizontal">
                         <TextBox x:Name="NewCriterionBox" Width="200" Margin="3"></TextBox>
-                        <Button Content="Add" Margin="3" x:Name="AddButton" Click="AddButton_Click"></Button>
-                        <Button x:Name="RemoveSelected" Content="Remove Selected" Margin="3" Click="RemoveSelected_Click"></Button>
+                        <Button Style="{DynamicResource SquareButtonStyle}"  Content="Add" Margin="3" x:Name="AddButton" Click="AddButton_Click"></Button>
+                        <Button Style="{DynamicResource SquareButtonStyle}"  x:Name="RemoveSelected" Content="Remove Selected" Margin="3" Click="RemoveSelected_Click"></Button>
                     </StackPanel>
                     <ListBox x:Name="CriterionsListBox" Height="100" ItemsSource="{Binding}" SelectionMode="Single"></ListBox>
 

@@ -82,8 +82,8 @@
                     <ComboBox x:Name="ChooseLicense" Margin="3" Width="60" Height="Auto"></ComboBox>
                     <Label Content="Num of lessons: " Margin="3"/>
                     <TextBox x:Name="NumberOfLessonsTextBox" Margin="6" Width="40" Text="0"/>
-                    <Button x:Name="AddLicnseButton" Content="Add" FontSize="12" Margin="3" Click="AddLicnseButton_Click"/>
-                    <Button x:Name="RemoveLicnseButton" Content="Remove" FontSize="12" Margin="3" Click="RemoveLicnseButton_Click" />
+                        <Button Style="{DynamicResource SquareButtonStyle}" x:Name="AddLicnseButton" Content="Add" FontSize="12" Margin="3" Click="AddLicnseButton_Click"/>
+                        <Button Style="{DynamicResource SquareButtonStyle}" x:Name="RemoveLicnseButton" Content="Remove" FontSize="12" Margin="3" Click="RemoveLicnseButton_Click" />
 
                 </StackPanel>
                 <Border BorderBrush="LightGray" BorderThickness="2">
@@ -91,7 +91,7 @@
                     <DataGrid.Columns >
                         <DataGridTextColumn Header="License" IsReadOnly="True" Binding="{Binding License}"/>
                             <DataGridComboBoxColumn x:Name="BoxColumnGear" Width="100" Header="Gear" ItemsSource="{Binding}"  SelectedItemBinding="{Binding GearType}"/>
-                            <DataGridTextColumn Header="Number of lessons" IsReadOnly="False" Binding="{Binding NumberOfLessons }"/>
+                            <mah:DataGridNumericUpDownColumn Header="Number of lessons" Minimum="0" IsReadOnly="False" Binding="{Binding NumberOfLessons }"/>
                         <DataGridCheckBoxColumn Header="Is ready" IsReadOnly="True" Binding="{Binding ReadyForTest}"/>
                     </DataGrid.Columns>
                 </DataGrid>
@@ -102,7 +102,7 @@
               <TextBlock x:Name="ErrorMessage" Grid.Row="13"  Foreground="Red"/>
 
 </GroupBox>
-            <Button Name="Save" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2" Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False"/>
+            <Button Style="{DynamicResource SquareButtonStyle}" FontSize="12" Name="Save" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2" Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False"/>
 
         </StackPanel>
     </StackPanel>

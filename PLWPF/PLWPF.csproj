@@ -105,6 +105,9 @@
     <Compile Include="Converters\ActualTestTimeConv.cs" />
     <Compile Include="Converters\LessonAndTypeToString.cs" />
     <Compile Include="Converters\LicenseTypeLearningToString.cs" />
+    <Compile Include="Nofitications\ExceptionsWin.xaml.cs">
+      <DependentUpon>ExceptionsWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Nofitications\ExceptionsWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="res\lang\en.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

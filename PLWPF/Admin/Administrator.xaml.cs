@@ -11,6 +11,7 @@ using MahApps.Metro.Controls;
 using PLWPF.Admin.ManageTest;
 using PLWPF.Admin.ManageTester;
 using PLWPF.Admin.ManageTrainee;
+using PLWPF.Nofitications;
 
 namespace PLWPF.Admin
 {
@@ -62,7 +63,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    MessageBox.Show(ex.Message);
+                    ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -81,7 +82,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    MessageBox.Show(ex.Message);
+                    ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -100,7 +101,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -267,7 +268,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    MessageBox.Show(ex.Message);
+                    ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -286,7 +287,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    MessageBox.Show(ex.Message);
+                    ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -305,7 +306,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -427,11 +428,20 @@ namespace PLWPF.Admin
                     {
                         Pdf.CreateLicensePdf(test, trainee);
                         Email.SentEmailToTraineeAfterTest(test, trainee);
-                        MessageBox.Show("Successfully Send Email to " + trainee.FirstName + " " + trainee.LastName);
+                        Action act = () =>
+                        {
+                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " +
+                                                  trainee.LastName);
+                        };
+                        Dispatcher.BeginInvoke(act);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        Action act = () =>
+                        {
+                        ExceptionMessage.Show(ex.Message, ex.ToString());
+                        };
+                        Dispatcher.BeginInvoke(act);
                     }
 
                     Action action = () => {
@@ -444,7 +454,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    MessageBox.Show(ex.Message);
+                    ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -463,7 +473,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    MessageBox.Show(ex.Message);
+                    ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -482,7 +492,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -669,7 +679,11 @@ namespace PLWPF.Admin
         {
             //Check if excel is installed
             var officeType = Type.GetTypeFromProgID("Excel.Application");
-            if (officeType == null) MessageBox.Show("Excel is Not installed. Please install Excel first.");
+            if (officeType == null)
+            {
+                ExceptionMessage.Show("Excel is Not installed. Please install Excel first.");
+                return;
+            }
 
             //update ui
             ProgressLabel.Content = "Exporting Trainees in Grid To Excel.....";
@@ -691,7 +705,8 @@ namespace PLWPF.Admin
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(exception.Message);
+                    Action act = () => { ExceptionMessage.Show(exception.Message, exception.ToString()); };
+                    Dispatcher.BeginInvoke(act);
                 }
 
                 Dispatcher.BeginInvoke(action);
@@ -702,7 +717,11 @@ namespace PLWPF.Admin
         {
             //Check if excel is installed
             var officeType = Type.GetTypeFromProgID("Excel.Application");
-            if (officeType == null) MessageBox.Show("Excel is Not installed. Please install Excel first.");
+            if (officeType == null)
+            {
+                ExceptionMessage.Show("Excel is Not installed. Please install Excel first.");
+                return;
+            }
 
             //update ui
             ProgressLabel.Content = "Exporting Testers in Grid To Excel.....";
@@ -723,7 +742,8 @@ namespace PLWPF.Admin
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(exception.Message);
+                    Action act = () => { ExceptionMessage.Show(exception.Message, exception.ToString()); };
+                    Dispatcher.BeginInvoke(act);
                 }
 
                 Dispatcher.BeginInvoke(action);
@@ -734,7 +754,11 @@ namespace PLWPF.Admin
         {
             //Check if excel is installed
             var officeType = Type.GetTypeFromProgID("Excel.Application");
-            if (officeType == null) MessageBox.Show("Excel is Not installed. Please install Excel first.");
+            if (officeType == null)
+            {
+                ExceptionMessage.Show("Excel is Not installed. Please install Excel first.");
+                return;
+            }
 
             //update ui
             ProgressLabel.Content = "Exporting Tests in Grid To Excel.....";
@@ -755,7 +779,8 @@ namespace PLWPF.Admin
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(exception.Message);
+                    Action act = () => { ExceptionMessage.Show(exception.Message, exception.ToString()); };
+                    Dispatcher.BeginInvoke(act);
                 }
 
                 Dispatcher.BeginInvoke(action);
@@ -796,7 +821,8 @@ namespace PLWPF.Admin
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        Action act = () => { ExceptionMessage.Show(ex.Message, ex.ToString()); };
+                        Dispatcher.BeginInvoke(act);
                     }
 
                     Action action = () => { ProgressLabel.Visibility = Visibility.Hidden; };

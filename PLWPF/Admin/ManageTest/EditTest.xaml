@@ -125,7 +125,7 @@
             </StackPanel>
         </GroupBox>
         </StackPanel>
-        <Button x:Name="Save" Width="100" Content="Save" HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom" Click="Save_Click"></Button>
+        <Button Style="{DynamicResource SquareButtonStyle}" x:Name="Save" Width="100" Content="Save" HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom" Click="Save_Click"></Button>
         <StackPanel VerticalAlignment="Stretch" >
 
             <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results" VerticalAlignment="Stretch">

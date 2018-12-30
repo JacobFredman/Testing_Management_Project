@@ -11,14 +11,14 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="PLWPF.Admin.Administrator"
         mc:Ignorable="d"
         Title="Administrator" WindowState="Maximized" WindowStartupLocation="CenterScreen">
- 
+
     <Controls:MetroWindow.Resources>
         <Converters:LessonAndTypeToString x:Key="LessonAndTypeToString"/>
         <Converters:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString"/>
         <Converters:ActualTestTimeConv x:Key="ActualTestTimeConv"/>
         <System:String x:Key="TestLb">Test</System:String>
     </Controls:MetroWindow.Resources>
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top" Background="LightGray">
 
             <MenuItem Header="{DynamicResource CreateLb}" Background="LightGray">
@@ -40,7 +40,7 @@
         <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal" Background="{DynamicResource Background}">
             <Label Content="{DynamicResource Trainees}"/>
             <Label x:Name="NumberOfTraineesLabel" Content="0"/>
-            
+
             <Label Content="{DynamicResource Testers}" Margin="30,0,0,0"/>
             <Label x:Name="NumberOfTestersLabel" Content="0"/>
             <Label Content="{DynamicResource Tests}" Margin="30,0,0,0"/>
@@ -54,18 +54,28 @@
                         <Setter Property="FontSize" Value="15"/>
                     </Style>
                 </TabItem.Style>
-                <DockPanel LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" Width="200"  DockPanel.Dock="Right">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" ></ColumnDefinition>
+                        <ColumnDefinition Width="3"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" MinWidth="200"></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="2"  Background="{DynamicResource Background}"  MinHeight="600" MinWidth="200"  DockPanel.Dock="Right">
                         <GroupBox Header="Search" >
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="Search: " Grid.Row="3" Margin="3"/>
-                                    <TextBox x:Name="TextBoxSearchTrainee" Width="118"  Margin="3" TextChanged="TextBoxSearchTrainee_TextChanged"/>
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="Search: " Grid.Row="3" Margin="3"/>
+                                    <TextBox Grid.Column="1" x:Name="TextBoxSearchTrainee" HorizontalAlignment="Stretch"  Margin="3" TextChanged="TextBoxSearchTrainee_TextChanged"/>
+                                </Grid>
                                 <Expander x:Name="SearchTraineeExpander" Header="Advanced Search">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
@@ -86,8 +96,8 @@
                                         <TextBox x:Name="TextBoxSearchLastNameTrainee" Grid.Row="2" Grid.Column="1" Margin="3"/>
 
                                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="4">
-                                            <Button FontSize="12" x:Name="SearchTraineeButton" HorizontalAlignment="Center" Content="Search" Margin="3"  Width="80" Click="SearchTraineeButton_Click"/>
-                                            <Button FontSize="12" x:Name="SearchClearTraineeButton" HorizontalAlignment="Center" Content="Clear" Margin="3"  Width="80" Click="SearchClearTraineeButton_Click" />
+                                            <Button Style="{DynamicResource SquareButtonStyle}" FontSize="12" x:Name="SearchTraineeButton" HorizontalAlignment="Center" Content="Search" Margin="3"  Width="80" Click="SearchTraineeButton_Click"/>
+                                            <Button Style="{DynamicResource SquareButtonStyle}" FontSize="12" x:Name="SearchClearTraineeButton" HorizontalAlignment="Center" Content="Clear" Margin="3"  Width="80" Click="SearchClearTraineeButton_Click" />
 
                                         </StackPanel>
                                     </Grid>
@@ -99,7 +109,7 @@
                         <Expander x:Name="FilterTraineeExpander" Header="Filter">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -122,12 +132,13 @@
                                 <Label Visibility="Collapsed" Content="Other: " Grid.Row="3" Margin="3"/>
                                 <ComboBox Visibility="Collapsed" x:Name="ComboBoxFilterOtherTrainee" Grid.Row="3" Grid.Column="1" Margin="3"/>
 
-                                <Button FontSize="12" x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTrainee_Click"/>
+                                <Button Style="{DynamicResource SquareButtonStyle}" FontSize="12" x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTrainee_Click"/>
                             </Grid>
                         </Expander>
-                        <Button Content="Add New Trainee" VerticalAlignment="Bottom" Margin="10" FontSize="12" Click="AddTraineeClick"></Button>
+                        <Button Style="{DynamicResource SquareButtonStyle}"  Content="Add New Trainee" VerticalAlignment="Bottom" Margin="10" FontSize="12" Click="AddTraineeClick"></Button>
                     </StackPanel>
-                    <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="{StaticResource AccentBaseColorBrush}"></GridSplitter>
+                    <Border Grid.Column="0" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
                         <DataGrid GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick" SelectionChanged="TraineeGrid_OnSelectionChanged">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
@@ -152,7 +163,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-                </DockPanel>
+                </Grid>
             </TabItem>
 
             <TabItem Header="{DynamicResource Testers}">
@@ -161,19 +172,29 @@
                         <Setter Property="FontSize" Value="15"/>
                     </Style>
                 </TabItem.Style>
-                <DockPanel  LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" Width="200" DockPanel.Dock="Right">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="3"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" MinWidth="200"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="2"  Background="{DynamicResource Background}"  MinHeight="600" MinWidth="200" DockPanel.Dock="Right">
                         <GroupBox Header="Search" >
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="Search: "/>
-                                    <TextBox x:Name="SearchTextBoxTester" Margin="3" Width="122" TextChanged="SearchTextBoxTester_TextChanged"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
 
-                                </StackPanel>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="Search: "/>
+                                    <TextBox Grid.Column="1" x:Name="SearchTextBoxTester" Margin="3" HorizontalAlignment="Stretch" TextChanged="SearchTextBoxTester_TextChanged"/>
+
+                                </Grid>
                                 <Expander x:Name="SearchTraineeExpanderTester" Header="Advanced Search">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
@@ -193,8 +214,8 @@
                                         <Label Content="Last Name: " Grid.Row="2" Margin="3"/>
                                         <TextBox x:Name="TextBoxSearchLastNameTester" Grid.Row="2" Grid.Column="1" Margin="3"/>
                                         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Center">
-                                            <Button x:Name="SearchTesterButton" FontSize="12" Content="Search" Margin="3"  Width="80" Click="SearchTesterButton_Click"/>
-                                            <Button x:Name="ClearSearchTesterButton" FontSize="12" Content="Clear" Margin="3"  Width="80" Click="ClearSearchTesterButton_Click"/>
+                                            <Button Style="{DynamicResource SquareButtonStyle}" x:Name="SearchTesterButton" FontSize="12" Content="Search" Margin="3"  Width="80" Click="SearchTesterButton_Click"/>
+                                            <Button Style="{DynamicResource SquareButtonStyle}" x:Name="ClearSearchTesterButton" FontSize="12" Content="Clear" Margin="3"  Width="80" Click="ClearSearchTesterButton_Click"/>
 
                                         </StackPanel>
                                     </Grid>
@@ -207,7 +228,7 @@
                         <Expander x:Name="FilterTesterExpander" Header="Filter">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -224,12 +245,14 @@
                                 <Label Visibility="Collapsed" Content="Other: " Grid.Row="3" Margin="3"/>
                                 <ComboBox Visibility="Collapsed" x:Name="ComboBoxFilterOtherTester" Grid.Row="3" Grid.Column="1" Margin="3"/>
 
-                                <Button x:Name="ClearFilterButtonTester" FontSize="12" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTester_Click"/>
+                                <Button Style="{DynamicResource SquareButtonStyle}" x:Name="ClearFilterButtonTester" FontSize="12" Content="Clear Filters" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTester_Click"/>
                             </Grid>
                         </Expander>
-                        <Button Content="Add New Tester" FontSize="12" Margin="10" Click="AddTesterClick"></Button>
+                        <Button Style="{DynamicResource SquareButtonStyle}" Content="Add New Tester" FontSize="12" Margin="10" Click="AddTesterClick"></Button>
                     </StackPanel>
-                    <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <GridSplitter Grid.Column="1" Background="{StaticResource AccentBaseColorBrush}" HorizontalAlignment="Stretch"></GridSplitter>
+
+                    <Border Grid.Column="0" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
 
                         <DataGrid  x:Name="TesterGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick" SelectionChanged="TesterGrid_OnSelectionChanged">
                             <DataGrid.ContextMenu>
@@ -256,7 +279,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-                </DockPanel>
+                </Grid>
             </TabItem>
 
             <TabItem Header="{DynamicResource Tests}">
@@ -266,18 +289,29 @@
                     </Style>
                 </TabItem.Style>
 
-                <DockPanel  LastChildFill="True" >
-                    <StackPanel  Background="{DynamicResource Background}"  MinHeight="600" MinWidth="200" DockPanel.Dock="Right">
+                <Grid   >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"></ColumnDefinition>
+                        <ColumnDefinition Width="3"></ColumnDefinition>
+                        <ColumnDefinition Width="*" MinWidth="200"></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="2" Background="{DynamicResource Background}"  MinHeight="600" MinWidth="200" DockPanel.Dock="Right">
                         <GroupBox Header="{DynamicResource Search}" >
-                            <StackPanel>
-                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                            <StackPanel HorizontalAlignment="Stretch">
+                                <Grid HorizontalAlignment="Stretch" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+
+                                    </Grid.ColumnDefinitions>
                                     <Label Content="{DynamicResource Search}" HorizontalAlignment="Stretch"/>
-                                    <TextBox x:Name="TextBoxSearchTest" HorizontalAlignment="Stretch" Width="160" Margin="3" TextChanged="TextBoxSearchTest_TextChanged"/>
-                                </StackPanel>
+                                    <TextBox Grid.Column="1" x:Name="TextBoxSearchTest" HorizontalAlignment="Stretch"  Margin="3" TextChanged="TextBoxSearchTest_TextChanged" />
+                                </Grid>
                                 <Expander x:Name="SearchTraineeExpanderTest" Header="Advanced Search">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
@@ -297,8 +331,8 @@
                                         <Label Content="{DynamicResource TraineeId}" Grid.Row="2" Margin="3"/>
                                         <TextBox x:Name="TextBoxSearchTraineeIDTest" Grid.Row="2" Grid.Column="1" Margin="3"/>
                                         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Center">
-                                            <Button x:Name="SearchTestButton" Content="{DynamicResource Search}" Margin="3" FontSize="12"  Width="80" Click="SearchTestButton_Click"/>
-                                            <Button x:Name="ClaerSearchTestButton" Content="{DynamicResource Clear}" Margin="3" FontSize="12"  Width="80" Click="ClaerSearchTestButton_Click"/>
+                                            <Button Style="{DynamicResource SquareButtonStyle}" x:Name="SearchTestButton" Content="{DynamicResource Search}" Margin="3" FontSize="12"  Width="80" Click="SearchTestButton_Click"/>
+                                            <Button Style="{DynamicResource SquareButtonStyle}" x:Name="ClaerSearchTestButton" Content="{DynamicResource Clear}" Margin="3" FontSize="12"  Width="80" Click="ClaerSearchTestButton_Click"/>
 
                                         </StackPanel>
                                     </Grid>
@@ -310,7 +344,7 @@
                         <Expander x:Name="FilterTestExpander" Header="{DynamicResource Filter}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -327,16 +361,17 @@
                                 <ComboBox x:Name="ComboBoxLicenseFilterTest" Margin="3" Grid.Row="0" Grid.Column="1" SelectionChanged="ComboBoxLicenseFilterTest_SelectionChanged"/>
 
                                 <Label Content="{DynamicResource Other}" Grid.Row="3" Margin="3"/>
-                                <ComboBox MinWidth="150" x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterOtherTest_OnSelectionChanged"/>
+                                <ComboBox  x:Name="ComboBoxFilterOtherTest" Grid.Row="3" Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterOtherTest_OnSelectionChanged"/>
 
-                                <Button Grid.Column="0" FontSize="12" x:Name="ClearFilterButtonTest" Content="{DynamicResource ClearFilter}" Grid.Row="6" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTest_Click"/>
+                                <Button Style="{DynamicResource SquareButtonStyle}" Grid.Column="0" FontSize="12" x:Name="ClearFilterButtonTest" Content="{DynamicResource ClearFilter}" Grid.Row="6" Grid.ColumnSpan="2" Margin="3" Width="100" Click="ClearFilterButtonTest_Click"/>
                                 <Label Content="{DynamicResource FilterOnDateRange}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
                                 <Calendar ToolTip="Hold and Drag To Choose a Range." x:Name="CalendarFilter" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" SelectionMode="SingleRange" SelectedDatesChanged="Calendar_OnSelectedDatesChanged"/>
                             </Grid>
                         </Expander>
-                        <Button Content="Set New Test" Margin="10" FontSize="12" Click="AddTestClick"></Button>
+                        <Button Style="{DynamicResource SquareButtonStyle}" Content="Set New Test" Margin="10" FontSize="12" Click="AddTestClick"></Button>
                     </StackPanel>
-                    <Border BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <GridSplitter Background="{StaticResource AccentBaseColorBrush}" Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
+                    <Border Grid.Column="0" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
 
                         <DataGrid  x:Name="TestGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick" SelectionChanged="TestGrid_OnSelectionChanged">
                             <DataGrid.ContextMenu>
@@ -359,7 +394,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-                </DockPanel>
+                </Grid>
 
             </TabItem>
         </TabControl>

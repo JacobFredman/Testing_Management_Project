@@ -10,6 +10,7 @@ using BE.Routes;
 using BL;
 using MahApps.Metro.Controls;
 using PLWPF.Admin;
+using PLWPF.Nofitications;
 
 namespace PLWPF
 {
@@ -188,7 +189,7 @@ namespace PLWPF
             }
             catch
             {
-                MessageBox.Show("Trainee doesn't exist please contact the administrator.");
+                ExceptionMessage.Show("Trainee doesn't exist please contact the administrator.");
             }
         }
 
@@ -208,7 +209,7 @@ namespace PLWPF
             }
             catch
             {
-                MessageBox.Show("Tester doesn't exist please contact the administrator.");
+                ExceptionMessage.Show("Tester doesn't exist please contact the administrator.");
             }
         }
 
@@ -231,7 +232,7 @@ namespace PLWPF
             }
             else
             {
-                MessageBox.Show("Wrong Password or UserName.");
+                ExceptionMessage.Show("Wrong Password or UserName.");
             }
         }
     }

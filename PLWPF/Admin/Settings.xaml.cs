@@ -23,12 +23,12 @@ namespace PLWPF.Admin
             InitializeComponent();
 
             //copy the setting from Configuration to the window
-            this.MinLessonsBox.Number = Configuration.MinLessons;
-            this.MinTesterAgeBox.Number = Configuration.MinTesterAge;
-            this.MinTimeBetweenTestsBox.Number = Configuration.MinTimeBetweenTests;
-            this.MinTraineeAgeBox.Number = Configuration.MinTraineeAge;
-            this.MinimumCriterionsBox.Number = Configuration.MinimumCriterions;
-            this.PercentOfCritirionsToPassTestBox.Number = Configuration.PercentOfCritirionsToPassTest;
+            this.MinLessonsBox.Value = Configuration.MinLessons;
+            this.MinTesterAgeBox.Value = Configuration.MinTesterAge;
+            this.MinTimeBetweenTestsBox.Value = Configuration.MinTimeBetweenTests;
+            this.MinTraineeAgeBox.Value = Configuration.MinTraineeAge;
+            this.MinimumCriterionsBox.Value = Configuration.MinimumCriterions;
+            this.PercentOfCritirionsToPassTestBox.Value = Configuration.PercentOfCritirionsToPassTest;
             //copy criterions to the collection
             foreach (var item in Configuration.Criterions)
                 criterions.Add(item);
@@ -99,12 +99,12 @@ namespace PLWPF.Admin
             }
 
             //update the configurations
-            Configuration.MinLessons = this.MinLessonsBox.Number;
-            Configuration.MinTesterAge = this.MinTesterAgeBox.Number;
-            Configuration.MinTimeBetweenTests = this.MinTimeBetweenTestsBox.Number;
-            Configuration.MinTraineeAge = this.MinTraineeAgeBox.Number;
-            Configuration.MinimumCriterions = this.MinimumCriterionsBox.Number;
-            Configuration.PercentOfCritirionsToPassTest = this.PercentOfCritirionsToPassTestBox.Number;
+            Configuration.MinLessons = (uint)this.MinLessonsBox.Value;
+            Configuration.MinTesterAge = (uint)this.MinTesterAgeBox.Value;
+            Configuration.MinTimeBetweenTests = (uint)this.MinTimeBetweenTestsBox.Value;
+            Configuration.MinTraineeAge = (uint)this.MinTraineeAgeBox.Value;
+            Configuration.MinimumCriterions = (uint)this.MinimumCriterionsBox.Value;
+            Configuration.PercentOfCritirionsToPassTest = (uint)this.PercentOfCritirionsToPassTestBox.Value;
             Close();
 
         }
@@ -117,7 +117,7 @@ namespace PLWPF.Admin
             switch (Theme.SelectedItem.ToString())
             {
                 case "Orange":
-                    Application.Current.Resources["Background"] = Brushes.Orange;
+                    Application.Current.Resources["Background"] = Brushes.SandyBrown;
                     break;
                 case "Green":
                     Application.Current.Resources["Background"] = Brushes.LightGreen;

@@ -117,8 +117,8 @@
                 </GroupBox>
 
             </StackPanel>
-         
-            <Button DockPanel.Dock="Bottom" Name="Save" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2"
+
+            <Button Style="{DynamicResource SquareButtonStyle}" DockPanel.Dock="Bottom" Name="Save" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Save" Grid.Row="13" Grid.ColumnSpan="2"
                    Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False" />
             <GroupBox Background="{DynamicResource Background}" Margin="5" BorderThickness="1" BorderBrush="Black" Header="Errors" DockPanel.Dock="Right">
                 <TextBlock  x:Name="ErrorMessage" Grid.Row="13" Foreground="Red" MinHeight="100"/>

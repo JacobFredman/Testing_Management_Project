@@ -9,6 +9,7 @@ using BE.MainObjects;
 using BE.Routes;
 using BL;
 using MahApps.Metro.Controls;
+using PLWPF.Nofitications;
 
 namespace PLWPF.Admin.ManageTest
 {
@@ -438,12 +439,16 @@ namespace PLWPF.Admin.ManageTest
                 //Cast the Error to a more simple Message
                 catch (GoogleAddressException ex)
                 {
-                    if (ex.ErrorCode == "CONNECTION_FAILURE")
-                        MessageBox.Show("There is no Internet Connection. Please try again later.\nDetails: " +
-                                        ex.Message);
-                    else if (ex.ErrorCode == "ADDRESS_FAILURE")
-                        MessageBox.Show("There is a problem with the address. Please try another address.\nDetails: " +
-                                        ex.Message);
+                    Action act = () =>
+                    {
+                        if (ex.ErrorCode == "CONNECTION_FAILURE")
+                            ExceptionMessage.Show("There is no Internet Connection. Please try again later.",
+                                ex.Message);
+                        else if (ex.ErrorCode == "ADDRESS_FAILURE")
+                            ExceptionMessage.Show("There is a problem with the address. Please try another address.",
+                                ex.Message);
+                    };
+                    Dispatcher.BeginInvoke(act);
                 }
 
                 Action action = () =>
@@ -473,7 +478,7 @@ namespace PLWPF.Admin.ManageTest
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message);
             }
         }
 
@@ -499,7 +504,7 @@ namespace PLWPF.Admin.ManageTest
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
