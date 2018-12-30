@@ -70,7 +70,7 @@ namespace BE.MainObjects
         }
 
         /// <summary>
-        ///     isreal id
+        ///     Valid id
         /// </summary>
         public uint Id
         {

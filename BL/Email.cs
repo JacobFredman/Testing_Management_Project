@@ -1,39 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Mail;
-using System.Net;
-using BE.MainObjects;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using BE;
+using BE.MainObjects;
 
 namespace BL
 {
     public static class Email
     {
-
         private const string FromEmailAddress = "tests.miniproject@gmail.com";
         private const string SenderPassword = "0586300016";
 
         public static int SendEmailToAllTraineeBeforeTest(this IEnumerable<Test> tests)
         {
-            int count = 0;
-            foreach (Test test in tests)
+            var count = 0;
+            foreach (var test in tests)
             {
-                var trainee = BL.FactoryBl.GetObject.AllTrainees.First(x => x.Id == test.TraineeId);
+                var trainee = FactoryBl.GetObject.AllTrainees.First(x => x.Id == test.TraineeId);
                 try
                 {
                     SentEmailToTraineeBeforeTest(test, trainee);
                     count++;
                 }
-                catch { }
+                catch
+                {
+                }
             }
+
             return count;
         }
 
         public static int SendEmailToAllTraineeAfterTest(this IBL bl)
         {
-            int count = 0;
-            foreach (Test test in bl.GetAllTestsThatHappened())
+            var count = 0;
+            foreach (var test in bl.GetAllTestsThatHappened())
             {
                 var trainee = bl.AllTrainees.First(x => x.Id == test.TraineeId);
                 try
@@ -41,13 +43,14 @@ namespace BL
                     Pdf.CreateLicensePdf(test, trainee);
                     SentEmailToTraineeAfterTest(test, trainee);
                 }
-                catch(Exception ex) {
-                    var ms=ex.Message;
+                catch (Exception ex)
+                {
+                    var ms = ex.Message;
                 }
             }
+
             return count;
         }
-
 
 
         //private MailMessage _mail = new MailMessage("jacAndElisha@miniProject.com", "jacov141@gmail.com");
@@ -66,10 +69,9 @@ namespace BL
 
         public static void SentEmailToTraineeAfterTest(Test test, Trainee trainee)
         {
-
             var subject = test.Passed == true
-                       ? "Congratulations for the new license"
-                       : "we are sorry to inform you that you didn't Passed the test this time";
+                ? "Congratulations for the new license"
+                : "we are sorry to inform you that you didn't Passed the test this time";
             var message = test.Passed == true
                 ? "You successfully passed in the test in " + test.ActualTestTime + ", now you are allowed to drive"
                 : "you have  do the test again";
@@ -89,7 +91,7 @@ namespace BL
         {
             Attachment attachment;
             attachment =
-                new Attachment(Configuration.getPdfFullpath());
+                new Attachment(Configuration.GetPdfFullPath());
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
@@ -125,11 +127,5 @@ namespace BL
                 throw;
             }
         }
-
     }
-
 }
-
-
-
-

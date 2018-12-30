@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BE;
+using BE.MainObjects;
 using BL;
 
 namespace PLWPF.TraineeArea
@@ -22,7 +23,7 @@ namespace PLWPF.TraineeArea
         //collection to work with the license
         private readonly ObservableCollection<LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
 
-        private readonly BE.MainObjects.Trainee trainee = new BE.MainObjects.Trainee();
+        private readonly Trainee trainee = new Trainee();
 
         //true if it is an update
         private readonly bool update;
@@ -52,14 +53,15 @@ namespace PLWPF.TraineeArea
                     DataContext = trainee;
                     idTextBox.IsEnabled = false;
                     update = true;
-                    AddressTextBox.Address =( trainee.Address != null) ? trainee.Address : null;
+                    AddressTextBox.Address = trainee.Address != null ? trainee.Address : null;
                 }
                 catch
                 {
                     Close();
                 }
             }
-            BoxColumnGear.ItemsSource= Enum.GetValues(typeof(Gear));
+
+            BoxColumnGear.ItemsSource = Enum.GetValues(typeof(Gear));
 
             AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             //set combox source

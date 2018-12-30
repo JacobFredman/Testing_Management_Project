@@ -99,9 +99,6 @@
     <Compile Include="Admin\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Admin\TestLists\ShowList.xaml.cs">
-      <DependentUpon>ShowList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\ActualTestTimeConv.cs" />
     <Compile Include="Converters\LessonAndTypeToString.cs" />
     <Compile Include="Converters\LicenseTypeLearningToString.cs" />
@@ -119,9 +116,6 @@
     </Compile>
     <Compile Include="UserControls\AddressPicker.xaml.cs">
       <DependentUpon>AddressPicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumPicker.xaml.cs">
-      <DependentUpon>NumPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
@@ -143,10 +137,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Admin\Settings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Admin\TestLists\ShowList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,10 +177,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\AddressPicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\NumPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

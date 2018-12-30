@@ -18,7 +18,7 @@ namespace BE
         /// </summary>
         /// <param name="d">the day</param>
         /// <param name="range">
-        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
         ///     pairs!
         /// </param>
         public Day(DayOfWeek d = DayOfWeek.Sunday, params uint[] range)
@@ -50,7 +50,7 @@ namespace BE
         ///     add hours to day
         /// </summary>
         /// <param name="range">
-        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
         ///     pairs!
         /// </param>
         public void AddHours(params uint[] range)
@@ -58,13 +58,13 @@ namespace BE
             if (range == null)
                 return;
             if (range.Length % 2 != 0)
-                throw new Exception("Invalied hour format");
+                throw new Exception("Invalid hour format");
             var i = 0;
             //add hours
             for (i = 0; i < range.Length - 1; i += 2)
             {
                 if (range[i] > range[i + 1])
-                    throw new Exception("Invalied hours range");
+                    throw new Exception("Invalid hours range");
                 for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = true;
             }
 
@@ -76,7 +76,7 @@ namespace BE
         ///     remove hours
         /// </summary>
         /// <param name="range">
-        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
         ///     pairs!
         /// </param>
         public void RemoveHours(params uint[] range)
@@ -84,13 +84,13 @@ namespace BE
             if (range == null)
                 return;
             if (range.Length % 2 != 0)
-                throw new Exception("Invalied hour format");
+                throw new Exception("Invalid hour format");
             var i = 0;
             //remove the hours
             for (i = 0; i < range.Length - 1; i += 2)
             {
                 if (range[i] > range[i + 1])
-                    throw new Exception("Invalied hours range");
+                    throw new Exception("Invalid hours range");
                 for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = false;
             }
 
@@ -111,7 +111,7 @@ namespace BE
         ///     set new hours for the whole day
         /// </summary>
         /// <param name="range">
-        ///     the hours. for exsample (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
         ///     pairs!
         /// </param>
         public void SetHours(params uint[] range)
@@ -128,7 +128,7 @@ namespace BE
         public bool IsWorking(int i)
         {
             if (i < 0 || i > 24)
-                throw new Exception("Hour is not valied");
+                throw new Exception("Hour is not valid");
             return Hours[i];
         }
 
@@ -145,10 +145,10 @@ namespace BE
         }
 
         /// <summary>
-        ///     the urliest hour that he is working
+        ///     the earliest hour that he is working
         /// </summary>
         /// <returns>the hours</returns>
-        public int UrliestWorkHour()
+        public int EarliestWorkHour()
         {
             for (var i = 0; i < 24; i++)
                 if (Hours[i])
@@ -169,9 +169,9 @@ namespace BE
                 {
                     for (j = i; j < 23 && Hours[j + 1]; j++) ;
                     if (j != i)
-                        str += string.Format("{0:00}:00 - {1:00}:00 ,", i, j);
+                        str += $"{i:00}:00 - {j:00}:00 ,";
                     else
-                        str += string.Format("{0:00}:00 ,", i);
+                        str += $"{i:00}:00 ,";
                     i = j;
                 }
 

@@ -24,7 +24,7 @@ namespace BL
     }
 
     /// <summary>
-    ///     Bl implemetion
+    ///     Bl implementation
     /// </summary>
     public class BlImp : IBL
     {
@@ -63,16 +63,17 @@ namespace BL
         {
             try
             {
-                var tester = AllTesters.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                var tester = AllTesters.First(x => x.Id == id && x.BirthDate == birthDate);
                 return tester.GetType().ToString();
             }
             catch
             {
+                // ignored
             }
 
             try
             {
-                var trainee = AllTrainees.Where(x => x.Id == id && x.BirthDate == birthDate).First();
+                var trainee = AllTrainees.First(x => x.Id == id && x.BirthDate == birthDate);
                 return trainee.GetType().ToString();
             }
             catch
@@ -217,12 +218,12 @@ namespace BL
                                               test.TraineeId != updatedTest.TraineeId ||
                                               test.TestTime != updatedTest.TestTime)))
                 throw new Exception("Can't change this test details. please create new test");
-            if (updatedTest.Criteria.Count <= Configuration.MinimumCriterions)
+            if (updatedTest.Criteria.Count <= Configuration.MinimumCriteria)
                 throw new Exception("not enough criterion");
             if (updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("test date not updated");
-            if (Math.Abs((updatedTest.ActualTestTime -updatedTest.TestTime).Days)>30)
-                throw new Exception("Actual daet can't be before test date time");
+            if (Math.Abs((updatedTest.ActualTestTime - updatedTest.TestTime).Days) > 30)
+                throw new Exception("Actual date can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
             //add the test to the trainee
@@ -232,7 +233,6 @@ namespace BL
             //update test
             _dalImp.UpdateTest(updatedTest);
         }
-
 
         #endregion
 
@@ -393,7 +393,7 @@ namespace BL
                     where distance < tester.MaxDistance
                     select new {tester, distance};
                 if (!testerDistance.Any())
-                    throw new Exception("There are no testers in the current addrress please try an other address");
+                    throw new Exception("There are no testers in the current address please try an other address");
 
                 var testerLicense = from tester in testerDistance
                     where tester.tester.LicenseTypeTeaching.Any(x => x == license)
@@ -427,23 +427,21 @@ namespace BL
         {
             try
             {
-               
-
                 //check internet connectivity
                 var wc = new WebClient();
                 wc.DownloadData("https://www.google.com/");
 
                 var testerDistance = from tester in AllTesters
-                                     where tester.Address != null
-                                     let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
-                                     select new { tester, distance };
+                    where tester.Address != null
+                    let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                    select new {tester, distance};
                 if (!testerDistance.Any())
                     throw new Exception("There are no testers in the current address please try an other address");
 
                 var testerLicense = from tester in testerDistance
-                                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                                    orderby tester.distance
-                                    select tester.tester;
+                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                    orderby tester.distance
+                    select tester.tester;
                 if (!testerLicense.Any())
                     throw new Exception("there is no tester with the right license in the current date and location");
 
@@ -452,8 +450,8 @@ namespace BL
             catch
             {
                 var testerLicense = from tester in AllTesters
-                                    where tester.LicenseTypeTeaching.Any(x => x == license)
-                                    select tester;
+                    where tester.LicenseTypeTeaching.Any(x => x == license)
+                    select tester;
                 if (!testerLicense.Any())
                     throw new Exception("there is no tester with the right license");
 
@@ -462,16 +460,16 @@ namespace BL
         }
 
         /// <summary>
-        ///     get all tests that the resualts are not updated
+        ///     get all tests that the results are not updated
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Test> GetAllTestsToCome()
         {
-            return AllTests.Where(delegate(Test test) { return test.Passed == null; });
+            return AllTests.Where(test => test.Passed == null);
         }
 
         /// <summary>
-        ///     get all tests that the resualts are updated
+        ///     get all tests that the results are updated
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Test> GetAllTestsThatHappened()
@@ -494,7 +492,7 @@ namespace BL
         }
 
         /// <summary>
-        ///     Get all the trainee thatfail in the test today
+        ///     Get all the trainee that fail in the test today
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
@@ -558,7 +556,7 @@ namespace BL
         }
 
         /// <summary>
-        ///     Get all tests shortedby license
+        ///     Get all tests shorted by license
         /// </summary>
         /// <param name="sorted">if sorted</param>
         /// <returns></returns>
@@ -568,13 +566,14 @@ namespace BL
         }
 
         /// <summary>
-        ///     Get all trainee shortedby license
+        ///     Get all trainee shorted by license
         /// </summary>
         /// <param name="sorted">if sorted</param>
         /// <returns></returns>
         public IEnumerable<IGrouping<List<LicenseType>, Trainee>> GetAllTraineesByLicense(bool sorted = false)
         {
-            return (sorted ? AllTrainees.OrderBy(x => x.Id) : AllTrainees).GroupBy(x => x.LicenseTypeLearning.Select(y=>y.License).ToList());
+            return (sorted ? AllTrainees.OrderBy(x => x.Id) : AllTrainees).GroupBy(x =>
+                x.LicenseTypeLearning.Select(y => y.License).ToList());
         }
 
         #endregion
@@ -612,23 +611,33 @@ namespace BL
 
         #region SearchTrainee
 
-        public IEnumerable<Trainee>  SearchTrainee(string key)
+        /// <summary>
+        /// Free search in trainees
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public IEnumerable<Trainee> SearchTrainee(string key)
         {
             var keys = key.ToLower().Split();
             keys = keys.Where(x => x != "").ToArray();
-       
+
 
             return AllTrainees.Where(x => keys.Any(y =>
                 x.Id.ToString()?.ToLower()?.Contains(y) == true ||
-                x.FirstName?.ToLower()?.Contains(y) ==true|| 
+                x.FirstName?.ToLower()?.Contains(y) == true ||
                 x.LastName?.ToLower()?.Contains(y) == true ||
-                x.SchoolName?.ToLower()?.Contains(y) == true || 
+                x.SchoolName?.ToLower()?.Contains(y) == true ||
                 x.Address?.ToString()?.ToLower().Contains(y) == true ||
-                x.TeacherName?.ToLower()?.Contains(y) == true || 
+                x.TeacherName?.ToLower()?.Contains(y) == true ||
                 x.EmailAddress?.ToLower()?.Contains(y) == true ||
                 x.PhoneNumber?.ToLower()?.Contains(y) == true));
         }
 
+        /// <summary>
+        /// Free search in trainees
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public IEnumerable<Tester> SearchTester(string key)
         {
             var keys = key.ToLower().Split();
@@ -644,6 +653,11 @@ namespace BL
                 x.PhoneNumber?.ToLower()?.Contains(y) == true));
         }
 
+        /// <summary>
+        /// Free search in trainees
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public IEnumerable<Test> SearchTest(string key)
         {
             var keys = key.ToLower().Split();
@@ -657,9 +671,6 @@ namespace BL
                 x.TesterId.ToString()?.ToString()?.ToLower().Contains(y) == true ||
                 x.Comment?.ToLower()?.Contains(y) == true));
         }
-
-
-
 
         #endregion
     }

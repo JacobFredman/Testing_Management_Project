@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 
 namespace BE
 {
@@ -7,21 +8,6 @@ namespace BE
     /// </summary>
     public class Configuration
     {
-        
-        /// <summary>
-        ///     return the path of the pdf license file for any computer 
-        /// </summary>
-        /// <returns></returns>
-        public static string getPdfFullpath()
-        {
-            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            path = Path.GetFullPath(Path.Combine(path, @"..\..\..\"));
-            var fileName = Path.Combine(path, "license.pdf");
-            return fileName;
-        }
-
-
-       // public  static string TemoraryLicensePdfPath 
 
         /// <summary>
         ///     Id for tests
@@ -56,15 +42,15 @@ namespace BE
         /// <summary>
         ///     Minimum criterion to fill in a test
         /// </summary>
-        public static uint MinimumCriterions = 3;
+        public static uint MinimumCriteria = 3;
 
         /// <summary>
-        ///     percent of criterions in order to pass the test
+        ///     percent of criteria in order to pass the test
         /// </summary>
-        public static uint PercentOfCritirionsToPassTest = 70;
+        public static uint PercentOfCriteriaToPassTest = 70;
 
         /// <summary>
-        ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permision !!
+        ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permission !!
         ///     For details contact elisja.mayer@gmail.com.To get your own key go to http://g.co/dev/maps-no-account
         /// </summary>
         public static string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
@@ -100,26 +86,38 @@ namespace BE
         public static string AdminPassword = "admin";
 
         /// <summary>
-        ///     If the program is opend for the first time
+        ///     If the program is opened for the first time
         /// </summary>
-        public static bool firtOpenProgram = true;
+        public static bool FirstOpenProgram = true;
 
         public static int MinStartHourWork = 9;
         public static int MaxEndHourWork = 15;
 
 
-        public static string[] Criterions = new string[]
+        public static string[] Criteria =
         {
             "Kept Distance",
             "Parking",
             "Reverse Parking",
             "Check Mirrors",
             "Used Signal",
-            "kept Right of Presidence",
+            "kept Right of Presidency",
             "Stopped at Red",
             "Stopped At Cross Walk",
             "Right Turn",
             "Immediate Stop"
         };
+
+        /// <summary>
+        ///     return the path of the pdf license file for any computer
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPdfFullPath()
+        {
+            var path = Assembly.GetExecutingAssembly().Location;
+            path = Path.GetFullPath(Path.Combine(path, @"..\..\..\"));
+            var fileName = Path.Combine(path, "license.pdf");
+            return fileName;
+        }
     }
 }

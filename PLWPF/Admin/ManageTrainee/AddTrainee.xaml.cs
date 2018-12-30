@@ -55,14 +55,15 @@ namespace PLWPF.Admin.ManageTrainee
                     DataContext = trainee;
                     idTextBox.IsEnabled = false;
                     update = true;
-                    AddressTextBox.Address =( trainee.Address != null) ? trainee.Address : null;
+                    AddressTextBox.Address = trainee.Address != null ? trainee.Address : null;
                 }
                 catch
                 {
                     Close();
                 }
             }
-            BoxColumnGear.ItemsSource= Enum.GetValues(typeof(Gear));
+
+            BoxColumnGear.ItemsSource = Enum.GetValues(typeof(Gear));
 
             AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             //set combox source
@@ -104,7 +105,7 @@ namespace PLWPF.Admin.ManageTrainee
             }
             catch (Exception ex)
             {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -146,6 +147,19 @@ namespace PLWPF.Admin.ManageTrainee
             }
         }
 
+        /// <summary>
+        ///     When an error occured  in the data binding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added) errorMessage.Add(e.Error.Exception.Message);
+            else errorMessage.Remove(e.Error.Exception.Message);
+            ErrorMessage.Text = "";
+            foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
+        }
+
         #region License
 
         /// <summary>
@@ -156,14 +170,14 @@ namespace PLWPF.Admin.ManageTrainee
         private void AddLicnseButton_Click(object sender, RoutedEventArgs e)
         {
             //if he is learning it already
-            if (licenses.Any(x => x.License == (LicenseType)ChooseLicense.SelectedItem))
+            if (licenses.Any(x => x.License == (LicenseType) ChooseLicense.SelectedItem))
                 return;
 
             //Add the new license
             var number = int.Parse(NumberOfLessonsTextBox.Text);
             licenses.Add(new LessonsAndType
             {
-                License = (LicenseType)ChooseLicense.SelectedItem,
+                License = (LicenseType) ChooseLicense.SelectedItem,
                 NumberOfLessons = number,
                 ReadyForTest = number > Configuration.MinLessons,
                 GearType = Gear.Automatic
@@ -179,7 +193,7 @@ namespace PLWPF.Admin.ManageTrainee
         {
             try
             {
-                licenses.Remove(licenses.First(x => x.License == (LicenseType)ChooseLicense.SelectedItem));
+                licenses.Remove(licenses.First(x => x.License == (LicenseType) ChooseLicense.SelectedItem));
             }
             catch
             {
@@ -203,18 +217,5 @@ namespace PLWPF.Admin.ManageTrainee
         }
 
         #endregion
-
-        /// <summary>
-        ///     When an error occured  in the data binding
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void validation_Error(object sender, ValidationErrorEventArgs e)
-        {
-            if (e.Action == ValidationErrorEventAction.Added) errorMessage.Add(e.Error.Exception.Message);
-            else errorMessage.Remove(e.Error.Exception.Message);
-            ErrorMessage.Text = "";
-            foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
-        }
     }
 }

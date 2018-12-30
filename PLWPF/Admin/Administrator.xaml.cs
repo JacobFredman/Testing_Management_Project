@@ -22,9 +22,9 @@ namespace PLWPF.Admin
     {
         //BL objects
         private readonly IBL bL = FactoryBl.GetObject;
-        private IEnumerable<Trainee> TraineeList = FactoryBl.GetObject.AllTrainees;
-        private IEnumerable<Tester> TesterList = FactoryBl.GetObject.AllTesters;
-        private IEnumerable<Test> TestList = FactoryBl.GetObject.AllTests;
+        private IEnumerable<Tester> _testerList = FactoryBl.GetObject.AllTesters;
+        private IEnumerable<Test> _testList = FactoryBl.GetObject.AllTests;
+        private IEnumerable<Trainee> _traineeList = FactoryBl.GetObject.AllTrainees;
 
 
         public Administrator()
@@ -40,9 +40,101 @@ namespace PLWPF.Admin
             ComboBoxLicenseFilterTrainee.ItemsSource = Enum.GetValues(typeof(LicenseType));
 
 
-            ComboBoxFilterOtherTest.ItemsSource = new List<string>()
+            ComboBoxFilterOtherTest.ItemsSource = new List<string>
                 {"Not Updated Tests", "Updated Tests", "Test That Passed", "Tests That Didn't Pass"};
+        }
 
+        /// <summary>
+        ///     Refresh all Data Context
+        /// </summary>
+        private void RefreshData()
+        {
+            //update data grid source
+            TraineeGrid.DataContext = null;
+            TraineeGrid.DataContext = bL.AllTrainees;
+
+            TesterGrid.DataContext = null;
+            TesterGrid.DataContext = bL.AllTesters;
+
+            TestGrid.DataContext = null;
+            TestGrid.DataContext = bL.AllTests;
+
+            //update number of objects
+            NumberOfTraineesLabel.Content = bL.AllTrainees.Count().ToString();
+            NumberOfTestersLabel.Content = bL.AllTesters.Count().ToString();
+            NumberOfTestsLabel.Content = bL.AllTests.Count().ToString();
+
+            //update comBox source
+            ComboBoxFilterSchoolTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineesBySchool()
+                .Where(y => y.Key != "").Select(x => x.Key);
+            ComboBoxFilterTesterIdTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineesByTester()
+                .Where(y => y.Key != "").Select(x => x.Key);
+
+            //update list
+            _traineeList = FactoryBl.GetObject.AllTrainees;
+            _testerList = FactoryBl.GetObject.AllTesters;
+            _testList = FactoryBl.GetObject.AllTests;
+        }
+
+        //Open Settings
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var win = new Settings();
+                win.ShowDialog();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        //Send Email Before Test
+        private void MenuItem_OnClickEmail(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ProgressLabel.Content = "Sending Emails Before Tests ...";
+                ProgressLabel.Visibility = Visibility.Visible;
+                new Thread(() =>
+                {
+                    try
+                    {
+                        var count = _testList
+                            .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
+                                        x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
+                            .SendEmailToAllTraineeBeforeTest();
+
+                        void Act()
+                        {
+                            ExceptionMessage.Show("You Send " + count + " Emails");
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
+                    }
+                    catch (Exception ex)
+                    {
+                        void Act()
+                        {
+                            ExceptionMessage.Show(ex.Message, ex.ToString());
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
+                    }
+
+                    void Action()
+                    {
+                        ProgressLabel.Visibility = Visibility.Hidden;
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Action);
+                }).Start();
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         #region Trainee
@@ -63,7 +155,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    ExceptionMessage.Show(ex.Message,ex.ToString());
+                    ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -82,7 +174,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    ExceptionMessage.Show(ex.Message,ex.ToString());
+                    ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -101,7 +193,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -115,17 +207,17 @@ namespace PLWPF.Admin
             if (TextBoxSearchTrainee.Text == "")
             {
                 TraineeGrid.DataContext = bL.AllTrainees.ToList();
-                TraineeList = bL.AllTrainees.ToList();
+                _traineeList = bL.AllTrainees.ToList();
             }
             else
             {
                 TraineeGrid.DataContext = bL.SearchTrainee(TextBoxSearchTrainee.Text);
-                TraineeList = bL.SearchTrainee(TextBoxSearchTrainee.Text);
+                _traineeList = bL.SearchTrainee(TextBoxSearchTrainee.Text);
             }
         }
 
         /// <summary>
-        ///     On Advanced Sreach button click
+        ///     On Advanced Search button click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -133,18 +225,18 @@ namespace PLWPF.Admin
         {
             //get the search parameters
             var id = TextBoxSearchIdTrainee.Text != "" ? TextBoxSearchIdTrainee.Text : null;
-            var FName = TextBoxSearchFirstNameTrainee.Text != "" ? TextBoxSearchFirstNameTrainee.Text : null;
-            var LName = TextBoxSearchLastNameTrainee.Text != "" ? TextBoxSearchLastNameTrainee.Text : null;
+            var fName = TextBoxSearchFirstNameTrainee.Text != "" ? TextBoxSearchFirstNameTrainee.Text : null;
+            var lName = TextBoxSearchLastNameTrainee.Text != "" ? TextBoxSearchLastNameTrainee.Text : null;
 
             var list = bL.AllTrainees.Where(p =>
             {
                 if (id != null && id == p.Id.ToString()) return true;
-                if (FName != null && FName.ToLower() == p.FirstName.ToLower()) return true;
-                if (LName != null && LName.ToLower() == p.LastName.ToLower()) return true;
+                if (fName != null && fName.ToLower() == p.FirstName.ToLower()) return true;
+                if (lName != null && lName.ToLower() == p.LastName.ToLower()) return true;
                 return false;
             });
             TraineeGrid.DataContext = list;
-            TraineeList = list;
+            _traineeList = list;
         }
 
         /// <summary>
@@ -170,12 +262,13 @@ namespace PLWPF.Admin
                     x.LicenseTypeLearning.Any(y =>
                         y.License == (LicenseType) ComboBoxLicenseFilterTrainee.SelectedItem));
 
-                TraineeList = FactoryBl.GetObject.AllTrainees.Where(x =>
+                _traineeList = FactoryBl.GetObject.AllTrainees.Where(x =>
                     x.LicenseTypeLearning.Any(y =>
                         y.License == (LicenseType) ComboBoxLicenseFilterTrainee.SelectedItem));
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -204,10 +297,11 @@ namespace PLWPF.Admin
                     .First(x => x.Key == (string) ComboBoxFilterSchoolTrainee.SelectedItem))
                     list.Add(item);
 
-                TraineeList = list;
+                _traineeList = list;
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -225,10 +319,11 @@ namespace PLWPF.Admin
                     .First(x => x.Key == (string) ComboBoxFilterTesterIdTrainee.SelectedItem))
                     list.Add(item);
 
-                TraineeList = list;
+                _traineeList = list;
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -246,7 +341,6 @@ namespace PLWPF.Admin
                 MenuItemRemoveTrainee.IsEnabled = true;
             }
         }
-
 
         #endregion
 
@@ -268,7 +362,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    ExceptionMessage.Show(ex.Message,ex.ToString());
+                    ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -287,7 +381,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    ExceptionMessage.Show(ex.Message,ex.ToString());
+                    ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -306,7 +400,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -320,12 +414,12 @@ namespace PLWPF.Admin
             if (SearchTextBoxTester.Text == "")
             {
                 TesterGrid.DataContext = bL.AllTesters.ToList();
-                TesterList = bL.AllTesters.ToList();
+                _testerList = bL.AllTesters.ToList();
             }
             else
             {
                 TesterGrid.DataContext = bL.SearchTester(SearchTextBoxTester.Text);
-                TesterList = bL.SearchTester(SearchTextBoxTester.Text);
+                _testerList = bL.SearchTester(SearchTextBoxTester.Text);
             }
         }
 
@@ -334,18 +428,18 @@ namespace PLWPF.Admin
         {
             //get the search parameters
             var id = TextBoxSearchIdTester.Text != "" ? TextBoxSearchIdTester.Text : null;
-            var FName = TextBoxSearchFirstNameTester.Text != "" ? TextBoxSearchFirstNameTester.Text : null;
-            var LName = TextBoxSearchLastNameTester.Text != "" ? TextBoxSearchLastNameTester.Text : null;
+            var fName = TextBoxSearchFirstNameTester.Text != "" ? TextBoxSearchFirstNameTester.Text : null;
+            var lName = TextBoxSearchLastNameTester.Text != "" ? TextBoxSearchLastNameTester.Text : null;
 
             var list = bL.AllTesters.Where(p =>
             {
                 if (id != null && id == p.Id.ToString()) return true;
-                if (FName != null && FName.ToLower() == p.FirstName.ToLower()) return true;
-                if (LName != null && LName.ToLower() == p.LastName.ToLower()) return true;
+                if (fName != null && fName.ToLower() == p.FirstName.ToLower()) return true;
+                if (lName != null && lName.ToLower() == p.LastName.ToLower()) return true;
                 return false;
             });
             TesterGrid.DataContext = list;
-            TesterList = list;
+            _testerList = list;
         }
 
         //clear all search
@@ -363,12 +457,13 @@ namespace PLWPF.Admin
                     x.LicenseTypeTeaching.Any(y =>
                         y == (LicenseType) ComboBoxLicenseFilterTester.SelectedItem));
 
-                TesterList = FactoryBl.GetObject.AllTesters.Where(x =>
+                _testerList = FactoryBl.GetObject.AllTesters.Where(x =>
                     x.LicenseTypeTeaching.Any(y =>
                         y == (LicenseType) ComboBoxLicenseFilterTester.SelectedItem));
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -407,7 +502,7 @@ namespace PLWPF.Admin
         {
             try
             {
-                var test = (TestGrid.SelectedItem as Test);
+                var test = TestGrid.SelectedItem as Test;
                 var win = new EditTest(test.Id);
 
                 win.ShowDialog();
@@ -422,39 +517,43 @@ namespace PLWPF.Admin
                 ProgressLabel.Visibility = Visibility.Visible;
 
                 //Send Email
-                (new Thread(() =>
+                var thread = new Thread(() =>
                 {
                     try
                     {
                         Pdf.CreateLicensePdf(test, trainee);
                         Email.SentEmailToTraineeAfterTest(test, trainee);
-                        Action act = () =>
+
+                        void Act()
                         {
-                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " +
-                                                  trainee.LastName);
-                        };
-                        Dispatcher.BeginInvoke(act);
+                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " + trainee.LastName);
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
                     }
                     catch (Exception ex)
                     {
-                        Action act = () =>
+                        void Act()
                         {
-                        ExceptionMessage.Show(ex.Message, ex.ToString());
-                        };
-                        Dispatcher.BeginInvoke(act);
+                            ExceptionMessage.Show(ex.Message, ex.ToString());
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
                     }
 
-                    Action action = () => {
+                    void Action()
+                    {
                         ProgressLabel.Visibility = Visibility.Hidden;
-                    };
-                    Dispatcher.BeginInvoke(action);
-                })).Start();
+                    }
 
+                    Dispatcher.BeginInvoke((Action) Action);
+                });
+                thread.Start();
             }
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    ExceptionMessage.Show(ex.Message,ex.ToString());
+                    ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -473,7 +572,7 @@ namespace PLWPF.Admin
             catch (Exception ex)
             {
                 if (ex.Message != "Object reference not set to an instance of an object.")
-                    ExceptionMessage.Show(ex.Message,ex.ToString());
+                    ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -492,7 +591,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -504,15 +603,18 @@ namespace PLWPF.Admin
                 if (TextBoxSearchTest.Text == "")
                 {
                     TestGrid.DataContext = bL.AllTests.ToList();
-                    TestList = bL.AllTests.ToList();
+                    _testList = bL.AllTests.ToList();
                 }
                 else
                 {
                     TestGrid.DataContext = bL.SearchTest(TextBoxSearchTest.Text);
-                    TestList = bL.SearchTest(TextBoxSearchTest.Text);
+                    _testList = bL.SearchTest(TextBoxSearchTest.Text);
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         //On Advanced search click
@@ -534,13 +636,16 @@ namespace PLWPF.Admin
                 });
 
                 TestGrid.DataContext = list;
-                TestList = list;
+                _testList = list;
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         //clear all filters
-        private void ClaerSearchTestButton_Click(object sender, RoutedEventArgs e)
+        private void ClearSearchTestButton_Click(object sender, RoutedEventArgs e)
         {
             RefreshData();
         }
@@ -553,11 +658,12 @@ namespace PLWPF.Admin
                 TestGrid.DataContext = FactoryBl.GetObject.AllTests.Where(x =>
                     x.LicenseType == (LicenseType) ComboBoxLicenseFilterTest.SelectedItem);
 
-                TestList = FactoryBl.GetObject.AllTests.Where(x =>
+                _testList = FactoryBl.GetObject.AllTests.Where(x =>
                     x.LicenseType == (LicenseType) ComboBoxLicenseFilterTest.SelectedItem);
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -584,10 +690,13 @@ namespace PLWPF.Admin
                         break;
                 }
 
-                TestList = tests;
+                _testList = tests;
                 TestGrid.DataContext = tests;
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         //filter on selected dates
@@ -596,11 +705,14 @@ namespace PLWPF.Admin
             try
             {
                 var dates = CalendarFilter.SelectedDates;
-                TestList = bL.AllTests.Where(
+                _testList = bL.AllTests.Where(
                     x => x.TestTime >= dates.First() && x.TestTime <= dates.Last().AddHours(23));
-                TestGrid.DataContext = TestList;
+                TestGrid.DataContext = _testList;
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         //Clear all filters
@@ -615,7 +727,7 @@ namespace PLWPF.Admin
             }
             catch
             {
-
+                // ignored
             }
         }
 
@@ -635,47 +747,19 @@ namespace PLWPF.Admin
                     MenuItemRemoveTest.IsEnabled = true;
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
+
         #endregion
-
-        /// <summary>
-        ///     Refresh all Data Context
-        /// </summary>
-        private void RefreshData()
-        {
-            //update data grid source
-            TraineeGrid.DataContext = null;
-            TraineeGrid.DataContext = bL.AllTrainees;
-
-            TesterGrid.DataContext = null;
-            TesterGrid.DataContext = bL.AllTesters;
-
-            TestGrid.DataContext = null;
-            TestGrid.DataContext = bL.AllTests;
-
-            //update number of objects
-            NumberOfTraineesLabel.Content = bL.AllTrainees.Count().ToString();
-            NumberOfTestersLabel.Content = bL.AllTesters.Count().ToString();
-            NumberOfTestsLabel.Content = bL.AllTests.Count().ToString();
-
-            //update comBox source
-            ComboBoxFilterSchoolTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineesBySchool()
-                .Where(y => y.Key != "").Select(x => x.Key);
-            ComboBoxFilterTesterIdTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineesByTester()
-                .Where(y => y.Key != "").Select(x => x.Key);
-
-            //update list
-            TraineeList = FactoryBl.GetObject.AllTrainees;
-            TesterList = FactoryBl.GetObject.AllTesters;
-            TestList = FactoryBl.GetObject.AllTests;
-        }
 
 
         #region Export to Excel
 
         //Export all Trainees in grid to excel
-        private void ExportAllTraineeesToExcel_Click(object sender, RoutedEventArgs e)
+        private void ExportAllTraineesToExcel_Click(object sender, RoutedEventArgs e)
         {
             //Check if excel is installed
             var officeType = Type.GetTypeFromProgID("Excel.Application");
@@ -686,18 +770,20 @@ namespace PLWPF.Admin
             }
 
             //update ui
+            ProgressLabel.Visibility = Visibility.Visible;
             ProgressLabel.Content = "Exporting Trainees in Grid To Excel.....";
             ExportTraineeesToExcel.IsEnabled = false;
 
             //get trainees
-            var list = TraineeList.ToList();
+            var list = _traineeList.ToList();
             new Thread(() =>
             {
-                Action action = () =>
+                void Action()
                 {
+                    ProgressLabel.Visibility = Visibility.Hidden;
                     ProgressLabel.Content = "";
                     ExportTraineeesToExcel.IsEnabled = true;
-                };
+                }
 
                 try
                 {
@@ -705,11 +791,15 @@ namespace PLWPF.Admin
                 }
                 catch (Exception exception)
                 {
-                    Action act = () => { ExceptionMessage.Show(exception.Message, exception.ToString()); };
-                    Dispatcher.BeginInvoke(act);
+                    void Act()
+                    {
+                        ExceptionMessage.Show(exception.Message, exception.ToString());
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Act);
                 }
 
-                Dispatcher.BeginInvoke(action);
+                Dispatcher.BeginInvoke((Action) Action);
             }).Start();
         }
 
@@ -724,17 +814,19 @@ namespace PLWPF.Admin
             }
 
             //update ui
+            ProgressLabel.Visibility = Visibility.Visible;
             ProgressLabel.Content = "Exporting Testers in Grid To Excel.....";
             ExportTestersToExcel.IsEnabled = false;
-            var list = TesterList.ToList();
+            var list = _testerList.ToList();
 
             new Thread(() =>
             {
-                Action action = () =>
+                void Action()
                 {
+                    ProgressLabel.Visibility = Visibility.Hidden;
                     ProgressLabel.Content = "";
                     ExportTestersToExcel.IsEnabled = true;
-                };
+                }
 
                 try
                 {
@@ -742,11 +834,15 @@ namespace PLWPF.Admin
                 }
                 catch (Exception exception)
                 {
-                    Action act = () => { ExceptionMessage.Show(exception.Message, exception.ToString()); };
-                    Dispatcher.BeginInvoke(act);
+                    void Act()
+                    {
+                        ExceptionMessage.Show(exception.Message, exception.ToString());
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Act);
                 }
 
-                Dispatcher.BeginInvoke(action);
+                Dispatcher.BeginInvoke((Action) Action);
             }).Start();
         }
 
@@ -761,17 +857,19 @@ namespace PLWPF.Admin
             }
 
             //update ui
+            ProgressLabel.Visibility = Visibility.Visible;
             ProgressLabel.Content = "Exporting Tests in Grid To Excel.....";
             ExportTestsToExcel.IsEnabled = false;
-            var list = TestList.ToList();
+            var list = _testList.ToList();
 
             new Thread(() =>
             {
-                Action action = () =>
+                void Action()
                 {
+                    ProgressLabel.Visibility = Visibility.Hidden;
                     ProgressLabel.Content = "";
                     ExportTestsToExcel.IsEnabled = true;
-                };
+                }
 
                 try
                 {
@@ -779,60 +877,18 @@ namespace PLWPF.Admin
                 }
                 catch (Exception exception)
                 {
-                    Action act = () => { ExceptionMessage.Show(exception.Message, exception.ToString()); };
-                    Dispatcher.BeginInvoke(act);
+                    void Act()
+                    {
+                        ExceptionMessage.Show(exception.Message, exception.ToString());
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Act);
                 }
 
-                Dispatcher.BeginInvoke(action);
+                Dispatcher.BeginInvoke((Action) Action);
             }).Start();
         }
 
         #endregion
-
-        //Open Settings
-        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var win = new Settings();
-                win.ShowDialog();
-            }
-            catch(Exception x)
-            {
-            }
-        }
-
-        //Send Email Before Test
-        private void MenuItem_OnClickEmail(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ProgressLabel.Content = "Sending Emails Before Tests ...";
-                ProgressLabel.Visibility = Visibility.Visible;
-                (new Thread(() =>
-                {
-                    try
-                    {
-                        var count = TestList
-                            .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
-                                        x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
-                            .SendEmailToAllTraineeBeforeTest();
-                        Action act = () => { ExceptionMessage.Show("You Send " + count + " Emails"); };
-                        Dispatcher.BeginInvoke(act);
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        Action act = () => { ExceptionMessage.Show(ex.Message, ex.ToString()); };
-                        Dispatcher.BeginInvoke(act);
-                    }
-
-                    Action action = () => { ProgressLabel.Visibility = Visibility.Hidden; };
-                    Dispatcher.BeginInvoke(action);
-                })).Start();
-            }
-            catch { }
-
-        }
     }
 }

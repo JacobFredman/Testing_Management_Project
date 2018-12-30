@@ -6,25 +6,32 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using BE.Routes;
 using BL;
+
 namespace PLWPF.UserControls
 {
     /// <summary>
-    /// A control to Pick an address
+    ///     A control to Pick an address
     /// </summary>
     public partial class AddressPicker : UserControl
     {
         private string _token;
 
+        //ctor
+        public AddressPicker()
+        {
+            InitializeComponent();
+            GenerateNewToken();
+        }
+
         /// <summary>
-        /// The Selected address
+        ///     The Selected address
         /// </summary>
         public Address Address
         {
             set
             {
-
                 TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
-                TexBoxAddress.Text = (value != null) ? value.ToString() : "";
+                TexBoxAddress.Text = value != null ? value.ToString() : "";
 
                 //search address on google
                 new Thread(() =>
@@ -54,25 +61,17 @@ namespace PLWPF.UserControls
                         Dispatcher.BeginInvoke((Action) Act);
                     }
                 }).Start();
-
             }
             get => new Address(TexBoxAddress.Text);
         }
 
-        //ctor
-        public AddressPicker()
-        {
-            InitializeComponent();
-            GenerateNewToken();
-        }
-
         /// <summary>
-        /// Called on address changed
+        ///     Called on address changed
         /// </summary>
         public event EventHandler TextChanged;
 
         /// <summary>
-        /// On Text changed
+        ///     On Text changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -82,7 +81,6 @@ namespace PLWPF.UserControls
             {
                 if (TexBoxAddress.Text != "")
                 {
-
                     var text = TexBoxAddress.Text;
                     //get suggestions from google
                     new Thread(() =>
@@ -146,7 +144,7 @@ namespace PLWPF.UserControls
             //set the selected address
             if (ListBoxSuggestions.SelectedItem == null) return;
             TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
-            TexBoxAddress.Text = (string)ListBoxSuggestions.SelectedItem;
+            TexBoxAddress.Text = (string) ListBoxSuggestions.SelectedItem;
             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
             GenerateNewToken();
