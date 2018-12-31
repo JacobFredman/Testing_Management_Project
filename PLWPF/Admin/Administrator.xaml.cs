@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -510,6 +511,7 @@ namespace PLWPF.Admin
             {
                 var test = TestGrid.SelectedItem as Test;
                 var win = new EditTest(test.Id);
+                var passed = test.Passed;
 
                 win.ShowDialog();
                 RefreshData();
@@ -517,6 +519,9 @@ namespace PLWPF.Admin
                 //get trainee and updated test
                 var trainee = bL.AllTrainees.First(x => x.Id == test.TraineeId);
                 test = bL.AllTests.First(x => x.Id == test.Id);
+
+                if (test.Passed == passed)
+                    return;
 
                 //Set Label
                 ProgressLabel.Content = "Sending Email to " + trainee.FirstName + " " + trainee.LastName + "...";
