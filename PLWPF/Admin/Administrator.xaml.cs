@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,7 +78,6 @@ namespace PLWPF.Admin
             SearchTextBoxTester.Text = "";
             TextBoxSearchTest.Text = "";
             TextBoxSearchTrainee.Text = "";
-
         }
 
         //Open Settings
@@ -499,7 +497,6 @@ namespace PLWPF.Admin
 
         #region Test
 
-
         /// <summary>
         ///     Update selected Trainee in a new window
         /// </summary>
@@ -537,7 +534,8 @@ namespace PLWPF.Admin
 
                         void Act()
                         {
-                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " + trainee.LastName);
+                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " +
+                                                  trainee.LastName);
                         }
 
                         Dispatcher.BeginInvoke((Action) Act);
@@ -558,7 +556,6 @@ namespace PLWPF.Admin
                     }
 
                     Dispatcher.BeginInvoke((Action) Action);
-                    
                 });
                 thread.Start();
             }

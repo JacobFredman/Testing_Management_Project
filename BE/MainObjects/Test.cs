@@ -55,7 +55,7 @@ namespace BE.MainObjects
             AddressOfBeginningTest = addressOfBeginningTest;
             Criteria = criteria;
             Passed = passed;
-            this.Id = id;
+            Id = id;
             LicenseType = licenseType;
         }
 

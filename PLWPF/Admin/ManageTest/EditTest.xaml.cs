@@ -18,10 +18,12 @@ namespace PLWPF.Admin.ManageTest
     /// </summary>
     public partial class EditTest : MetroWindow
     {
+        private readonly List<string> _errorMessage = new List<string>();
+
+        private readonly List<string> _notifications = new List<string>();
+
         //the test 
         private readonly Test _test;
-        private readonly List<string> _errorMessage = new List<string>();
-        private readonly List<string> _notifications = new List<string>();
 
         public EditTest(string id = null)
         {
@@ -489,10 +491,12 @@ namespace PLWPF.Admin.ManageTest
                         switch (ex.ErrorCode)
                         {
                             case "CONNECTION_FAILURE":
-                                ExceptionMessage.Show("There is no Internet Connection. Please try again later.", ex.Message);
+                                ExceptionMessage.Show("There is no Internet Connection. Please try again later.",
+                                    ex.Message);
                                 break;
                             case "ADDRESS_FAILURE":
-                                ExceptionMessage.Show("There is a problem with the address. Please try another address.", ex.Message);
+                                ExceptionMessage.Show(
+                                    "There is a problem with the address. Please try another address.", ex.Message);
                                 break;
                         }
                     }

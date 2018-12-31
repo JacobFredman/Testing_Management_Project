@@ -443,22 +443,21 @@ namespace BL
             }
 
             var testerDistance = from tester in AllTesters
-                    where tester.Address != null
-                    let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
-                    where (distance/1000) < tester.MaxDistance
-                    select new {tester, distance};
-                if (!testerDistance.Any())
-                    throw new Exception("There are no testers in the current address please try an other address");
+                where tester.Address != null
+                let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                where distance / 1000 < tester.MaxDistance
+                select new {tester, distance};
+            if (!testerDistance.Any())
+                throw new Exception("There are no testers in the current address please try an other address");
 
-                var testerLicense = from tester in testerDistance
-                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                    orderby tester.distance
-                    select tester.tester;
-                if (!testerLicense.Any())
-                    throw new Exception("there is no tester with the right license in the current date and location");
+            var testerLicense = from tester in testerDistance
+                where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                orderby tester.distance
+                select tester.tester;
+            if (!testerLicense.Any())
+                throw new Exception("there is no tester with the right license in the current date and location");
 
-                return testerLicense;
-          
+            return testerLicense;
         }
 
         /// <summary>
@@ -614,7 +613,7 @@ namespace BL
         #region SearchTrainee
 
         /// <summary>
-        /// Free search in trainees
+        ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -636,7 +635,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Free search in trainees
+        ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -656,7 +655,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Free search in trainees
+        ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

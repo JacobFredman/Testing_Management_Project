@@ -1,5 +1,4 @@
-﻿using System.Dynamic;
-using System.IO;
+﻿using System.IO;
 using BE;
 using BE.MainObjects;
 using PdfSharp.Drawing;

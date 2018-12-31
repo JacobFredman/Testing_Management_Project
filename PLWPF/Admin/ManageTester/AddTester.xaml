@@ -13,7 +13,7 @@
         <converters:MetersToKM x:Key="MeterToKM" />
     </mah:MetroWindow.Resources>
     <StackPanel Orientation="Horizontal">
-<!-- Details -->
+        <!-- Details -->
         <Grid x:Name="grid1" Margin="3" Panel.ZIndex="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -55,9 +55,9 @@
             <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Distance:" />
             <mah:NumericUpDown x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
-                     Value="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                             Minimum="0"  StringFormat="{}{0} km" Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
-                     />
+                               Value="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                               Minimum="0" StringFormat="{}{0} km" Grid.Row="8" Margin="3" Height="23"
+                               HorizontalAlignment="Left" Grid.Column="1" />
 
             <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Gender:" />
@@ -82,8 +82,9 @@
             <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Experience:" />
             <mah:NumericUpDown x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center"
-                     Value="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Minimum="0" Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+                               Value="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                               Minimum="0" Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left"
+                               Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Address:" />
 
@@ -94,14 +95,15 @@
             <Label VerticalAlignment="Center" Grid.Row="11" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Exams in Week:" />
             <mah:NumericUpDown x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="11" Margin="3"
-                     Height="23" HorizontalAlignment="Left" Grid.Column="1"
-                      Minimum="0" Value="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                               Height="23" HorizontalAlignment="Left" Grid.Column="1"
+                               Minimum="0"
+                               Value="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
 
         </Grid>
         <DockPanel LastChildFill="True" Margin="3">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2">
-              <!-- License -->
+                <!-- License -->
                 <GroupBox Background="{DynamicResource Background}" Margin="5" Header="License" BorderBrush="Black"
                           BorderThickness="1">
                     <ListBox x:Name="Chooselicense" ItemsSource="{Binding}" Height="180" Width="60"
@@ -132,7 +134,7 @@
                     VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Save" Grid.Row="13"
                     Grid.ColumnSpan="2"
                     Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False" />
-         <!-- Notifications -->
+            <!-- Notifications -->
             <GroupBox Background="{DynamicResource Background}" Margin="5" BorderThickness="1" BorderBrush="Black"
                       Header="Errors" DockPanel.Dock="Right">
                 <TextBlock x:Name="ErrorMessage" Grid.Row="13" Foreground="Red" MinHeight="100" />

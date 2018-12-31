@@ -14,7 +14,7 @@ namespace BL
     public static class Routes
     {
         /// <summary>
-        /// Open a link in new chrome window
+        ///     Open a link in new chrome window
         /// </summary>
         /// <param name="url"></param>
         public static void ShowUrlInChromeWindow(Uri url)
@@ -78,7 +78,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Get a list of address suggestions for an input from google maps
+        ///     Get a list of address suggestions for an input from google maps
         /// </summary>
         /// <param name="input"> the string</param>
         /// <param name="token">a token</param>

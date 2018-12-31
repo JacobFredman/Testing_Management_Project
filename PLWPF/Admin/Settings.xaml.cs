@@ -117,7 +117,7 @@ namespace PLWPF.Admin
             }
             catch (Exception ex)
             {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 

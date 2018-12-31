@@ -8,7 +8,6 @@ namespace BE
     /// </summary>
     public class Configuration
     {
-
         /// <summary>
         ///     Id for tests
         /// </summary>
