@@ -127,6 +127,8 @@ namespace BL
                 Console.WriteLine(e);
                 throw;
             }
+            attachment.Dispose();
+            message.Dispose();
         }
 
     }
