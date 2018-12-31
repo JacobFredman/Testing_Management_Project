@@ -218,7 +218,12 @@ namespace PLWPF.Admin.ManageTest
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        void Act()
+                        {
+                            ExceptionMessage.Show(ex.Message, ex.ToString());
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
                     }
 
                     void Action1()
@@ -341,10 +346,12 @@ namespace PLWPF.Admin.ManageTest
                 _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
 
                 //Reset all selections
+                licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
                 testerIdComboBox.SelectedIndex = -1;
                 licenseTypeComBox.SelectedIndex = -1;
                 TimePickerTest.ResetSelection();
                 testerIdComboBox.ItemsSource = null;
+                licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
 
                 //Show Message
                 ClearAllMessages();

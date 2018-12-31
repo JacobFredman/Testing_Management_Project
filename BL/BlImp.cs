@@ -430,10 +430,22 @@ namespace BL
                 //check internet connectivity
                 var wc = new WebClient();
                 wc.DownloadData("https://www.google.com/");
+            }
+            catch
+            {
+                var testerLicense1 = from tester in AllTesters
+                    where tester.LicenseTypeTeaching.Any(x => x == license)
+                    select tester;
+                if (!testerLicense1.Any())
+                    throw new Exception("there is no tester with the right license");
 
-                var testerDistance = from tester in AllTesters
+                return testerLicense1;
+            }
+
+            var testerDistance = from tester in AllTesters
                     where tester.Address != null
                     let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                    where (distance/1000) < tester.MaxDistance
                     select new {tester, distance};
                 if (!testerDistance.Any())
                     throw new Exception("There are no testers in the current address please try an other address");
@@ -446,17 +458,7 @@ namespace BL
                     throw new Exception("there is no tester with the right license in the current date and location");
 
                 return testerLicense;
-            }
-            catch
-            {
-                var testerLicense = from tester in AllTesters
-                    where tester.LicenseTypeTeaching.Any(x => x == license)
-                    select tester;
-                if (!testerLicense.Any())
-                    throw new Exception("there is no tester with the right license");
-
-                return testerLicense;
-            }
+          
         }
 
         /// <summary>
