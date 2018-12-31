@@ -87,7 +87,7 @@ namespace PLWPF
                 _blimp.AddTester(new Tester(328729660, "meir", "")
                 {
                     BirthDate = new DateTime(1945, 1, 1), Address = new Address("הרצל 30, בית שמש, ישראל"),
-                    MaxDistance = 10000000,
+                    MaxDistance = 1000,
                     Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
                 });
                 sch = new WeekSchedule();

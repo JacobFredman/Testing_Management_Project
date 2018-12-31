@@ -74,6 +74,11 @@ namespace PLWPF.Admin
             _traineeList = FactoryBl.GetObject.AllTrainees;
             _testerList = FactoryBl.GetObject.AllTesters;
             _testList = FactoryBl.GetObject.AllTests;
+
+            SearchTextBoxTester.Text = "";
+            TextBoxSearchTest.Text = "";
+            TextBoxSearchTrainee.Text = "";
+
         }
 
         //Open Settings
@@ -108,7 +113,7 @@ namespace PLWPF.Admin
 
                         void Act()
                         {
-                            ExceptionMessage.Show("You Send " + count + " Emails");
+                            ExceptionMessage.Show("You Sent " + count + " Emails");
                         }
 
                         Dispatcher.BeginInvoke((Action) Act);
@@ -493,6 +498,7 @@ namespace PLWPF.Admin
 
         #region Test
 
+
         /// <summary>
         ///     Update selected Trainee in a new window
         /// </summary>
@@ -547,6 +553,7 @@ namespace PLWPF.Admin
                     }
 
                     Dispatcher.BeginInvoke((Action) Action);
+                    
                 });
                 thread.Start();
             }

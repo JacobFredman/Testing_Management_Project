@@ -5,9 +5,13 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:local="clr-namespace:PLWPF.Admin.ManageTester"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:converters="clr-namespace:PLWPF.Converters"
                  mc:Ignorable="d"
                  Validation.Error="validation_Error"
                  Title="Add Tester" SizeToContent="WidthAndHeight">
+    <mah:MetroWindow.Resources>
+        <converters:MetersToKM x:Key="MeterToKM" />
+    </mah:MetroWindow.Resources>
     <StackPanel Orientation="Horizontal">
 <!-- Details -->
         <Grid x:Name="grid1" Margin="3" Panel.ZIndex="2">
@@ -50,10 +54,10 @@
                      Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Distance:" />
-            <TextBox x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
-                     TextChanged="IdTextBox_TextChanged" />
+            <mah:NumericUpDown x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
+                     Value="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                             Minimum="0"  StringFormat="{}{0} km" Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
+                     />
 
             <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Gender:" />
@@ -77,9 +81,9 @@
                      Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Experience:" />
-            <TextBox x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+            <mah:NumericUpDown x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center"
+                     Value="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                     Minimum="0" Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Address:" />
 
@@ -89,9 +93,9 @@
 
             <Label VerticalAlignment="Center" Grid.Row="11" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Exams in Week:" />
-            <TextBox x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="11" Margin="3"
+            <mah:NumericUpDown x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="11" Margin="3"
                      Height="23" HorizontalAlignment="Left" Grid.Column="1"
-                     Text="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                      Minimum="0" Value="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
 
         </Grid>
