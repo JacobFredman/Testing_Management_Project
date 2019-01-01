@@ -66,7 +66,7 @@
             </StackPanel>
         </TabItem>
         <!--Tester login-->
-        <TabItem Visibility="Hidden" Header="{DynamicResource Tester}">
+        <TabItem  Header="{DynamicResource Tester}">
             <StackPanel Background="{DynamicResource ResourceKey=Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -80,7 +80,7 @@
             </StackPanel>
         </TabItem>
         <!--Trainee login-->
-        <TabItem Visibility="Hidden" Header="{DynamicResource Trainee}">
+        <TabItem Header="{DynamicResource Trainee}">
             <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
