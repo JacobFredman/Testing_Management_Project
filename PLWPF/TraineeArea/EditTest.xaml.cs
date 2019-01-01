@@ -28,7 +28,10 @@ namespace PLWPF.TraineeArea
         {
             InitializeComponent();
 
-        
+            if (trainee.LicenseTypeLearning.Count == 0  ||  !trainee.LicenseTypeLearning.All(x => x.ReadyForTest))
+            {
+                errorMessage.Add("you are not ready for test");
+            }
                 _test = new Test();
 
                 //disable the relevant controls
@@ -41,8 +44,9 @@ namespace PLWPF.TraineeArea
                 TimePickerTest.IsEnabled = false;
 
                 //set the source of the trainees
-                traineeIdComboBox.ItemsSource = FactoryBl.GetObject.AllTrainees
-                    .Where(x => x.LicenseTypeLearning.Any(y => y.ReadyForTest)).ToList();
+                traineeIdComboBox.ItemsSource = new[] {trainee};
+                  //  FactoryBl.GetObject.AllTrainees
+                  //  .Where(x => x.LicenseTypeLearning.Any(y => y.ReadyForTest)).ToList();
 
                 AddMessage("Please Select Trainee");
                 //add even for uc

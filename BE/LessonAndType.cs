@@ -3,7 +3,7 @@
 namespace BE
 {
     /// <summary>
-    ///     Licnese lessons
+    ///     License lessons
     /// </summary>
     public class LessonsAndType : ICloneable
     {
