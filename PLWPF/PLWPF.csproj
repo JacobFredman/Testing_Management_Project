@@ -114,6 +114,9 @@
     <Compile Include="TraineeArea\AddTrainee11.xaml.cs">
       <DependentUpon>AddTrainee11.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TraineeArea\EditTest.xaml.cs">
+      <DependentUpon>EditTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TraineeArea\TraineeWin.xaml.cs">
       <DependentUpon>TraineeWin.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TraineeArea\AddTrainee11.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TraineeArea\EditTest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -2,7 +2,9 @@
 using System.Windows;
 using BE.MainObjects;
 using BL;
-//using PLWPF.TraineeArea11;
+using PLWPF.TraineeArea;
+
+using PLWPF.TraineeArea;
 
 namespace PLWPF
 {
@@ -28,11 +30,12 @@ namespace PLWPF
             }
         }
 
-        //private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    AddTrainee win2 = new AddTrainee();
-        //    win2.Show();
-        //   // this.Close();
-        //}
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+          //  AddTrainee win2 = new AddTrainee();
+         EditTest editTest = new EditTest(); 
+            editTest.Show();
+            // this.Close();
+        }
     }
 }
