@@ -128,9 +128,9 @@ namespace BE.MainObjects
             {
                 if (value[0] != '0')
                     throw new Exception("Invalid phone number");
-                if (value[1] == '5' && value.Length == 10)
+                if ((value[1] == '5' || value[1] == '7') && value.Length == 10)
                     _phoneNumber = value;
-                else if (value[1] != '5' && value.Length == 9)
+                else if (value[1] != '5' && value[1] != '7' && value.Length == 9)
                     _phoneNumber = value;
                 else
                     throw new Exception("Invalid phone number");
