@@ -36,7 +36,7 @@ namespace BE.MainObjects
         }
 
         /// <summary>
-        ///     For debbuging
+        ///     For debugging
         /// </summary>
         /// <param name="testerId"></param>
         /// <param name="traineeId"></param>
@@ -44,10 +44,10 @@ namespace BE.MainObjects
         /// <param name="addressOfBeginningTest"></param>
         /// <param name="criteria"></param>
         /// <param name="passed"></param>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <param name="licenseType"></param>
         public Test(uint testerId, uint traineeId, DateTime testTime, Address addressOfBeginningTest,
-            List<Criterion> criteria, bool passed, string Id, LicenseType licenseType)
+            List<Criterion> criteria, bool passed, string id, LicenseType licenseType)
         {
             _testerId = testerId;
             _traineeId = traineeId;
@@ -55,7 +55,7 @@ namespace BE.MainObjects
             AddressOfBeginningTest = addressOfBeginningTest;
             Criteria = criteria;
             Passed = passed;
-            this.Id = Id;
+            Id = id;
             LicenseType = licenseType;
         }
 
@@ -86,7 +86,7 @@ namespace BE.MainObjects
         public Address AddressOfBeginningTest { set; get; }
 
         /// <summary>
-        ///     list of criterions
+        ///     list of criteria
         /// </summary>
         public List<Criterion> Criteria { set; get; }
 
@@ -114,18 +114,16 @@ namespace BE.MainObjects
         {
             var newCriteria = new List<Criterion>();
             if (Criteria != null)
-            {
                 foreach (var item in Criteria)
                     newCriteria.Add(item.Clone() as Criterion);
-            }
             else newCriteria = null;
-         
+
             return new Test(TesterId, TraineeId)
             {
                 TestTime = TestTime,
                 ActualTestTime = ActualTestTime,
                 AddressOfBeginningTest =
-                    AddressOfBeginningTest != null ? AddressOfBeginningTest.Clone() as Address : null,
+                    AddressOfBeginningTest?.Clone() as Address,
                 Criteria = newCriteria,
                 Passed = Passed,
                 Comment = Comment,
@@ -140,8 +138,8 @@ namespace BE.MainObjects
         /// </summary>
         public void UpdatePassedTest()
         {
-            Passed = Criteria.Count(x => x.Pass) / (double) Criteria.Count() * 100 >
-                     Configuration.PercentOfCritirionsToPassTest;
+            Passed = Criteria.Count(x => x.Pass) / (double) Criteria.Count * 100 >
+                     Configuration.PercentOfCriteriaToPassTest;
         }
 
         public override string ToString()

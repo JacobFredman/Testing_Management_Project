@@ -20,13 +20,13 @@ namespace PLWPF.Admin.ManageTester
         private readonly IBL _blimp = FactoryBl.GetObject;
 
         //all the errors
-        private readonly List<string> errorMessage = new List<string>();
-        private ObservableCollection<LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
+        private readonly List<string> _errorMessage = new List<string>();
 
-        private readonly Tester tester = new Tester();
+        private readonly Tester _tester = new Tester();
 
         //if it is an update
-        private readonly bool update;
+        private readonly bool _update;
+        private ObservableCollection<LessonsAndType> _licenses = new ObservableCollection<LessonsAndType>();
 
         /// <summary>
         ///     Add tester window
@@ -40,28 +40,28 @@ namespace PLWPF.Admin.ManageTester
             if (id == 0)
             {
                 //bind the new tester to the window
-                DataContext = tester;
-                //set defualt falues
-                tester.BirthDate = DateTime.Now.Date;
-                tester.Schedule = new WeekSchedule();
+                DataContext = _tester;
+                //set default values
+                _tester.BirthDate = DateTime.Now.Date;
+                _tester.Schedule = new WeekSchedule();
                 Title = "Add New Tester";
             }
             else
             {
                 try
                 {
-                    update = true;
+                    _update = true;
                     //find the existing tester
-                    tester = _blimp.AllTesters.First(x => x.Id == id);
+                    _tester = _blimp.AllTesters.First(x => x.Id == id);
                     //bind it
-                    DataContext = tester;
+                    DataContext = _tester;
                     //disable field that cant be changed
                     idTextBox.IsEnabled = false;
                     AllWeek.IsEnabled = false;
                     AllWeek.IsChecked = false;
                     DayWeek.IsEnabled = true;
                     //set the address
-                    AddressTextBox.Address = tester.Address != null ? tester.Address : null;
+                    AddressTextBox.Address = _tester.Address != null ? _tester.Address : null;
 
                     Title = "Update Tester";
                 }
@@ -73,27 +73,28 @@ namespace PLWPF.Admin.ManageTester
                 AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             }
 
-            //set combox source
+            //set comBox source
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             Chooselicense.ItemsSource = Enum.GetValues(typeof(LicenseType));
 
-            //set day in week combox source
+            //set day in week comBox source
             var list = new List<DayOfWeek>();
             foreach (var item in Enum.GetValues(typeof(DayOfWeek)))
                 list.Add((DayOfWeek) item);
             DayWeek.ItemsSource = list.Take(5);
             DayWeek.SelectedItem = DayOfWeek.Sunday;
 
-            //set hours combox
+            //set hours comBox
             var hours = new List<string>();
-            for (var i = Configuration.MinStartHourWork; i < Configuration.MaxEndHourWork+1; i++) hours.Add(string.Format("{0:00}:00", i));
+            for (var i = Configuration.MinStartHourWork; i < Configuration.MaxEndHourWork + 1; i++)
+                hours.Add($"{i:00}:00");
             ChooseHours.ItemsSource = hours;
             DayWeek.SelectedItem = "All Days";
 
-            //initilse licnse type learning
-            if (tester.LicenseTypeTeaching == null) tester.LicenseTypeTeaching = new List<LicenseType>();
-            if (update)
-                foreach (var item in tester.LicenseTypeTeaching)
+            //initialise license type learning
+            if (_tester.LicenseTypeTeaching == null) _tester.LicenseTypeTeaching = new List<LicenseType>();
+            if (_update)
+                foreach (var item in _tester.LicenseTypeTeaching)
                     Chooselicense.SelectedItems.Add(item);
         }
 
@@ -107,10 +108,7 @@ namespace PLWPF.Admin.ManageTester
             //if id is correct the enable save
             try
             {
-                if (Tools.CheckID_IL(uint.Parse(idTextBox.Text)))
-                    Save.IsEnabled = true;
-                else
-                    Save.IsEnabled = false;
+                Save.IsEnabled = Tools.CheckID_IL(uint.Parse(idTextBox.Text));
             }
             catch
             {
@@ -128,29 +126,65 @@ namespace PLWPF.Admin.ManageTester
         {
             try
             {
-                tester.Address = AddressTextBox.Address;
+                _tester.Address = AddressTextBox.Address;
             }
             catch
             {
                 AddressTextBox.Address = null;
             }
         }
-  
+
         /// <summary>
         ///     when license selection changed update license list
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Chooselicense_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ChooseLicense_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tester.LicenseTypeTeaching = new List<LicenseType>();
-            foreach (var item in Chooselicense.SelectedItems) tester.LicenseTypeTeaching.Add((LicenseType) item);
+            _tester.LicenseTypeTeaching = new List<LicenseType>();
+            foreach (var item in Chooselicense.SelectedItems) _tester.LicenseTypeTeaching.Add((LicenseType) item);
+        }
+
+        /// <summary>
+        ///     When an error is trowed in data binding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added) _errorMessage.Add(e.Error.Exception.Message);
+            else _errorMessage.Remove(e.Error.Exception.Message);
+            ErrorMessage.Text = "";
+            foreach (var item in _errorMessage) ErrorMessage.Text += item + "\n";
+        }
+
+        /// <summary>
+        ///     On save clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            //update or save the tester
+            try
+            {
+                _tester.Address = AddressTextBox.Address;
+                if (_update)
+                    _blimp.UpdateTester(_tester);
+                else
+                    _blimp.AddTester(_tester);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                ExceptionMessage.Show(ex.Message, ex.ToString());
+            }
         }
 
         #region Schedule
 
         /// <summary>
-        ///     disable day of week combox
+        ///     disable day of week comBox
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -160,7 +194,7 @@ namespace PLWPF.Admin.ManageTester
         }
 
         /// <summary>
-        ///     enable day of week combox
+        ///     enable day of week comBox
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -179,20 +213,20 @@ namespace PLWPF.Admin.ManageTester
             //update  hours in all days in week
             if (AllWeek.IsChecked == true)
             {
-                foreach (var day in tester.Schedule.days)
+                foreach (var day in _tester.Schedule.days)
                 {
                     day.ClearHours();
                     foreach (var hour in ChooseHours.SelectedItems)
-                        day.Hours[int.Parse(((string)hour).Substring(0, 2))] = true;
+                        day.Hours[int.Parse(((string) hour).Substring(0, 2))] = true;
                 }
             }
             //update one day hours
             else
             {
-                var day = tester.Schedule[(DayOfWeek)DayWeek.SelectedItem];
+                var day = _tester.Schedule[(DayOfWeek) DayWeek.SelectedItem];
                 day.ClearHours();
                 foreach (var hour in ChooseHours.SelectedItems)
-                    day.Hours[int.Parse(((string)hour).Substring(0, 2))] = true;
+                    day.Hours[int.Parse(((string) hour).Substring(0, 2))] = true;
             }
         }
 
@@ -203,12 +237,12 @@ namespace PLWPF.Admin.ManageTester
         /// <param name="e"></param>
         private void DayWeek_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var day = tester.Schedule[(DayOfWeek)DayWeek.SelectedItem];
+            var day = _tester.Schedule[(DayOfWeek) DayWeek.SelectedItem];
             var i = 0;
             var list = new List<string>();
             foreach (var hour in day.Hours)
             {
-                if (hour) list.Add(string.Format("{0:00}:00", i));
+                if (hour) list.Add($"{i:00}:00");
                 i++;
             }
 
@@ -216,44 +250,6 @@ namespace PLWPF.Admin.ManageTester
             foreach (var item in list) ChooseHours.SelectedItems.Add(item);
         }
 
-
         #endregion
-
-        /// <summary>
-        ///     When an error is thowed in data binding
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void validation_Error(object sender, ValidationErrorEventArgs e)
-        {
-            if (e.Action == ValidationErrorEventAction.Added) errorMessage.Add(e.Error.Exception.Message);
-            else errorMessage.Remove(e.Error.Exception.Message);
-            ErrorMessage.Text = "";
-            foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
-        }
-
-        /// <summary>
-        ///     On save clicked
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            //update or save the tester
-            try
-            {
-                tester.Address = AddressTextBox.Address;
-                if (update)
-                    _blimp.UpdateTester(tester);
-                else
-                    _blimp.AddTester(tester);
-                Close();
-            }
-            catch (Exception ex)
-            {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
-            }
-        }
-
     }
 }

@@ -1,16 +1,15 @@
-﻿using BE.MainObjects;
+﻿using System.IO;
+using BE;
+using BE.MainObjects;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using System.IO;
-using BE;
-
 
 namespace BL
 {
     public class Pdf
     {
         // PdfDocument document;
-      //  public static int counter = 1;
+        //  public static int counter = 1;
         public static void CreateLicensePdf(Test test, Trainee trainee)
         {
             var traineeFullName = trainee.FirstName + trainee.LastName;
@@ -40,10 +39,10 @@ namespace BL
                 XStringFormats.Center);
 
 
-            if (File.Exists(Configuration.getPdfFullpath()))
-                File.Delete(Configuration.getPdfFullpath());
-            document.Save(Configuration.getPdfFullpath());
-            //Process.Start(Configuration.getPdfFullpath());
+            if (File.Exists(Configuration.GetPdfFullPath()))
+                File.Delete(Configuration.GetPdfFullPath());
+            document.Save(Configuration.GetPdfFullPath());
+            //Process.Start(Configuration.GetPdfFullPath());
             document.Close();
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -26,21 +25,20 @@ namespace PLWPF
         {
             InitializeComponent();
 
-     
 
             //Add information to test the program
             AddInfo();
 
             //On first login enter username and password
-            if (Configuration.firtOpenProgram)
+            if (Configuration.FirstOpenProgram)
             {
                 AdminUsernameTextBox.Text = Configuration.AdminUser;
                 AdminPasswordTextBox.Password = Configuration.AdminPassword;
             }
-            Configuration.firtOpenProgram = false;
+
+            Configuration.FirstOpenProgram = false;
         }
 
-   
 
         /// <summary>
         ///     for debugging only !!!!!!!!!!!!!!!!!!!!!!
@@ -50,8 +48,7 @@ namespace PLWPF
             try
             {
                 var test = new LessonsAndType {License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true};
-                var list = new List<LessonsAndType>();
-                list.Add(test);
+                var list = new List<LessonsAndType> {test};
                 _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
                 {
                     BirthDate = new DateTime(1995, 1, 1), LicenseTypeLearning = list,
@@ -89,34 +86,45 @@ namespace PLWPF
                 list2.Add(LicenseType.A);
                 _blimp.AddTester(new Tester(328729660, "meir", "")
                 {
-                    BirthDate = new DateTime(1945, 1, 1), Address = new Address("הרצל 30, בית שמש, ישראל"), MaxDistance = 10000000,
+                    BirthDate = new DateTime(1945, 1, 1), Address = new Address("הרצל 30, בית שמש, ישראל"),
+                    MaxDistance = 1000,
                     Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
                 });
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(12, 15);
                 _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
-                    {BirthDate = new DateTime(1970, 1, 1), Address = new Address("תל אביב, נס ציונה, ישראל"), Schedule = sch});
+                {
+                    BirthDate = new DateTime(1970, 1, 1), Address = new Address("תל אביב, נס ציונה, ישראל"),
+                    Schedule = sch
+                });
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(12, 15);
                 _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
-                    {BirthDate = new DateTime(1961, 1, 1), Address = new Address("רחוב הנשיא, קרית שמונה, ישראל"), Schedule = sch});
+                {
+                    BirthDate = new DateTime(1961, 1, 1), Address = new Address("רחוב הנשיא, קרית שמונה, ישראל"),
+                    Schedule = sch
+                });
                 sch = new WeekSchedule();
                 sch.AddHoursAllDays(12, 15);
                 _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
-                    {BirthDate = new DateTime(1950, 1, 1), Address = new Address("חולות גאולים, קדימה צורן, ישראל"), Schedule = sch});
+                {
+                    BirthDate = new DateTime(1950, 1, 1), Address = new Address("חולות גאולים, קדימה צורן, ישראל"),
+                    Schedule = sch
+                });
 
                 var test1 = new Test(328729660, 319185997)
                 {
                     TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
-                   AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
+                    AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
                     LicenseType = LicenseType.A
                 };
                 try
                 {
-                  //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
+                    //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 _blimp.AddTest(test1);
@@ -128,7 +136,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// check the id .if it is correct the enable the button
+        ///     check the id .if it is correct the enable the button
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -136,12 +144,15 @@ namespace PLWPF
         {
             try
             {
-                if (Tools.CheckID_IL((uint.Parse(TesterIDTestBox.Text))))
+                if (Tools.CheckID_IL(uint.Parse(TesterIDTestBox.Text)))
                 {
                     TesterLoginButton.IsEnabled = true;
                     TesterIDTestBox.BorderBrush = Brushes.Black;
                 }
-                else throw new Exception();
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch
             {
@@ -151,7 +162,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// check the id .if it is correct the enable the button
+        ///     check the id .if it is correct the enable the button
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -159,12 +170,15 @@ namespace PLWPF
         {
             try
             {
-                if (Tools.CheckID_IL((uint.Parse(TraineeIDTestBox.Text))))
+                if (Tools.CheckID_IL(uint.Parse(TraineeIDTestBox.Text)))
                 {
                     TraineeLoginButton.IsEnabled = true;
                     TraineeIDTestBox.BorderBrush = Brushes.Black;
                 }
-                else throw new Exception();
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch
             {
@@ -174,7 +188,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// On login click open trainee window
+        ///     On login click open trainee window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -194,7 +208,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// On login click open tester window
+        ///     On login click open tester window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -214,7 +228,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// On login Click open administrator window
+        ///     On login Click open administrator window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -226,7 +240,7 @@ namespace PLWPF
                 AdminUsernameTextBox.Text = "";
                 AdminPasswordTextBox.Password = "";
                 Hide();
-                var win =new Administrator();
+                var win = new Administrator();
                 win.ShowDialog();
                 Show();
             }

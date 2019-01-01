@@ -30,9 +30,9 @@ namespace PLWPF
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            AddTrainee win2 = new AddTrainee();
+            var win2 = new AddTrainee();
             win2.Show();
-           // this.Close();
+            // this.Close();
         }
     }
 }
