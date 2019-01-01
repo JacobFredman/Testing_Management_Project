@@ -31,12 +31,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+                <!--
             <Label Content="Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
             <TextBox x:Name="idTextBox" IsEnabled="False" Grid.Column="1"  HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="0" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" />
-
+-->
             <Label Content="Trainee:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-            <ComboBox x:Name="traineeIdComboBox" ItemsSource="{Binding}" Grid.Column="1"  HorizontalAlignment="Stretch" Height="30"  Margin="3" Grid.Row="1" VerticalAlignment="Center" SelectionChanged="TraineeIdComboBox_SelectionChanged" >
-                <ComboBox.ItemTemplate>
+            <ComboBox x:Name="traineeIdComboBox" ItemsSource="{Binding}" Grid.Column="1"  HorizontalAlignment="Stretch" Height="30"  Margin="3" Grid.Row="1" VerticalAlignment="Center" SelectionChanged="TraineeIdComboBox_SelectionChanged" > 
+                <ComboBox.ItemTemplate> 
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="ID: "></Label>
@@ -104,17 +105,17 @@
 
 
             </StackPanel>
-            <Label Content="Actual Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+         <!--   <Label Content="Actual Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
                 <DatePicker Height="30" x:Name="actualTestTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="6" SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
                 <UserControls:TimePicker Height="30"  x:Name="actualTimePickerTest" Margin="3" Width="100" />
 
-            </StackPanel>
-            <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            </StackPanel> -->
+          <!--  <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center"  Margin="3" Grid.Row="7" IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" IsEnabled="False" />
 
                     <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70" Height="70" IsActive="False" />
-
+        -->
 
         </Grid>
 </GroupBox>
@@ -128,7 +129,7 @@
         <Button Style="{DynamicResource SquareButtonStyle}" x:Name="Save" Width="100" Content="Save" HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom" Click="Save_Click"></Button>
         <StackPanel VerticalAlignment="Stretch" >
 
-            <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results" VerticalAlignment="Stretch">
+         <!--   <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3" Header="Test Results" VerticalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Stretch">
                     <GroupBox Background="{DynamicResource Background}" VerticalAlignment="Stretch" Header="Comment" Margin="3">
                         <TextBox VerticalAlignment="Stretch" x:Name="TextBoxComment" MinHeight="50" Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"></TextBox>
@@ -145,11 +146,11 @@
                     </GroupBox>
 
                 </StackPanel>
-            </GroupBox>
-            <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3">
+            </GroupBox> -->
+            <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3"> 
                 <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red"></TextBlock>
             </GroupBox>
-        </StackPanel>
+        </StackPanel> 
     </DockPanel>
 
 

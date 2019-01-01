@@ -4,7 +4,6 @@ using BE.MainObjects;
 using BL;
 using PLWPF.TraineeArea;
 
-using PLWPF.TraineeArea;
 
 namespace PLWPF
 {
@@ -33,7 +32,7 @@ namespace PLWPF
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
           //  AddTrainee win2 = new AddTrainee();
-         EditTest editTest = new EditTest(); 
+         EditTest editTest = new EditTest(_trainee); 
             editTest.Show();
             // this.Close();
         }

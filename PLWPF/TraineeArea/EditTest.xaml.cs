@@ -24,20 +24,17 @@ namespace PLWPF.TraineeArea
         //the test 
         private readonly Test _test;
 
-        public EditTest(string id = null)
+        public EditTest(Trainee trainee= null)
         {
             InitializeComponent();
 
-
-            //If the window adds a new test
-            if (id == null)
-            {
+        
                 _test = new Test();
 
                 //disable the relevant controls
-                actualTestTimeDatePicker.IsEnabled = false;
-                actualTimePickerTest.IsEnabled = false;
-                TestResolutsGroupBox.IsEnabled = false;
+                //actualTestTimeDatePicker.IsEnabled = false;
+               // actualTimePickerTest.IsEnabled = false;
+              //  TestResolutsGroupBox.IsEnabled = false;
                 testerIdComboBox.IsEnabled = false;
                 licenseTypeComBox.IsEnabled = false;
                 testTimeDatePicker.IsEnabled = false;
@@ -57,58 +54,59 @@ namespace PLWPF.TraineeArea
 
                 //set title
                 Title = "Set New Test";
-            }
+            
+
             //if the window is to update test
-            else
-            {
-                //get the sets
-                _test = FactoryBl.GetObject.AllTests.First(x => x.Id == id);
+            //else
+            //{
+            //    //get the sets
+            //    _test = FactoryBl.GetObject.AllTests.First(x => x.Id == traineeId);
 
-                //remove unnecessary events
-                testerIdComboBox.SelectionChanged -= TesterIdComboBox_OnSelectionChanged;
-                traineeIdComboBox.SelectionChanged -= TraineeIdComboBox_SelectionChanged;
-                licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
-                testTimeDatePicker.CalendarOpened -= TestTimeDatePicker_OnCalendarOpened;
-                TimePickerTest.SelectionChanged -= TimePicker_OnSelectionChanged;
+            //    //remove unnecessary events
+            //    testerIdComboBox.SelectionChanged -= TesterIdComboBox_OnSelectionChanged;
+            //    traineeIdComboBox.SelectionChanged -= TraineeIdComboBox_SelectionChanged;
+            //    licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
+            //    testTimeDatePicker.CalendarOpened -= TestTimeDatePicker_OnCalendarOpened;
+            //    TimePickerTest.SelectionChanged -= TimePicker_OnSelectionChanged;
 
-                //set the test data in the details
-                traineeIdComboBox.ItemsSource = new List<Trainee>
-                    {FactoryBl.GetObject.AllTrainees.First(x => x.Id == _test.TraineeId)};
-                traineeIdComboBox.SelectedIndex = 0;
-                testerIdComboBox.ItemsSource = new List<Tester>
-                    {FactoryBl.GetObject.AllTesters.First(x => x.Id == _test.TesterId)};
-                testerIdComboBox.SelectedIndex = 0;
-                licenseTypeComBox.ItemsSource = new List<LicenseType> {_test.LicenseType};
-                licenseTypeComBox.SelectedIndex = 0;
-                TimePickerTest.SelectedHour = _test.TestTime.Hour;
-                addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;
-                //default update data
-                _test.ActualTestTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                    DateTime.Now.Hour, 0, 0);
-                actualTimePickerTest.SelectedHour = _test.ActualTestTime.Hour;
-                //Blackout past days
-                actualTestTimeDatePicker.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
-                    DateTime.Now.AddDays(-5)));
-                //Get the criteria
-                if (_test.Criteria == null || _test.Criteria.Count() < 10)
-                    _test.Criteria = Configuration.Criterions.Select(x => new Criterion(x, false)).ToList();
+            //    //set the test data in the details
+            //    traineeIdComboBox.ItemsSource = new List<Trainee>
+            //        {FactoryBl.GetObject.AllTrainees.First(x => x.Id == _test.TraineeId)};
+            //    traineeIdComboBox.SelectedIndex = 0;
+            //    testerIdComboBox.ItemsSource = new List<Tester>
+            //        {FactoryBl.GetObject.AllTesters.First(x => x.Id == _test.TesterId)};
+            //    testerIdComboBox.SelectedIndex = 0;
+            //    licenseTypeComBox.ItemsSource = new List<LicenseType> {_test.LicenseType};
+            //    licenseTypeComBox.SelectedIndex = 0;
+            //    TimePickerTest.SelectedHour = _test.TestTime.Hour;
+            //    addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;
+            //    //default update data
+            //    _test.ActualTestTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+            //        DateTime.Now.Hour, 0, 0);
+            //    //actualTimePickerTest.SelectedHour = _test.ActualTestTime.Hour;
+            //    //Blackout past days
+            //   // actualTestTimeDatePicker.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
+            //   DateTime.Now.AddDays(-5);
+            //    //Get the criteria
+            //    if (_test.Criteria == null || _test.Criteria.Count() < 10)
+            //        _test.Criteria = Configuration.Criterions.Select(x => new Criterion(x, false)).ToList();
 
-                //disable the relevant controls
-                traineeIdComboBox.IsEnabled = false;
-                testerIdComboBox.IsEnabled = false;
-                licenseTypeComBox.IsEnabled = false;
-                testTimeDatePicker.IsEnabled = false;
-                TimePickerTest.IsEnabled = false;
-                addressOfBeginningTestTextBox.IsEnabled = false;
-                Save.IsEnabled = true;
+            //    //disable the relevant controls
+            //    traineeIdComboBox.IsEnabled = false;
+            //    testerIdComboBox.IsEnabled = false;
+            //    licenseTypeComBox.IsEnabled = false;
+            //    testTimeDatePicker.IsEnabled = false;
+            //    TimePickerTest.IsEnabled = false;
+            //    addressOfBeginningTestTextBox.IsEnabled = false;
+            //    Save.IsEnabled = true;
 
-                //add event for uc
-                actualTimePickerTest.SelectionChanged += ActualTimePickerTestOnSelectionChanged;
+            //    //add event for uc
+            //    //actualTimePickerTest.SelectionChanged += ActualTimePickerTestOnSelectionChanged;
 
-                //update titles
-                Save.Content = "Update";
-                Title = "Update Test";
-            }
+            //    //update titles
+            //    Save.Content = "Update";
+            //    Title = "Update Test";
+            //}
 
             //set data contex
             DataContext = _test;
@@ -119,7 +117,7 @@ namespace PLWPF.TraineeArea
 
         #region Details
 
-        //When user Selects Trainee
+       // When user Selects Trainee
         private void TraineeIdComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -128,15 +126,15 @@ namespace PLWPF.TraineeArea
                 licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
                 testerIdComboBox.SelectedValue = -1;
                 licenseTypeComBox.SelectedValue = -1;
-                licenseTypeComBox.ItemsSource = ((Trainee) traineeIdComboBox.SelectedItem).LicenseTypeLearning
+                licenseTypeComBox.ItemsSource = ((Trainee)traineeIdComboBox.SelectedItem).LicenseTypeLearning
                     .Where(y => y.ReadyForTest)
                     .Select(x => x.License).ToList();
                 licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
                 testerIdComboBox.ItemsSource = null;
 
                 //Get All the Trainees that are ready for test
-                _test.TraineeId = ((Trainee) traineeIdComboBox.SelectedItem).Id;
-                addressOfBeginningTestTextBox.Address = ((Trainee) traineeIdComboBox.SelectedItem).Address;
+                _test.TraineeId = ((Trainee)traineeIdComboBox.SelectedItem).Id;
+                addressOfBeginningTestTextBox.Address = ((Trainee)traineeIdComboBox.SelectedItem).Address;
 
                 //enable the license and disable the other
                 licenseTypeComBox.IsEnabled = true;
@@ -168,7 +166,7 @@ namespace PLWPF.TraineeArea
                 licenseTypeComBox.IsEnabled = false;
                 traineeIdComboBox.IsEnabled = false;
                 addressOfBeginningTestTextBox.IsEnabled = false;
-                ProgressRing.IsActive = true;
+                //ProgressRing.IsActive = true;
 
                 //Get the data
                 var address = addressOfBeginningTestTextBox.Address;
@@ -207,7 +205,7 @@ namespace PLWPF.TraineeArea
                         testTimeDatePicker.IsEnabled = false;
                         Save.IsEnabled = false;
 
-                        ProgressRing.IsActive = false;
+                            //ProgressRing.IsActive = false;
 
                         //focus oon testers
                         testerIdComboBox.Focus();
@@ -328,18 +326,18 @@ namespace PLWPF.TraineeArea
         }
 
         //When user Sets Actual Test Time
-        private void ActualTimePickerTestOnSelectionChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                //Update the time
-                _test.ActualTestTime = new DateTime(_test.ActualTestTime.Year, _test.ActualTestTime.Month,
-                    _test.ActualTestTime.Day, actualTimePickerTest.SelectedHour, 0, 0);
-            }
-            catch
-            {
-            }
-        }
+        //private void ActualTimePickerTestOnSelectionChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        //Update the time
+        //        _test.ActualTestTime = new DateTime(_test.ActualTestTime.Year, _test.ActualTestTime.Month,
+        //            _test.ActualTestTime.Day, actualTimePickerTest.SelectedHour, 0, 0);
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
 
         //Blackout Days in the Test Time Picker
         private void SetSelectableDates(WeekSchedule schedule)
