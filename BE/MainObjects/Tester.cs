@@ -64,7 +64,7 @@ namespace BE.MainObjects
         }
 
         /// <summary>
-        ///     Tester expirience
+        ///     Tester experience
         /// </summary>
         public uint Experience { get; set; }
 
@@ -97,13 +97,11 @@ namespace BE.MainObjects
 
         public object Clone()
         {
-            var newLicnse = new List<LicenseType>();
+            var newLicense = new List<LicenseType>();
             if (LicenseType != null)
-            {
                 foreach (var item in LicenseType)
-                    newLicnse.Add(item);
-            }
-            else newLicnse = null;
+                    newLicense.Add(item);
+            else newLicense = null;
 
             var newLicenseTypeTeaching = new List<LicenseType>();
             foreach (var item in LicenseTypeTeaching)
@@ -114,15 +112,15 @@ namespace BE.MainObjects
                 LastName = LastName,
                 Gender = Gender,
                 BirthDate = BirthDate,
-                LicenseType = newLicnse,
+                LicenseType = newLicense,
                 Experience = Experience,
                 MaxDistance = MaxDistance,
                 LicenseTypeTeaching = newLicenseTypeTeaching,
                 MaxWeekExams = MaxWeekExams
             };
             if (Id != 0) tester.Id = Id;
-            if (PhoneNumber != null && PhoneNumber != "") tester.PhoneNumber = PhoneNumber;
-            if (EmailAddress != null && EmailAddress != "") tester.EmailAddress = EmailAddress;
+            if (!string.IsNullOrEmpty(PhoneNumber)) tester.PhoneNumber = PhoneNumber;
+            if (!string.IsNullOrEmpty(EmailAddress)) tester.EmailAddress = EmailAddress;
             if (Address != null) tester.Address = Address.Clone() as Address;
             if (Schedule != null) tester.Schedule = Schedule.Clone() as WeekSchedule;
             return tester;

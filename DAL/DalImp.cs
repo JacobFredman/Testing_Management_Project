@@ -27,7 +27,7 @@ namespace DAL
     public class DalImp : IDal
     {
         /// <summary>
-        ///     denay access to c-tor
+        ///     deny access to c-tor
         /// </summary>
         internal DalImp()
         {
@@ -172,7 +172,7 @@ namespace DAL
                 var allTesters = new List<Tester>();
                 foreach (var item in DataSource.Testers)
                     allTesters.Add(item.Clone() as Tester);
-                return allTesters.OrderBy(x=>x.Id);
+                return allTesters.OrderBy(x => x.Id);
             }
         }
 
@@ -186,7 +186,8 @@ namespace DAL
                 var allTest = new List<Test>();
                 foreach (var item in DataSource.Tests)
                     allTest.Add(item.Clone() as Test);
-                return allTest.OrderBy(x => x.Id); ;
+                return allTest.OrderBy(x => x.Id);
+                ;
             }
         }
 
@@ -200,7 +201,8 @@ namespace DAL
                 var allTrainee = new List<Trainee>();
                 foreach (var item in DataSource.Trainees)
                     allTrainee.Add(item.Clone() as Trainee);
-                return allTrainee.OrderBy(x => x.Id); ;
+                return allTrainee.OrderBy(x => x.Id);
+                ;
             }
         }
 

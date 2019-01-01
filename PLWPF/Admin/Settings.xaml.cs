@@ -1,43 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using BE;
-using MahApps.Metro;
 using MahApps.Metro.Controls;
+using PLWPF.Nofitications;
 
 namespace PLWPF.Admin
 {
     /// <summary>
-    ///Logic for setting window
+    ///     Logic for setting window
     /// </summary>
     public partial class Settings : MetroWindow
     {
-        //collection  for the criterions
-        private ObservableCollection<string> criterions = new ObservableCollection<string>();
+        //collection  for the criteria
+        private readonly ObservableCollection<string> _criteria = new ObservableCollection<string>();
+
         public Settings()
         {
             InitializeComponent();
 
             //copy the setting from Configuration to the window
-            this.MinLessonsBox.Value = Configuration.MinLessons;
-            this.MinTesterAgeBox.Value = Configuration.MinTesterAge;
-            this.MinTimeBetweenTestsBox.Value = Configuration.MinTimeBetweenTests;
-            this.MinTraineeAgeBox.Value = Configuration.MinTraineeAge;
-            this.MinimumCriterionsBox.Value = Configuration.MinimumCriterions;
-            this.PercentOfCritirionsToPassTestBox.Value = Configuration.PercentOfCritirionsToPassTest;
-            //copy criterions to the collection
-            foreach (var item in Configuration.Criterions)
-                criterions.Add(item);
-            CriterionsListBox.DataContext = criterions;
+            MinLessonsBox.Value = Configuration.MinLessons;
+            MinTesterAgeBox.Value = Configuration.MinTesterAge;
+            MinTimeBetweenTestsBox.Value = Configuration.MinTimeBetweenTests;
+            MinTraineeAgeBox.Value = Configuration.MinTraineeAge;
+            MinimumCriterionsBox.Value = Configuration.MinimumCriteria;
+            PercentOfCritirionsToPassTestBox.Value = Configuration.PercentOfCriteriaToPassTest;
+            //copy criteria to the collection
+            foreach (var item in Configuration.Criteria)
+                _criteria.Add(item);
+            CriterionsListBox.DataContext = _criteria;
 
             //Set theme ComBox
-            Theme.ItemsSource = new List<string>() {"Orange", "Green", "Gray", "Light Blue" ,"Blue"};
+            Theme.ItemsSource = new List<string> {"Orange", "Green", "Gray", "Light Blue", "Blue"};
             Theme.SelectedItem = "Light Blue";
-
         }
 
         //On Add new criterion click
@@ -45,10 +45,13 @@ namespace PLWPF.Admin
         {
             try
             {
-                if(NewCriterionBox.Text!="")
-                    criterions.Add(NewCriterionBox.Text);
+                if (NewCriterionBox.Text != "")
+                    _criteria.Add(NewCriterionBox.Text);
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         //on remove selected criterion
@@ -56,60 +59,68 @@ namespace PLWPF.Admin
         {
             try
             {
-                criterions.Remove(criterions.First(x => x == CriterionsListBox.SelectedItem.ToString()));
+                _criteria.Remove(_criteria.First(x => x == CriterionsListBox.SelectedItem.ToString()));
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         //on Save click
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            //if the password are different
-            if (PasswordBox.Password != RePasswordBox.Password  )
+            try
             {
-                MessageBox.Show("Password Are not Matching");
-                PasswordBox.Password = "";
-                RePasswordBox.Password = "";
-                return;
-            }
+                //if the password are different
+                if (PasswordBox.Password != RePasswordBox.Password)
+                {
+                    MessageBox.Show("Password Are not Matching");
+                    PasswordBox.Password = "";
+                    RePasswordBox.Password = "";
+                    return;
+                }
 
-            //if there is a password but not a user name
-            if (PasswordBox.Password != "" && UserNameBox.Text == "")
+                //if there is a password but not a user name
+                if (PasswordBox.Password != "" && UserNameBox.Text == "")
+                {
+                    MessageBox.Show("Username Can't Be Empty");
+                    PasswordBox.Password = "";
+                    RePasswordBox.Password = "";
+                    return;
+                }
+
+                //if there is a user name and password
+                if (UserNameBox.Text != "")
+                {
+                    Configuration.AdminUser = UserNameBox.Text;
+                    Configuration.AdminPassword = PasswordBox.Password;
+                }
+
+                //copy Back the criteria
+                Configuration.Criteria = new string[_criteria.Count];
+                var i = 0;
+                foreach (var item in _criteria)
+                {
+                    Configuration.Criteria[i] = item;
+                    i++;
+                }
+
+                //update the configurations
+                Configuration.MinLessons = (uint) MinLessonsBox.Value;
+                Configuration.MinTesterAge = (uint) MinTesterAgeBox.Value;
+                Configuration.MinTimeBetweenTests = (uint) MinTimeBetweenTestsBox.Value;
+                Configuration.MinTraineeAge = (uint) MinTraineeAgeBox.Value;
+                Configuration.MinimumCriteria = (uint) MinimumCriterionsBox.Value;
+                Configuration.PercentOfCriteriaToPassTest = (uint) PercentOfCritirionsToPassTestBox.Value;
+                Close();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Username Can't Be Empty");
-                PasswordBox.Password = "";
-                RePasswordBox.Password = "";
-                return;
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
-
-            //if there is a user name and password
-            if (UserNameBox.Text != "")
-            {
-                Configuration.AdminUser = UserNameBox.Text;
-                Configuration.AdminPassword = PasswordBox.Password;
-            }
-
-            //copy Back the criterions
-            Configuration.Criterions=new string[criterions.Count];
-            int i = 0;
-            foreach (var item in criterions)
-            {
-                Configuration.Criterions[i] = item;
-                i++;
-            }
-
-            //update the configurations
-            Configuration.MinLessons = (uint)this.MinLessonsBox.Value;
-            Configuration.MinTesterAge = (uint)this.MinTesterAgeBox.Value;
-            Configuration.MinTimeBetweenTests = (uint)this.MinTimeBetweenTestsBox.Value;
-            Configuration.MinTraineeAge = (uint)this.MinTraineeAgeBox.Value;
-            Configuration.MinimumCriterions = (uint)this.MinimumCriterionsBox.Value;
-            Configuration.PercentOfCritirionsToPassTest = (uint)this.PercentOfCritirionsToPassTestBox.Value;
-            Close();
-
         }
 
-   
 
         //Change theme
         private void Theme_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -131,7 +142,6 @@ namespace PLWPF.Admin
                 case "Blue":
                     Application.Current.Resources["Background"] = Application.Current.Resources["AccentBaseColorBrush"];
                     break;
-
             }
         }
     }

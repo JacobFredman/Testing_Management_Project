@@ -1,60 +1,59 @@
-﻿<mah:MetroWindow xmlns:UserControls="clr-namespace:PLWPF.UserControls"  x:Class="PLWPF.Admin.Settings"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PLWPF.Admin"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d"
-        Title="Settings" SizeToContent="WidthAndHeight">
+﻿<mah:MetroWindow xmlns:UserControls="clr-namespace:PLWPF.UserControls" x:Class="PLWPF.Admin.Settings"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:PLWPF.Admin"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d"
+                 Title="Settings" SizeToContent="WidthAndHeight">
     <StackPanel Background="LightGray" Orientation="Horizontal">
 
         <!-- The parameters-->
         <GroupBox Background="{DynamicResource Background}" Header="Parameters" Margin="3">
-            <Grid  >
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                    <Label Content="Minimum Lesson to Do a Test: "  Margin="3"></Label>
-                    <mah:NumericUpDown Minimum="0"  x:Name="MinLessonsBox"   Margin="3"></mah:NumericUpDown>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                    <Label Content="Minimum Lesson to Do a Test: " Margin="3" />
+                    <mah:NumericUpDown Minimum="0" x:Name="MinLessonsBox" Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
-                    <Label Content="Minimum Tester Age: "  Margin="3"></Label>
-                    <mah:NumericUpDown Minimum="0"  x:Name="MinTesterAgeBox"  Margin="3"></mah:NumericUpDown>
+                    <Label Content="Minimum Tester Age: " Margin="3" />
+                    <mah:NumericUpDown Minimum="0" x:Name="MinTesterAgeBox" Margin="3" />
                 </StackPanel>
-                <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
-                    <Label Content="Minimum Trainee Age: "  Margin="3"></Label>
-                    <mah:NumericUpDown Minimum="0"  x:Name="MinTraineeAgeBox"  Margin="3"></mah:NumericUpDown>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                    <Label Content="Minimum Trainee Age: " Margin="3" />
+                    <mah:NumericUpDown Minimum="0" x:Name="MinTraineeAgeBox" Margin="3" />
                 </StackPanel>
 
-                <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
-                    <Label Content="Minimum Time Between Tests: "  Margin="3"></Label>
-                    <mah:NumericUpDown Minimum="0"  x:Name="MinTimeBetweenTestsBox"  Margin="3"></mah:NumericUpDown>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
+                    <Label Content="Minimum Time Between Tests: " Margin="3" />
+                    <mah:NumericUpDown Minimum="0" x:Name="MinTimeBetweenTestsBox" Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
-                    <Label Content="Minimum Criterions: "  Margin="3"></Label>
-                    <mah:NumericUpDown Minimum="0"  x:Name="MinimumCriterionsBox"  Margin="3"></mah:NumericUpDown>
+                    <Label Content="Minimum Criteria: " Margin="3" />
+                    <mah:NumericUpDown Minimum="0" x:Name="MinimumCriterionsBox" Margin="3" />
                 </StackPanel>
 
-                <StackPanel  Margin="5" Orientation="Horizontal" Grid.Row="5" Grid.Column="0">
-                    <Label Content="Percent Of Critirions To Pass Test: "  Margin="3"></Label>
-                    <mah:NumericUpDown Maximum="100" Minimum="0" StringFormat="{}{0:P0}"  x:Name="PercentOfCritirionsToPassTestBox" Margin="3"></mah:NumericUpDown>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="5" Grid.Column="0">
+                    <Label Content="Percent Of Critirions To Pass Test: " Margin="3" />
+                    <mah:NumericUpDown Maximum="100" Minimum="0" StringFormat="{}{0:P0}"
+                                       x:Name="PercentOfCritirionsToPassTestBox" Margin="3" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="6">
-                    <Label Content="Change Theme:" Margin="3"></Label>
-                    <ComboBox x:Name="Theme" MinWidth="120" Margin="4" SelectionChanged="Theme_OnSelectionChanged">
-                    
-                    </ComboBox>
+                    <Label Content="Change Theme:" Margin="3" />
+                    <ComboBox x:Name="Theme" MinWidth="120" Margin="4" SelectionChanged="Theme_OnSelectionChanged" />
 
                 </StackPanel>
             </Grid>
@@ -66,39 +65,43 @@
             <GroupBox Background="{DynamicResource Background}" DockPanel.Dock="Top" Header="Admin Password" Margin="3">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
 
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
 
                     </Grid.RowDefinitions>
-                    <Label Content="Username: " Grid.Row="0"></Label>
-                    <TextBox x:Name="UserNameBox" Grid.Row="0" Grid.Column="1" Width="200" Margin="3"></TextBox>
+                    <Label Content="Username: " Grid.Row="0" />
+                    <TextBox x:Name="UserNameBox" Grid.Row="0" Grid.Column="1" Width="200" Margin="3" />
 
-                    <Label Content="Password  " Grid.Row="1" Grid.Column="0"></Label>
-                    <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Width="200" Margin="3"></PasswordBox>
+                    <Label Content="Password  " Grid.Row="1" Grid.Column="0" />
+                    <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Width="200" Margin="3" />
 
-                    <Label Content="Renter Password:  " Grid.Row="2"></Label>
-                    <PasswordBox x:Name="RePasswordBox" Grid.Row="2" Grid.Column="1" Width="200" Margin="3"></PasswordBox>
+                    <Label Content="Renter Password:  " Grid.Row="2" />
+                    <PasswordBox x:Name="RePasswordBox" Grid.Row="2" Grid.Column="1" Width="200" Margin="3" />
                 </Grid>
             </GroupBox>
 
             <!-- Save button-->
-            <Button Style="{DynamicResource SquareButtonStyle}"  x:Name="SaveButton" Content="Save" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10" Padding="5" Width="70" Click="SaveButton_Click"></Button>
+            <Button Style="{DynamicResource SquareButtonStyle}" x:Name="SaveButton" Content="Save"
+                    DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10" Padding="5" Width="70"
+                    Click="SaveButton_Click" />
 
             <!-- Criterion Edit -->
-            <GroupBox Margin="3" BorderBrush="Gray" Background="{DynamicResource Background}" Header="Criterions">
+            <GroupBox Margin="3" BorderBrush="Gray" Background="{DynamicResource Background}" Header="Criteria">
                 <StackPanel>
-                    <StackPanel  Orientation="Horizontal">
-                        <TextBox x:Name="NewCriterionBox" Width="200" Margin="3"></TextBox>
-                        <Button Style="{DynamicResource SquareButtonStyle}"  Content="Add" Margin="3" x:Name="AddButton" Click="AddButton_Click"></Button>
-                        <Button Style="{DynamicResource SquareButtonStyle}"  x:Name="RemoveSelected" Content="Remove Selected" Margin="3" Click="RemoveSelected_Click"></Button>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="NewCriterionBox" Width="200" Margin="3" />
+                        <Button Style="{DynamicResource SquareButtonStyle}" Content="Add" Margin="3" x:Name="AddButton"
+                                Click="AddButton_Click" />
+                        <Button Style="{DynamicResource SquareButtonStyle}" x:Name="RemoveSelected"
+                                Content="Remove Selected" Margin="3" Click="RemoveSelected_Click" />
                     </StackPanel>
-                    <ListBox x:Name="CriterionsListBox" Height="100" ItemsSource="{Binding}" SelectionMode="Single"></ListBox>
+                    <ListBox x:Name="CriterionsListBox" Height="100" ItemsSource="{Binding}" SelectionMode="Single" />
 
                 </StackPanel>
             </GroupBox>

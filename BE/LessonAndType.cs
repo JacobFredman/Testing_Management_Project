@@ -15,7 +15,7 @@ namespace BE
         public LicenseType License { set; get; }
 
         /// <summary>
-        /// Gear type
+        ///     Gear type
         /// </summary>
         public Gear GearType { set; get; }
 
@@ -39,7 +39,9 @@ namespace BE
         public object Clone()
         {
             return new LessonsAndType
-                {License = License, NumberOfLessons = NumberOfLessons, ReadyForTest = ReadyForTest,GearType = GearType};
+            {
+                License = License, NumberOfLessons = NumberOfLessons, ReadyForTest = ReadyForTest, GearType = GearType
+            };
         }
 
         /// <summary>

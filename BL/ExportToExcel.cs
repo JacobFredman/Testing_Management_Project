@@ -81,7 +81,7 @@ namespace BL
                 workSheet.Cells[row, "E"] = trainee.Address != null ? trainee.Address.ToString() : "";
                 workSheet.Cells[row, "F"] = trainee.PhoneNumber;
                 workSheet.Cells[row, "G"] = trainee.Gender.ToString();
-                workSheet.Cells[row, "H"] = trainee.TeacherName != null ? trainee.TeacherName : "";
+                workSheet.Cells[row, "H"] = trainee.TeacherName ?? "";
                 workSheet.Cells[row, "I"] = trainee.SchoolName;
                 workSheet.Cells[row, "J"] = licenseType;
                 workSheet.Cells[row, "K"] = trainee.GearType.ToString();
@@ -221,7 +221,7 @@ namespace BL
             workSheet.Cells[1, "F"] = "Address";
             workSheet.Cells[1, "G"] = "Passed";
             workSheet.Cells[1, "H"] = "Route";
-            workSheet.Cells[1, "I"] = "Num of Criterions";
+            workSheet.Cells[1, "I"] = "Num of Criteria";
             workSheet.Cells[1, "J"] = "License Type";
             workSheet.Cells[1, "K"] = "Comment";
 
