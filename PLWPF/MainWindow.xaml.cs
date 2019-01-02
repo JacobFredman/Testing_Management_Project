@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using BE;
 using BE.MainObjects;
@@ -36,6 +37,7 @@ namespace PLWPF
                 AdminPasswordTextBox.Password = Configuration.AdminPassword;
             }
 
+            AdminUsernameTextBox.Focus();
             Configuration.FirstOpenProgram = false;
         }
 
@@ -147,7 +149,7 @@ namespace PLWPF
                 if (Tools.CheckID_IL(uint.Parse(TesterIDTestBox.Text)))
                 {
                     TesterLoginButton.IsEnabled = true;
-                    TesterIDTestBox.BorderBrush = Brushes.Black;
+                    TesterIDTestBox.BorderBrush = Brushes.LightGray;
                 }
                 else
                 {
@@ -173,7 +175,7 @@ namespace PLWPF
                 if (Tools.CheckID_IL(uint.Parse(TraineeIDTestBox.Text)))
                 {
                     TraineeLoginButton.IsEnabled = true;
-                    TraineeIDTestBox.BorderBrush = Brushes.Black;
+                    TraineeIDTestBox.BorderBrush = Brushes.LightGray;
                 }
                 else
                 {
@@ -192,7 +194,7 @@ namespace PLWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TraineeLoginButton_Click(object sender, RoutedEventArgs e)
+        private void TraineeLoginButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -200,10 +202,14 @@ namespace PLWPF
                 var win = new TraineeWin(int.Parse(TraineeIDTestBox.Text));
                 win.ShowDialog();
                 Show();
+                TraineeIDTestBox.Text = "";
+                TraineeIDTestBox.BorderBrush = Brushes.LightGray;
+                TraineeIDTestBox.Focus();
             }
             catch
             {
                 ExceptionMessage.Show("Trainee doesn't exist please contact the administrator.");
+                Show();
             }
         }
 
@@ -212,7 +218,7 @@ namespace PLWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TesterLoginButton_Click(object sender, RoutedEventArgs e)
+        private void TesterLoginButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -220,10 +226,14 @@ namespace PLWPF
                 var win = new TesterWin(int.Parse(TesterIDTestBox.Text));
                 win.ShowDialog();
                 Show();
+                TesterIDTestBox.Text = "";
+                TesterIDTestBox.BorderBrush = Brushes.LightGray;
+                TesterIDTestBox.Focus();
             }
             catch
             {
                 ExceptionMessage.Show("Tester doesn't exist please contact the administrator.");
+                Show();
             }
         }
 
@@ -232,13 +242,14 @@ namespace PLWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AdminLoginButton_Click(object sender, RoutedEventArgs e)
+        private void AdminLoginButton_Click(object sender, EventArgs e)
         {
             if (AdminUsernameTextBox.Text == Configuration.AdminUser &&
                 AdminPasswordTextBox.Password == Configuration.AdminPassword)
             {
                 AdminUsernameTextBox.Text = "";
                 AdminPasswordTextBox.Password = "";
+                AdminUsernameTextBox.Focus();
                 Hide();
                 var win = new Administrator();
                 win.ShowDialog();
@@ -249,5 +260,42 @@ namespace PLWPF
                 ExceptionMessage.Show("Wrong Password or UserName.");
             }
         }
+
+        //Login on Key enter pressed
+        private void TabItem_KeyDown_Admin(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (AdminLoginButton.IsEnabled)
+                {
+                    AdminLoginButton_Click(this,new EventArgs());
+                }
+            }
+        }
+
+        //Login on Key enter pressed
+        private void TabItem_KeyDown_Tester(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (TesterLoginButton.IsEnabled)
+                {
+                    TesterLoginButton_Click(this, new EventArgs());
+                }
+            }
+        }
+
+        //Login on Key enter pressed
+        private void TabItem_KeyDown_Trainee(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (TraineeLoginButton.IsEnabled)
+                {
+                    TraineeLoginButton_Click(this, new EventArgs());
+                }
+            }
+        }
     }
+    
 }

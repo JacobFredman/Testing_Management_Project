@@ -48,7 +48,7 @@
     </Controls:MetroWindow.Resources>
     <TabControl>
         <!--Administrator Login-->
-        <TabItem Header="{DynamicResource Administrator}">
+        <TabItem Header="{DynamicResource Administrator}" KeyDown="TabItem_KeyDown_Admin">
 
             <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3" />
@@ -66,7 +66,7 @@
             </StackPanel>
         </TabItem>
         <!--Tester login-->
-        <TabItem Visibility="Hidden" Header="{DynamicResource Tester}">
+        <TabItem  Header="{DynamicResource Tester}" KeyDown="TabItem_KeyDown_Tester">
             <StackPanel Background="{DynamicResource ResourceKey=Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -80,7 +80,7 @@
             </StackPanel>
         </TabItem>
         <!--Trainee login-->
-        <TabItem Visibility="Hidden" Header="{DynamicResource Trainee}">
+        <TabItem  Header="{DynamicResource Trainee}" KeyDown="TabItem_KeyDown_Trainee">
             <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource EnterIdLabelTrainee}" HorizontalAlignment="Center" Margin="10" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
