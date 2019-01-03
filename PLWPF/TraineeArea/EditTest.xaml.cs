@@ -38,17 +38,20 @@ namespace PLWPF.TraineeArea
                 //actualTestTimeDatePicker.IsEnabled = false;
                // actualTimePickerTest.IsEnabled = false;
               //  TestResolutsGroupBox.IsEnabled = false;
+                TraineeTextBox.Text = trainee.ToString();
                 testerIdComboBox.IsEnabled = false;
-                licenseTypeComBox.IsEnabled = false;
+                licenseTypeComBox.IsEnabled = true;
                 testTimeDatePicker.IsEnabled = false;
                 TimePickerTest.IsEnabled = false;
+                addressOfBeginningTestTextBox.Address = trainee.Address;
 
-                //set the source of the trainees
-                traineeIdComboBox.ItemsSource = new[] {trainee};
+
+            //set the source of the trainees
+            traineeIdComboBox.ItemsSource = new[] {trainee};
                   //  FactoryBl.GetObject.AllTrainees
                   //  .Where(x => x.LicenseTypeLearning.Any(y => y.ReadyForTest)).ToList();
 
-                AddMessage("Please Select Trainee");
+                AddMessage("Please Select License");
                 //add even for uc
                 addressOfBeginningTestTextBox.TextChanged += AddressOfBeginningTestTextBox_TextChanged;
 
@@ -58,7 +61,50 @@ namespace PLWPF.TraineeArea
 
                 //set title
                 Title = "Set New Test";
-            
+
+
+
+
+                try
+                {
+                    //Clean License and Tester ComBox
+                    licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
+                    testerIdComboBox.SelectedValue = -1;
+                    licenseTypeComBox.SelectedValue = -1;
+                    licenseTypeComBox.ItemsSource = trainee.LicenseTypeLearning
+                        .Where(y => y.ReadyForTest)
+                        .Select(x => x.License).ToList();
+                    licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
+                    testerIdComboBox.ItemsSource = null;
+
+                    ////Get All the Trainees that are ready for test
+                    //_test.TraineeId = ((Trainee)traineeIdComboBox.SelectedItem).Id;
+                    //addressOfBeginningTestTextBox.Address = ((Trainee)traineeIdComboBox.SelectedItem).Address;
+
+                    //enable the license and disable the other
+                    licenseTypeComBox.IsEnabled = true;
+                    testerIdComboBox.IsEditable = false;
+                    TimePickerTest.IsEnabled = false;
+                    testTimeDatePicker.IsEnabled = false;
+                    Save.IsEnabled = false;
+
+                    //set new Message
+                    ClearAllMessages();
+                    AddMessage("Please Select license.");
+
+                    //Focus on license
+                    licenseTypeComBox.Focus();
+                }
+                catch
+                {
+                }
+
+
+
+
+
+
+
 
             //if the window is to update test
             //else
