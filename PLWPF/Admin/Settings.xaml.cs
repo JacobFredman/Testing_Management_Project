@@ -36,8 +36,11 @@ namespace PLWPF.Admin
             CriterionsListBox.DataContext = _criteria;
 
             //Set theme ComBox
-            Theme.ItemsSource = new List<string> {"Orange", "Green", "Gray", "Light Blue", "Blue"};
-            Theme.SelectedItem = "Light Blue";
+            Color.ItemsSource = new List<string> { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+            Color.SelectedItem = Configuration.Color;
+
+            Theme.ItemsSource = new List<string> {"Light","Dark" };
+            Theme.SelectedItem = Configuration.Theme;
         }
 
         //On Add new criterion click
@@ -90,6 +93,94 @@ namespace PLWPF.Admin
                     return;
                 }
 
+
+                App.SetTheme(Color.SelectedItem.ToString(),Theme.SelectedItem.ToString(), Configuration.Color,Configuration.Theme,false);
+                Configuration.Color = Color.SelectedItem.ToString();
+                Configuration.Theme = Theme.SelectedItem.ToString();
+
+                if (Configuration.Theme == "Light")
+                {
+                    switch (Configuration.Color)
+                    {
+                        case "Red":
+                            Application.Current.Resources["Background"] = Brushes.LightCoral;
+                            break;
+                        case "Green":
+                            Application.Current.Resources["Background"] = Brushes.LightGreen;
+                            break;
+                        case "Blue":
+                            Application.Current.Resources["Background"] = Brushes.LightSkyBlue;
+                            break;
+                        case "Purple":
+                            Application.Current.Resources["Background"] = Brushes.MediumPurple;
+                            break;
+                        case "Orange":
+                            Application.Current.Resources["Background"] = Brushes.Orange;
+                            break;
+                        case "Lime":
+                            Application.Current.Resources["Background"] = Brushes.LightGreen;
+                            break;
+                        case "Emerald":
+                            Application.Current.Resources["Background"] = Brushes.LightGreen;
+                            break;
+                        case "Teal":
+                            Application.Current.Resources["Background"] = Brushes.PaleTurquoise;
+                            break;
+                        case "Cyan":
+                            Application.Current.Resources["Background"] = Brushes.LightCyan;
+                            break;
+                        case "Cobalt":
+                            Application.Current.Resources["Background"] =Brushes.CornflowerBlue;
+                            break;
+                        case "Indigo":
+                            Application.Current.Resources["Background"] = Brushes.IndianRed;
+                            break;
+                        case "Violet":
+                            Application.Current.Resources["Background"] = Brushes.PaleVioletRed;
+                            break;
+                        case "Pink":
+                            Application.Current.Resources["Background"] = Brushes.Pink;
+                            break;
+                        case "Magenta":
+                            Application.Current.Resources["Background"] = Brushes.MediumOrchid;
+                            break;
+                        case "Crimson":
+                            Application.Current.Resources["Background"] = Brushes.LightCoral;
+                            break;
+                        case "Sienna":
+                            Application.Current.Resources["Background"] = Brushes.SandyBrown;
+                            break;
+                        case "Taupe":
+                            Application.Current.Resources["Background"] = Brushes.Tan;
+                            break;
+                        case "Mauve":
+                            Application.Current.Resources["Background"] = Brushes.AntiqueWhite;
+                            break;
+                        case "Steel":
+                            Application.Current.Resources["Background"] = Brushes.LightSteelBlue;
+                            break;
+                        case "Olive":
+                            Application.Current.Resources["Background"] = Brushes.LightGreen;
+                            break;
+                        case "Brown":
+                            Application.Current.Resources["Background"] = Brushes.SandyBrown;
+                            break;
+                        case "Yellow":
+                            Application.Current.Resources["Background"] = Brushes.LightGoldenrodYellow;
+                            break;
+                        case "Amber":
+                            Application.Current.Resources["Background"] =Brushes.LightGoldenrodYellow;
+                            break;
+
+
+                    }
+
+                }
+                else
+                {
+
+                    Application.Current.Resources["Background"] = Brushes.Black;
+                }
                 //if there is a user name and password
                 if (UserNameBox.Text != "")
                 {
@@ -113,6 +204,8 @@ namespace PLWPF.Admin
                 Configuration.MinTraineeAge = (uint) MinTraineeAgeBox.Value;
                 Configuration.MinimumCriteria = (uint) MinimumCriterionsBox.Value;
                 Configuration.PercentOfCriteriaToPassTest = (uint) PercentOfCritirionsToPassTestBox.Value;
+
+                BL.FactoryBl.GetObject.SaveSettings();
                 Close();
             }
             catch (Exception ex)
@@ -125,24 +218,24 @@ namespace PLWPF.Admin
         //Change theme
         private void Theme_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (Theme.SelectedItem.ToString())
-            {
-                case "Orange":
-                    Application.Current.Resources["Background"] = Brushes.SandyBrown;
-                    break;
-                case "Green":
-                    Application.Current.Resources["Background"] = Brushes.LightGreen;
-                    break;
-                case "Gray":
-                    Application.Current.Resources["Background"] = Brushes.LightGray;
-                    break;
-                case "Light Blue":
-                    Application.Current.Resources["Background"] = Brushes.Aquamarine;
-                    break;
-                case "Blue":
-                    Application.Current.Resources["Background"] = Application.Current.Resources["AccentBaseColorBrush"];
-                    break;
-            }
+            //switch (Theme.SelectedItem.ToString())
+            //{
+            //    case "Orange":
+            //        Application.Current.Resources["Background"] = Brushes.SandyBrown;
+            //        break;
+            //    case "Green":
+            //        Application.Current.Resources["Background"] = Brushes.LightGreen;
+            //        break;
+            //    case "Gray":
+            //        Application.Current.Resources["Background"] = Brushes.LightGray;
+            //        break;
+            //    case "Light Blue":
+            //        Application.Current.Resources["Background"] = Brushes.Aquamarine;
+            //        break;
+            //    case "Blue":
+            //        Application.Current.Resources["Background"] = Application.Current.Resources["AccentBaseColorBrush"];
+            //        break;
+            //}
         }
     }
 }

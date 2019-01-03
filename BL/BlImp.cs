@@ -673,5 +673,11 @@ namespace BL
         }
 
         #endregion
+
+        public void SaveSettings()
+        {
+            _dalImp.SaveConfigurations();
+        }
+
     }
 }

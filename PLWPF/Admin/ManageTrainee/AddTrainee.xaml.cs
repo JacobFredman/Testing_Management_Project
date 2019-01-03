@@ -125,8 +125,9 @@ namespace PLWPF.Admin.ManageTrainee
             }
             catch
             {
-                idTextBox.Text = "";
-                Save.IsEnabled = false;
+                if (idTextBox.Text != "")
+                    idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length - 1);
+                idTextBox.CaretIndex = idTextBox.Text.Length; Save.IsEnabled = false;
             }
         }
 

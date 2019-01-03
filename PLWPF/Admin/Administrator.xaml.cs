@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using BE;
 using BE.MainObjects;
 using BL;
@@ -150,7 +151,7 @@ namespace PLWPF.Admin
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void UpdateTraineeClick(object sender, RoutedEventArgs e)
+        private void UpdateTraineeClick(object sender, EventArgs e)
         {
             try
             {
@@ -902,5 +903,15 @@ namespace PLWPF.Admin
         }
 
         #endregion
+
+
+        private void TraineeGrid_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                UpdateTraineeClick(this, new EventArgs());
+                e.Handled = true;
+            }
+        }
     }
 }

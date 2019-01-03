@@ -7,7 +7,7 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
                  Title="Settings" SizeToContent="WidthAndHeight">
-    <StackPanel Background="LightGray" Orientation="Horizontal">
+    <StackPanel  Orientation="Horizontal">
 
         <!-- The parameters-->
         <GroupBox Background="{DynamicResource Background}" Header="Parameters" Margin="3">
@@ -52,8 +52,13 @@
                                        x:Name="PercentOfCritirionsToPassTestBox" Margin="3" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="6">
+                    <Label Content="Change Color:  " Margin="3" />
+                    <ComboBox x:Name="Color" MinWidth="120" Margin="4"  />
+
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="7">
                     <Label Content="Change Theme:" Margin="3" />
-                    <ComboBox x:Name="Theme" MinWidth="120" Margin="4" SelectionChanged="Theme_OnSelectionChanged" />
+                    <ComboBox x:Name="Theme" MinWidth="120" Margin="4"  />
 
                 </StackPanel>
             </Grid>

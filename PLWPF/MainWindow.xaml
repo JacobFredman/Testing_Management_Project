@@ -21,10 +21,11 @@
     </Window.Resources -->
     <Controls:MetroWindow.Resources>
         <Style x:Name="TabStyle" TargetType="TabItem">
+          <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush1}"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="{StaticResource AccentColorBrush}"
+                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="{DynamicResource AccentColorBrush}"
                                 Margin="1">
                             <ContentPresenter x:Name="ContentSite"
                                               VerticalAlignment="Center"
@@ -32,13 +33,14 @@
                                               ContentSource="Header"
                                               Margin="10,5" />
                         </Border>
+                        
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Border" Property="Background"
-                                        Value="{StaticResource AccentColorBrush2}" />
+                                        Value="{DynamicResource AccentColorBrush2}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -48,7 +50,7 @@
     </Controls:MetroWindow.Resources>
     <TabControl>
         <!--Administrator Login-->
-        <TabItem Header="{DynamicResource Administrator}" KeyDown="TabItem_KeyDown_Admin">
+        <TabItem  Header="{DynamicResource Administrator}" KeyDown="TabItem_KeyDown_Admin">
 
             <StackPanel VerticalAlignment="Stretch" Background="{DynamicResource Background}">
                 <Label Content="{DynamicResource AdminLoginLabel}" HorizontalAlignment="Center" Margin="10,10,10,3" />

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 using BE;
 using BE.MainObjects;
+using BE.Routes;
 using DS;
 
 namespace DAL
@@ -26,11 +29,31 @@ namespace DAL
     /// </summary>
     public class DalImp : IDal
     {
+        private XElement _traineesXml;
+        private XElement _config;
         /// <summary>
         ///     deny access to c-tor
         /// </summary>
         internal DalImp()
         {
+            try
+            {
+                if (File.Exists(Configuration.SaveTraineesXmlPath))
+                {
+                    _traineesXml = XElement.Load(Configuration.SaveTraineesXmlPath);
+                }
+                else
+                {
+                    _traineesXml=new XElement("trainees");
+                }
+                GetAllTraineesXml();
+
+                LoadConfigurations();
+            }
+            catch(Exception e)
+            {
+               
+            }
         }
 
         #region Test
@@ -125,10 +148,11 @@ namespace DAL
         /// <param name="newTrainee"></param>
         public void AddTrainee(Trainee newTrainee)
         {
-            if (DataSource.Trainees.Any(t => t.Id == newTrainee.Id))
+            if (GetAllTraineesXml().Any(t => t.Id == newTrainee.Id))
                 throw new Exception("the trainee already exist in the system");
 
-            DataSource.Trainees.Add(newTrainee);
+            _traineesXml.Add(TraineeToXml(newTrainee));
+            _traineesXml.Save(Configuration.SaveTraineesXmlPath);
         }
 
         /// <summary>
@@ -137,11 +161,12 @@ namespace DAL
         /// <param name="traineeToDelete"></param>
         public void RemoveTrainee(Trainee traineeToDelete)
         {
-            if (DataSource.Trainees.All(x => x.Id != traineeToDelete.Id))
+            if (GetAllTraineesXml().All(x => x.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
 
 
-            DataSource.Trainees.RemoveAll(x => x.Id == traineeToDelete.Id);
+            _traineesXml.Elements().First(x=>x.Element("id").Value == traineeToDelete.Id.ToString()).Remove();
+            _traineesXml.Save(Configuration.SaveTraineesXmlPath);
         }
 
         /// <summary>
@@ -150,12 +175,12 @@ namespace DAL
         /// <param name="updatedTrainee"></param>
         public void UpdateTrainee(Trainee updatedTrainee)
         {
-            if (DataSource.Trainees.All(x => x.Id != updatedTrainee.Id))
+            if (GetAllTraineesXml().All(x => x.Id != updatedTrainee.Id))
                 throw new Exception("Trainee doesn't exist");
 
-            var trainee = DataSource.Trainees.Find(t => t.Id == updatedTrainee.Id);
-            DataSource.Trainees.Remove(trainee);
-            DataSource.Trainees.Add(updatedTrainee);
+            _traineesXml.Elements().First(x => x.Element("id").Value == updatedTrainee.Id.ToString()).Remove();
+            _traineesXml.Add(TraineeToXml(updatedTrainee));
+            _traineesXml.Save(Configuration.SaveTraineesXmlPath);
         }
 
         #endregion
@@ -199,7 +224,7 @@ namespace DAL
             get
             {
                 var allTrainee = new List<Trainee>();
-                foreach (var item in DataSource.Trainees)
+                foreach (var item in GetAllTraineesXml())
                     allTrainee.Add(item.Clone() as Trainee);
                 return allTrainee.OrderBy(x => x.Id);
                 ;
@@ -207,5 +232,114 @@ namespace DAL
         }
 
         #endregion
+
+        private XElement TraineeToXml(Trainee trainee)
+        {
+            var id=new XElement("id",trainee.Id);
+            var firstName=new XElement("firstName",trainee.FirstName);
+            var lastName = new XElement("lastName", trainee.LastName);
+            var gender=new XElement("gender",trainee.Gender);
+            var address = new XElement("address", trainee.Address);
+            var schoolName = new XElement("schoolName", trainee.SchoolName);
+            var teacherName = new XElement("teacherName", trainee.TeacherName);
+            var birthDate = new XElement("birthDate", trainee.BirthDate);
+            var emailAddress = new XElement("emailAddress", trainee.EmailAddress);
+            var phoneNum = new XElement("phoneNum", trainee.PhoneNumber);
+         
+            var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning");
+
+            foreach (var item in trainee.LicenseTypeLearning)
+            {
+                var gearType = new XElement("gearType", item.GearType);
+                var license = new XElement("license", item.License);
+                var numOfLessons = new XElement("numOfLessons", item.NumberOfLessons);
+                var readyForTest = new XElement("readyForTest", item.ReadyForTest);
+                var licenseTypeLearning = new XElement("licenseTypeLearning", gearType,license,numOfLessons,readyForTest);
+                collectionLicenseTypeLearning.Add(licenseTypeLearning);
+            }
+            return new XElement("trainee", id, firstName, lastName, gender, address, birthDate, emailAddress, phoneNum, teacherName, schoolName, collectionLicenseTypeLearning);
+
+        }
+
+        private List<Trainee> GetAllTraineesXml()
+        {
+            var list = new List<Trainee>();
+            foreach (var trainee in _traineesXml.Elements())
+            {
+                var t = new Trainee()
+                {
+                    Id = uint.Parse(trainee.Element("id")?.Value),
+                    FirstName = trainee.Element("firstName")?.Value,
+                    LastName = trainee.Element("lastName")?.Value,
+                    BirthDate = DateTime.Parse(trainee.Element("birthDate")?.Value),
+                    Address = new Address(trainee.Element("address")?.Value),
+                    EmailAddress = trainee.Element("emailAddress")?.Value,
+                    PhoneNumber = trainee.Element("phoneNum")?.Value,
+                    Gender = (Gender) Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
+                    SchoolName = trainee.Element("schoolName")?.Value,
+                    TeacherName = trainee.Element("teacherName")?.Value,
+                    LicenseTypeLearning = new List<LessonsAndType>(),
+                    LicenseType = new List<LicenseType>()
+                };
+                foreach (var item in trainee.Element("CollectionLicenseTypeLearning").Elements())
+                {
+                    t.LicenseTypeLearning.Add(new LessonsAndType()
+                    {
+                        GearType = (Gear)Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
+                        License = (LicenseType)Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),
+                        ReadyForTest = bool.Parse(item.Element("readyForTest")?.Value),
+                        NumberOfLessons = int.Parse(item.Element("numOfLessons")?.Value)
+                    });
+                }
+               list.Add(t);
+            }
+
+            return list;
+        }
+
+        public void SaveConfigurations()
+        {
+            var adminPass = new XElement("AdminPassword", Configuration.AdminPassword);
+            var theme = new XElement("Theme", Configuration.Theme);
+            var color = new XElement("Color", Configuration.Color);
+            var adminUser = new XElement("AdminUser", Configuration.AdminUser);
+            var firstOpen = new XElement("FirstOpenProgram", Configuration.FirstOpenProgram);
+            var testId = new XElement("TestId", Configuration.TestId);
+            var minLesson = new XElement("MinLessons", Configuration.MinLessons);
+            var minTesterAge = new XElement("MinTesterAge", Configuration.MinTesterAge);
+            var minTraineeAge = new XElement("MinTraineeAge", Configuration.MinTraineeAge);
+            var minTimeBetweenTests = new XElement("MinTimeBetweenTests", Configuration.MinTimeBetweenTests);
+            var minimumCriteria = new XElement("MinimumCriteria", Configuration.MinimumCriteria);
+            var percentOfCriteriaToPassTest =
+                new XElement("PercentOfCriteriaToPassTest", Configuration.PercentOfCriteriaToPassTest);
+            _config.RemoveAll();
+            _config.Add(adminPass, adminUser, firstOpen, testId, minLesson, minTesterAge, minTimeBetweenTests,
+                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest,theme,color);
+            _config.Save(Configuration.SaveConfigXmlPath);
+        }
+
+        public void LoadConfigurations()
+        {
+            if (File.Exists(Configuration.SaveConfigXmlPath))
+            {
+                _config=XElement.Load(Configuration.SaveConfigXmlPath);
+                Configuration.Theme = _config.Element("Theme")?.Value;
+                Configuration.Color = _config.Element("Color")?.Value;
+                Configuration.AdminPassword = _config.Element("AdminPassword")?.Value;
+                Configuration.AdminUser = _config.Element("AdminUser")?.Value;
+                Configuration.FirstOpenProgram = bool.Parse(_config.Element("FirstOpenProgram")?.Value);
+                Configuration.TestId = uint.Parse(_config.Element("TestId")?.Value);
+                Configuration.MinLessons = uint.Parse(_config.Element("MinLessons")?.Value);
+                Configuration.MinTesterAge= uint.Parse(_config.Element("MinTesterAge")?.Value);
+                Configuration.MinTraineeAge= uint.Parse(_config.Element("MinTraineeAge")?.Value);
+                Configuration.MinTimeBetweenTests= uint.Parse(_config.Element("MinTimeBetweenTests")?.Value);
+                Configuration.MinimumCriteria= uint.Parse(_config.Element("MinimumCriteria")?.Value);
+                Configuration.PercentOfCriteriaToPassTest= uint.Parse(_config.Element("PercentOfCriteriaToPassTest")?.Value);
+            }
+            else
+            {
+                _config=new XElement("Config");
+            }
+        }
     }
 }

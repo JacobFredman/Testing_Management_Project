@@ -23,14 +23,14 @@
 
     <DockPanel LastChildFill="True">
         <!--Menu-->
-        <Menu DockPanel.Dock="Top" Background="LightGray">
+        <Menu DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush}">
 
-            <MenuItem Header="{DynamicResource CreateLb}" Background="LightGray">
+            <MenuItem Header="{DynamicResource CreateLb}" Background="Transparent">
                 <MenuItem Header="{DynamicResource TraineeLb}" Click="AddTraineeClick" />
                 <MenuItem Header="{DynamicResource Tester}" Click="AddTesterClick" />
                 <MenuItem Click="AddTestClick" Header="{DynamicResource TestLb}" />
             </MenuItem>
-            <MenuItem Header="{DynamicResource Manage}" Background="LightGray">
+            <MenuItem Header="{DynamicResource Manage}" Background="Transparent">
                 <MenuItem Header="{DynamicResource ExportToExcelLb}">
                     <MenuItem x:Name="ExportTraineeesToExcel" Header="{DynamicResource TraineesInGrid}"
                               Click="ExportAllTraineesToExcel_Click" />
@@ -60,11 +60,14 @@
         <TabControl Padding="0">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
+                    <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush1}"></Setter>
+
                     <Setter Property="Template">
+
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
                                 <Border Name="Border" BorderThickness="1,1,1,0"
-                                        BorderBrush="{StaticResource AccentColorBrush}" Margin="1">
+                                        BorderBrush="{DynamicResource AccentColorBrush}" Margin="1">
                                     <ContentPresenter x:Name="ContentSite"
                                                       VerticalAlignment="Center"
                                                       HorizontalAlignment="Center"
@@ -74,10 +77,10 @@
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="Border" Property="Background"
-                                                Value="{StaticResource  AccentColorBrush2}" />
+                                                Value="{DynamicResource  AccentColorBrush2}" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                        <Setter TargetName="Border" Property="Background" Value="Transparent" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -96,7 +99,7 @@
                         <ColumnDefinition Width="Auto" MinWidth="200" />
 
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="2" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <Border Grid.Column="2" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
                     <StackPanel   Background="{DynamicResource Background}" MinHeight="600"
                                 MinWidth="200" DockPanel.Dock="Right">
                         <GroupBox Header="Search">
@@ -200,12 +203,12 @@
                     </StackPanel>
                     </Border>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"
-                                  Background="{StaticResource AccentBaseColorBrush}" />
-                    <Border Grid.Column="0" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                                  Background="{DynamicResource AccentBaseColorBrush}" />
+                    <Border Grid.Column="0" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
                         <DataGrid GridLinesVisibility="All" VerticalGridLinesBrush="LightGray"
                                   HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding}"
                                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick"
-                                  SelectionChanged="TraineeGrid_OnSelectionChanged">
+                                  SelectionChanged="TraineeGrid_OnSelectionChanged" PreviewKeyDown="TraineeGrid_OnPreviewKeyDown">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem IsEnabled="False" x:Name="MenuItemUpdateTrainee" Header="Update"
@@ -245,7 +248,7 @@
                         <ColumnDefinition Width="3" />
                         <ColumnDefinition Width="Auto" MinWidth="200" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="2" BorderThickness="2" BorderBrush="{StaticResource AccentColorBrush}">
+                    <Border Grid.Column="2" BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}">
                     <StackPanel Grid.Column="2" Background="{DynamicResource Background}" MinHeight="600"
                                 MinWidth="200" DockPanel.Dock="Right">
                         <GroupBox Header="Search">
@@ -334,10 +337,10 @@
                                 Margin="10" Click="AddTesterClick" />
                     </StackPanel>
                     </Border>
-                    <GridSplitter Grid.Column="1" Background="{StaticResource AccentBaseColorBrush}"
+                    <GridSplitter Grid.Column="1" Background="{DynamicResource AccentBaseColorBrush}"
                                   HorizontalAlignment="Stretch" />
 
-                    <Border Grid.Column="0" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <Border Grid.Column="0" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
 
                         <DataGrid x:Name="TesterGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
@@ -385,7 +388,7 @@
                         <ColumnDefinition Width="*" MinWidth="200" />
 
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="2" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <Border Grid.Column="2" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
                     <StackPanel Grid.Column="2" Background="{DynamicResource Background}" MinHeight="600"
                                 MinWidth="200" DockPanel.Dock="Right">
                         <GroupBox Header="{DynamicResource Search}">
@@ -481,9 +484,9 @@
                                 FontSize="12" Click="AddTestClick" />
                     </StackPanel>
                     </Border>
-                    <GridSplitter Background="{StaticResource AccentBaseColorBrush}" Grid.Column="1"
+                    <GridSplitter Background="{DynamicResource AccentBaseColorBrush}" Grid.Column="1"
                                   HorizontalAlignment="Stretch" />
-                    <Border Grid.Column="0" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2">
+                    <Border Grid.Column="0" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
 
                         <DataGrid x:Name="TestGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
