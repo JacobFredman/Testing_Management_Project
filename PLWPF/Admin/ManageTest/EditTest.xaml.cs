@@ -218,7 +218,12 @@ namespace PLWPF.Admin.ManageTest
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        void Act()
+                        {
+                            ExceptionMessage.Show(ex.Message, ex.ToString());
+                        }
+
+                        Dispatcher.BeginInvoke((Action) Act);
                     }
 
                     void Action1()
@@ -382,6 +387,8 @@ namespace PLWPF.Admin.ManageTest
         {
             try
             {
+                testTimeDatePicker.DisplayDateStart=DateTime.Now.AddDays(-1);
+                testTimeDatePicker.DisplayDateEnd = DateTime.Now.AddMonths(2);
                 testTimeDatePicker.BlackoutDates.Clear();
 
                 //Blackout all the dates in the past and in more that 2 month

@@ -93,7 +93,7 @@ namespace BL
             //check if tester is ok
             if (AllTesters.Any(tester => tester.Id == newTester.Id)) throw new Exception("Tester exist already");
             if (GetAge(newTester.BirthDate) < Configuration.MinTesterAge)
-                throw new Exception("the Tester is too young");
+                throw new Exception("The Tester is too young");
             if (newTester.Address == null) throw new Exception("Need to know tester address");
             if (newTester.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
 
@@ -108,6 +108,8 @@ namespace BL
         public void RemoveTester(Tester testerToDelete)
         {
             if (AllTesters.All(tester => tester.Id != testerToDelete.Id)) throw new Exception("Tester doesn't exist");
+            if(AllTests.Any(x=>x.TesterId==testerToDelete.Id))
+                throw new Exception("Tester Has "+ AllTests.Count(x => x.TesterId == testerToDelete.Id)+" Tests. Please Delete Them First.");
             _dalImp.RemoveTester(testerToDelete);
         }
 
@@ -120,7 +122,7 @@ namespace BL
             //check if tester is ok
             if (AllTesters.All(tester => tester.Id != updatedTester.Id)) throw new Exception("tester doesn't exist");
             if (GetAge(updatedTester.BirthDate) < Configuration.MinTesterAge)
-                throw new Exception("the Tester is too young");
+                throw new Exception("The Tester is too young");
             if (updatedTester.Address == null) throw new Exception("Need to know tester address");
             if (updatedTester.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
 
@@ -176,18 +178,18 @@ namespace BL
 
             if (testMissingDate) throw new Exception("Enter a valid date");
             if (tooManyTestInWeek) throw new Exception("To many tests for tester");
-            if (!traineeExist) throw new Exception("this trainee doesn't exist");
-            if (!testerExist) throw new Exception("this tester doesn't exist");
-            if (twoTestesTooClose) throw new Exception("the trainee has a test less then a week ago");
+            if (!traineeExist) throw new Exception("This trainee doesn't exist");
+            if (!testerExist) throw new Exception("This tester doesn't exist");
+            if (twoTestesTooClose) throw new Exception("The trainee has a test less then a week ago");
             if (lessThenMinLessons)
-                throw new Exception("the trainee learned less then " + Configuration.MinLessons +
+                throw new Exception("The trainee learned less then " + Configuration.MinLessons +
                                     " lessons which is the minimum");
-            if (!traineeIsLearningLicense) throw new Exception("the trainee is not learning for this license");
-            if (!testerIsTeachingLicense) throw new Exception("tester is not qualified for this license type");
-            if (traineeHasTestInSameTime) throw new Exception("the trainee has already another test in the same time");
-            if (testerHasTestInSameTime) throw new Exception("the tester has already another test in the same time");
-            if (traineeHasLicenseAlready) throw new Exception("the trainee has already a license with same type");
-            if (traineePassedTestAlready) throw new Exception("the trainee already passed the test");
+            if (!traineeIsLearningLicense) throw new Exception("The trainee is not learning for this license");
+            if (!testerIsTeachingLicense) throw new Exception("Tester is not qualified for this license type");
+            if (traineeHasTestInSameTime) throw new Exception("The trainee has already another test in the same time");
+            if (testerHasTestInSameTime) throw new Exception("The tester has already another test in the same time");
+            if (traineeHasLicenseAlready) throw new Exception("The trainee has already a license with same type");
+            if (traineePassedTestAlready) throw new Exception("The trainee already passed the test");
 
 
             //add the test
@@ -219,9 +221,9 @@ namespace BL
                                               test.TestTime != updatedTest.TestTime)))
                 throw new Exception("Can't change this test details. please create new test");
             if (updatedTest.Criteria.Count <= Configuration.MinimumCriteria)
-                throw new Exception("not enough criterion");
+                throw new Exception("Not enough criterion");
             if (updatedTest.ActualTestTime == DateTime.MinValue)
-                throw new Exception("test date not updated");
+                throw new Exception("Test date not updated");
             if (Math.Abs((updatedTest.ActualTestTime - updatedTest.TestTime).Days) > 30)
                 throw new Exception("Actual date can't be before test date time");
             //update passed status
@@ -246,7 +248,7 @@ namespace BL
         {
             if (AllTrainees.Any(trainee => trainee.Id == newTrainee.Id)) throw new Exception("Trainee already exist");
             if (GetAge(newTrainee.BirthDate) < Configuration.MinTraineeAge)
-                throw new Exception("the trainee is too young");
+                throw new Exception("The trainee is too young");
             if (newTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
 
             _dalImp.AddTrainee(newTrainee);
@@ -260,6 +262,9 @@ namespace BL
         {
             if (AllTrainees.All(trainee => trainee.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
+            if (AllTests.Any(x => x.TraineeId == traineeToDelete.Id))
+                throw new Exception("Trainee Has " + AllTests.Count(x => x.TraineeId == traineeToDelete.Id) + " Test. Please Delete Them First.");
+
             _dalImp.RemoveTrainee(traineeToDelete);
         }
 
@@ -272,7 +277,7 @@ namespace BL
             if (AllTrainees.All(trainee => trainee.Id != updatedTrainee.Id))
                 throw new Exception("Trainee doesn't exist");
             if (GetAge(updatedTrainee.BirthDate) < Configuration.MinTraineeAge)
-                throw new Exception("the trainee is too young");
+                throw new Exception("The trainee is too young");
             if (updatedTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
 
             _dalImp.UpdateTrainee(updatedTrainee);
@@ -381,7 +386,7 @@ namespace BL
             try
             {
                 var testerInDate = GetAvailableTesters(date);
-                if (testerInDate == null) throw new Exception("there are no testers for this date");
+                if (testerInDate == null) throw new Exception("There are no testers for this date");
 
                 //check internet connectivity
                 var wc = new WebClient();
@@ -400,7 +405,7 @@ namespace BL
                     orderby tester.distance
                     select tester.tester;
                 if (!testerLicense.Any())
-                    throw new Exception("there is no tester with the right license in the current date and location");
+                    throw new Exception("There is no tester with the right license in the current date and location");
 
                 return testerLicense;
             }
@@ -410,7 +415,7 @@ namespace BL
                     where tester.LicenseTypeTeaching.Any(x => x == license)
                     select tester;
                 if (!testerLicense.Any())
-                    throw new Exception("there is no tester with the right license in the current date and location");
+                    throw new Exception("There is no tester with the right license in the current date and location");
 
                 return testerLicense;
             }
@@ -443,7 +448,7 @@ namespace BL
                     orderby tester.distance
                     select tester.tester;
                 if (!testerLicense.Any())
-                    throw new Exception("there is no tester with the right license in the current date and location");
+                    throw new Exception("There is no tester with the right license in the current date and location");
 
                 return testerLicense;
             }
@@ -453,7 +458,7 @@ namespace BL
                     where tester.LicenseTypeTeaching.Any(x => x == license)
                     select tester;
                 if (!testerLicense.Any())
-                    throw new Exception("there is no tester with the right license");
+                    throw new Exception("There is no tester with the right license");
 
                 return testerLicense;
             }
@@ -622,7 +627,7 @@ namespace BL
             keys = keys.Where(x => x != "").ToArray();
 
 
-            return AllTrainees.Where(x => keys.Any(y =>
+            return AllTrainees.AsParallel().AsOrdered().Where(x => keys.Any(y =>
                 x.Id.ToString()?.ToLower()?.Contains(y) == true ||
                 x.FirstName?.ToLower()?.Contains(y) == true ||
                 x.LastName?.ToLower()?.Contains(y) == true ||

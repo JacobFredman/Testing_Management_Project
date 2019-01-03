@@ -30,6 +30,8 @@ namespace DAL
     public class DalImp : IDal
     {
         private XElement _traineesXml;
+        private List<Trainee> _trainees=new List<Trainee>();
+        private bool _traineeChanged = true;
         private XElement _config;
         /// <summary>
         ///     deny access to c-tor
@@ -66,7 +68,7 @@ namespace DAL
         {
             newTest.Id = $"{Configuration.TestId:00000000}";
             Configuration.TestId++;
-
+            SaveConfigurations();
             DataSource.Tests.Add(newTest);
         }
 
@@ -107,7 +109,7 @@ namespace DAL
         public void AddTester(Tester newTester)
         {
             if (DataSource.Testers.Any(tester => tester.Id == newTester.Id))
-                throw new Exception("the tester already exist in the system");
+                throw new Exception("The tester already exist in the system");
 
             DataSource.Testers.Add(newTester);
         }
@@ -149,10 +151,11 @@ namespace DAL
         public void AddTrainee(Trainee newTrainee)
         {
             if (GetAllTraineesXml().Any(t => t.Id == newTrainee.Id))
-                throw new Exception("the trainee already exist in the system");
+                throw new Exception("The trainee already exist in the system");
 
             _traineesXml.Add(TraineeToXml(newTrainee));
             _traineesXml.Save(Configuration.SaveTraineesXmlPath);
+            _traineeChanged = true;
         }
 
         /// <summary>
@@ -167,6 +170,7 @@ namespace DAL
 
             _traineesXml.Elements().First(x=>x.Element("id").Value == traineeToDelete.Id.ToString()).Remove();
             _traineesXml.Save(Configuration.SaveTraineesXmlPath);
+            _traineeChanged = true;
         }
 
         /// <summary>
@@ -181,6 +185,7 @@ namespace DAL
             _traineesXml.Elements().First(x => x.Element("id").Value == updatedTrainee.Id.ToString()).Remove();
             _traineesXml.Add(TraineeToXml(updatedTrainee));
             _traineesXml.Save(Configuration.SaveTraineesXmlPath);
+            _traineeChanged = true;
         }
 
         #endregion
@@ -263,38 +268,44 @@ namespace DAL
 
         private List<Trainee> GetAllTraineesXml()
         {
-            var list = new List<Trainee>();
-            foreach (var trainee in _traineesXml.Elements())
+            if (_traineeChanged)
             {
-                var t = new Trainee()
+                _trainees = new List<Trainee>();
+                foreach (var trainee in _traineesXml.Elements())
                 {
-                    Id = uint.Parse(trainee.Element("id")?.Value),
-                    FirstName = trainee.Element("firstName")?.Value,
-                    LastName = trainee.Element("lastName")?.Value,
-                    BirthDate = DateTime.Parse(trainee.Element("birthDate")?.Value),
-                    Address = new Address(trainee.Element("address")?.Value),
-                    EmailAddress = trainee.Element("emailAddress")?.Value,
-                    PhoneNumber = trainee.Element("phoneNum")?.Value,
-                    Gender = (Gender) Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
-                    SchoolName = trainee.Element("schoolName")?.Value,
-                    TeacherName = trainee.Element("teacherName")?.Value,
-                    LicenseTypeLearning = new List<LessonsAndType>(),
-                    LicenseType = new List<LicenseType>()
-                };
-                foreach (var item in trainee.Element("CollectionLicenseTypeLearning").Elements())
-                {
-                    t.LicenseTypeLearning.Add(new LessonsAndType()
+                    var t = new Trainee()
                     {
-                        GearType = (Gear)Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
-                        License = (LicenseType)Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),
-                        ReadyForTest = bool.Parse(item.Element("readyForTest")?.Value),
-                        NumberOfLessons = int.Parse(item.Element("numOfLessons")?.Value)
-                    });
+                        Id = uint.Parse(trainee.Element("id")?.Value),
+                        FirstName = trainee.Element("firstName")?.Value,
+                        LastName = trainee.Element("lastName")?.Value,
+                        BirthDate = DateTime.Parse(trainee.Element("birthDate")?.Value),
+                        Address = new Address(trainee.Element("address")?.Value),
+                        EmailAddress = trainee.Element("emailAddress")?.Value,
+                        PhoneNumber = trainee.Element("phoneNum")?.Value,
+                        Gender = (Gender) Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
+                        SchoolName = trainee.Element("schoolName")?.Value,
+                        TeacherName = trainee.Element("teacherName")?.Value,
+                        LicenseTypeLearning = new List<LessonsAndType>(),
+                        LicenseType = new List<LicenseType>()
+                    };
+                    foreach (var item in trainee.Element("CollectionLicenseTypeLearning").Elements())
+                    {
+                        t.LicenseTypeLearning.Add(new LessonsAndType()
+                        {
+                            GearType = (Gear) Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
+                            License = (LicenseType) Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),
+                            ReadyForTest = bool.Parse(item.Element("readyForTest")?.Value),
+                            NumberOfLessons = int.Parse(item.Element("numOfLessons")?.Value)
+                        });
+                    }
+
+                    _trainees.Add(t);
                 }
-               list.Add(t);
+
+                _traineeChanged = false;
             }
 
-            return list;
+            return _trainees;
         }
 
         public void SaveConfigurations()
@@ -312,9 +323,15 @@ namespace DAL
             var minimumCriteria = new XElement("MinimumCriteria", Configuration.MinimumCriteria);
             var percentOfCriteriaToPassTest =
                 new XElement("PercentOfCriteriaToPassTest", Configuration.PercentOfCriteriaToPassTest);
+
+            var criteria=new XElement("Criteria");
+            foreach (var item in Configuration.Criteria)
+            {
+                criteria.Add(new XElement("Criterion",item));
+            }
             _config.RemoveAll();
             _config.Add(adminPass, adminUser, firstOpen, testId, minLesson, minTesterAge, minTimeBetweenTests,
-                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest,theme,color);
+                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest,theme,color,criteria);
             _config.Save(Configuration.SaveConfigXmlPath);
         }
 
@@ -335,6 +352,8 @@ namespace DAL
                 Configuration.MinTimeBetweenTests= uint.Parse(_config.Element("MinTimeBetweenTests")?.Value);
                 Configuration.MinimumCriteria= uint.Parse(_config.Element("MinimumCriteria")?.Value);
                 Configuration.PercentOfCriteriaToPassTest= uint.Parse(_config.Element("PercentOfCriteriaToPassTest")?.Value);
+                Configuration.Criteria = (from item in _config?.Element("Criteria").Elements()
+                    select item.Value).ToArray();
             }
             else
             {

@@ -175,7 +175,10 @@ namespace PLWPF.Admin
         {
             try
             {
-                bL.RemoveTrainee(TraineeGrid.SelectedItem as Trainee);
+                var trainee = TraineeGrid.SelectedItem as Trainee;
+                if (!ValidationMessage.Show("Are you sure you want to delete "+trainee.FirstName+" "+trainee.LastName+"?"))
+                    return;
+                bL.RemoveTrainee(trainee);
                 RefreshData();
             }
             catch (Exception ex)
@@ -218,8 +221,20 @@ namespace PLWPF.Admin
             }
             else
             {
-                TraineeGrid.DataContext = bL.SearchTrainee(TextBoxSearchTrainee.Text);
-                _traineeList = bL.SearchTrainee(TextBoxSearchTrainee.Text);
+                var text = TextBoxSearchTrainee.Text;
+                (new Thread(() =>
+                {
+                    var list = bL.SearchTrainee(text);
+
+                    void Act()
+                    {
+                        TraineeGrid.DataContext = list;
+                        _traineeList = list;
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Act);
+                })).Start();
+           
             }
         }
 
@@ -295,15 +310,13 @@ namespace PLWPF.Admin
         {
             try
             {
-                TraineeGrid.DataContext = FactoryBl.GetObject.GetAllTraineesBySchool()
-                    .Where(x => x.Key == (string) ComboBoxFilterSchoolTrainee.SelectedItem);
-
+             
                 //update list
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesBySchool()
                     .First(x => x.Key == (string) ComboBoxFilterSchoolTrainee.SelectedItem))
                     list.Add(item);
-
+                TraineeGrid.DataContext = list;
                 _traineeList = list;
             }
             catch
@@ -317,15 +330,13 @@ namespace PLWPF.Admin
         {
             try
             {
-                TraineeGrid.DataContext = FactoryBl.GetObject.GetAllTraineesByTester()
-                    .Where(x => x.Key == (string) ComboBoxFilterTesterIdTrainee.SelectedItem);
-
+              
                 //update list
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesByTester()
                     .First(x => x.Key == (string) ComboBoxFilterTesterIdTrainee.SelectedItem))
                     list.Add(item);
-
+                TraineeGrid.DataContext = list;
                 _traineeList = list;
             }
             catch
@@ -382,7 +393,10 @@ namespace PLWPF.Admin
         {
             try
             {
-                bL.RemoveTester(TesterGrid.SelectedItem as Tester);
+                var tester = TesterGrid.SelectedItem as Tester;
+                if (!ValidationMessage.Show("Are you sure you want to delete " + tester.FirstName + " " + tester.LastName + "?"))
+                    return;
+                bL.RemoveTester(tester);
                 RefreshData();
             }
             catch (Exception ex)
@@ -579,7 +593,10 @@ namespace PLWPF.Admin
         {
             try
             {
-                bL.RemoveTest(TestGrid.SelectedItem as Test);
+                var test = TestGrid.SelectedItem as Test;
+                if (!ValidationMessage.Show("Are you sure you want to delete test number " + test.Id + " ?"))
+                    return;
+                bL.RemoveTest(test);
                 RefreshData();
             }
             catch (Exception ex)

@@ -26,7 +26,7 @@ namespace PLWPF
         {
             InitializeComponent();
 
-            LoadTheme();
+      
             //Add information to test the program
             AddInfo();
 
@@ -41,28 +41,7 @@ namespace PLWPF
             Configuration.FirstOpenProgram = false;
         }
 
-        private void LoadTheme()
-        {
-            switch (Configuration.Theme)
-            {
-                case "Orange":
-                    Application.Current.Resources["Background"] = Brushes.SandyBrown;
-                    break;
-                case "Green":
-                    Application.Current.Resources["Background"] = Brushes.LightGreen;
-                    break;
-                case "Gray":
-                    Application.Current.Resources["Background"] = Brushes.LightGray;
-                    break;
-                case "Light Blue":
-                    Application.Current.Resources["Background"] = Brushes.Aquamarine;
-                    break;
-                case "Blue":
-                    Application.Current.Resources["Background"] = Application.Current.Resources["AccentBaseColorBrush"];
-                    break;
-            }
-        }
-
+      
 
         /// <summary>
         ///     for debugging only !!!!!!!!!!!!!!!!!!!!!!
@@ -156,7 +135,7 @@ namespace PLWPF
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 

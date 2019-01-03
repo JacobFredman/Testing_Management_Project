@@ -106,6 +106,9 @@
     <Compile Include="Nofitications\ExceptionsWin.xaml.cs">
       <DependentUpon>ExceptionsWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Nofitications\ValidationWin.xaml.cs">
+      <DependentUpon>ValidationWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Nofitications\ExceptionsWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Nofitications\ValidationWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

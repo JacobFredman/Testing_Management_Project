@@ -14,9 +14,15 @@ namespace PLWPF
         {
             var bl=BL.FactoryBl.GetObject;
             SetTheme(Configuration.Color,Configuration.Theme);
-            if (Configuration.Theme == "Light")
+          
+            base.OnStartup(e);
+        }
+
+        public static void SetTheme(string Newcolor, string Newlight ,string OldColor="Blue",string OldLight="Light",bool startup=true)
+        {
+            if (Newlight == "Light")
             {
-                switch (Configuration.Color)
+                switch (Newcolor)
                 {
                     case "Red":
                         Application.Current.Resources["Background"] = Brushes.LightCoral;
@@ -97,11 +103,6 @@ namespace PLWPF
 
                 Application.Current.Resources["Background"] = Brushes.Black;
             }
-            base.OnStartup(e);
-        }
-
-        public static void SetTheme(string Newcolor, string Newlight ,string OldColor="Blue",string OldLight="Light",bool startup=true)
-        {
             Uri dictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+Newlight+"."+Newcolor+".xaml", UriKind.RelativeOrAbsolute);
             Uri RdictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+OldLight+"."+OldColor+".xaml", UriKind.RelativeOrAbsolute);
             ResourceDictionary RresourceDict = new ResourceDictionary() { Source = RdictUri };

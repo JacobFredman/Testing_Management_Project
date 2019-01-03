@@ -5,6 +5,7 @@ using System.Net;
 using BE.MainObjects;
 using System.Linq;
 using BE;
+using System.ComponentModel.DataAnnotations;
 
 namespace BL
 {
@@ -91,7 +92,10 @@ namespace BL
         private static void SentEmail(bool addAttachment, string toAddress, string subject, string bodyMessage, string toName,
             string fromName)
         {
-            var attachment = new Attachment(Configuration.GetPdfFullPath());
+            if (new EmailAddressAttribute().IsValid(toAddress))
+                throw new Exception("Please Add a Valid Email To Trainee.");
+
+                var attachment = new Attachment(Configuration.GetPdfFullPath());
 
             var from = new MailAddress(FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
