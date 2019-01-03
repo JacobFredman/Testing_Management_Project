@@ -6,11 +6,22 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="TraineeWin" Height="450" Width="800">
-    <StackPanel>
-        <TextBox Name="_textbox" HorizontalAlignment="Left" Height="23" Margin="204,183,0,0" TextWrapping="Wrap"
+<Grid>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <!--Code here-->
+        <TextBox Name="_textbox"  HorizontalAlignment="Left" Height="23" Margin="204,183,0,0" TextWrapping="Wrap"
                  Text="trainee name" VerticalAlignment="Top" Width="332" />
-     <Button Click="ButtonBase_OnClick" Content="הוסף טסט" Margin="210,0,253.6,0"/> 
+        </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <!--Code here-->
+        <Button Click="ButtonBase_OnClick" Content="הזמן טסט" Margin="210,0,253.6,0"/>
 
-        <UserControls:AddressPicker Width="300" />
-    </StackPanel>
+</StackPanel>
+
+
+    </Grid>
+
+    
+    
+    
 </Window>
