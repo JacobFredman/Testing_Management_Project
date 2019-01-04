@@ -84,13 +84,11 @@ namespace BE.MainObjects
 
         public object Clone()
         {
-            var newLicnse = new List<LicenseType>();
+            var newLicense = new List<LicenseType>();
             if (LicenseType != null)
-            {
                 foreach (var item in LicenseType)
-                    newLicnse.Add(item);
-            }
-            else newLicnse = null;        
+                    newLicense.Add(item);
+            else newLicense = null;
             var newLicenseTypeLearning = new List<LessonsAndType>();
             foreach (var item in LicenseTypeLearning)
                 newLicenseTypeLearning.Add(item.Clone() as LessonsAndType);
@@ -100,7 +98,7 @@ namespace BE.MainObjects
                 LastName = LastName,
                 Gender = Gender,
                 BirthDate = BirthDate,
-                LicenseType = newLicnse,
+                LicenseType = newLicense,
                 LicenseTypeLearning = newLicenseTypeLearning,
                 GearType = GearType,
                 SchoolName = SchoolName,
@@ -108,8 +106,8 @@ namespace BE.MainObjects
             };
             if (Address != null) trainee.Address = Address.Clone() as Address;
             if (Id != 0) trainee.Id = Id;
-            if (PhoneNumber != "" && PhoneNumber != null) trainee.PhoneNumber = PhoneNumber;
-            if (EmailAddress != null && EmailAddress != "") trainee.EmailAddress = EmailAddress;
+            if (!string.IsNullOrEmpty(PhoneNumber)) trainee.PhoneNumber = PhoneNumber;
+            if (!string.IsNullOrEmpty(EmailAddress)) trainee.EmailAddress = EmailAddress;
             return trainee;
         }
 

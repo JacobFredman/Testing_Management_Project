@@ -66,6 +66,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -99,26 +100,27 @@
     <Compile Include="Admin\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Admin\TestLists\ShowList.xaml.cs">
-      <DependentUpon>ShowList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\ActualTestTimeConv.cs" />
     <Compile Include="Converters\LessonAndTypeToString.cs" />
     <Compile Include="Converters\LicenseTypeLearningToString.cs" />
+    <Compile Include="Converters\MetersToKM.cs" />
+    <Compile Include="Nofitications\ExceptionsWin.xaml.cs">
+      <DependentUpon>ExceptionsWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Terter\TesterWin.xaml.cs">
       <DependentUpon>TesterWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TraineeArea\AddTrainee.xaml.cs">
-      <DependentUpon>AddTrainee.xaml</DependentUpon>
+    <Compile Include="TraineeArea\AddTrainee11.xaml.cs">
+      <DependentUpon>AddTrainee11.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TraineeArea\EditTest.xaml.cs">
+      <DependentUpon>EditTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="TraineeArea\TraineeWin.xaml.cs">
       <DependentUpon>TraineeWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AddressPicker.xaml.cs">
       <DependentUpon>AddressPicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumPicker.xaml.cs">
-      <DependentUpon>NumPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
@@ -143,10 +145,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Admin\TestLists\ShowList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -159,6 +157,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Nofitications\ExceptionsWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="res\lang\en.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,7 +173,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TraineeArea\AddTrainee.xaml">
+    <Page Include="TraineeArea\AddTrainee11.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TraineeArea\EditTest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -180,10 +186,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\AddressPicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\NumPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,4 @@
-﻿<Window xmlns:UserControls="clr-namespace:PLWPF.UserControls"  x:Class="PLWPF.TraineeWin"
+﻿<Window xmlns:UserControls="clr-namespace:PLWPF.UserControls" x:Class="PLWPF.TraineeWin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,11 +6,22 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="TraineeWin" Height="450" Width="800">
-    <StackPanel>
-        <TextBox Name="_textbox" HorizontalAlignment="Left" Height="23" Margin="204,183,0,0" TextWrapping="Wrap"
-                 Text="TextBox" VerticalAlignment="Top" Width="332" />
-        <Button Click="ButtonBase_OnClick" />
+<Grid>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <!--Code here-->
+        <TextBox Name="_textbox"  HorizontalAlignment="Left" Height="23" Margin="204,183,0,0" TextWrapping="Wrap"
+                 Text="trainee name" VerticalAlignment="Top" Width="332" />
+        </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <!--Code here-->
+        <Button Click="ButtonBase_OnClick" Content="הזמן טסט" Margin="210,0,253.6,0"/>
 
-        <UserControls:AddressPicker  Width="300" />
-    </StackPanel>
+</StackPanel>
+
+
+    </Grid>
+
+    
+    
+    
 </Window>

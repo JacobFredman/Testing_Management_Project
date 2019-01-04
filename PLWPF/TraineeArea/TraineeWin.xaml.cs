@@ -1,15 +1,18 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
+using System.Reflection.Emit;
 using System.Windows;
 using BE.MainObjects;
 using BL;
 using PLWPF.TraineeArea;
+
 
 namespace PLWPF
 {
     /// <summary>
     ///     Interaction logic for TraineeWin.xaml --it is still emty--
     /// </summary>
-    public partial class TraineeWin : Window
+    public partial class TraineeWin 
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
         private readonly Trainee _trainee;
@@ -30,9 +33,8 @@ namespace PLWPF
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            AddTrainee win2 = new AddTrainee();
-            win2.Show();
-           // this.Close();
+         var editTest = new EditTest(_trainee); 
+            editTest.Show();
         }
     }
 }

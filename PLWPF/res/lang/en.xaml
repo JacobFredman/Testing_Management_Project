@@ -10,5 +10,27 @@
     <System:String x:Key="Trainee">Trainee</System:String>
     <System:String x:Key="Administrator">Administrator</System:String>
     <System:String x:Key="Tester">Tester</System:String>
+    <System:String x:Key="CreateLb">Create</System:String>
+    <System:String x:Key="TraineeLb">Trainee</System:String>
+    <System:String x:Key="Manage">Manage</System:String>
+    <System:String x:Key="ExportToExcelLb">Export to Excel</System:String>
+    <System:String x:Key="TraineesInGrid">Trainees in GrtraineeId</System:String>
+    <System:String x:Key="TestersInGridLb">Testers in GrtraineeId</System:String>
+    <System:String x:Key="TestsInGridLb">Tests in GrtraineeId</System:String>
+    <System:String x:Key="Trainees">Trainees</System:String>
+    <System:String x:Key="Testers">Testers</System:String>
+    <System:String x:Key="Tests">Tests</System:String>
+    <System:String x:Key="SendEmail">Send Email Before Tests That Are Today</System:String>
+    <System:String x:Key="Setting">Settings</System:String>
+    <System:String x:Key="Help">Help</System:String>
+    <System:String x:Key="Search">Search</System:String>
+    <System:String x:Key="Clear">Clear</System:String>
+    <System:String x:Key="TesterId" xml:space="preserve">Tester ID: </System:String>
+    <System:String x:Key="TraineeId" xml:space="preserve">Trainee ID: </System:String>
+    <System:String x:Key="Filter">Filter</System:String>
+    <System:String x:Key="License" xml:space="preserve">License: </System:String>
+    <System:String x:Key="Other" xml:space="preserve">Other: </System:String>
+    <System:String x:Key="FilterOnDateRange">Filter on Date range</System:String>
+    <System:String x:Key="ClearFilter">Clear Filters</System:String>
 
 </ResourceDictionary>

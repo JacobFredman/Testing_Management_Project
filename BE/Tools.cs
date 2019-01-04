@@ -9,7 +9,7 @@ namespace BE
     public class Tools
     {
         /// <summary>
-        ///     Check if Israely Id is valid
+        ///     Check if Israel Id is valid
         /// </summary>
         /// <param name="Id">Id</param>
         /// <returns>true if it is valid</returns>
@@ -45,7 +45,7 @@ namespace BE
         ///     returns the distance between to points from google maps
         /// </summary>
         /// <param name="origin">an addressLatLog</param>
-        /// <param name="destination">an addres</param>
+        /// <param name="destination">an address</param>
         /// <returns>the distance in meters</returns>
         public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
         {

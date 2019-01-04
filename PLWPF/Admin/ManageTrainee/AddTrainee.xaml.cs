@@ -7,13 +7,15 @@ using System.Windows.Controls;
 using BE;
 using BE.MainObjects;
 using BL;
+using MahApps.Metro.Controls;
+using PLWPF.Nofitications;
 
 namespace PLWPF.Admin.ManageTrainee
 {
     /// <summary>
     ///     Add or update trainee
     /// </summary>
-    public partial class AddTrainee : Window
+    public partial class AddTrainee : MetroWindow
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
 
@@ -53,14 +55,15 @@ namespace PLWPF.Admin.ManageTrainee
                     DataContext = trainee;
                     idTextBox.IsEnabled = false;
                     update = true;
-                    AddressTextBox.Address =( trainee.Address != null) ? trainee.Address : null;
+                    AddressTextBox.Address = trainee.Address != null ? trainee.Address : null;
                 }
                 catch
                 {
                     Close();
                 }
             }
-            BoxColumnGear.ItemsSource= Enum.GetValues(typeof(Gear));
+
+            BoxColumnGear.ItemsSource = Enum.GetValues(typeof(Gear));
 
             AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             //set combox source
@@ -102,7 +105,7 @@ namespace PLWPF.Admin.ManageTrainee
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
 
@@ -143,6 +146,21 @@ namespace PLWPF.Admin.ManageTrainee
                 AddressTextBox.Address = null;
             }
         }
+
+        /// <summary>
+        ///     When an error occured  in the data binding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added) errorMessage.Add(e.Error.Exception.Message);
+            else errorMessage.Remove(e.Error.Exception.Message);
+            ErrorMessage.Text = "";
+            foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
+        }
+
+        #region License
 
         /// <summary>
         ///     On add license click, add a new licnese
@@ -198,17 +216,6 @@ namespace PLWPF.Admin.ManageTrainee
             }
         }
 
-        /// <summary>
-        ///     When an error occured  in the data binding
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void validation_Error(object sender, ValidationErrorEventArgs e)
-        {
-            if (e.Action == ValidationErrorEventAction.Added) errorMessage.Add(e.Error.Exception.Message);
-            else errorMessage.Remove(e.Error.Exception.Message);
-            ErrorMessage.Text = "";
-            foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
-        }
+        #endregion
     }
 }

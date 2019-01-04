@@ -13,6 +13,10 @@ namespace BL
 {
     public static class Routes
     {
+        /// <summary>
+        ///     Open a link in new chrome window
+        /// </summary>
+        /// <param name="url"></param>
         public static void ShowUrlInChromeWindow(Uri url)
         {
             Process.Start("chrome.exe", "--app=" + url.AbsoluteUri);
@@ -28,7 +32,7 @@ namespace BL
             try
             {
                 //get locations around the address in the default radios
-                var arr = GetLocationsInRadios(GetLocationLatLog(new Address(address.ToString())))
+                var arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())))
                     .Distinct().ToArray();
                 //shrink the list 
                 arr = arr.Skip(1).Take(6).ToArray();
@@ -38,7 +42,7 @@ namespace BL
                 //if the route takes too much time then find a new route where the radios is 500m shorter 
                 if (duration > Configuration.MaxTestDurationSec && arr.Length > 4)
                 {
-                    arr = GetLocationsInRadios(GetLocationLatLog(new Address(address.ToString())),
+                    arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
                             (uint) (Configuration.MaxTestDurationSec - 500))
                         .Distinct().Skip(1).Take(6).ToArray();
                     duration = GetRouteDuration(arr);
@@ -47,7 +51,7 @@ namespace BL
                 //if the route is too short then find a route where the radios is 500m longer
                 if (duration < Configuration.MinTestDurationSec && arr.Length > 4)
                 {
-                    arr = GetLocationsInRadios(GetLocationLatLog(new Address(address.ToString())),
+                    arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
                             (uint) (Configuration.MinTestDurationSec + 500))
                         .Distinct().Skip(1).Take(7).ToArray();
                     duration = GetRouteDuration(arr);
@@ -59,7 +63,7 @@ namespace BL
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr));
 
-                test.AddressOfBeginningTest = new Address(arr[0].Name);
+                test.AddressOfBeginningTest = new Address(arr[0].AddressToHe());
             }
             catch (Exception ex)
             {
@@ -67,23 +71,29 @@ namespace BL
                 test.RouteUrl = null;
                 test.AddressOfBeginningTest = null;
                 //check that it throw an GoogleAddressException  
-                var gex = ex as GoogleAddressException;
-                if (gex == null)
+                if (!(ex is GoogleAddressException gex))
                     throw new GoogleAddressException(ex.Message, "CONNECTION_FAILURE");
                 throw new GoogleAddressException(ex.Message + gex.ErrorCode, "ADDRESS_FAILURE");
             }
         }
 
+        /// <summary>
+        ///     Get a list of address suggestions for an input from google maps
+        /// </summary>
+        /// <param name="input"> the string</param>
+        /// <param name="token">a token</param>
+        /// <returns></returns>
         public static List<string> GetAddressSuggestionsGoogle(string input, string token)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
-                      "&types=address&location=31.728220,34.983749&radius=300000&key=" + Configuration.Key + "&sessiontoken=" + token;
+                      "&types=address&components=country:il&language=iw&key=" + Configuration.Key + "&sessiontoken=" +
+                      token;
             try
             {
                 var xml = DownloadDataIntoXml(url);
                 return (from adr in xml.Elements()
                         where adr.Name == "prediction"
-                        select (string)adr.Element("description").Value
+                        select adr.Element("description").Value
                     ).ToList();
             }
             catch (Exception ex)
@@ -100,7 +110,7 @@ namespace BL
         /// <param name="locationLatLog">the location in lat,log for example 31.750068,34.9907657 </param>
         /// <param name="radios">the radios in meters</param>
         /// <returns>an arry of address with name and Id</returns>
-        private static GoogleAddress[] GetLocationsInRadios(string locationLatLog, uint radios = 2000)
+        private static GoogleAddress[] GetLocationsInRadius(string locationLatLog, uint radios = 2000)
         {
             //make the url
             var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/xml?key=" + Configuration.Key +
@@ -218,6 +228,15 @@ namespace BL
             }
 
             throw new GoogleAddressException("Google URL is not correct", "WRONG_URL");
+        }
+
+        private static string AddressToHe(this GoogleAddress address)
+        {
+            var url =
+                "https://maps.googleapis.com/maps/api/place/details/xml?placeid=" + address.Id + "&language=iw&key=" +
+                Configuration.Key;
+            var xml = DownloadDataIntoXml(url);
+            return xml.Element("result").Element("formatted_address").Value;
         }
 
         #endregion

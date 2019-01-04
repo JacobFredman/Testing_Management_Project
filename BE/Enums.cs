@@ -13,7 +13,12 @@
         /// <summary>
         ///     Female
         /// </summary>
-        Female
+        Female,
+
+        /// <summary>
+        ///     Other
+        /// </summary>
+        Other
     }
 
     /// <summary>
