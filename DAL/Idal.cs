@@ -24,5 +24,8 @@ namespace DAL
         void AddTrainee(Trainee newTrainee);
         void RemoveTrainee(Trainee traineeToDelete);
         void UpdateTrainee(Trainee updatedTrainee);
+
+        void SaveConfigurations();
+        void LoadConfigurations();
     }
 }

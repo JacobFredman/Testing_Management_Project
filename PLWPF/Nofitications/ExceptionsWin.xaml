@@ -17,7 +17,7 @@
 
         </Grid.RowDefinitions>
         <TextBlock TextWrapping="Wrap" Width="250" Grid.Row="0" x:Name="TextBlockMessage" Text="Message" Margin="20" />
-        <Expander x:Name="Expander" BorderBrush="White" Background="White" Grid.Row="1" Header="Details"
+        <Expander x:Name="Expander" BorderBrush="Transparent" Background="Transparent" Grid.Row="1" Header="Details" 
                   HorizontalAlignment="Stretch">
             <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Stretch">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Height="100"

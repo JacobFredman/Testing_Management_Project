@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using BE;
 using BE.MainObjects;
 using BL;
+using PLWPF.Nofitications;
 
 namespace PLWPF.TraineeArea
 {
@@ -103,7 +104,7 @@ namespace PLWPF.TraineeArea
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 

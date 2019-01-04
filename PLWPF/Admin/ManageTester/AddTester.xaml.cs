@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using BE;
 using BE.MainObjects;
 using BL;
@@ -112,7 +113,9 @@ namespace PLWPF.Admin.ManageTester
             }
             catch
             {
-                idTextBox.Text = "";
+                if(idTextBox.Text!="")
+                   idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length-1);
+                idTextBox.CaretIndex = idTextBox.Text.Length;
                 Save.IsEnabled = false;
             }
         }
@@ -251,5 +254,7 @@ namespace PLWPF.Admin.ManageTester
         }
 
         #endregion
+
+    
     }
 }

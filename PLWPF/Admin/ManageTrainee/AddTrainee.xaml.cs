@@ -42,7 +42,8 @@ namespace PLWPF.Admin.ManageTrainee
             if (id == 0)
             {
                 DataContext = trainee;
-                trainee.BirthDate = DateTime.Now.Date;
+                trainee.BirthDate = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge);
+                birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge);
                 Title = "Add New Trainee";
             }
             //initialize as update
@@ -50,6 +51,8 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 try
                 {
+                    birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int)Configuration.MinTraineeAge+1);
+
                     Title = "Update Trainee";
                     trainee = _blimp.AllTrainees.First(x => x.Id == id);
                     DataContext = trainee;
@@ -125,8 +128,9 @@ namespace PLWPF.Admin.ManageTrainee
             }
             catch
             {
-                idTextBox.Text = "";
-                Save.IsEnabled = false;
+                if (idTextBox.Text != "")
+                    idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length - 1);
+                idTextBox.CaretIndex = idTextBox.Text.Length; Save.IsEnabled = false;
             }
         }
 
