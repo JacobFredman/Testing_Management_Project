@@ -56,12 +56,12 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         -->       
-            <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <ComboBox x:Name="licenseTypeComBox" ItemsSource="{Binding}" Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="2"  VerticalAlignment="Center" SelectionChanged="LicenseTypeComBox_OnSelectionChanged"/>
+            <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <ComboBox x:Name="licenseTypeComBox" ItemsSource="{Binding}" Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="3"  VerticalAlignment="Center" SelectionChanged="LicenseTypeComBox_OnSelectionChanged"/>
 
 
-            <Label Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-            <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}"  Grid.Column="1"  HorizontalAlignment="Stretch" Height="30"  Grid.Row="3" VerticalAlignment="Center" Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged" >
+            <Label Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}"  Grid.Column="1"  HorizontalAlignment="Stretch" Height="30"  Grid.Row="4" VerticalAlignment="Center" Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -77,8 +77,8 @@
             <Label x:Name="WaitTraineeLabel" Content="Finding Tester..." Foreground="Red" Visibility="Hidden"></Label>
 
 
-            <Label Content="Test Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left">
+            <Label Content="Test Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left">
 
                 <DatePicker  x:Name="testTimeDatePicker" Height="30" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="4" SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" CalendarOpened="TestTimeDatePicker_OnCalendarOpened" >
                     <DatePicker.CalendarStyle>
@@ -103,9 +103,9 @@
                 </DatePicker>
                 <UserControls:TimePicker Height="30" Width="100" HorizontalAlignment="Left" x:Name="TimePickerTest" Margin="3" SelectionChanged="TimePicker_OnSelectionChanged"/>
             </StackPanel>
-            <Label Content="Address:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <Label Content="Address:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
 
-            <StackPanel  ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch"   Margin="3" Grid.Row="5" Grid.RowSpan="4" VerticalAlignment="Top" >
+            <StackPanel  ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch"   Margin="3" Grid.Row="2" Grid.RowSpan="4" VerticalAlignment="Top" >
                 <UserControls:AddressPicker x:Name="addressOfBeginningTestTextBox" HorizontalAlignment="Stretch" />
 
 

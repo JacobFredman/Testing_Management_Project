@@ -37,6 +37,7 @@ namespace PLWPF.TraineeArea
 
                 if (trainee != null)
                 {
+                    _test.TraineeId = trainee.Id;
                     TraineeTextBox.Text = trainee.ToString();
                     testerIdComboBox.IsEnabled = false;
                     licenseTypeComBox.IsEnabled = true;
