@@ -32,7 +32,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Label Content="Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0"
+                    <Label Content="Trainee Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0"
                            VerticalAlignment="Center" />
                     <TextBox x:Name="idTextBox" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Stretch"
                              Height="30" Margin="3" Grid.Row="0"
@@ -126,22 +126,9 @@
 
 
                     </StackPanel>
-                    <Label Content="Actual Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6"
-                           VerticalAlignment="Center" />
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
-                        <DatePicker Height="30" x:Name="actualTestTimeDatePicker" Grid.Column="1"
-                                    HorizontalAlignment="Left" Margin="3" Grid.Row="6"
-                                    SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                                    VerticalAlignment="Center" />
-                        <UserControls:TimePicker Height="30" x:Name="actualTimePickerTest" Margin="3" Width="100" />
 
                     </StackPanel>
-                    <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7"
-                           VerticalAlignment="Center" />
-                    <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center" Margin="3"
-                              Grid.Row="7"
-                              IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                              VerticalAlignment="Center" IsEnabled="False" />
 
                     <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70"
                                       Height="70" IsActive="False" />
@@ -178,20 +165,6 @@
                         <TextBox VerticalAlignment="Stretch" x:Name="TextBoxComment" MinHeight="50"
                                  Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
-                    </GroupBox>
-                    <GroupBox Background="{DynamicResource Background}" VerticalAlignment="Stretch" Margin="3"
-                              BorderBrush="Black" BorderThickness="1" Header="Criterion" Grid.Row="10" Grid.Column="0"
-                              Grid.ColumnSpan="2">
-
-                        <DataGrid MaxHeight="180" x:Name="CriterionsDataGrid"
-                                  ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                                  HorizontalAlignment="Stretch" MinHeight="150" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}"
-                                                    IsReadOnly="True" />
-                                <DataGridCheckBoxColumn Header="Passed" Binding="{Binding Pass}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
                     </GroupBox>
 
                 </StackPanel>
