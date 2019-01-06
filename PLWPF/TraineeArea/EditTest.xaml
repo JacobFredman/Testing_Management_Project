@@ -38,23 +38,7 @@
                              Height="30" Margin="3" Grid.Row="0"
                              VerticalAlignment="Center" />
 
-                    <Label Content="Trainee:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1"
-                           VerticalAlignment="Center" />
-                    <ComboBox x:Name="traineeIdComboBox" ItemsSource="{Binding}" Grid.Column="1"
-                              HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="1"
-                              VerticalAlignment="Center" SelectionChanged="TraineeIdComboBox_SelectionChanged">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="ID: " />
-                                    <Label Content="{Binding Id }" />
-                                    <Label Content="Name:" />
-                                    <Label Content="{Binding FirstName}" />
-                                    <Label Content="{Binding LastName}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                   
 
 
                     <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2"
