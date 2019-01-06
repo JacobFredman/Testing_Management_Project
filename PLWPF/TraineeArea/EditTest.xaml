@@ -36,7 +36,6 @@
                            VerticalAlignment="Center" />
                     <TextBox x:Name="idTextBox" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Stretch"
                              Height="30" Margin="3" Grid.Row="0"
-                             Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                              VerticalAlignment="Center" />
 
                     <Label Content="Trainee:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1"

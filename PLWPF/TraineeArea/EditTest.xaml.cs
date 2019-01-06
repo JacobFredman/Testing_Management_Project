@@ -25,7 +25,7 @@ namespace PLWPF.TraineeArea
         //the test 
         private readonly Test _test;
 
-        public EditTest(Trainee trainee = null)
+        public EditTest(Trainee trainee)
         {
             InitializeComponent();
 
@@ -59,8 +59,69 @@ namespace PLWPF.TraineeArea
 
                 //set title
                 Title = "Set New Test";
-            
-          
+
+
+
+
+
+
+
+
+
+
+                try
+                {
+                    //Clean License and Tester ComBox
+                    licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
+                    testerIdComboBox.SelectedValue = -1;
+                    licenseTypeComBox.SelectedValue = -1;
+
+                    if (!trainee.LicenseTypeLearning.Any(x => x.ReadyForTest))
+                        AddMessage("the trainee are not ready for test");
+
+                    licenseTypeComBox.ItemsSource = trainee.LicenseTypeLearning.Where(y => y.ReadyForTest)
+                        .Select(x => x.License).ToList();
+
+                licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
+                    testerIdComboBox.ItemsSource = null;
+                ////////////////////////////////////////////////////////////////
+                    ////Get All the Trainees that are ready for test
+                    _test.TraineeId = trainee.Id;
+                    addressOfBeginningTestTextBox.Address = trainee.Address;
+
+                    //enable the license and disable the other
+                    licenseTypeComBox.IsEnabled = true;
+                    testerIdComboBox.IsEditable = false;
+                    TimePickerTest.IsEnabled = false;
+                    testTimeDatePicker.IsEnabled = false;
+                    Save.IsEnabled = false;
+
+                    //set new Message
+                    ClearAllMessages();
+                    AddMessage("Please Select license.");
+
+                    //Focus on license
+                    licenseTypeComBox.Focus();
+                }
+                catch
+                {
+                    // ignored
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //set data context
             DataContext = _test;
 
