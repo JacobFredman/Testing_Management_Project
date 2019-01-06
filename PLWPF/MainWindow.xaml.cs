@@ -25,8 +25,8 @@ namespace PLWPF
         public MainWindow()
         {
             InitializeComponent();
+            var bl = BL.FactoryBl.GetObject;
 
-      
             //Add information to test the program
             AddInfo();
 
