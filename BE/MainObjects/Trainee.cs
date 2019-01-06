@@ -21,7 +21,7 @@ namespace BE.MainObjects
             firstName, gender)
         {
             LicenseTypeLearning = new List<LessonsAndType>();
-            GearType = Gear.Automatic;
+  //          GearType = Gear.Automatic;
             SchoolName = "";
         }
 
@@ -57,7 +57,7 @@ namespace BE.MainObjects
             : base(Id, firstName, lastName, gender, emailAddress, birthDate, phoneNumber, address, licenseTypes)
         {
             LicenseTypeLearning = licenseTypesLearning;
-            GearType = gearType;
+   //         GearType = gearType;
             SchoolName = schoolName;
             TeacherName = teacherName;
         }
@@ -70,7 +70,7 @@ namespace BE.MainObjects
         /// <summary>
         ///     gear type
         /// </summary>
-        public Gear GearType { set; get; }
+   //     public Gear GearType { set; get; }
 
         /// <summary>
         ///     School name
@@ -90,8 +90,10 @@ namespace BE.MainObjects
                     newLicense.Add(item);
             else newLicense = null;
             var newLicenseTypeLearning = new List<LessonsAndType>();
-            foreach (var item in LicenseTypeLearning)
-                newLicenseTypeLearning.Add(item.Clone() as LessonsAndType);
+            if (LicenseTypeLearning != null)
+                foreach (var item in LicenseTypeLearning)
+                    newLicenseTypeLearning.Add(item.Clone() as LessonsAndType);
+            else newLicenseTypeLearning = null;
             var trainee = new Trainee
             {
                 FirstName = FirstName,
@@ -100,7 +102,7 @@ namespace BE.MainObjects
                 BirthDate = BirthDate,
                 LicenseType = newLicense,
                 LicenseTypeLearning = newLicenseTypeLearning,
-                GearType = GearType,
+  //              GearType = GearType,
                 SchoolName = SchoolName,
                 TeacherName = TeacherName
             };

@@ -36,8 +36,13 @@ namespace PLWPF.Admin
             CriterionsListBox.DataContext = _criteria;
 
             //Set theme ComBox
-            Theme.ItemsSource = new List<string> {"Orange", "Green", "Gray", "Light Blue", "Blue"};
-            Theme.SelectedItem = "Light Blue";
+            Color.ItemsSource = new List<string> { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+            Color.SelectedItem = Configuration.Color;
+
+            if (Configuration.Theme == "Light")
+                LightTheme.IsChecked = true;
+            else
+                DarkTheme.IsChecked = true;
         }
 
         //On Add new criterion click
@@ -75,7 +80,7 @@ namespace PLWPF.Admin
                 //if the password are different
                 if (PasswordBox.Password != RePasswordBox.Password)
                 {
-                    MessageBox.Show("Password Are not Matching");
+                    ExceptionMessage.Show("Password Are not Matching");
                     PasswordBox.Password = "";
                     RePasswordBox.Password = "";
                     return;
@@ -84,11 +89,27 @@ namespace PLWPF.Admin
                 //if there is a password but not a user name
                 if (PasswordBox.Password != "" && UserNameBox.Text == "")
                 {
-                    MessageBox.Show("Username Can't Be Empty");
+                    ExceptionMessage.Show("Username Can't Be Empty");
                     PasswordBox.Password = "";
                     RePasswordBox.Password = "";
                     return;
                 }
+
+                if (LightTheme.IsChecked == true)
+                {
+                    App.SetTheme(Color.SelectedItem.ToString(), "Light", Configuration.Color,
+                        Configuration.Theme, false);
+                    Configuration.Theme = "Light";
+                }
+                else
+                {
+                    App.SetTheme(Color.SelectedItem.ToString(), "Dark", Configuration.Color,
+                        Configuration.Theme, false);
+                    Configuration.Theme = "Dark";
+                }
+
+                Configuration.Color = Color.SelectedItem.ToString();
+
 
                 //if there is a user name and password
                 if (UserNameBox.Text != "")
@@ -113,6 +134,8 @@ namespace PLWPF.Admin
                 Configuration.MinTraineeAge = (uint) MinTraineeAgeBox.Value;
                 Configuration.MinimumCriteria = (uint) MinimumCriterionsBox.Value;
                 Configuration.PercentOfCriteriaToPassTest = (uint) PercentOfCritirionsToPassTestBox.Value;
+
+                BL.FactoryBl.GetObject.SaveSettings();
                 Close();
             }
             catch (Exception ex)
@@ -122,27 +145,7 @@ namespace PLWPF.Admin
         }
 
 
-        //Change theme
-        private void Theme_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (Theme.SelectedItem.ToString())
-            {
-                case "Orange":
-                    Application.Current.Resources["Background"] = Brushes.SandyBrown;
-                    break;
-                case "Green":
-                    Application.Current.Resources["Background"] = Brushes.LightGreen;
-                    break;
-                case "Gray":
-                    Application.Current.Resources["Background"] = Brushes.LightGray;
-                    break;
-                case "Light Blue":
-                    Application.Current.Resources["Background"] = Brushes.Aquamarine;
-                    break;
-                case "Blue":
-                    Application.Current.Resources["Background"] = Application.Current.Resources["AccentBaseColorBrush"];
-                    break;
-            }
-        }
+    
+        
     }
 }
