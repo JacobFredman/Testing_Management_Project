@@ -32,6 +32,7 @@ namespace PLWPF.TraineeArea
             //If the window adds a new test
            
                 _test = new Test();
+                _test.TraineeId = trainee.Id;
 
                 //disable the relevant controls
                 idTextBox.IsEnabled = false;
