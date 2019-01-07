@@ -33,6 +33,7 @@ namespace PLWPF.TraineeArea
                 errorMessage.Add("you are not ready for test");
             }
                 _test = new Test();
+                _test.TraineeId = trainee.Id;
 
 
                 if (trainee != null)
