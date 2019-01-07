@@ -65,7 +65,7 @@
                       SelectedItem="{Binding Gender}" Height="Auto" HorizontalAlignment="Left" Grid.Column="1" />
             <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Id:" />
-            <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center"
+            <TextBox  x:Name="idTextBox" Width="120" VerticalAlignment="Center"
                      Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
                      TextChanged="IdTextBox_TextChanged" />

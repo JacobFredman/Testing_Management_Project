@@ -148,6 +148,7 @@ namespace PLWPF.UserControls
             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
             GenerateNewToken();
+            TextChanged?.Invoke(this, e);
         }
 
         //generate token for a new session

@@ -94,7 +94,7 @@
                                     SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                     VerticalAlignment="Center" CalendarOpened="TestTimeDatePicker_OnCalendarOpened">
                             <DatePicker.CalendarStyle>
-                                <Style TargetType="{x:Type Calendar}">
+                                <Style TargetType="{x:Type Calendar}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCalendar}">
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Calendar}">
@@ -102,8 +102,8 @@
                                                 <Viewbox Height="300"
                                                          Width="300">
                                                     <CalendarItem x:Name="PART_CalendarItem"
-                                                                  Background="{StaticResource  ControlBackgroundBrush }"
-                                                                  BorderBrush="{StaticResource ControlBorderBrush  }"
+                                                                  Background="{DynamicResource  ControlBackgroundBrush }"
+                                                                  BorderBrush="{DynamicResource ControlBorderBrush  }"
                                                                   BorderThickness="1" />
                                                 </Viewbox>
                                             </ControlTemplate>
