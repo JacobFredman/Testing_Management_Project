@@ -61,5 +61,7 @@ namespace BL
         IEnumerable<Trainee> SearchTrainee(string key);
         IEnumerable<Tester> SearchTester(string key);
         IEnumerable<Test> SearchTest(string key);
+
+        void SaveSettings();
     }
 }

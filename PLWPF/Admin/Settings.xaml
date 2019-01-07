@@ -7,7 +7,7 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
                  Title="Settings" SizeToContent="WidthAndHeight">
-    <StackPanel Background="LightGray" Orientation="Horizontal">
+    <StackPanel  Orientation="Horizontal">
 
         <!-- The parameters-->
         <GroupBox Background="{DynamicResource Background}" Header="Parameters" Margin="3">
@@ -52,8 +52,17 @@
                                        x:Name="PercentOfCritirionsToPassTestBox" Margin="3" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="6">
-                    <Label Content="Change Theme:" Margin="3" />
-                    <ComboBox x:Name="Theme" MinWidth="120" Margin="4" SelectionChanged="Theme_OnSelectionChanged" />
+                    <Label Content="Change Color:  " Margin="3" />
+                    <ComboBox x:Name="Color" MinWidth="120" Margin="4"  />
+
+                </StackPanel>
+                <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="7">
+                    <!--<Label Content="Change Theme:" Margin="3" />
+                    <ComboBox x:Name="Theme" MinWidth="120" Margin="4"  />-->
+                    <RadioButton x:Name="LightTheme" ></RadioButton>
+                    <Label Content="Light Theme" Margin="0,0,20,0"></Label>
+                    <RadioButton x:Name="DarkTheme"></RadioButton>
+                    <Label Content="Dark Theme"></Label>
 
                 </StackPanel>
             </Grid>
@@ -101,7 +110,7 @@
                         <Button Style="{DynamicResource SquareButtonStyle}" x:Name="RemoveSelected"
                                 Content="Remove Selected" Margin="3" Click="RemoveSelected_Click" />
                     </StackPanel>
-                    <ListBox x:Name="CriterionsListBox" Height="100" ItemsSource="{Binding}" SelectionMode="Single" />
+                    <ListBox x:Name="CriterionsListBox" VerticalAlignment="Stretch" MaxHeight="150" ItemsSource="{Binding}" SelectionMode="Single" />
 
                 </StackPanel>
             </GroupBox>

@@ -8,6 +8,10 @@ namespace BE
     /// </summary>
     public class Configuration
     {
+        public static string Theme = "Light";
+        public static string Color = "Blue";
+
+
         /// <summary>
         ///     Id for tests
         /// </summary>
@@ -118,5 +122,9 @@ namespace BE
             var fileName = Path.Combine(path, "license.pdf");
             return fileName;
         }
+
+        public static string SaveTraineesXmlPath = @"Data\Trainees.xml";
+        public static string SaveConfigXmlPath = @"Data\Config.xml";
     }
+
 }

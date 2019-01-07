@@ -84,7 +84,7 @@ namespace BL
                 workSheet.Cells[row, "H"] = trainee.TeacherName ?? "";
                 workSheet.Cells[row, "I"] = trainee.SchoolName;
                 workSheet.Cells[row, "J"] = licenseType;
-                workSheet.Cells[row, "K"] = trainee.GearType.ToString();
+   //             workSheet.Cells[row, "K"] = trainee.GearType.ToString();
                 workSheet.Cells[row, "L"] = trainee.BirthDate != null ? trainee.BirthDate.ToString("d") : "";
             }
 

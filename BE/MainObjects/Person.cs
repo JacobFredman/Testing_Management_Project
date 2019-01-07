@@ -92,9 +92,17 @@ namespace BE.MainObjects
             get => _emailAddress;
             set
             {
-                if (new EmailAddressAttribute().IsValid(value))
-                    _emailAddress = value;
-                else throw new Exception("email address isn't valid");
+                if (value != "")
+                {
+                    if (new EmailAddressAttribute().IsValid(value))
+                        _emailAddress = value;
+                    else throw new Exception("email address isn't valid");
+                }
+
+                else
+                {
+                    _emailAddress = "";
+                }
             }
         }
 
@@ -126,14 +134,21 @@ namespace BE.MainObjects
             get => _phoneNumber;
             set
             {
-                if (value[0] != '0')
-                    throw new Exception("Invalid phone number");
-                if ((value[1] == '5' || value[1] == '7') && value.Length == 10)
-                    _phoneNumber = value;
-                else if (value[1] != '5' && value[1] != '7' && value.Length == 9)
-                    _phoneNumber = value;
+                if (value != "")
+                {
+                    if (value[0] != '0')
+                        throw new Exception("Invalid phone number");
+                    if (value[1] == '5' && value.Length == 10)
+                        _phoneNumber = value;
+                    else if (value[1] != '5' && value.Length == 9)
+                        _phoneNumber = value;
+                    else
+                        throw new Exception("Invalid phone number");
+                }
                 else
-                    throw new Exception("Invalid phone number");
+                {
+                    _phoneNumber = "";
+                }
             }
         }
 

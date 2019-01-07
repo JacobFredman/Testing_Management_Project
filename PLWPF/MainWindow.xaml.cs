@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using BE;
 using BE.MainObjects;
@@ -24,7 +25,7 @@ namespace PLWPF
         public MainWindow()
         {
             InitializeComponent();
-
+            var bl = BL.FactoryBl.GetObject;
 
             //Add information to test the program
             AddInfo();
@@ -36,9 +37,11 @@ namespace PLWPF
                 AdminPasswordTextBox.Password = Configuration.AdminPassword;
             }
 
+            AdminUsernameTextBox.Focus();
             Configuration.FirstOpenProgram = false;
         }
 
+      
 
         /// <summary>
         ///     for debugging only !!!!!!!!!!!!!!!!!!!!!!
@@ -47,38 +50,39 @@ namespace PLWPF
         {
             try
             {
-                var test = new LessonsAndType {License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true};
-                var list = new List<LessonsAndType> {test};
-                _blimp.AddTrainee(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
-                {
-                    BirthDate = new DateTime(1995, 1, 1), LicenseTypeLearning = list,
-                    Address = new Address("הועד הלאומי 14, ירושלים, ישראל"),
-                    EmailAddress = "elisja.sc@gmail.com"
-                });
-                _blimp.AddTrainee(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
-                    {BirthDate = new DateTime(1985, 1, 12)});
-                _blimp.AddTrainee(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
-                    {BirthDate = new DateTime(1987, 1, 1)});
-                _blimp.AddTrainee(new Trainee(314661133, Gender.Male, "Bob", "Ray")
-                    {BirthDate = new DateTime(1980, 1, 1)});
-                _blimp.AddTrainee(new Trainee(324126747, Gender.Male, "Avi", "Alon")
-                    {BirthDate = new DateTime(1970, 1, 1)});
-                _blimp.AddTrainee(new Trainee(326591088, Gender.Female, "Avia", "Abu")
-                    {BirthDate = new DateTime(1999, 1, 1)});
-                _blimp.AddTrainee(new Trainee(342533643, Gender.Male, "Gil", "Rami")
-                    {BirthDate = new DateTime(2000, 1, 1)});
-                _blimp.AddTrainee(new Trainee(339794166, Gender.Male, "David", "Aboulafia")
-                    {BirthDate = new DateTime(2000, 1, 1)});
-                _blimp.AddTrainee(new Trainee(336390885, Gender.Male, "Shlomo", "Simchon")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(332484609, Gender.Female, "Gavriela", "Abuxsis")
-                    {BirthDate = new DateTime(1991, 1, 1)});
-                _blimp.AddTrainee(new Trainee(332307065, Gender.Female, "Yafa", "Alaluf")
-                    {BirthDate = new DateTime(1999, 1, 1)});
-                _blimp.AddTrainee(new Trainee(332270446, Gender.Male, "Dudu", "Tapiro")
-                    {BirthDate = new DateTime(2000, 1, 1)});
-                _blimp.AddTrainee(new Trainee(329043459, Gender.Male, "Pinchas", "Moshe")
-                    {BirthDate = new DateTime(1988, 1, 1)});
+                //var test = new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true };
+                //var list = new List<LessonsAndType> { test };
+                //_blimp.AddTrainee(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
+                //{
+                //    BirthDate = new DateTime(1995, 1, 1),
+                //    LicenseTypeLearning = list,
+                //    Address = new Address("הועד הלאומי 14, ירושלים, ישראל"),
+                //    EmailAddress = "elisja.sc@gmail.com"
+                //});
+                //_blimp.AddTrainee(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
+                //{ BirthDate = new DateTime(1985, 1, 12) });
+                //_blimp.AddTrainee(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
+                //{ BirthDate = new DateTime(1987, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(314661133, Gender.Male, "Bob", "Ray")
+                //{ BirthDate = new DateTime(1980, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(324126747, Gender.Male, "Avi", "Alon")
+                //{ BirthDate = new DateTime(1970, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(326591088, Gender.Female, "Avia", "Abu")
+                //{ BirthDate = new DateTime(1999, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(342533643, Gender.Male, "Gil", "Rami")
+                //{ BirthDate = new DateTime(2000, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(339794166, Gender.Male, "David", "Aboulafia")
+                //{ BirthDate = new DateTime(2000, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(336390885, Gender.Male, "Shlomo", "Simchon")
+                //{ BirthDate = new DateTime(1991, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(332484609, Gender.Female, "Gavriela", "Abuxsis")
+                //{ BirthDate = new DateTime(1991, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(332307065, Gender.Female, "Yafa", "Alaluf")
+                //{ BirthDate = new DateTime(1999, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(332270446, Gender.Male, "Dudu", "Tapiro")
+                //{ BirthDate = new DateTime(2000, 1, 1) });
+                //_blimp.AddTrainee(new Trainee(329043459, Gender.Male, "Pinchas", "Moshe")
+                //{ BirthDate = new DateTime(1988, 1, 1) });
 
                 var sch = new WeekSchedule();
                 sch.AddHoursAllDays(12, 15);
@@ -131,7 +135,7 @@ namespace PLWPF
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionMessage.Show(ex.Message,ex.ToString());
             }
         }
 
@@ -147,7 +151,7 @@ namespace PLWPF
                 if (Tools.CheckID_IL(uint.Parse(TesterIDTestBox.Text)))
                 {
                     TesterLoginButton.IsEnabled = true;
-                    TesterIDTestBox.BorderBrush = Brushes.Black;
+                    TesterIDTestBox.BorderBrush = Brushes.LightGray;
                 }
                 else
                 {
@@ -173,7 +177,7 @@ namespace PLWPF
                 if (Tools.CheckID_IL(uint.Parse(TraineeIDTestBox.Text)))
                 {
                     TraineeLoginButton.IsEnabled = true;
-                    TraineeIDTestBox.BorderBrush = Brushes.Black;
+                    TraineeIDTestBox.BorderBrush = Brushes.LightGray;
                 }
                 else
                 {
@@ -192,7 +196,7 @@ namespace PLWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TraineeLoginButton_Click(object sender, RoutedEventArgs e)
+        private void TraineeLoginButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -200,10 +204,14 @@ namespace PLWPF
                 var win = new TraineeWin(int.Parse(TraineeIDTestBox.Text));
                 win.ShowDialog();
                 Show();
+                TraineeIDTestBox.Text = "";
+                TraineeIDTestBox.BorderBrush = Brushes.LightGray;
+                TraineeIDTestBox.Focus();
             }
             catch
             {
                 ExceptionMessage.Show("Trainee doesn't exist please contact the administrator.");
+                Show();
             }
         }
 
@@ -212,7 +220,7 @@ namespace PLWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TesterLoginButton_Click(object sender, RoutedEventArgs e)
+        private void TesterLoginButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -220,10 +228,14 @@ namespace PLWPF
                 var win = new TesterWin(int.Parse(TesterIDTestBox.Text));
                 win.ShowDialog();
                 Show();
+                TesterIDTestBox.Text = "";
+                TesterIDTestBox.BorderBrush = Brushes.LightGray;
+                TesterIDTestBox.Focus();
             }
             catch
             {
                 ExceptionMessage.Show("Tester doesn't exist please contact the administrator.");
+                Show();
             }
         }
 
@@ -232,13 +244,14 @@ namespace PLWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AdminLoginButton_Click(object sender, RoutedEventArgs e)
+        private void AdminLoginButton_Click(object sender, EventArgs e)
         {
             if (AdminUsernameTextBox.Text == Configuration.AdminUser &&
                 AdminPasswordTextBox.Password == Configuration.AdminPassword)
             {
                 AdminUsernameTextBox.Text = "";
                 AdminPasswordTextBox.Password = "";
+                AdminUsernameTextBox.Focus();
                 Hide();
                 var win = new Administrator();
                 win.ShowDialog();
@@ -249,5 +262,43 @@ namespace PLWPF
                 ExceptionMessage.Show("Wrong Password or UserName.");
             }
         }
+
+        //Login on Key enter pressed
+        private void TabItem_KeyDown_Admin(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (AdminLoginButton.IsEnabled)
+                {
+                    AdminLoginButton_Click(this,new EventArgs());
+                }
+            }
+        }
+
+        //Login on Key enter pressed
+        private void TabItem_KeyDown_Tester(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (TesterLoginButton.IsEnabled)
+                {
+                    TesterLoginButton_Click(this, new EventArgs());
+                }
+            }
+        }
+
+        //Login on Key enter pressed
+        private void TabItem_KeyDown_Trainee(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (TraineeLoginButton.IsEnabled)
+                {
+                    TraineeLoginButton_Click(this, new EventArgs());
+
+                }
+            }
+        }
     }
+    
 }
