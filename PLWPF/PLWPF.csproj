@@ -118,6 +118,9 @@
     <Compile Include="Terter\UpdateTest.xaml.cs">
       <DependentUpon>UpdateTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TraineeArea\EditTest.xaml.cs">
+      <DependentUpon>EditTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TraineeArea\TraineeWin.xaml.cs">
       <DependentUpon>TraineeWin.xaml</DependentUpon>
     </Compile>
@@ -186,6 +189,10 @@
     <Page Include="Terter\UpdateTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TraineeArea\EditTest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TraineeArea\TraineeWin.xaml">
       <SubType>Designer</SubType>

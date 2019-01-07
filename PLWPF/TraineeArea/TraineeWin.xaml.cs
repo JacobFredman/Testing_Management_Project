@@ -1,15 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using BE.MainObjects;
 using BL;
-using PLWPF;
+using MahApps.Metro.Controls;
+using PLWPF.TraineeArea;
 
 namespace PLWPF
 {
     /// <summary>
     ///     Interaction logic for TraineeWin.xaml --it is still emty--
     /// </summary>
-    public partial class TraineeWin : Window
+    public partial class TraineeWin : MetroWindow
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
         private readonly Trainee _trainee;
@@ -20,7 +23,8 @@ namespace PLWPF
             try
             {
                 _trainee = _blimp.AllTrainees.First(x => x.Id == id);
-                _textbox.Text = _trainee.ToString();
+                TextBoxHi.Content = "Welcome " +_trainee.FirstName+" "+_trainee.LastName;
+                Refresh();
             }
             catch
             {
@@ -28,11 +32,28 @@ namespace PLWPF
             }
         }
 
+        //refresh grid content
+        private void Refresh()
+        {
+            TestToDoGrid.DataContext =
+                FactoryBl.GetObject.AllTests.Where(x => x.TraineeId == _trainee.Id && x.TestTime >= DateTime.Now);
+            TestToUpdateGrid.DataContext =
+                FactoryBl.GetObject.AllTests.Where(x => x.TraineeId == _trainee.Id && x.TestTime <= DateTime.Now);
+
+        }
+
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-          //  var win2 = new SetTest();
-         //   win2.Show();
-            // this.Close();
+            EditTest editTest = new EditTest(_trainee); 
+            editTest.ShowDialog();
+            Refresh();
+        }
+
+  
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh();
         }
     }
 }

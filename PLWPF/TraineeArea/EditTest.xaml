@@ -1,0 +1,163 @@
+﻿<mah:MetroWindow xmlns:UserControls="clr-namespace:PLWPF.UserControls"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:PLWPF.TraineeArea"
+                 xmlns:MainObjects="clr-namespace:BE.MainObjects;assembly=BE"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 x:Class="PLWPF.TraineeArea.EditTest"
+                 mc:Ignorable="d"
+                 Validation.Error="EditTest_OnError"
+                 Title="EditTest" SizeToContent="WidthAndHeight">
+
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Left">
+            <!-- Details -->
+            <GroupBox Header="Details" Margin="3" Background="{DynamicResource Background}">
+                <Grid x:Name="grid1" Margin="20" DockPanel.Dock="Left" Panel.ZIndex="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MaxWidth="300" MinWidth="250" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Trainee Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0"
+                           VerticalAlignment="Center" />
+                    <TextBox x:Name="idTextBox" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Stretch"
+                             Height="30" Margin="3" Grid.Row="0"
+                             VerticalAlignment="Center" />
+
+
+                    <Label Content="Address:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1"
+                           VerticalAlignment="Center" />
+
+                    <StackPanel ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3" Grid.Row="1"
+                                Grid.RowSpan="4" VerticalAlignment="Top">
+                        <UserControls:AddressPicker x:Name="addressOfBeginningTestTextBox"
+                                                    HorizontalAlignment="Stretch" />
+
+
+                    </StackPanel>
+
+                    <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2"
+                           VerticalAlignment="Center" />
+                    <ComboBox x:Name="licenseTypeComBox" ItemsSource="{Binding}" Grid.Column="1"
+                              HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="2"
+                              VerticalAlignment="Center" SelectionChanged="LicenseTypeComBox_OnSelectionChanged" />
+
+
+                    <Label Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3"
+                           VerticalAlignment="Center" />
+                    <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}" Grid.Column="1"
+                              HorizontalAlignment="Stretch" Height="30" Grid.Row="3" VerticalAlignment="Center"
+                              Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="ID: " />
+                                    <Label Content="{Binding Id }" />
+                                    <Label Content="Name:" />
+                                    <Label Content="{Binding FirstName}" />
+                                    <Label Content="{Binding LastName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Label x:Name="WaitTraineeLabel" Content="Finding Tester..." Foreground="Red" Visibility="Hidden" />
+
+
+                    <Label Content="Test Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4"
+                           VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left">
+
+                        <DatePicker x:Name="testTimeDatePicker" Height="30" Grid.Column="1" HorizontalAlignment="Left"
+                                    Margin="3" Grid.Row="4"
+                                    SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                                    VerticalAlignment="Center" CalendarOpened="TestTimeDatePicker_OnCalendarOpened">
+                            <DatePicker.CalendarStyle>
+                                <Style TargetType="{x:Type Calendar}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCalendar}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Calendar}">
+                                                <!-- Wrapping in ViewBox will enlarge calendar of that size.-->
+                                                <Viewbox Height="300"
+                                                         Width="300">
+                                                    <CalendarItem x:Name="PART_CalendarItem"
+                                                                  Background="{DynamicResource  ControlBackgroundBrush }"
+                                                                  BorderBrush="{DynamicResource ControlBorderBrush  }"
+                                                                  BorderThickness="1" />
+                                                </Viewbox>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.CalendarStyle>
+                        </DatePicker>
+                        <UserControls:TimePicker Height="30" Width="100" HorizontalAlignment="Left"
+                                                 x:Name="TimePickerTest" Margin="3"
+                                                 SelectionChanged="TimePicker_OnSelectionChanged" />
+                    </StackPanel>
+             
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
+
+                    </StackPanel>
+
+                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="2" Grid.RowSpan="3" Grid.Column="1" Width="70"
+                                      Height="70" IsActive="False" />
+
+
+                </Grid>
+            </GroupBox>
+
+            <!-- Route Box -->
+            <GroupBox Margin="3" Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2"
+                      Grid.Row="8">
+                <StackPanel MinHeight="60" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="ShowRouteUrlButton"
+                            Content="Show Test Route" HorizontalAlignment="Stretch" Margin="10,3,10,3"
+                            Click="ShowRouteUrlButton_Click" />
+                    <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route"
+                            Margin="10,3,10,3" Click="SetRouteButton_Click" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <!-- Save Button -->
+        <Button Style="{DynamicResource SquareButtonStyle}" x:Name="Save" Width="100" Content="Save"
+                HorizontalAlignment="Center" Margin="10" FontSize="16" Padding="10" DockPanel.Dock="Bottom"
+                Click="Save_Click" />
+        <StackPanel VerticalAlignment="Stretch">
+
+            <!-- Test update window -->
+            <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3"
+                      Header="Test Results" VerticalAlignment="Stretch">
+                <StackPanel VerticalAlignment="Stretch">
+                    <GroupBox Background="{DynamicResource Background}" VerticalAlignment="Stretch" Header="Comment"
+                              Margin="3">
+                        <TextBox VerticalAlignment="Stretch" x:Name="TextBoxComment" MinHeight="50"
+                                 Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                    </GroupBox>
+
+                </StackPanel>
+            </GroupBox>
+            <!-- Notifications -->
+            <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3">
+                <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red" />
+            </GroupBox>
+        </StackPanel>
+    </DockPanel>
+
+
+</mah:MetroWindow>
