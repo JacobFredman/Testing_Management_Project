@@ -45,7 +45,7 @@ namespace PLWPF.TraineeArea
 
                 //set the source of the trainees
                 if (trainee != null)
-                    idTextBox.Text = "id: " + trainee.Id + "name: " + trainee.FirstName + trainee.LastName;
+                    idTextBox.Text = "Id: " + trainee.Id + " Name: " + trainee.FirstName+" " + trainee.LastName;
                 //traineeIdComboBox.ItemsSource = FactoryBl.GetObject.AllTrainees
                  //   .Where(x => x.LicenseTypeLearning.Any(y => y.ReadyForTest)).ToList();
 

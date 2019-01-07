@@ -113,7 +113,7 @@
 
                     </StackPanel>
 
-                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70"
+                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="2" Grid.RowSpan="3" Grid.Column="1" Width="70"
                                       Height="70" IsActive="False" />
 
 
