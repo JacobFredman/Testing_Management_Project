@@ -37,7 +37,7 @@ namespace PLWPF.TraineeArea
                 idTextBox.IsEnabled = false;
                 //actualTestTimeDatePicker.IsEnabled = false;
                 //actualTimePickerTest.IsEnabled = false;
-                TestResolutsGroupBox.IsEnabled = false;
+                //TestResolutsGroupBox.IsEnabled = false;
                 testerIdComboBox.IsEnabled = false;
                 licenseTypeComBox.IsEnabled = false;
                 testTimeDatePicker.IsEnabled = false;

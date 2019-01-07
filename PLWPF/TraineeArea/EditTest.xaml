@@ -139,7 +139,7 @@
                 Click="Save_Click" />
         <StackPanel VerticalAlignment="Stretch">
 
-            <!-- Test update window -->
+            <!-- Test update window --><!--
             <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3"
                       Header="Test Results" VerticalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Stretch">
@@ -151,7 +151,7 @@
                     </GroupBox>
 
                 </StackPanel>
-            </GroupBox>
+            </GroupBox>-->
             <!-- Notifications -->
             <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3">
                 <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red" />
