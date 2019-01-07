@@ -115,12 +115,12 @@
                 <DatePicker Height="30" x:Name="actualTestTimeDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="6" SelectedDate="{Binding ActualTestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
                 <UserControls:TimePicker Height="30"  x:Name="actualTimePickerTest" Margin="3" Width="100" />
 
-            </StackPanel> -->
-          <!--  <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
-            <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center"  Margin="3" Grid.Row="7" IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" IsEnabled="False" />
+            </StackPanel> --><!--
+            <Label Content="Passed:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <CheckBox x:Name="passedTextBox" Grid.Column="1" HorizontalAlignment="Center"  Margin="3" Grid.Row="7" IsChecked="{Binding Passed, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" IsEnabled="False" />-->
 
-                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70" Height="70" IsActive="False" />
-        -->
+                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1" Width="70" Height="70" IsActive="False" />
+        
 
         </Grid>
 </GroupBox>

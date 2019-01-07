@@ -159,7 +159,14 @@ namespace PLWPF.TraineeArea
                 licenseTypeComBox.IsEnabled = false;
                 //traineeIdComboBox.IsEnabled = false;
                 addressOfBeginningTestTextBox.IsEnabled = false;
-                //ProgressRing.IsActive = true;
+                ProgressRing.IsActive = true;
+
+
+                try
+                {
+                    testerIdComboBox.SelectedIndex = -1;
+                }
+                catch { }
 
                 //Get the data
                 var address = addressOfBeginningTestTextBox.Address;
@@ -169,9 +176,11 @@ namespace PLWPF.TraineeArea
                 //find all available testers
                 new Thread(() =>
                 {
+                    IEnumerable<Tester> testers = new List<Tester>();
+
                     try
                     {
-                        var testers = FactoryBl.GetObject
+                         testers = FactoryBl.GetObject
                             .GetTestersByDistance(address, license
                             ).Where(x =>
                                 x.LicenseTypeTeaching.Any(y => y == license)).ToList();
@@ -198,7 +207,12 @@ namespace PLWPF.TraineeArea
                         testTimeDatePicker.IsEnabled = false;
                         Save.IsEnabled = false;
 
-                            //ProgressRing.IsActive = false;
+                        if (!testers.Any())
+                        {
+                            testerIdComboBox.IsEnabled = false;
+                        }
+
+                        ProgressRing.IsActive = false;
 
                         //focus oon testers
                         testerIdComboBox.Focus();
