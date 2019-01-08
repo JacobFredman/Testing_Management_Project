@@ -27,7 +27,7 @@ namespace DAL
     /// <summary>
     ///     DAL implantation
     /// </summary>
-    public class DalImp : IDal
+    public partial class DalImp : IDal
     {
         private XElement _traineesXml;
         private List<Trainee> _trainees=new List<Trainee>();

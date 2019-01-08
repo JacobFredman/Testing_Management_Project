@@ -125,6 +125,10 @@ namespace BE
 
         public static string SaveTraineesXmlPath = @"Data\Trainees.xml";
         public static string SaveConfigXmlPath = @"Data\Config.xml";
+
+        public static string SaveTestsXmlPath = @"Data\Tests.xml";
+        public static string SaveTestersXmlPath = @"Data\Testers.xml";
+
     }
 
 }
