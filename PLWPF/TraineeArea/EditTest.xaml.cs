@@ -32,12 +32,13 @@ namespace PLWPF.TraineeArea
             //If the window adds a new test
            
                 _test = new Test();
+                _test.TraineeId = trainee.Id;
 
                 //disable the relevant controls
                 idTextBox.IsEnabled = false;
                 //actualTestTimeDatePicker.IsEnabled = false;
                 //actualTimePickerTest.IsEnabled = false;
-                TestResolutsGroupBox.IsEnabled = false;
+                //TestResolutsGroupBox.IsEnabled = false;
                 testerIdComboBox.IsEnabled = false;
                 licenseTypeComBox.IsEnabled = false;
                 testTimeDatePicker.IsEnabled = false;
@@ -45,7 +46,7 @@ namespace PLWPF.TraineeArea
 
                 //set the source of the trainees
                 if (trainee != null)
-                    idTextBox.Text = "id: " + trainee.Id + "name: " + trainee.FirstName + trainee.LastName;
+                    idTextBox.Text = "Id: " + trainee.Id + " Name: " + trainee.FirstName+" " + trainee.LastName;
                 //traineeIdComboBox.ItemsSource = FactoryBl.GetObject.AllTrainees
                  //   .Where(x => x.LicenseTypeLearning.Any(y => y.ReadyForTest)).ToList();
 
@@ -207,6 +208,13 @@ namespace PLWPF.TraineeArea
                 addressOfBeginningTestTextBox.IsEnabled = false;
                 ProgressRing.IsActive = true;
 
+
+                try
+                {
+                    testerIdComboBox.SelectedIndex = -1;
+                }
+                catch { }
+
                 //Get the data
                 var address = addressOfBeginningTestTextBox.Address;
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
@@ -215,9 +223,11 @@ namespace PLWPF.TraineeArea
                 //find all available testers
                 new Thread(() =>
                 {
+                    IEnumerable<Tester> testers = new List<Tester>();
+
                     try
                     {
-                        var testers = FactoryBl.GetObject
+                         testers = FactoryBl.GetObject
                             .GetTestersByDistance(address, license
                             ).Where(x =>
                                 x.LicenseTypeTeaching.Any(y => y == license)).ToList();
@@ -255,6 +265,11 @@ namespace PLWPF.TraineeArea
                         Save.IsEnabled = false;
 
                         ProgressRing.IsActive = false;
+
+                        if (!testers.Any())
+                        {
+                            testerIdComboBox.IsEnabled = false;
+                        }
 
                         //focus oon testers
                         testerIdComboBox.Focus();

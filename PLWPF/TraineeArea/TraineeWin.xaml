@@ -1,27 +1,84 @@
-﻿<Window xmlns:UserControls="clr-namespace:PLWPF.UserControls" x:Class="PLWPF.TraineeWin"
+﻿<mah:MetroWindow xmlns:UserControls="clr-namespace:PLWPF.UserControls" x:Class="PLWPF.TraineeWin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:converters="clr-namespace:PLWPF.Converters"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="TraineeWin" Height="450" Width="800">
-<Grid>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-        <!--Code here-->
-        <TextBox Name="_textbox"  HorizontalAlignment="Left" Height="23" Margin="204,183,0,0" TextWrapping="Wrap"
-                 Text="trainee name" VerticalAlignment="Top" Width="332" />
-        </StackPanel>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <!--Code here-->
-        <Button Click="ButtonBase_OnClick" Content="הזמן טסט" Margin="210,0,253.6,0"/>
+        Title="TraineeWin" Height="450" SizeToContent="Width">
+    <mah:MetroWindow.Resources>
+        <converters:LessonAndTypeToString x:Key="LessonAndTypeToString" />
+        <converters:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString" />
+        <converters:ActualTestTimeConv x:Key="ActualTestTimeConv" />
+        <converters:MetersToKM x:Key="MeterToKM" />
 
-</StackPanel>
+        <system:String x:Key="TestLb">Test</system:String>
+    </mah:MetroWindow.Resources>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
 
 
+        </Grid.RowDefinitions>
+        <Label x:Name="TextBoxHi" Grid.Row="0" Content="Welcom Name" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+        <GroupBox Grid.Row="1" Header="Tests To Do" Background="{DynamicResource Background}">
+            <DataGrid x:Name="TestToDoGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+                                  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
+                                  AutoGenerateColumns="False" IsReadOnly="True"  
+                                  >
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{DynamicResource ID}" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterId}" />
+                    <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeId}" />
+                    <DataGridTextColumn Header="License Type" Binding="{Binding LicenseType}" />
+                    <DataGridTextColumn Header="Test Time"
+                                                    Binding="{Binding TestTime, StringFormat=d/M/yyyy hh:mm}" />
+                    <DataGridTextColumn Header="Beginning Address"
+                                                    Binding="{Binding AddressOfBeginningTest}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </GroupBox>
+        <GridSplitter Background="Transparent" HorizontalAlignment="Stretch" Grid.Row="2" ></GridSplitter>
+        <GroupBox Grid.Row="3" Background="{DynamicResource Background}" Header="Test To Update">
+            <DataGrid x:Name="TestToUpdateGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+                                  VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
+                                  AutoGenerateColumns="False" IsReadOnly="True" 
+                                  >
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{DynamicResource ID}" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterId}" />
+                    <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeId}" />
+                    <DataGridTextColumn Header="License Type" Binding="{Binding LicenseType}" />
+                    <DataGridTextColumn Header="Actual Test Time"
+                                        Binding="{Binding ActualTestTime, Converter={StaticResource ActualTestTimeConv}}" />
+
+<DataGridCheckBoxColumn Header="Passed Test" Binding="{Binding Passed}" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </GroupBox>
+        <DockPanel Grid.Row="4" HorizontalAlignment="Stretch">
+           <Button DockPanel.Dock="Right"  HorizontalAlignment="Center" ToolTip="Refresh" Margin="3" Style="{DynamicResource SquareButtonStyle}" Click="Button_Click">
+               <Button.Content>
+                   <Viewbox Width="24" Height="24">
+                       <Canvas Width="24" Height="24">
+                           <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="{DynamicResource AccentColorBrush}"  />
+                       </Canvas>
+                   </Viewbox>
+               </Button.Content>
+           </Button>
+            <Button Content="Set New Test" DockPanel.Dock="Left" HorizontalAlignment="Center" Margin="3"  Style="{DynamicResource SquareButtonStyle}" Click="ButtonBase_OnClick"></Button>
+        </DockPanel>
     </Grid>
-
-    
-    
-    
-</Window>
+</mah:MetroWindow>

@@ -38,8 +38,17 @@
                              Height="30" Margin="3" Grid.Row="0"
                              VerticalAlignment="Center" />
 
-                   
 
+                    <Label Content="Address:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1"
+                           VerticalAlignment="Center" />
+
+                    <StackPanel ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3" Grid.Row="1"
+                                Grid.RowSpan="4" VerticalAlignment="Top">
+                        <UserControls:AddressPicker x:Name="addressOfBeginningTestTextBox"
+                                                    HorizontalAlignment="Stretch" />
+
+
+                    </StackPanel>
 
                     <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2"
                            VerticalAlignment="Center" />
@@ -99,21 +108,12 @@
                                                  x:Name="TimePickerTest" Margin="3"
                                                  SelectionChanged="TimePicker_OnSelectionChanged" />
                     </StackPanel>
-                    <Label Content="Address:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5"
-                           VerticalAlignment="Center" />
-
-                    <StackPanel ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3" Grid.Row="5"
-                                Grid.RowSpan="4" VerticalAlignment="Top">
-                        <UserControls:AddressPicker x:Name="addressOfBeginningTestTextBox"
-                                                    HorizontalAlignment="Stretch" />
-
-
-                    </StackPanel>
+             
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6">
 
                     </StackPanel>
 
-                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70"
+                    <mah:ProgressRing x:Name="ProgressRing" Grid.Row="2" Grid.RowSpan="3" Grid.Column="1" Width="70"
                                       Height="70" IsActive="False" />
 
 
@@ -124,10 +124,10 @@
             <GroupBox Margin="3" Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2"
                       Grid.Row="8">
                 <StackPanel MinHeight="60" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button VerticalAlignment="Center" FontSize="12" x:Name="ShowRouteUrlButton"
+                    <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="ShowRouteUrlButton"
                             Content="Show Test Route" HorizontalAlignment="Stretch" Margin="10,3,10,3"
                             Click="ShowRouteUrlButton_Click" />
-                    <Button VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route"
+                    <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route"
                             Margin="10,3,10,3" Click="SetRouteButton_Click" />
                 </StackPanel>
             </GroupBox>
@@ -139,7 +139,7 @@
                 Click="Save_Click" />
         <StackPanel VerticalAlignment="Stretch">
 
-            <!-- Test update window -->
+            <!-- Test update window --><!--
             <GroupBox Background="{DynamicResource Background}" x:Name="TestResolutsGroupBox" Margin="3"
                       Header="Test Results" VerticalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Stretch">
@@ -151,7 +151,7 @@
                     </GroupBox>
 
                 </StackPanel>
-            </GroupBox>
+            </GroupBox>-->
             <!-- Notifications -->
             <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3">
                 <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red" />
