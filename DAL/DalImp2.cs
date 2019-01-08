@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using BE;
@@ -34,11 +32,9 @@ namespace DAL
             Configuration.TestId++;
             SaveConfigurations();
 
+            var testsToAdd = new List<Test> {newTest};
+            SerializeTestsToXml(testsToAdd);
 
-
-
-
-            DataSource.Tests.Add(newTest);
         }
 
         /// <summary>
@@ -50,24 +46,29 @@ namespace DAL
             if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
                 throw new Exception("Test doesn't exist");
 
-            DataSource.Tests.RemoveAll(x => x.Id == testToDelete.Id);
+            _testsXML.Elements().First(x => x.Element("id")?.Value == testToDelete.Id.ToString()).Remove();
+            _testsXML.Save(Configuration.TestsXmlPathFile);
         }
 
         /// <summary>
         ///     update an existing test
         /// </summary>
-        /// <param name="updatedTest"></param>
-        public void UpdateTest(Test updatedTest)
+        /// <param name="testToUpdate"></param>
+        public void UpdateTest(Test testToUpdate)
         {
-            if (DataSource.Tests.All(x => x.Id != updatedTest.Id))
+            if (DataSource.Tests.All(x => x.Id != testToUpdate.Id))
                 throw new Exception("Test doesn't exist");
 
-            var test = DataSource.Tests.Find(t => t.Id == updatedTest.Id);
+            var test = DataSource.Tests.Find(t => t.Id == testToUpdate.Id);
             DataSource.Tests.Remove(test);
-            DataSource.Tests.Add(updatedTest);
+            DataSource.Tests.Add(testToUpdate);
+
+            _testsXML.Elements().First(x => x.Element("id")?.Value == testToUpdate.Id.ToString()).Remove();
+            // serialize the testToUpdate and save it
+            SerializeTestsToXml(new List<Test>{testToUpdate});
         }
 
-        public static void SerializeTestsToXml(List<Test> list, string path)
+        private static void SerializeTestsToXml(IReadOnlyCollection<Test> list)
         {
             var file = new FileStream(Configuration.TestsXmlPathFile,FileMode.Create);
             var xmlSerializer = new XmlSerializer(list.GetType());
@@ -117,6 +118,15 @@ namespace DAL
             _testersXML.Elements().First(x => x.Element("id")?.Value == testerToUpdate.Id.ToString()).Remove();
             _testersXML.Add(TesterToXmlElement(testerToUpdate));
             _testersXML.Save(Configuration.TestersXmlPathFile);
+        }
+
+        public static List<Test> LoadTestsFromXML()
+        {
+            var file = new FileStream(Configuration.TestsXmlPathFile,FileMode.Open);
+            var xmlSerializer = new XmlSerializer(typeof(List<Test>));
+            var testsList = (List<Test>) xmlSerializer.Deserialize(file);
+            file.Close();
+            return testsList;
         }
 
 

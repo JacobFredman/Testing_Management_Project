@@ -19,7 +19,7 @@ namespace DAL
 
         void AddTest(Test newTest);
         void RemoveTest(Test testToDelete);
-        void UpdateTest(Test updatedTest);
+        void UpdateTest(Test testToUpdate);
 
         void AddTrainee(Trainee newTrainee);
         void RemoveTrainee(Trainee traineeToDelete);
