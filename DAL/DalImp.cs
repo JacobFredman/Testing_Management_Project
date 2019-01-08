@@ -50,6 +50,16 @@ namespace DAL
                 }
                 GetAllTraineesXml();
 
+                if (File.Exists(Configuration.TestersXmlPathFile))
+                {
+                    _testersXML = XElement.Load(Configuration.TestersXmlPathFile);
+                }
+                else
+                {
+                    _testersXML = new XElement("testers");
+                }
+
+
                 LoadConfigurations();
             }
             catch(Exception e)
@@ -58,89 +68,89 @@ namespace DAL
             }
         }
 
-        #region Test
+        //#region Test
 
-        /// <summary>
-        ///     Add a new test
-        /// </summary>
-        /// <param name="newTest"></param>
-        public void AddTest(Test newTest)
-        {
-            newTest.Id = $"{Configuration.TestId:00000000}";
-            Configuration.TestId++;
-            SaveConfigurations();
-            DataSource.Tests.Add(newTest);
-        }
+        ///// <summary>
+        /////     Add a new test
+        ///// </summary>
+        ///// <param name="newTest"></param>
+        //public void AddTest(Test newTest)
+        //{
+        //    newTest.Id = $"{Configuration.TestId:00000000}";
+        //    Configuration.TestId++;
+        //    SaveConfigurations();
+        //    DataSource.Tests.Add(newTest);
+        //}
 
-        /// <summary>
-        ///     remove a test
-        /// </summary>
-        /// <param name="testToDelete"></param>
-        public void RemoveTest(Test testToDelete)
-        {
-            if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
-                throw new Exception("Test doesn't exist");
+        ///// <summary>
+        /////     remove a test
+        ///// </summary>
+        ///// <param name="testToDelete"></param>
+        //public void RemoveTest(Test testToDelete)
+        //{
+        //    if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
+        //        throw new Exception("Test doesn't exist");
 
-            DataSource.Tests.RemoveAll(x => x.Id == testToDelete.Id);
-        }
+        //    DataSource.Tests.RemoveAll(x => x.Id == testToDelete.Id);
+        //}
 
-        /// <summary>
-        ///     update an existing test
-        /// </summary>
-        /// <param name="updatedTest"></param>
-        public void UpdateTest(Test updatedTest)
-        {
-            if (DataSource.Tests.All(x => x.Id != updatedTest.Id))
-                throw new Exception("Test doesn't exist");
+        ///// <summary>
+        /////     update an existing test
+        ///// </summary>
+        ///// <param name="updatedTest"></param>
+        //public void UpdateTest(Test updatedTest)
+        //{
+        //    if (DataSource.Tests.All(x => x.Id != updatedTest.Id))
+        //        throw new Exception("Test doesn't exist");
 
-            var test = DataSource.Tests.Find(t => t.Id == updatedTest.Id);
-            DataSource.Tests.Remove(test);
-            DataSource.Tests.Add(updatedTest);
-        }
+        //    var test = DataSource.Tests.Find(t => t.Id == updatedTest.Id);
+        //    DataSource.Tests.Remove(test);
+        //    DataSource.Tests.Add(updatedTest);
+        //}
 
-        #endregion
+        //#endregion
 
-        #region Tester
+        //#region Tester
 
-        /// <summary>
-        ///     Add tester
-        /// </summary>
-        /// <param name="newTester"></param>
-        public void AddTester(Tester newTester)
-        {
-            if (DataSource.Testers.Any(tester => tester.Id == newTester.Id))
-                throw new Exception("The tester already exist in the system");
+        ///// <summary>
+        /////     Add tester
+        ///// </summary>
+        ///// <param name="newTester"></param>
+        //public void AddTester(Tester newTester)
+        //{
+        //    if (DataSource.Testers.Any(tester => tester.Id == newTester.Id))
+        //        throw new Exception("The tester already exist in the system");
 
-            DataSource.Testers.Add(newTester);
-        }
+        //    DataSource.Testers.Add(newTester);
+        //}
 
-        /// <summary>
-        ///     Remove a tester
-        /// </summary>
-        /// <param name="testerToDelete"></param>
-        public void RemoveTester(Tester testerToDelete)
-        {
-            if (DataSource.Testers.All(x => x.Id != testerToDelete.Id))
-                throw new Exception("Tester doesn't exist");
+        ///// <summary>
+        /////     Remove a tester
+        ///// </summary>
+        ///// <param name="testerToDelete"></param>
+        //public void RemoveTester(Tester testerToDelete)
+        //{
+        //    if (DataSource.Testers.All(x => x.Id != testerToDelete.Id))
+        //        throw new Exception("Tester doesn't exist");
 
-            DataSource.Testers.RemoveAll(x => x.Id == testerToDelete.Id);
-        }
+        //    DataSource.Testers.RemoveAll(x => x.Id == testerToDelete.Id);
+        //}
 
-        /// <summary>
-        ///     update existing Tester
-        /// </summary>
-        /// <param name="updatedTester"></param>
-        public void UpdateTester(Tester updatedTester)
-        {
-            if (DataSource.Testers.All(x => x.Id != updatedTester.Id))
-                throw new Exception("Tester doesn't exist");
+        ///// <summary>
+        /////     update existing Tester
+        ///// </summary>
+        ///// <param name="updatedTester"></param>
+        //public void UpdateTester(Tester updatedTester)
+        //{
+        //    if (DataSource.Testers.All(x => x.Id != updatedTester.Id))
+        //        throw new Exception("Tester doesn't exist");
 
-            var tester = DataSource.Testers.Find(t => t.Id == updatedTester.Id);
-            DataSource.Testers.Remove(tester);
-            DataSource.Testers.Add(updatedTester);
-        }
+        //    var tester = DataSource.Testers.Find(t => t.Id == updatedTester.Id);
+        //    DataSource.Testers.Remove(tester);
+        //    DataSource.Testers.Add(updatedTester);
+        //}
 
-        #endregion
+        //#endregion
 
         #region Trainee
 

@@ -15,7 +15,7 @@ namespace DAL
         // Access to the Tester entity
         void AddTester(Tester newTester);
         void RemoveTester(Tester testerToDelete);
-        void UpdateTester(Tester updatedTester);
+        void UpdateTester(Tester TesterToUpdate);
 
         void AddTest(Test newTest);
         void RemoveTest(Test testToDelete);
