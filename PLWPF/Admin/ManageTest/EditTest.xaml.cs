@@ -18,12 +18,10 @@ namespace PLWPF.Admin.ManageTest
     /// </summary>
     public partial class EditTest : MetroWindow
     {
-        private readonly List<string> _errorMessage = new List<string>();
-
-        private readonly List<string> _notifications = new List<string>();
-
         //the test 
         private readonly Test _test;
+        private readonly List<string> _errorMessage = new List<string>();
+        private readonly List<string> _notifications = new List<string>();
 
         public EditTest(string id = null)
         {
@@ -196,6 +194,12 @@ namespace PLWPF.Admin.ManageTest
                 addressOfBeginningTestTextBox.IsEnabled = false;
                 ProgressRing.IsActive = true;
 
+                try
+                {
+                    testerIdComboBox.SelectedIndex = -1;
+                }
+                catch { }
+
                 //Get the data
                 var address = addressOfBeginningTestTextBox.Address;
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
@@ -204,9 +208,10 @@ namespace PLWPF.Admin.ManageTest
                 //find all available testers
                 new Thread(() =>
                 {
+                    IEnumerable<Tester> testers=new List<Tester>();
                     try
                     {
-                        var testers = FactoryBl.GetObject
+                         testers = FactoryBl.GetObject
                             .GetTestersByDistance(address, license
                             ).Where(x =>
                                 x.LicenseTypeTeaching.Any(y => y == license)).ToList();
@@ -245,7 +250,12 @@ namespace PLWPF.Admin.ManageTest
 
                         ProgressRing.IsActive = false;
 
-                        //focus oon testers
+                        if (!testers.Any())
+                        {
+                            testerIdComboBox.IsEnabled = false;
+                        }
+
+                        //focus on testers
                         testerIdComboBox.Focus();
                     }
 
@@ -254,6 +264,7 @@ namespace PLWPF.Admin.ManageTest
 
                 //Update the license
                 _test.LicenseType = (LicenseType) licenseTypeComBox.SelectedItem;
+
             }
             catch
             {
@@ -354,6 +365,7 @@ namespace PLWPF.Admin.ManageTest
                 TimePickerTest.ResetSelection();
                 testerIdComboBox.ItemsSource = null;
                 licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
+
 
                 //Show Message
                 ClearAllMessages();
@@ -493,12 +505,10 @@ namespace PLWPF.Admin.ManageTest
                         switch (ex.ErrorCode)
                         {
                             case "CONNECTION_FAILURE":
-                                ExceptionMessage.Show("There is no Internet Connection. Please try again later.",
-                                    ex.Message);
+                                ExceptionMessage.Show("There is no Internet Connection. Please try again later.", ex.Message);
                                 break;
                             case "ADDRESS_FAILURE":
-                                ExceptionMessage.Show(
-                                    "There is a problem with the address. Please try another address.", ex.Message);
+                                ExceptionMessage.Show("There is a problem with the address. Please try another address.", ex.Message);
                                 break;
                         }
                     }

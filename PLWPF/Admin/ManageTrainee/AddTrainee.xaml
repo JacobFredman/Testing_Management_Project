@@ -116,7 +116,7 @@
                         <Label Content="Licnse: " Margin="3" />
                         <ComboBox x:Name="ChooseLicense" Margin="3" Width="60" Height="Auto" />
                         <Label Content="Num of lessons: " Margin="3" />
-                        <TextBox x:Name="NumberOfLessonsTextBox" Margin="6" Width="40" Text="0" />
+                        <mah:NumericUpDown x:Name="NumberOfLessonsTextBox" Margin="6" Width="40" Value="0" MinWidth="80" Minimum="0"/>
                         <Button Style="{DynamicResource SquareButtonStyle}" x:Name="AddLicnseButton" Content="Add"
                                 FontSize="12" Margin="3" Click="AddLicnseButton_Click" />
                         <Button Style="{DynamicResource SquareButtonStyle}" x:Name="RemoveLicnseButton"

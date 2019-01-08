@@ -103,6 +103,7 @@ namespace PLWPF
 
                 Application.Current.Resources["Background"] = Brushes.Black;
             }
+
             Uri dictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+Newlight+"."+Newcolor+".xaml", UriKind.RelativeOrAbsolute);
             Uri RdictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+OldLight+"."+OldColor+".xaml", UriKind.RelativeOrAbsolute);
             ResourceDictionary RresourceDict = new ResourceDictionary() { Source = RdictUri };

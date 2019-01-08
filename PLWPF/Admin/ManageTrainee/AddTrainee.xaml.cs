@@ -178,11 +178,11 @@ namespace PLWPF.Admin.ManageTrainee
                 return;
 
             //Add the new license
-            var number = int.Parse(NumberOfLessonsTextBox.Text);
+            var number = NumberOfLessonsTextBox.Value;
             licenses.Add(new LessonsAndType
             {
                 License = (LicenseType) ChooseLicense.SelectedItem,
-                NumberOfLessons = number,
+                NumberOfLessons = (int)number,
                 ReadyForTest = number > Configuration.MinLessons,
                 GearType = Gear.Automatic
             });

@@ -52,7 +52,7 @@ namespace DAL
 
                 LoadConfigurations();
             }
-            catch(Exception e)
+            catch
             {
                
             }

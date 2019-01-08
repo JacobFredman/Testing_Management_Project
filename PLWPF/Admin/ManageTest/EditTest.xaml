@@ -154,10 +154,10 @@
             <GroupBox Margin="3" Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2"
                       Grid.Row="8">
                 <StackPanel MinHeight="60" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button VerticalAlignment="Center" FontSize="12" x:Name="ShowRouteUrlButton"
+                    <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="ShowRouteUrlButton"
                             Content="Show Test Route" HorizontalAlignment="Stretch" Margin="10,3,10,3"
                             Click="ShowRouteUrlButton_Click" />
-                    <Button VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route"
+                    <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route"
                             Margin="10,3,10,3" Click="SetRouteButton_Click" />
                 </StackPanel>
             </GroupBox>
