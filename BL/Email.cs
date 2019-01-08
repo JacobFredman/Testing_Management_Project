@@ -92,7 +92,7 @@ namespace BL
         private static void SentEmail(bool addAttachment, string toAddress, string subject, string bodyMessage, string toName,
             string fromName)
         {
-            if (new EmailAddressAttribute().IsValid(toAddress))
+            if (!(new EmailAddressAttribute().IsValid(toAddress)))
                 throw new Exception("Please Add a Valid Email To Trainee.");
 
                 var attachment = new Attachment(Configuration.GetPdfFullPath());
