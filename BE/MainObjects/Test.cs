@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using BE.Routes;
 
 namespace BE.MainObjects
@@ -108,7 +109,14 @@ namespace BE.MainObjects
         /// <summary>
         ///     url for the test route on google maps
         /// </summary>
+        [XmlIgnore]
         public Uri RouteUrl { set; get; }
+
+        public string XmlSaveRouteUrlSerializer
+        {
+            get {return RouteUrl?.ToString(); }
+            set { RouteUrl=new Uri(value);}
+        }
 
         public object Clone()
         {

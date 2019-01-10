@@ -21,6 +21,7 @@ namespace BE.Routes
             Street = street;
             Entrance = entrance;
         }
+        public Address() { }
 
         /// <summary>
         ///     The city or the whole address

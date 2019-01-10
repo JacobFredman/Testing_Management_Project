@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using BE;
 using BE.MainObjects;
 using BE.Routes;
@@ -31,8 +32,15 @@ namespace DAL
     public class DalImp : IDal
     {
         private XElement _traineesXml;
+        private XElement _testersXml;
+
         private List<Trainee> _trainees=new List<Trainee>();
+        private List<Test> _tests = new List<Test>();
+        private List<Tester> _testers = new List<Tester>();
+
         private bool _traineeChanged = true;
+        private bool _testerChanged = true;
+
         private XElement _config;
         /// <summary>
         ///     deny access to c-tor
@@ -51,11 +59,30 @@ namespace DAL
                 }
                 GetAllTraineesXml();
 
+                if (File.Exists(Configuration.SaveTestersXmlPath))
+                {
+                    _testersXml=XElement.Load(Configuration.SaveTestersXmlPath);
+                }
+                else
+                {
+                    _testersXml=new XElement("testers");
+                }
+                GetAllTestersXml();
+
+                if (File.Exists(Configuration.SaveTestsXmlPath))
+                {
+                    _tests = LoadFromXML<List<Test>>(Configuration.SaveTestsXmlPath);
+                }
+                else
+                {
+                    _tests = new List<Test>();
+                }
+
                 LoadConfigurations();
             }
             catch
             {
-               
+               //do nothing
             }
         }
 
@@ -70,7 +97,8 @@ namespace DAL
             newTest.Id = $"{Configuration.TestId:00000000}";
             Configuration.TestId++;
             SaveConfigurations();
-            DataSource.Tests.Add(newTest);
+            _tests.Add(newTest);
+            SaveToXML(_tests,Configuration.SaveTestsXmlPath);
         }
 
         /// <summary>
@@ -79,10 +107,12 @@ namespace DAL
         /// <param name="testToDelete"></param>
         public void RemoveTest(Test testToDelete)
         {
-            if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
+            if (_tests.All(x => x.Id != testToDelete.Id))
                 throw new Exception("Test doesn't exist");
 
-            DataSource.Tests.RemoveAll(x => x.Id == testToDelete.Id);
+            _tests.RemoveAll(x => x.Id == testToDelete.Id);
+            SaveToXML(_tests, Configuration.SaveTestsXmlPath);
+
         }
 
         /// <summary>
@@ -91,12 +121,14 @@ namespace DAL
         /// <param name="updatedTest"></param>
         public void UpdateTest(Test updatedTest)
         {
-            if (DataSource.Tests.All(x => x.Id != updatedTest.Id))
+            if (_tests.All(x => x.Id != updatedTest.Id))
                 throw new Exception("Test doesn't exist");
 
-            var test = DataSource.Tests.Find(t => t.Id == updatedTest.Id);
-            DataSource.Tests.Remove(test);
-            DataSource.Tests.Add(updatedTest);
+            var test = _tests.Find(t => t.Id == updatedTest.Id);
+            _tests.Remove(test);
+            _tests.Add(updatedTest);
+            SaveToXML(_tests, Configuration.SaveTestsXmlPath);
+
         }
 
         #endregion
@@ -109,10 +141,12 @@ namespace DAL
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
-            if (DataSource.Testers.Any(tester => tester.Id == newTester.Id))
+            if (_testers.Any(tester => tester.Id == newTester.Id))
                 throw new Exception("The tester already exist in the system");
 
-            DataSource.Testers.Add(newTester);
+            _testersXml.Add(TesterToXml(newTester));
+            _testersXml.Save(Configuration.SaveTestersXmlPath);
+            _testerChanged = true;
         }
 
         /// <summary>
@@ -121,10 +155,12 @@ namespace DAL
         /// <param name="testerToDelete"></param>
         public void RemoveTester(Tester testerToDelete)
         {
-            if (DataSource.Testers.All(x => x.Id != testerToDelete.Id))
+            if (_testers.All(x => x.Id != testerToDelete.Id))
                 throw new Exception("Tester doesn't exist");
 
-            DataSource.Testers.RemoveAll(x => x.Id == testerToDelete.Id);
+            _testersXml.Elements().First(x => x.Element("id").Value == testerToDelete.Id.ToString()).Remove();
+            _testersXml.Save(Configuration.SaveTestersXmlPath);
+            _testerChanged = true;
         }
 
         /// <summary>
@@ -133,12 +169,14 @@ namespace DAL
         /// <param name="updatedTester"></param>
         public void UpdateTester(Tester updatedTester)
         {
-            if (DataSource.Testers.All(x => x.Id != updatedTester.Id))
+            if (_testers.All(x => x.Id != updatedTester.Id))
                 throw new Exception("Tester doesn't exist");
 
-            var tester = DataSource.Testers.Find(t => t.Id == updatedTester.Id);
-            DataSource.Testers.Remove(tester);
-            DataSource.Testers.Add(updatedTester);
+            _testersXml.Elements().First(x => x.Element("id").Value == updatedTester.Id.ToString()).Remove();
+            _testersXml.Add(TesterToXml(updatedTester));
+            _testersXml.Save(Configuration.SaveTestersXmlPath);
+            _testerChanged = true;
+
         }
 
         #endregion
@@ -201,7 +239,7 @@ namespace DAL
             get
             {
                 var allTesters = new List<Tester>();
-                foreach (var item in DataSource.Testers)
+                foreach (var item in GetAllTestersXml())
                     allTesters.Add(item.Clone() as Tester);
                 return allTesters.OrderBy(x => x.Id);
             }
@@ -215,7 +253,7 @@ namespace DAL
             get
             {
                 var allTest = new List<Test>();
-                foreach (var item in DataSource.Tests)
+                foreach (var item in _tests)
                     allTest.Add(item.Clone() as Test);
                 return allTest.OrderBy(x => x.Id);
                 ;
@@ -239,19 +277,21 @@ namespace DAL
 
         #endregion
 
+        #region Trainee XML
+
         private XElement TraineeToXml(Trainee trainee)
         {
-            var id=new XElement("id",trainee.Id);
-            var firstName=new XElement("firstName",trainee.FirstName);
+            var id = new XElement("id", trainee.Id);
+            var firstName = new XElement("firstName", trainee.FirstName);
             var lastName = new XElement("lastName", trainee.LastName);
-            var gender=new XElement("gender",trainee.Gender);
+            var gender = new XElement("gender", trainee.Gender);
             var address = new XElement("address", trainee.Address);
             var schoolName = new XElement("schoolName", trainee.SchoolName);
             var teacherName = new XElement("teacherName", trainee.TeacherName);
             var birthDate = new XElement("birthDate", trainee.BirthDate);
             var emailAddress = new XElement("emailAddress", trainee.EmailAddress);
             var phoneNum = new XElement("phoneNum", trainee.PhoneNumber);
-         
+
             var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning");
 
             foreach (var item in trainee.LicenseTypeLearning)
@@ -260,7 +300,7 @@ namespace DAL
                 var license = new XElement("license", item.License);
                 var numOfLessons = new XElement("numOfLessons", item.NumberOfLessons);
                 var readyForTest = new XElement("readyForTest", item.ReadyForTest);
-                var licenseTypeLearning = new XElement("licenseTypeLearning", gearType,license,numOfLessons,readyForTest);
+                var licenseTypeLearning = new XElement("licenseTypeLearning", gearType, license, numOfLessons, readyForTest);
                 collectionLicenseTypeLearning.Add(licenseTypeLearning);
             }
             return new XElement("trainee", id, firstName, lastName, gender, address, birthDate, emailAddress, phoneNum, teacherName, schoolName, collectionLicenseTypeLearning);
@@ -283,7 +323,7 @@ namespace DAL
                         Address = new Address(trainee.Element("address")?.Value),
                         EmailAddress = trainee.Element("emailAddress")?.Value,
                         PhoneNumber = trainee.Element("phoneNum")?.Value,
-                        Gender = (Gender) Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
+                        Gender = (Gender)Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
                         SchoolName = trainee.Element("schoolName")?.Value,
                         TeacherName = trainee.Element("teacherName")?.Value,
                         LicenseTypeLearning = new List<LessonsAndType>(),
@@ -293,8 +333,8 @@ namespace DAL
                     {
                         t.LicenseTypeLearning.Add(new LessonsAndType()
                         {
-                            GearType = (Gear) Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
-                            License = (LicenseType) Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),
+                            GearType = (Gear)Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
+                            License = (LicenseType)Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),
                             ReadyForTest = bool.Parse(item.Element("readyForTest")?.Value),
                             NumberOfLessons = int.Parse(item.Element("numOfLessons")?.Value)
                         });
@@ -308,6 +348,105 @@ namespace DAL
 
             return _trainees;
         }
+
+        #endregion
+
+        #region Tester XML
+
+        private XElement TesterToXml(Tester tester)
+        {
+            var id = new XElement("id", tester.Id);
+            var firstName = new XElement("firstName", tester.FirstName);
+            var lastName = new XElement("lastName", tester.LastName);
+            var gender = new XElement("gender", tester.Gender);
+            var address = new XElement("address", tester.Address);
+            var experience = new XElement("experience", tester.Experience);
+            var maxDistance = new XElement("maxDistance", tester.MaxDistance);
+            var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams);
+            var birthDate = new XElement("birthDate", tester.BirthDate);
+            var emailAddress = new XElement("emailAddress", tester.EmailAddress);
+            var phoneNum = new XElement("phoneNum", tester.PhoneNumber);
+
+            var collectionLicenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
+
+            foreach (var item in tester.LicenseTypeTeaching)
+            {
+                var license = new XElement("license", item);
+
+                collectionLicenseTypeTeaching.Add(license);
+            }
+
+            var schedule = new XElement("schedule");
+            foreach (var day in tester.Schedule.days)
+            {
+                var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
+                foreach (var hour in day.Hours)
+                {
+                    var hourInDay = new XElement("hour", hour);
+                    dayOfWeek.Add(hourInDay);
+                }
+                schedule.Add(dayOfWeek);
+            }
+
+            return new XElement("tester", id, firstName, lastName, gender, address, maxWeekExams, birthDate, emailAddress, maxDistance, phoneNum, schedule, experience, collectionLicenseTypeTeaching);
+
+        }
+
+        private List<Tester> GetAllTestersXml()
+        {
+            if (_testerChanged)
+            {
+                _testers = new List<Tester>();
+                foreach (var tester in _testersXml.Elements())
+                {
+                    var t = new Tester()
+                    {
+                        Id = uint.Parse(tester.Element("id")?.Value),
+                        FirstName = tester.Element("firstName")?.Value,
+                        LastName = tester.Element("lastName")?.Value,
+                        BirthDate = DateTime.Parse(tester.Element("birthDate")?.Value),
+                        Address = new Address(tester.Element("address")?.Value),
+                        EmailAddress = tester.Element("emailAddress")?.Value,
+                        PhoneNumber = tester.Element("phoneNum")?.Value,
+                        Gender = (Gender)Enum.Parse(typeof(Gender), tester.Element("gender")?.Value),
+                        MaxWeekExams = uint.Parse(tester.Element("maxWeekExams")?.Value),
+                        MaxDistance = uint.Parse(tester.Element("maxDistance")?.Value),
+                        Experience = uint.Parse(tester.Element("experience")?.Value),
+                        LicenseTypeTeaching = new List<LicenseType>(),
+                        LicenseType = new List<LicenseType>()
+                    };
+                    foreach (var item in tester.Element("CollectionLicenseTypeTeaching").Elements())
+                    {
+                        t.LicenseTypeTeaching.Add((LicenseType)Enum.Parse(typeof(LicenseType),
+                            item?.Value));
+                    }
+
+                    t.Schedule = new WeekSchedule();
+                    foreach (var day in tester.Element("schedule")?.Elements())
+                    {
+                        var theDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day.Name.ToString());
+                        int i = 0;
+                        foreach (var hour in day.Elements())
+                        {
+                            t.Schedule[theDay].Hours[i] = bool.Parse(hour?.Value);
+                            i++;
+                        }
+
+                    }
+
+
+                    _testers.Add(t);
+                }
+
+                _testerChanged = false;
+            }
+
+            return _testers;
+        }
+
+        #endregion
+
+        #region Conf XML
 
         public void SaveConfigurations()
         {
@@ -361,5 +500,26 @@ namespace DAL
                 _config=new XElement("Config");
             }
         }
+ 
+        #endregion
+
+        #region Generic Serializer
+
+        private static void SaveToXML<T>(T source, string path)
+        {
+            var file = new FileStream(path, FileMode.Create);
+            var xmlSerializer = new XmlSerializer(source.GetType());
+            xmlSerializer.Serialize(file, source); file.Close();
+        }
+
+        private static T LoadFromXML<T>(string path)
+        {
+            var file = new FileStream(path, FileMode.Open);
+            var xmlSerializer = new XmlSerializer(typeof(T));
+            var result = (T)xmlSerializer.Deserialize(file); file.Close();
+            return result;
+        }
+
+        #endregion
     }
 }
