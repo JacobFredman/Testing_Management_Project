@@ -58,6 +58,7 @@ namespace DAL
                 {
                     _testersXML = new XElement("testers");
                 }
+                GetAllTestersFromXml();
 
                 if (File.Exists(Configuration.TestsXmlPathFile))
                 {
