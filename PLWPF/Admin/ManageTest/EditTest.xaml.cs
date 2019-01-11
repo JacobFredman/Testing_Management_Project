@@ -144,7 +144,7 @@ namespace PLWPF.Admin.ManageTest
 
         //When user Selects Trainee
         private void TraineeIdComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+       {
             try
             {
                 //Clean License and Tester ComBox
@@ -572,6 +572,9 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
+
         #endregion
+
+    
     }
 }

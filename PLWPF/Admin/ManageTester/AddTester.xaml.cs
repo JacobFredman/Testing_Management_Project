@@ -43,7 +43,8 @@ namespace PLWPF.Admin.ManageTester
                 //bind the new tester to the window
                 DataContext = _tester;
                 //set default values
-                _tester.BirthDate = DateTime.Now.Date;
+                _tester.BirthDate = DateTime.Now.AddYears(-(int)Configuration.MinTesterAge).AddDays(-1);
+                birthDateDatePicker.DisplayDateEnd= DateTime.Now.AddYears(-(int)Configuration.MinTesterAge).AddDays(-1);
                 _tester.Schedule = new WeekSchedule();
                 Title = "Add New Tester";
             }
@@ -51,6 +52,7 @@ namespace PLWPF.Admin.ManageTester
             {
                 try
                 {
+                    birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int)Configuration.MinTesterAge).AddDays(-1);
                     _update = true;
                     //find the existing tester
                     _tester = _blimp.AllTesters.First(x => x.Id == id);
