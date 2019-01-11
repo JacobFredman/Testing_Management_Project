@@ -28,7 +28,7 @@ namespace PLWPF
             var bl = BL.FactoryBl.GetObject;
 
             //Add information to test the program
-            AddInfo();
+            //AddInfo();
 
             //On first login enter username and password
             if (Configuration.FirstOpenProgram)
@@ -116,12 +116,12 @@ namespace PLWPF
                     Schedule = sch
                 });
 
-                var test1 = new Test(328729660, 319185997)
-                {
-                    TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
-                    AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
-                    LicenseType = LicenseType.A
-                };
+                //var test1 = new Test(328729660, 319185997)
+                //{
+                //    TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
+                //    AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
+                //    LicenseType = LicenseType.A
+                //};
                 try
                 {
                     //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
@@ -131,7 +131,7 @@ namespace PLWPF
                     // ignored
                 }
 
-                _blimp.AddTest(test1);
+               // _blimp.AddTest(test1);
             }
             catch (Exception ex)
             {

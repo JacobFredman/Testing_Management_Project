@@ -41,9 +41,9 @@
 
                     <Label Content="Trainee:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1"
                            VerticalAlignment="Center" />
-                    <ComboBox x:Name="traineeIdComboBox" ItemsSource="{Binding}" Grid.Column="1"
+                    <ComboBox x:Name="traineeIdComboBox" IsTextSearchEnabled="True" TextSearch.TextPath="LastName"  IsTextSearchCaseSensitive="False"  ItemsSource="{Binding}" Grid.Column="1"
                               HorizontalAlignment="Stretch" Height="30" Margin="3" Grid.Row="1"
-                              VerticalAlignment="Center" SelectionChanged="TraineeIdComboBox_SelectionChanged">
+                              VerticalAlignment="Center" SelectionChanged="TraineeIdComboBox_SelectionChanged" ToolTip="Type First Letter Of Last Name">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -67,7 +67,7 @@
 
                     <Label Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3"
                            VerticalAlignment="Center" />
-                    <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}" Grid.Column="1"
+                    <ComboBox x:Name="testerIdComboBox" ToolTip="Type First Letter Of Last Name" IsTextSearchEnabled="True" TextSearch.TextPath="LastName"  IsTextSearchCaseSensitive="False"  ItemsSource="{Binding}" Grid.Column="1"
                               HorizontalAlignment="Stretch" Height="30" Grid.Row="3" VerticalAlignment="Center"
                               Margin="3" SelectionChanged="TesterIdComboBox_OnSelectionChanged">
                         <ComboBox.ItemTemplate>
@@ -92,7 +92,7 @@
                         <DatePicker x:Name="testTimeDatePicker" Height="30" Grid.Column="1" HorizontalAlignment="Left"
                                     Margin="3" Grid.Row="4"
                                     SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                                    VerticalAlignment="Center" CalendarOpened="TestTimeDatePicker_OnCalendarOpened">
+                                    VerticalAlignment="Center" CalendarClosed="TestTimeDatePicker_OnCalendarOpened">
                             <DatePicker.CalendarStyle>
                                 <Style TargetType="{x:Type Calendar}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCalendar}">
                                     <Setter Property="Template">

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,6 +81,7 @@ namespace PLWPF.Admin
             SearchTextBoxTester.Text = "";
             TextBoxSearchTest.Text = "";
             TextBoxSearchTrainee.Text = "";
+
         }
 
         //Open Settings
@@ -512,6 +515,7 @@ namespace PLWPF.Admin
 
         #region Test
 
+
         /// <summary>
         ///     Update selected Trainee in a new window
         /// </summary>
@@ -521,6 +525,7 @@ namespace PLWPF.Admin
         {
             try
             {
+                
                 var test = TestGrid.SelectedItem as Test;
                 var win = new EditTest(test.Id);
                 var passed = test.Passed;
@@ -549,8 +554,7 @@ namespace PLWPF.Admin
 
                         void Act()
                         {
-                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " +
-                                                  trainee.LastName);
+                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " + trainee.LastName);
                         }
 
                         Dispatcher.BeginInvoke((Action) Act);
@@ -571,6 +575,7 @@ namespace PLWPF.Admin
                     }
 
                     Dispatcher.BeginInvoke((Action) Action);
+                    
                 });
                 thread.Start();
             }
@@ -610,16 +615,34 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void AddTestClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var win = new EditTest();
-                win.ShowDialog();
-                RefreshData();
-            }
-            catch (Exception ex)
-            {
-                ExceptionMessage.Show(ex.Message, ex.ToString());
-            }
+           (new Thread(() =>
+           {
+               try
+               {
+                   try
+                   {
+                       //check internet connectivity
+                       var wc = new WebClient();
+                       wc.DownloadData("https://www.google.com/");
+                   }
+                   catch { throw new Exception("There is No Internet Connection.Please Try Again Later."); }
+
+                   Action act1 = () =>
+                   {
+                       var win = new EditTest();
+                       win.ShowDialog();
+                       RefreshData();
+                   };
+                   Dispatcher.BeginInvoke(act1);
+
+
+               }
+               catch (Exception ex)
+               {
+                   Action act2 = () => { ExceptionMessage.Show(ex.Message, ex.ToString()); };
+                   Dispatcher.BeginInvoke(act2);
+               }
+           })).Start();
         }
 
         //On search Test update grid
