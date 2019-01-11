@@ -92,7 +92,7 @@
                         <DatePicker x:Name="testTimeDatePicker" Height="30" Grid.Column="1" HorizontalAlignment="Left"
                                     Margin="3" Grid.Row="4"
                                     SelectedDate="{Binding TestTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                                    VerticalAlignment="Center" CalendarOpened="TestTimeDatePicker_OnCalendarOpened">
+                                    VerticalAlignment="Center" CalendarClosed="TestTimeDatePicker_OnCalendarOpened">
                             <DatePicker.CalendarStyle>
                                 <Style TargetType="{x:Type Calendar}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCalendar}">
                                     <Setter Property="Template">

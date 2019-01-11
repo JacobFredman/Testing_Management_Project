@@ -224,7 +224,7 @@ namespace BL
                 throw new Exception("Not enough criterion");
             if (updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("Test date not updated");
-            if (Math.Abs((updatedTest.ActualTestTime - updatedTest.TestTime).Days) > 30)
+            if ((updatedTest.ActualTestTime - updatedTest.TestTime).Days<0)
                 throw new Exception("Actual date can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
