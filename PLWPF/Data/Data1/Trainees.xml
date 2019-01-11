@@ -99,6 +99,26 @@
     </CollectionLicenseTypeLearning>
   </trainee>
   <trainee>
+    <id>324126747</id>
+    <firstName>Alon</firstName>
+    <lastName>Avi</lastName>
+    <gender>Male</gender>
+    <address>הרב צבי יהודה, מבוא חורון</address>
+    <birthDate>1970-01-01T00:00:00</birthDate>
+    <emailAddress>elisja.sc@gmail.com</emailAddress>
+    <phoneNum />
+    <teacherName>Yehoshua</teacherName>
+    <schoolName>Gil Drivers</schoolName>
+    <CollectionLicenseTypeLearning>
+      <licenseTypeLearning>
+        <gearType>Automatic</gearType>
+        <license>D1</license>
+        <numOfLessons>100</numOfLessons>
+        <readyForTest>true</readyForTest>
+      </licenseTypeLearning>
+    </CollectionLicenseTypeLearning>
+  </trainee>
+  <trainee>
     <id>314661133</id>
     <firstName>Ray</firstName>
     <lastName>Bob</lastName>
@@ -139,6 +159,26 @@
       <licenseTypeLearning>
         <gearType>Automatic</gearType>
         <license>D1</license>
+        <numOfLessons>30</numOfLessons>
+        <readyForTest>true</readyForTest>
+      </licenseTypeLearning>
+    </CollectionLicenseTypeLearning>
+  </trainee>
+  <trainee>
+    <id>328772801</id>
+    <firstName>Neomi</firstName>
+    <lastName>Mayer</lastName>
+    <gender>Other</gender>
+    <address>הרצל 631, בית שמש, ישראל</address>
+    <birthDate>1997-03-15T00:00:00</birthDate>
+    <emailAddress>elisja.sc@gmail.com</emailAddress>
+    <phoneNum />
+    <teacherName>Nechama</teacherName>
+    <schoolName>Shemesh</schoolName>
+    <CollectionLicenseTypeLearning>
+      <licenseTypeLearning>
+        <gearType>Automatic</gearType>
+        <license>A</license>
         <numOfLessons>30</numOfLessons>
         <readyForTest>true</readyForTest>
       </licenseTypeLearning>
@@ -189,25 +229,5 @@
     <teacherName></teacherName>
     <schoolName></schoolName>
     <CollectionLicenseTypeLearning />
-  </trainee>
-  <trainee>
-    <id>328772801</id>
-    <firstName>Neomi</firstName>
-    <lastName>Mayer</lastName>
-    <gender>Other</gender>
-    <address>הרצל 631, בית שמש, ישראל</address>
-    <birthDate>1997-03-15T00:00:00</birthDate>
-    <emailAddress>elisja.sc@gmail.com</emailAddress>
-    <phoneNum />
-    <teacherName>Nechama</teacherName>
-    <schoolName>Shemesh</schoolName>
-    <CollectionLicenseTypeLearning>
-      <licenseTypeLearning>
-        <gearType>Automatic</gearType>
-        <license>A</license>
-        <numOfLessons>67</numOfLessons>
-        <readyForTest>true</readyForTest>
-      </licenseTypeLearning>
-    </CollectionLicenseTypeLearning>
   </trainee>
 </trainees>

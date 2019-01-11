@@ -3,10 +3,10 @@
   <AdminPassword></AdminPassword>
   <AdminUser>a</AdminUser>
   <FirstOpenProgram>false</FirstOpenProgram>
-  <TestId>125</TestId>
+  <TestId>34</TestId>
   <MinLessons>16</MinLessons>
   <MinTesterAge>40</MinTesterAge>
-  <MinTimeBetweenTests>17</MinTimeBetweenTests>
+  <MinTimeBetweenTests>14</MinTimeBetweenTests>
   <MinTraineeAge>17</MinTraineeAge>
   <MinimumCriteria>3</MinimumCriteria>
   <PercentOfCriteriaToPassTest>70</PercentOfCriteriaToPassTest>

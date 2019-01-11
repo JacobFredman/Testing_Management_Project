@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testers>
+  <tester>
+    <id>324040443</id>
+    <firstName>Maoz,</firstName>
+    <lastName>Shectman</lastName>
+    <gender>Male</gender>
+    <address>תל אביב, נס ציונה, ישראל</address>
+    <maxWeekExams>0</maxWeekExams>
+    <birthDate>1970-01-01T00:00:00</birthDate>
+    <emailAddress />
+    <maxDistance>0</maxDistance>
+    <phoneNum></phoneNum>
+    <schedule>
+      <Sunday>Sunday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Sunday>
+      <Monday>Monday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Monday>
+      <Tuesday>Tuesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Tuesday>
+      <Wednesday>Wednesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Wednesday>
+      <Thursday>Thursday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Thursday>
+    </schedule>
+    <experience>0</experience>
+    <CollectionLicenseTypeTeaching />
+  </tester>
+  <tester>
+    <id>323873182</id>
+    <firstName>Eliran</firstName>
+    <lastName>Franko</lastName>
+    <gender>Male</gender>
+    <address>רחוב הנשיא, קרית שמונה, ישראל</address>
+    <maxWeekExams>0</maxWeekExams>
+    <birthDate>1961-01-01T00:00:00</birthDate>
+    <emailAddress />
+    <maxDistance>0</maxDistance>
+    <phoneNum></phoneNum>
+    <schedule>
+      <Sunday>Sunday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Sunday>
+      <Monday>Monday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Monday>
+      <Tuesday>Tuesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Tuesday>
+      <Wednesday>Wednesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Wednesday>
+      <Thursday>Thursday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Thursday>
+    </schedule>
+    <experience>0</experience>
+    <CollectionLicenseTypeTeaching />
+  </tester>
+  <tester>
+    <id>323082321</id>
+    <firstName>David</firstName>
+    <lastName>Arbiv</lastName>
+    <gender>Male</gender>
+    <address>חולות גאולים, קדימה צורן, ישראל</address>
+    <maxWeekExams>0</maxWeekExams>
+    <birthDate>1950-01-01T00:00:00</birthDate>
+    <emailAddress />
+    <maxDistance>0</maxDistance>
+    <phoneNum></phoneNum>
+    <schedule>
+      <Sunday>Sunday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Sunday>
+      <Monday>Monday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Monday>
+      <Tuesday>Tuesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Tuesday>
+      <Wednesday>Wednesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Wednesday>
+      <Thursday>Thursday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Thursday>
+    </schedule>
+    <experience>0</experience>
+    <CollectionLicenseTypeTeaching />
+  </tester>
+  <tester>
+    <id>328729660</id>
+    <firstName>meir</firstName>
+    <lastName></lastName>
+    <gender>Male</gender>
+    <address>הרצל 30, בית שמש, ישראל</address>
+    <maxWeekExams>10</maxWeekExams>
+    <birthDate>1945-01-01T00:00:00</birthDate>
+    <emailAddress />
+    <maxDistance>1000</maxDistance>
+    <phoneNum />
+    <schedule>
+      <Sunday>Sunday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Sunday>
+      <Monday>Monday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Monday>
+      <Tuesday>Tuesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Tuesday>
+      <Wednesday>Wednesday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Wednesday>
+      <Thursday>Thursday<hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>true</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour><hour>false</hour></Thursday>
+    </schedule>
+    <experience>0</experience>
+    <CollectionLicenseTypeTeaching>
+      <license>A</license>
+      <license>A2</license>
+    </CollectionLicenseTypeTeaching>
+  </tester>
+</testers>
