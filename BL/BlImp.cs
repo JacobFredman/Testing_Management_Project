@@ -432,9 +432,9 @@ namespace BL
         {
             try
             {
-                //check internet connectivity
-                var wc = new WebClient();
-                wc.DownloadData("https://www.google.com/");
+                ////check internet connectivity
+                //var wc = new WebClient();
+                //wc.DownloadData("https://www.google.com/");
 
                 var testerDistance = from tester in AllTesters
                     where tester.Address != null
@@ -454,13 +454,14 @@ namespace BL
             }
             catch
             {
-                var testerLicense = from tester in AllTesters
-                    where tester.LicenseTypeTeaching.Any(x => x == license)
-                    select tester;
-                if (!testerLicense.Any())
-                    throw new Exception("There is no tester with the right license");
+                //var testerLicense = from tester in AllTesters
+                //    where tester.LicenseTypeTeaching.Any(x => x == license)
+                //    select tester;
+                //if (!testerLicense.Any())
+                //    throw new Exception("There is no tester with the right license");
 
-                return testerLicense;
+                //return testerLicense;
+                throw new Exception("There is No Internet Connection. Please Try Again Later.");
             }
         }
 
