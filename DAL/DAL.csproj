@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalImp.cs" />
+    <Compile Include="DalImp2.cs" />
     <Compile Include="Idal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

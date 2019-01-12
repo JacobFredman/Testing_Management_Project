@@ -21,6 +21,7 @@ namespace BE.MainObjects
         /// </summary>
         public Person()
         {
+            LicenseType = new List<LicenseType>();
         }
 
         /// <summary>

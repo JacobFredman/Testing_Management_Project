@@ -90,52 +90,7 @@ namespace DAL
             }
         }
 
-        #region Test
-
-        ///// <summary>
-        /////     Add a new test
-        ///// </summary>
-        ///// <param name="newTest"></param>
-        //public void AddTest(Test newTest)
-        //{
-        //    newTest.Id = $"{Configuration.TestId:00000000}";
-        //    Configuration.TestId++;
-        //    SaveConfigurations();
-        //    _tests.Add(newTest);
-        //    SaveToXML(_tests,Configuration.SaveTestsXmlPath);
-        //}
-
-        ///// <summary>
-        /////     remove a test
-        ///// </summary>
-        ///// <param name="testToDelete"></param>
-        //public void RemoveTest(Test testToDelete)
-        //{
-        //    if (_tests.All(x => x.Id != testToDelete.Id))
-        //        throw new Exception("Test doesn't exist");
-
-        //    _tests.RemoveAll(x => x.Id == testToDelete.Id);
-        //    SaveToXML(_tests, Configuration.SaveTestsXmlPath);
-
-        //}
-
-        /// <summary>
-        ///     update an existing test
-        /// </summary>
-        /// <param name="updatedTest"></param>
-        public void UpdateTest(Test updatedTest)
-        {
-            if (_tests.All(x => x.Id != updatedTest.Id))
-                throw new Exception("Test doesn't exist");
-
-            var test = _tests.Find(t => t.Id == updatedTest.Id);
-            _tests.Remove(test);
-            _tests.Add(updatedTest);
-            SaveToXML(_tests, Configuration.SaveTestsXmlPath);
-
-        }
-
-        #endregion
+     
 
         #region Tester
 
@@ -265,7 +220,6 @@ namespace DAL
                 foreach (var item in _tests)
                     allTest.Add(item.Clone() as Test);
                 return allTest.OrderBy(x => x.Id);
-                ;
             }
         }
 
@@ -362,28 +316,101 @@ namespace DAL
 
         #region Tester XML
 
-        private XElement TesterToXml(Tester tester)
+
+
+        private IEnumerable<Tester> GetAllTestersFromXml()
         {
-            var id = new XElement("id", tester.Id);
-            var firstName = new XElement("firstName", tester.FirstName);
-            var lastName = new XElement("lastName", tester.LastName);
-            var gender = new XElement("gender", tester.Gender);
+            var testers = new List<Tester>();
+            foreach (var xmLTester in _testersXML.Elements())
+            {
+                var licensesTypes = new List<LicenseType>();
+                licensesTypes.AddRange(xmLTester.Element("CollectionLicenseType")
+                                           ?.Elements()
+                                           .Select(
+                                               item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
+                                               )) ?? throw new InvalidOperationException());
+
+                var licensesTypesTeaching = new List<LicenseType>();
+                licensesTypesTeaching.AddRange(xmLTester.Element("CollectionLicenseTypeTeaching")
+                                                   ?.Elements()
+                                                   .Select(
+                                                       item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
+                                                       )) ?? throw new InvalidOperationException());
+
+
+                var schedule = new WeekSchedule();
+                foreach (var day in xmLTester.Element("schedule")?.Elements())
+                {
+                    var theDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day.Name.ToString());
+                    var i = 0;
+                    foreach (var hour in day.Elements())
+                    {
+                        schedule[theDay].Hours[i] = bool.Parse(hour?.Value);
+                        i++;
+                    }
+                }
+
+
+                var tester = new Tester
+                {
+                    BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
+                    Address = new Address(xmLTester.Element("address")?.Value),
+                    EmailAddress = xmLTester.Element("emailAddress")?.Value,
+                    Experience = uint.Parse(xmLTester.Element("experience")?.Value ?? throw new InvalidOperationException()),
+                    Gender = (Gender)Enum.Parse(typeof(Gender), xmLTester.Element("gender")?.Value ?? throw new InvalidOperationException()),
+                    FirstName = xmLTester.Element("firstName")?.Value,
+                    Id = uint.Parse(xmLTester.Element("id")?.Value ?? throw new InvalidOperationException()),
+                    LastName = xmLTester.Element("lastName")?.Value,
+
+
+                    LicenseType = licensesTypes,
+                    LicenseTypeTeaching = licensesTypesTeaching,
+
+                    MaxDistance = float.Parse(xmLTester.Element("maxDistance")?.Value ?? throw new InvalidOperationException()),
+                    Schedule = schedule,
+                    MaxWeekExams = uint.Parse(xmLTester.Element("maxWeekExams")?.Value ?? throw new InvalidOperationException()),
+                    PhoneNumber = xmLTester.Element("phoneNum")?.Value
+                };
+                testers.Add(tester);
+            }
+
+            return testers;
+        }
+
+
+        private static XElement TesterToXmlElement(Tester tester)
+        {
+            var experience = new XElement("experience", tester.Experience.ToString());
+
+            var licenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
+            foreach (var license in tester.LicenseTypeTeaching)
+            {
+                var xmllicense = new XElement("license", license);
+                licenseTypeTeaching.Add(xmllicense);
+            }
+
+            var maxDistance = new XElement("maxDistance", tester.MaxDistance.ToString(CultureInfo.CurrentCulture));
+            var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams.ToString());
+            var id = new XElement("id", tester.Id.ToString());
+
             var address = new XElement("address", tester.Address);
-            var experience = new XElement("experience", tester.Experience);
-            var maxDistance = new XElement("maxDistance", tester.MaxDistance);
-            var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams);
+
+            //  Use the ISO 8601 format - "O" format specifier
             var birthDate = new XElement("birthDate", tester.BirthDate);
             var emailAddress = new XElement("emailAddress", tester.EmailAddress);
-            var phoneNum = new XElement("phoneNum", tester.PhoneNumber);
+            var firstName = new XElement("firstName", tester.FirstName);
+            var gender = new XElement("gender", tester.Gender.ToString());
+            var lastName = new XElement("lastName", tester.LastName);
 
-            var collectionLicenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
 
-            foreach (var item in tester.LicenseTypeTeaching)
-            {
-                var license = new XElement("license", item);
+            var licenseType = new XElement("CollectionLicenseType");
+            if (!tester.LicenseType.Any())
+                foreach (var license in tester.LicenseType)
+                {
+                    var xmllicense = new XElement("license", license.ToString());
+                    licenseType.Add(xmllicense);
+                }
 
-                collectionLicenseTypeTeaching.Add(license);
-            }
 
             var schedule = new XElement("schedule");
             foreach (var day in tester.Schedule.days)
@@ -394,12 +421,56 @@ namespace DAL
                     var hourInDay = new XElement("hour", hour);
                     dayOfWeek.Add(hourInDay);
                 }
+
                 schedule.Add(dayOfWeek);
             }
 
-            return new XElement("tester", id, firstName, lastName, gender, address, maxWeekExams, birthDate, emailAddress, maxDistance, phoneNum, schedule, experience, collectionLicenseTypeTeaching);
 
+            var phoneNumber = new XElement("phoneNum", tester.PhoneNumber);
+
+
+            return new XElement("tester", experience, licenseTypeTeaching, maxDistance, maxWeekExams, schedule, id,
+                address, birthDate, emailAddress, firstName, gender, lastName, licenseType, phoneNumber);
         }
+
+        //private XElement TesterToXml(Tester tester)
+        //{
+        //    var id = new XElement("id", tester.Id);
+        //    var firstName = new XElement("firstName", tester.FirstName);
+        //    var lastName = new XElement("lastName", tester.LastName);
+        //    var gender = new XElement("gender", tester.Gender);
+        //    var address = new XElement("address", tester.Address);
+        //    var experience = new XElement("experience", tester.Experience);
+        //    var maxDistance = new XElement("maxDistance", tester.MaxDistance);
+        //    var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams);
+        //    var birthDate = new XElement("birthDate", tester.BirthDate);
+        //    var emailAddress = new XElement("emailAddress", tester.EmailAddress);
+        //    var phoneNum = new XElement("phoneNum", tester.PhoneNumber);
+
+        //    var collectionLicenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
+
+        //    foreach (var item in tester.LicenseTypeTeaching)
+        //    {
+        //        var license = new XElement("license", item);
+
+        //        collectionLicenseTypeTeaching.Add(license);
+        //    }
+
+        //    var schedule = new XElement("schedule");
+        //    foreach (var day in tester.Schedule.days)
+        //    {
+        //        var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
+        //        foreach (var hour in day.Hours)
+        //        {
+        //            var hourInDay = new XElement("hour", hour);
+        //            dayOfWeek.Add(hourInDay);
+        //        }
+        //        schedule.Add(dayOfWeek);
+        //    }
+
+        //    return new XElement("tester", id, firstName, lastName, gender, address, maxWeekExams, birthDate, emailAddress, maxDistance, phoneNum, schedule, experience, collectionLicenseTypeTeaching);
+
+        //}
 
         private List<Tester> GetAllTestersXml()
         {
@@ -544,66 +615,14 @@ namespace DAL
         
   
 
-        #region Testjac
+        #region Test
 
+        
 
-
-        /// <summary>
-        ///     Add a new test
-        /// </summary>
-        /// <param name="newTest"></param>
-        public void AddTest(Test newTest)
-        {
-            newTest.Id = $"{Configuration.TestId:00000000}";
-            Configuration.TestId++;
-            SaveConfigurations();
-
-            var testsToAdd = new List<Test> { newTest };
-            SerializeTestsToXml(testsToAdd);
-        }
-
-        /// <summary>
-        ///     remove a test
-        /// </summary>
-        /// <param name="testToDelete"></param>
-        public void RemoveTest(Test testToDelete)
-        {
-            if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
-                throw new Exception("Test doesn't exist");
-
-            _testsXML.Elements().First(x => x.Element("id")?.Value == testToDelete.Id.ToString()).Remove();
-            _testsXML.Save(Configuration.TestsXmlPathFile);
-        }
-
-        ///// <summary>
-        /////     update an existing test
-        ///// </summary>
-        ///// <param name="testToUpdate"></param>
-        //public void UpdateTest(Test testToUpdate)
-        //{
-        //    if (DataSource.Tests.All(x => x.Id != testToUpdate.Id))
-        //        throw new Exception("Test doesn't exist");
-
-        //    var test = DataSource.Tests.Find(t => t.Id == testToUpdate.Id);
-        //    DataSource.Tests.Remove(test);
-        //    DataSource.Tests.Add(testToUpdate);
-
-        //    _testsXML.Elements().First(x => x.Element("id")?.Value == testToUpdate.Id.ToString()).Remove();
-        //    // serialize the testToUpdate and save it
-        //    SerializeTestsToXml(new List<Test>{testToUpdate});
-        //}
-
-        private static void SerializeTestsToXml(IReadOnlyCollection<Test> list)
-        {
-            var file = new FileStream(Configuration.TestsXmlPathFile, FileMode.Create);
-            var xmlSerializer = new XmlSerializer(list.GetType());
-            xmlSerializer.Serialize(file, list);
-            file.Close();
-        }
 
         #endregion
 
-        #region Testerjac
+        #region Tester
 
         /// <summary>
         ///     Add tester
@@ -611,10 +630,10 @@ namespace DAL
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
-      //      if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
-          //      throw new Exception("The tester already exist in the system");
+           if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
+                throw new Exception("The tester already exist in the system");
 
-            _testersXML = TesterToXmlElement(newTester);
+            _testersXML.Add( TesterToXmlElement(newTester));
             _testersXML.Save(Configuration.TestersXmlPathFile);
         }
 
@@ -657,113 +676,8 @@ namespace DAL
         }
 
 
-        private static XElement TesterToXmlElement(Tester tester)
-        {
-            var experience = new XElement("experience", tester.Experience.ToString());
-
-            var licenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
-            foreach (var item in tester.LicenseTypeTeaching)
-                licenseTypeTeaching.Add(item.ToString());
-
-            var maxDistance = new XElement("maxDistance", tester.MaxDistance.ToString(CultureInfo.CurrentCulture));
-            var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams.ToString());
-            var schedule = new XElement("schedule", tester.Schedule); // TODO implementation
-            var id = new XElement("id", tester.Id.ToString());
-
-            // address
-            var address = new XElement("address");
-            var building = new XElement("building", tester.Address.Building);
-            var city = new XElement("city", tester.Address.City);
-            var entrance = new XElement("entrance", tester.Address.Entrance);
-            var street = new XElement("street", tester.Address.Street);
-            address.Add(building, city, entrance, street);
-
-
-            //  Use the ISO 8601 format - "O" format specifier
-            var birthDate = new XElement("birthDate", tester.BirthDate.ToString("O"));
-            var emailAddress = new XElement("emailAddress", tester.EmailAddress);
-            var firstName = new XElement("firstName", tester.FirstName);
-            var gender = new XElement("gender", tester.Gender.ToString());
-            var lastName = new XElement("lastName", tester.LastName);
-
-            var licenseType = new XElement("licenseType");
-            foreach (var license in tester.LicenseType)
-                licenseType.Add(license);
-
-
-            var phoneNumber = new XElement("phoneNumber", tester.PhoneNumber);
-
-
-            return new XElement("tester", experience, licenseTypeTeaching, maxDistance, maxWeekExams, schedule, id, address, birthDate, emailAddress, firstName, gender, lastName, licenseType, phoneNumber);
-        }
-
-
-        private IEnumerable<Tester> GetAllTestersFromXml()
-        {
-            var testers = new List<Tester>();
-            foreach (var xmLTester in _testersXML.Elements())
-            {
-                // address
-                //var city = xmLTester.Element("address")?.Element("city")?.Value;
-                //var building = xmLTester.Element("address")?.Element("building")?.Value;
-                //var street = xmLTester.Element("address")?.Element("street")?.Value;
-                //var entrance = xmLTester.Element("address")?.Element("entrance")?.Value;
-
-                //List<LicenseType> licensesTypes = new List<LicenseType>();
-                //licensesTypes.AddRange(xmLTester.Element("licenseType")
-                //                            ?.Elements()
-                //                            .Select(
-                //                                item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
-                //                                )) ?? throw new InvalidOperationException());
-
-                List<LicenseType> licensesTypesTeaching = new List<LicenseType>();
-                licensesTypesTeaching.AddRange(xmLTester.Element("CollectionLicenseTypeTeaching")
-                                                   ?.Elements()
-                                                   .Select(
-                                                       item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
-                                                       )) ?? throw new InvalidOperationException());
-
-
-
-
-                var Schedule = new WeekSchedule();
-                foreach (var day in xmLTester.Element("schedule")?.Elements())
-                {
-                    var theDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day.Name.ToString());
-                    int i = 0;
-                    foreach (var hour in day.Elements())
-                    {
-                        Schedule[theDay].Hours[i] = bool.Parse(hour?.Value);
-                        i++;
-                    }
-                }
-
-
-
-                var tester = new Tester
-                {
-                    BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
-                    Address = new Address(xmLTester.Element("address")?.Value),
-                    EmailAddress = xmLTester.Element("emailAddress")?.Value,
-                    Experience = uint.Parse(xmLTester.Element("experience")?.Value),
-                    Gender = (Gender)Enum.Parse(typeof(Gender), xmLTester.Element("gender")?.Value),
-                    FirstName = xmLTester.Element("firstName")?.Value,
-                    Id = uint.Parse(xmLTester.Element("id")?.Value),
-                    LastName = xmLTester.Element("lastName")?.Value,
-
-                    //LicenseType = licensesTypes, ///////////////////////////////
-                    LicenseTypeTeaching = licensesTypesTeaching,
-
-                    MaxDistance = float.Parse(xmLTester.Element("maxDistance")?.Value),
-                    Schedule = Schedule,
-                    MaxWeekExams = uint.Parse(xmLTester.Element("maxWeekExams")?.Value),
-                    PhoneNumber = xmLTester.Element("phoneNumber")?.Value,
-                };
-
-            }
-
-            return testers;
-        }
+      
+    
 
 
 
