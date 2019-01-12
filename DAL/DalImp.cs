@@ -611,8 +611,8 @@ namespace DAL
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
-            if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
-                throw new Exception("The tester already exist in the system");
+      //      if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
+          //      throw new Exception("The tester already exist in the system");
 
             _testersXML = TesterToXmlElement(newTester);
             _testersXML.Save(Configuration.TestersXmlPathFile);
@@ -661,7 +661,7 @@ namespace DAL
         {
             var experience = new XElement("experience", tester.Experience.ToString());
 
-            var licenseTypeTeaching = new XElement("licenseTypeTeaching");
+            var licenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
             foreach (var item in tester.LicenseTypeTeaching)
                 licenseTypeTeaching.Add(item.ToString());
 
@@ -717,7 +717,7 @@ namespace DAL
                 //                                )) ?? throw new InvalidOperationException());
 
                 List<LicenseType> licensesTypesTeaching = new List<LicenseType>();
-                licensesTypesTeaching.AddRange(xmLTester.Element("licenseTypeTeaching")
+                licensesTypesTeaching.AddRange(xmLTester.Element("CollectionLicenseTypeTeaching")
                                                    ?.Elements()
                                                    .Select(
                                                        item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
