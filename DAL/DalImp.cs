@@ -33,7 +33,8 @@ namespace DAL
     public partial class DalImp : IDal
     {
         private XElement _traineesXml;
-        private XElement _testersXml;
+        //   private XElement _testersXml;
+        private XElement _testersXML;
         private XElement _testsXML;
 
 
@@ -64,11 +65,11 @@ namespace DAL
 
                 if (File.Exists(Configuration.SaveTestersXmlPath))
                 {
-                    _testersXml=XElement.Load(Configuration.TestersXmlPathFile);
+                    _testersXML = XElement.Load(Configuration.TestersXmlPathFile);
                 }
                 else
                 {
-                    _testersXml=new XElement("testers");
+                    _testersXML = new XElement("testers");
                 }
               _testers =  GetAllTestersXml();
 
@@ -405,7 +406,7 @@ namespace DAL
             if (_testerChanged)
             {
                 _testers = new List<Tester>();
-                foreach (var tester in _testersXml.Elements())
+                foreach (var tester in _testersXML.Elements())
                 {
                     var t = new Tester()
                     {
@@ -540,12 +541,8 @@ namespace DAL
 
 
 
-
-        private XElement _testersXML
-        {
-            get;
-            set;
-        }
+        
+  
 
         #region Testjac
 
@@ -707,17 +704,17 @@ namespace DAL
             foreach (var xmLTester in _testersXML.Elements())
             {
                 // address
-                var city = xmLTester.Element("address")?.Element("city")?.Value;
-                var building = xmLTester.Element("address")?.Element("building")?.Value;
-                var street = xmLTester.Element("address")?.Element("street")?.Value;
-                var entrance = xmLTester.Element("address")?.Element("entrance")?.Value;
+                //var city = xmLTester.Element("address")?.Element("city")?.Value;
+                //var building = xmLTester.Element("address")?.Element("building")?.Value;
+                //var street = xmLTester.Element("address")?.Element("street")?.Value;
+                //var entrance = xmLTester.Element("address")?.Element("entrance")?.Value;
 
-                List<LicenseType> licensesTypes = new List<LicenseType>();
-                licensesTypes.AddRange(xmLTester.Element("licenseType")
-                                            ?.Elements()
-                                            .Select(
-                                                item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
-                                                )) ?? throw new InvalidOperationException());
+                //List<LicenseType> licensesTypes = new List<LicenseType>();
+                //licensesTypes.AddRange(xmLTester.Element("licenseType")
+                //                            ?.Elements()
+                //                            .Select(
+                //                                item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
+                //                                )) ?? throw new InvalidOperationException());
 
                 List<LicenseType> licensesTypesTeaching = new List<LicenseType>();
                 licensesTypesTeaching.AddRange(xmLTester.Element("licenseTypeTeaching")
@@ -746,7 +743,7 @@ namespace DAL
                 var tester = new Tester
                 {
                     BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
-                    Address = new Address(city, street, building, entrance),   ///////////////////////////////////////
+                    Address = new Address(xmLTester.Element("address")?.Value),
                     EmailAddress = xmLTester.Element("emailAddress")?.Value,
                     Experience = uint.Parse(xmLTester.Element("experience")?.Value),
                     Gender = (Gender)Enum.Parse(typeof(Gender), xmLTester.Element("gender")?.Value),
@@ -754,7 +751,7 @@ namespace DAL
                     Id = uint.Parse(xmLTester.Element("id")?.Value),
                     LastName = xmLTester.Element("lastName")?.Value,
 
-                    LicenseType = licensesTypes,
+                    //LicenseType = licensesTypes, ///////////////////////////////
                     LicenseTypeTeaching = licensesTypesTeaching,
 
                     MaxDistance = float.Parse(xmLTester.Element("maxDistance")?.Value),
