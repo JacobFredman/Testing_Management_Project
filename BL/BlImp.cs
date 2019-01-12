@@ -435,6 +435,7 @@ namespace BL
                 ////check internet connectivity
                 //var wc = new WebClient();
                 //wc.DownloadData("https://www.google.com/");
+                List<Tester> te = AllTesters.ToList(); 
 
                 var testerDistance = from tester in AllTesters
                     where tester.Address != null
@@ -684,6 +685,7 @@ namespace BL
         {
             _dalImp.SaveConfigurations();
         }
+
 
     }
 }
