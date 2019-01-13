@@ -33,12 +33,11 @@ namespace DAL
     public partial class DalImp : IDal
     {
         private XElement _traineesXml;
-        //   private XElement _testersXml;
         private XElement _testersXML;
         private XElement _testsXML;
 
 
-        private List<Trainee> _trainees=new List<Trainee>();
+        private List<Trainee> _trainees = new List<Trainee>();
         private List<Test> _tests = new List<Test>();
         private List<Tester> _testers = new List<Tester>();
 
@@ -59,7 +58,7 @@ namespace DAL
                 }
                 else
                 {
-                    _traineesXml=new XElement("trainees");
+                    _traineesXml = new XElement("trainees");
                 }
                 GetAllTraineesXml();
 
@@ -71,12 +70,13 @@ namespace DAL
                 {
                     _testersXML = new XElement("testers");
                 }
-              _testers =  GetAllTestersXml();
+             //   _testers = GetAllTestersXml();
+                _testers = GetAllTestersFromXml().ToList();
+
 
                 if (File.Exists(Configuration.SaveTestsXmlPath))
                 {
-                   // _tests = LoadFromXML<List<Test>>(Configuration.SaveTestsXmlPath);
-                   _tests = LoadTestsFromXML();
+                    _tests = LoadTestsFromXML();
                 }
                 else
                 {
@@ -87,11 +87,11 @@ namespace DAL
             }
             catch
             {
-               //do nothing
+                //do nothing
             }
         }
 
-     
+
 
         #region Tester
 
@@ -167,7 +167,7 @@ namespace DAL
                 throw new Exception("Trainee doesn't exist");
 
 
-            _traineesXml.Elements().First(x=>x.Element("id").Value == traineeToDelete.Id.ToString()).Remove();
+            _traineesXml.Elements().First(x => x.Element("id").Value == traineeToDelete.Id.ToString()).Remove();
             _traineesXml.Save(Configuration.SaveTraineesXmlPath);
             _traineeChanged = true;
         }
@@ -314,6 +314,8 @@ namespace DAL
 
         private IEnumerable<Tester> GetAllTestersFromXml()
         {
+            if (!_testerChanged)
+                return _testers;
             var testers = new List<Tester>();
             foreach (var xmLTester in _testersXML.Elements())
             {
@@ -355,7 +357,7 @@ namespace DAL
                     FirstName = xmLTester.Element("firstName")?.Value,
                     Id = uint.Parse(xmLTester.Element("id")?.Value ?? throw new InvalidOperationException()),
                     LastName = xmLTester.Element("lastName")?.Value,
-
+                    
 
                     LicenseType = licensesTypes,
                     LicenseTypeTeaching = licensesTypesTeaching,
@@ -364,10 +366,13 @@ namespace DAL
                     Schedule = schedule,
                     MaxWeekExams = uint.Parse(xmLTester.Element("maxWeekExams")?.Value ?? throw new InvalidOperationException()),
                     PhoneNumber = xmLTester.Element("phoneNum")?.Value
+                    
                 };
                 testers.Add(tester);
             }
 
+            _testerChanged = false;
+            _testers = testers;
             return testers;
         }
 
@@ -389,7 +394,6 @@ namespace DAL
 
             var address = new XElement("address", tester.Address);
 
-            //  Use the ISO 8601 format - "O" format specifier
             var birthDate = new XElement("birthDate", tester.BirthDate);
             var emailAddress = new XElement("emailAddress", tester.EmailAddress);
             var firstName = new XElement("firstName", tester.FirstName);
@@ -410,14 +414,10 @@ namespace DAL
             foreach (var day in tester.Schedule.days)
             {
                 var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
-              //  int counter = 0;
                 foreach (var hour in day.Hours)
                 {
                     var hourInDay = new XElement("hour", hour);
-                   // if(counter == 13 || counter == 14 || counter == 15 || counter == 16)
-                      //  hourInDay.SetValue("true");
                     dayOfWeek.Add(hourInDay);
-                 //   counter++;
                 }
 
                 schedule.Add(dayOfWeek);
@@ -542,14 +542,14 @@ namespace DAL
             var percentOfCriteriaToPassTest =
                 new XElement("PercentOfCriteriaToPassTest", Configuration.PercentOfCriteriaToPassTest);
 
-            var criteria=new XElement("Criteria");
+            var criteria = new XElement("Criteria");
             foreach (var item in Configuration.Criteria)
             {
-                criteria.Add(new XElement("Criterion",item));
+                criteria.Add(new XElement("Criterion", item));
             }
             _config.RemoveAll();
             _config.Add(adminPass, adminUser, firstOpen, testId, minLesson, minTesterAge, minTimeBetweenTests,
-                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest,theme,color,criteria);
+                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest, theme, color, criteria);
             _config.Save(Configuration.SaveConfigXmlPath);
         }
 
@@ -557,7 +557,7 @@ namespace DAL
         {
             if (File.Exists(Configuration.SaveConfigXmlPath))
             {
-                _config=XElement.Load(Configuration.SaveConfigXmlPath);
+                _config = XElement.Load(Configuration.SaveConfigXmlPath);
                 Configuration.Theme = _config.Element("Theme")?.Value;
                 Configuration.Color = _config.Element("Color")?.Value;
                 Configuration.AdminPassword = _config.Element("AdminPassword")?.Value;
@@ -565,38 +565,19 @@ namespace DAL
                 Configuration.FirstOpenProgram = bool.Parse(_config.Element("FirstOpenProgram")?.Value);
                 Configuration.TestId = uint.Parse(_config.Element("TestId")?.Value);
                 Configuration.MinLessons = uint.Parse(_config.Element("MinLessons")?.Value);
-                Configuration.MinTesterAge= uint.Parse(_config.Element("MinTesterAge")?.Value);
-                Configuration.MinTraineeAge= uint.Parse(_config.Element("MinTraineeAge")?.Value);
-                Configuration.MinTimeBetweenTests= uint.Parse(_config.Element("MinTimeBetweenTests")?.Value);
-                Configuration.MinimumCriteria= uint.Parse(_config.Element("MinimumCriteria")?.Value);
-                Configuration.PercentOfCriteriaToPassTest= uint.Parse(_config.Element("PercentOfCriteriaToPassTest")?.Value);
+                Configuration.MinTesterAge = uint.Parse(_config.Element("MinTesterAge")?.Value);
+                Configuration.MinTraineeAge = uint.Parse(_config.Element("MinTraineeAge")?.Value);
+                Configuration.MinTimeBetweenTests = uint.Parse(_config.Element("MinTimeBetweenTests")?.Value);
+                Configuration.MinimumCriteria = uint.Parse(_config.Element("MinimumCriteria")?.Value);
+                Configuration.PercentOfCriteriaToPassTest = uint.Parse(_config.Element("PercentOfCriteriaToPassTest")?.Value);
                 Configuration.Criteria = (from item in _config?.Element("Criteria").Elements()
-                    select item.Value).ToArray();
+                                          select item.Value).ToArray();
             }
             else
             {
-                _config=new XElement("Config");
+                _config = new XElement("Config");
             }
         }
- 
-        #endregion
-
-        #region Generic Serializer
-
-        private static void SaveToXML<T>(T source, string path)
-        {
-            var file = new FileStream(path, FileMode.Create);
-            var xmlSerializer = new XmlSerializer(source.GetType());
-            xmlSerializer.Serialize(file, source); file.Close();
-        }
-
-        private static T LoadFromXML<T>(string path)
-        {
-            var file = new FileStream(path, FileMode.Open);
-            var xmlSerializer = new XmlSerializer(typeof(T));
-            var result = (T)xmlSerializer.Deserialize(file); file.Close();
-            return result;
-        }
 
         #endregion
 
@@ -610,15 +591,12 @@ namespace DAL
 
 
 
-        
-  
-
-        #region Test
-
-        
 
 
-        #endregion
+
+
+
+    
 
         #region Tester
 
@@ -628,11 +606,12 @@ namespace DAL
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
-           if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
+            if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
                 throw new Exception("The tester already exist in the system");
 
-            _testersXML.Add( TesterToXmlElement(newTester));
+            _testersXML.Add(TesterToXmlElement(newTester));
             _testersXML.Save(Configuration.TestersXmlPathFile);
+            _testerChanged = true;
         }
 
         /// <summary>
@@ -674,8 +653,8 @@ namespace DAL
         }
 
 
-      
-    
+
+
 
 
 
