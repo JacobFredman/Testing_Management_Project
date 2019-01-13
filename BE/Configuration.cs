@@ -123,15 +123,17 @@ namespace BE
             return fileName;
         }
 
-        public static string SaveTraineesXmlPath = @"Data\Trainees.xml";
-        public static string SaveTestersXmlPath = @"Data\Testers.xml";
-        public static string SaveTestsXmlPath = @"Data\Tests.xml";
+        public const string SaveTraineesXmlPath = @"Data\Trainees.xml";
+        public const string SaveTestersXmlPath = @"Data\Testers.xml";
+        public const string SaveTestsXmlPath = @"Data\Tests.xml";
 
         public static string SaveConfigXmlPath = @"Data\Config.xml";
 
-        public static string TestsXmlPathFile = @"Data\Tests.xml";
-        public static string TestersXmlPathFile = @"Data\Testers.xml";
+        public const string TestsXmlPathFile = @"Data\Tests.xml";
+        public const string TestersXmlPathFile = @"Data\Testers.xml";
 
+        public const string FromEmailAddress = "tests.miniproject@gmail.com";
+        public const string SenderPassword = "0586300016";
     }
 
 }

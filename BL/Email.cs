@@ -11,9 +11,8 @@ namespace BL
 {
     public static class Email
     {
-
-        private const string FromEmailAddress = "tests.miniproject@gmail.com";
-        private const string SenderPassword = "0586300016";
+       // private const string FromEmailAddress = "tests.miniproject@gmail.com";
+       // private const string SenderPassword = "0586300016";
 
         public static int SendEmailToAllTraineeBeforeTest(this IEnumerable<Test> tests)
         {
@@ -97,9 +96,9 @@ namespace BL
 
                 var attachment = new Attachment(Configuration.GetPdfFullPath());
 
-            var from = new MailAddress(FromEmailAddress, fromName);
+            var from = new MailAddress(Configuration.FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
-            const string fromPassword = SenderPassword;
+            const string fromPassword = Configuration.SenderPassword;
             //  const string subject = "Subject";
             //  const string body = "Body";
 
