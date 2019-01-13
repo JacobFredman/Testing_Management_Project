@@ -56,9 +56,11 @@ namespace DAL
             var test = _tests.Find(t => t.Id == updatedTest.Id);
             _tests.Remove(test);
             _tests.Add(updatedTest);
-            SaveToXML(_tests, Configuration.SaveTestsXmlPath);
-
+            SerializeTestsToXml(_tests);
         }
+
+
+
 
 
 
@@ -76,8 +78,8 @@ namespace DAL
             Configuration.TestId++;
             SaveConfigurations();
 
-            var testsToAdd = new List<Test> { newTest };
-            SerializeTestsToXml(testsToAdd);
+           _tests.Add(newTest);
+            SerializeTestsToXml(_tests);
         }
 
         /// <summary>
@@ -86,11 +88,12 @@ namespace DAL
         /// <param name="testToDelete"></param>
         public void RemoveTest(Test testToDelete)
         {
-            if (DataSource.Tests.All(x => x.Id != testToDelete.Id))
+            if (DeSerializeTestFromXml().All(x => x.Id != testToDelete.Id))
                 throw new Exception("Test doesn't exist");
 
-            _testsXML.Elements().First(x => x.Element("id")?.Value == testToDelete.Id.ToString()).Remove();
-            _testsXML.Save(Configuration.TestsXmlPathFile);
+            var testToRemove = _tests.Single(r => r.Id == testToDelete.Id);
+            _tests.Remove(testToRemove);
+            SerializeTestsToXml(_tests);
         }
 
         ///// <summary>
@@ -117,6 +120,16 @@ namespace DAL
             var xmlSerializer = new XmlSerializer(list.GetType());
             xmlSerializer.Serialize(file, list);
             file.Close();
+        }
+
+
+        private static IEnumerable<Test> DeSerializeTestFromXml()
+        {
+            var file = new FileStream(Configuration.SaveTestsXmlPath,FileMode.Open);
+            var xmlSerializer = new XmlSerializer(typeof(List<Test>));
+            var list = (List<Test>) xmlSerializer.Deserialize(file);
+            file.Close();
+            return list;
         }
 
         #endregion

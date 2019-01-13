@@ -75,7 +75,8 @@ namespace DAL
 
                 if (File.Exists(Configuration.SaveTestsXmlPath))
                 {
-                    _tests = LoadFromXML<List<Test>>(Configuration.SaveTestsXmlPath);
+                   // _tests = LoadFromXML<List<Test>>(Configuration.SaveTestsXmlPath);
+                   _tests = LoadTestsFromXML();
                 }
                 else
                 {
@@ -197,14 +198,7 @@ namespace DAL
         {
             get
             {
-                //var allTesters = new List<Tester>();
-                //foreach (var item in GetAllTestersXml())
-                //    allTesters.Add(item.Clone() as Tester);
-                //return allTesters.OrderBy(x => x.Id);
-
-                var allTesters = new List<Tester>();
-                foreach (var item in GetAllTestersFromXml())
-                    allTesters.Add(item.Clone() as Tester);
+                var allTesters = GetAllTestersFromXml().Select(item => item.Clone() as Tester).ToList();
                 return allTesters.OrderBy(x => x.Id);
             }
         }
@@ -217,7 +211,7 @@ namespace DAL
             get
             {
                 var allTest = new List<Test>();
-                foreach (var item in _tests)
+                foreach (var item in DeSerializeTestFromXml())
                     allTest.Add(item.Clone() as Test);
                 return allTest.OrderBy(x => x.Id);
             }
@@ -416,10 +410,14 @@ namespace DAL
             foreach (var day in tester.Schedule.days)
             {
                 var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
+              //  int counter = 0;
                 foreach (var hour in day.Hours)
                 {
                     var hourInDay = new XElement("hour", hour);
+                   // if(counter == 13 || counter == 14 || counter == 15 || counter == 16)
+                      //  hourInDay.SetValue("true");
                     dayOfWeek.Add(hourInDay);
+                 //   counter++;
                 }
 
                 schedule.Add(dayOfWeek);
