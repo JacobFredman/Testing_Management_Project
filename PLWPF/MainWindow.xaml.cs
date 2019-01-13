@@ -43,101 +43,101 @@ namespace PLWPF
 
       
 
-        /// <summary>
-        ///     for debugging only !!!!!!!!!!!!!!!!!!!!!!
-        /// </summary>
-        private void AddInfo()
-        {
-            try
-            {
-                //var test = new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true };
-                //var list = new List<LessonsAndType> { test };
-                //_blimp.SetTest(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
-                //{
-                //    BirthDate = new DateTime(1995, 1, 1),
-                //    LicenseTypeLearning = list,
-                //    Address = new Address("הועד הלאומי 14, ירושלים, ישראל"),
-                //    EmailAddress = "elisja.sc@gmail.com"
-                //});
-                //_blimp.SetTest(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
-                //{ BirthDate = new DateTime(1985, 1, 12) });
-                //_blimp.SetTest(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
-                //{ BirthDate = new DateTime(1987, 1, 1) });
-                //_blimp.SetTest(new Trainee(314661133, Gender.Male, "Bob", "Ray")
-                //{ BirthDate = new DateTime(1980, 1, 1) });
-                //_blimp.SetTest(new Trainee(324126747, Gender.Male, "Avi", "Alon")
-                //{ BirthDate = new DateTime(1970, 1, 1) });
-                //_blimp.SetTest(new Trainee(326591088, Gender.Female, "Avia", "Abu")
-                //{ BirthDate = new DateTime(1999, 1, 1) });
-                //_blimp.SetTest(new Trainee(342533643, Gender.Male, "Gil", "Rami")
-                //{ BirthDate = new DateTime(2000, 1, 1) });
-                //_blimp.SetTest(new Trainee(339794166, Gender.Male, "David", "Aboulafia")
-                //{ BirthDate = new DateTime(2000, 1, 1) });
-                //_blimp.SetTest(new Trainee(336390885, Gender.Male, "Shlomo", "Simchon")
-                //{ BirthDate = new DateTime(1991, 1, 1) });
-                //_blimp.SetTest(new Trainee(332484609, Gender.Female, "Gavriela", "Abuxsis")
-                //{ BirthDate = new DateTime(1991, 1, 1) });
-                //_blimp.SetTest(new Trainee(332307065, Gender.Female, "Yafa", "Alaluf")
-                //{ BirthDate = new DateTime(1999, 1, 1) });
-                //_blimp.SetTest(new Trainee(332270446, Gender.Male, "Dudu", "Tapiro")
-                //{ BirthDate = new DateTime(2000, 1, 1) });
-                //_blimp.SetTest(new Trainee(329043459, Gender.Male, "Pinchas", "Moshe")
-                //{ BirthDate = new DateTime(1988, 1, 1) });
+        ///// <summary>
+        /////     for debugging only !!!!!!!!!!!!!!!!!!!!!!
+        ///// </summary>
+        //private void AddInfo()
+        //{
+        //    try
+        //    {
+        //        //var test = new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true };
+        //        //var list = new List<LessonsAndType> { test };
+        //        //_blimp.SetTest(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
+        //        //{
+        //        //    BirthDate = new DateTime(1995, 1, 1),
+        //        //    LicenseTypeLearning = list,
+        //        //    Address = new Address("הועד הלאומי 14, ירושלים, ישראל"),
+        //        //    EmailAddress = "elisja.sc@gmail.com"
+        //        //});
+        //        //_blimp.SetTest(new Trainee(037982519, Gender.Male, "Jacob", "Fredman")
+        //        //{ BirthDate = new DateTime(1985, 1, 12) });
+        //        //_blimp.SetTest(new Trainee(319185971, Gender.Male, "Moshe", "Levi")
+        //        //{ BirthDate = new DateTime(1987, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(314661133, Gender.Male, "Bob", "Ray")
+        //        //{ BirthDate = new DateTime(1980, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(324126747, Gender.Male, "Avi", "Alon")
+        //        //{ BirthDate = new DateTime(1970, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(326591088, Gender.Female, "Avia", "Abu")
+        //        //{ BirthDate = new DateTime(1999, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(342533643, Gender.Male, "Gil", "Rami")
+        //        //{ BirthDate = new DateTime(2000, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(339794166, Gender.Male, "David", "Aboulafia")
+        //        //{ BirthDate = new DateTime(2000, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(336390885, Gender.Male, "Shlomo", "Simchon")
+        //        //{ BirthDate = new DateTime(1991, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(332484609, Gender.Female, "Gavriela", "Abuxsis")
+        //        //{ BirthDate = new DateTime(1991, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(332307065, Gender.Female, "Yafa", "Alaluf")
+        //        //{ BirthDate = new DateTime(1999, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(332270446, Gender.Male, "Dudu", "Tapiro")
+        //        //{ BirthDate = new DateTime(2000, 1, 1) });
+        //        //_blimp.SetTest(new Trainee(329043459, Gender.Male, "Pinchas", "Moshe")
+        //        //{ BirthDate = new DateTime(1988, 1, 1) });
 
-                var sch = new WeekSchedule();
-                sch.AddHoursAllDays(12, 15);
-                var list2 = new List<LicenseType>();
-                list2.Add(LicenseType.A);
-                _blimp.AddTester(new Tester(328729660, "meir", "")
-                {
-                    BirthDate = new DateTime(1945, 1, 1), Address = new Address("הרצל 30, בית שמש, ישראל"),
-                    MaxDistance = 1000,
-                    Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
-                });
-                sch = new WeekSchedule();
-                sch.AddHoursAllDays(12, 15);
-                _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
-                {
-                    BirthDate = new DateTime(1970, 1, 1), Address = new Address("תל אביב, נס ציונה, ישראל"),
-                    Schedule = sch
-                });
-                sch = new WeekSchedule();
-                sch.AddHoursAllDays(12, 15);
-                _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
-                {
-                    BirthDate = new DateTime(1961, 1, 1), Address = new Address("רחוב הנשיא, קרית שמונה, ישראל"),
-                    Schedule = sch
-                });
-                sch = new WeekSchedule();
-                sch.AddHoursAllDays(12, 15);
-                _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
-                {
-                    BirthDate = new DateTime(1950, 1, 1), Address = new Address("חולות גאולים, קדימה צורן, ישראל"),
-                    Schedule = sch
-                });
+        //        var sch = new WeekSchedule();
+        //        sch.AddHoursAllDays(12, 15);
+        //        var list2 = new List<LicenseType>();
+        //        list2.Add(LicenseType.A);
+        //        _blimp.AddTester(new Tester(328729660, "meir", "")
+        //        {
+        //            BirthDate = new DateTime(1945, 1, 1), Address = new Address("הרצל 30, בית שמש, ישראל"),
+        //            MaxDistance = 1000,
+        //            Schedule = sch, MaxWeekExams = 10, LicenseTypeTeaching = list2
+        //        });
+        //        sch = new WeekSchedule();
+        //        sch.AddHoursAllDays(12, 15);
+        //        _blimp.AddTester(new Tester(324040443, "Maoz,", "Shectman")
+        //        {
+        //            BirthDate = new DateTime(1970, 1, 1), Address = new Address("תל אביב, נס ציונה, ישראל"),
+        //            Schedule = sch
+        //        });
+        //        sch = new WeekSchedule();
+        //        sch.AddHoursAllDays(12, 15);
+        //        _blimp.AddTester(new Tester(323873182, "Eliran", "Franko")
+        //        {
+        //            BirthDate = new DateTime(1961, 1, 1), Address = new Address("רחוב הנשיא, קרית שמונה, ישראל"),
+        //            Schedule = sch
+        //        });
+        //        sch = new WeekSchedule();
+        //        sch.AddHoursAllDays(12, 15);
+        //        _blimp.AddTester(new Tester(323082321, "David", "Arbiv")
+        //        {
+        //            BirthDate = new DateTime(1950, 1, 1), Address = new Address("חולות גאולים, קדימה צורן, ישראל"),
+        //            Schedule = sch
+        //        });
 
-                //var test1 = new Test(328729660, 319185997)
-                //{
-                //    TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
-                //    AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
-                //    LicenseType = LicenseType.A
-                //};
-                try
-                {
-                    //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
-                }
-                catch
-                {
-                    // ignored
-                }
+        //        //var test1 = new Test(328729660, 319185997)
+        //        //{
+        //        //    TestTime = new DateTime(2018, 12, 18, 12, 00, 00),
+        //        //    AddressOfBeginningTest = new Address("הועד הלאומי 14, ירושלים, ישראל"),
+        //        //    LicenseType = LicenseType.A
+        //        //};
+        //        try
+        //        {
+        //            //  test1.SetRouteAndAddressToTest(new Address("jerusalem"));
+        //        }
+        //        catch
+        //        {
+        //            // ignored
+        //        }
 
-               // _blimp.AddTest(test1);
-            }
-            catch (Exception ex)
-            {
-                ExceptionMessage.Show(ex.Message,ex.ToString());
-            }
-        }
+        //       // _blimp.AddTest(test1);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionMessage.Show(ex.Message,ex.ToString());
+        //    }
+        //}
 
         /// <summary>
         ///     check the id .if it is correct the enable the button

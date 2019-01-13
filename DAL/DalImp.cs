@@ -76,7 +76,7 @@ namespace DAL
 
                 if (File.Exists(Configuration.SaveTestsXmlPath))
                 {
-                    _tests = LoadTestsFromXML();
+                    _tests = DeSerializeTestFromXml().ToList();
                 }
                 else
                 {
@@ -211,7 +211,7 @@ namespace DAL
             get
             {
                 var allTest = new List<Test>();
-                foreach (var item in DeSerializeTestFromXml())
+                foreach (var item in _tests)
                     allTest.Add(item.Clone() as Test);
                 return allTest.OrderBy(x => x.Id);
             }

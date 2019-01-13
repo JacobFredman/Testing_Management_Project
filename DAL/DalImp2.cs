@@ -12,37 +12,12 @@ using DS;
 
 namespace DAL
 {
-    public partial class DalImp 
+    public partial class DalImp
     {
+        private bool _testsChanged = true;
 
         #region Test
 
-        ///// <summary>
-        /////     Add a new test
-        ///// </summary>
-        ///// <param name="newTest"></param>
-        //public void AddTest(Test newTest)
-        //{
-        //    newTest.Id = $"{Configuration.TestId:00000000}";
-        //    Configuration.TestId++;
-        //    SaveConfigurations();
-        //    _tests.Add(newTest);
-        //    SaveToXML(_tests,Configuration.SaveTestsXmlPath);
-        //}
-
-        ///// <summary>
-        /////     remove a test
-        ///// </summary>
-        ///// <param name="testToDelete"></param>
-        //public void RemoveTest(Test testToDelete)
-        //{
-        //    if (_tests.All(x => x.Id != testToDelete.Id))
-        //        throw new Exception("Test doesn't exist");
-
-        //    _tests.RemoveAll(x => x.Id == testToDelete.Id);
-        //    SaveToXML(_tests, Configuration.SaveTestsXmlPath);
-
-        //}
 
         /// <summary>
         ///     update an existing test
@@ -88,7 +63,7 @@ namespace DAL
         /// <param name="testToDelete"></param>
         public void RemoveTest(Test testToDelete)
         {
-            if (DeSerializeTestFromXml().All(x => x.Id != testToDelete.Id))
+            if (_tests.All(x => x.Id != testToDelete.Id))
                 throw new Exception("Test doesn't exist");
 
             var testToRemove = _tests.Single(r => r.Id == testToDelete.Id);
@@ -133,15 +108,6 @@ namespace DAL
         }
 
         #endregion
-
-
-
-
-
-
-
-
-
 
     }
 }

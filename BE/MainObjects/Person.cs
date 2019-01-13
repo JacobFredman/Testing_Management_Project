@@ -24,25 +24,25 @@ namespace BE.MainObjects
             LicenseType = new List<LicenseType>();
         }
 
-        /// <summary>
-        ///     a new person
-        /// </summary>
-        /// <param name="Id">Id</param>
-        /// <param name="firstName">First name</param>
-        /// <param name="lastName">Last Name</param>
-        public Person(uint Id, string firstName = "", string lastName = "", Gender g = Gender.Male)
-        {
-            this.Id = Id;
-            if (Id == 0)
-                throw new Exception("Invalid Id");
-            //birthDate = new DateTime();
-            BirthDate = new DateTime();
-            LicenseType = new List<LicenseType>();
-            FirstName = firstName;
-            LastName = lastName;
-            Gender = g;
-            _phoneNumber = "";
-        }
+        ///// <summary>
+        /////     a new person
+        ///// </summary>
+        ///// <param name="Id">Id</param>
+        ///// <param name="firstName">First name</param>
+        ///// <param name="lastName">Last Name</param>
+        //public Person(uint Id, string firstName = "", string lastName = "", Gender g = Gender.Male)
+        //{
+        //    this.Id = Id;
+        //    if (Id == 0)
+        //        throw new Exception("Invalid Id");
+        //    //birthDate = new DateTime();
+        //    BirthDate = new DateTime();
+        //    LicenseType = new List<LicenseType>();
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    Gender = g;
+        //    _phoneNumber = "";
+        //}
 
         /// <summary>
         ///     An new person

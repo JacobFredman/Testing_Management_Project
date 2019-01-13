@@ -30,24 +30,24 @@ namespace BL
             return count;
         }
 
-        public static int SendEmailToAllTraineeAfterTest(this IBL bl)
-        {
-            int count = 0;
-            foreach (Test test in bl.GetAllTestsThatHappened())
-            {
-                var trainee = bl.AllTrainees.First(x => x.Id == test.TraineeId);
-                try
-                {
-                    Pdf.CreateLicensePdf(test, trainee);
-                    SentEmailToTraineeAfterTest(test, trainee);
-                }
-                catch (Exception ex)
-                {
-                    var ms = ex.Message;
-                }
-            }
-            return count;
-        }
+        //public static int SendEmailToAllTraineeAfterTest(this IBL bl)
+        //{
+        //    int count = 0;
+        //    foreach (Test test in bl.GetAllTestsThatHappened())
+        //    {
+        //        var trainee = bl.AllTrainees.First(x => x.Id == test.TraineeId);
+        //        try
+        //        {
+        //            Pdf.CreateLicensePdf(test, trainee);
+        //            SentEmailToTraineeAfterTest(test, trainee);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            var ms = ex.Message;
+        //        }
+        //    }
+        //    return count;
+        //}
 
 
 

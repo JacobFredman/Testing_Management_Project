@@ -18,50 +18,50 @@ namespace BE.MainObjects
         {
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        ///     A new Tester
-        /// </summary>
-        /// <param name="Id">Id</param>
-        /// <param name="firstName">first name</param>
-        /// <param name="lastName">last name</param>
-        /// <param name="gender">tester gender</param>
-        public Tester(uint Id, string firstName = "", string lastName = "", Gender gender = Gender.Male) : base(Id,
-            firstName, lastName, gender)
-        {
-            LicenseTypeTeaching = new List<LicenseType>();
-            Schedule = new WeekSchedule((int) Configuration.NumbersOfWorkDaysInWeekTesters);
-            Experience = 0;
-            MaxWeekExams = 0;
-            _maxDistance = 0;
-        }
+        ///// <inheritdoc />
+        ///// <summary>
+        /////     A new Tester
+        ///// </summary>
+        ///// <param name="Id">Id</param>
+        ///// <param name="firstName">first name</param>
+        ///// <param name="lastName">last name</param>
+        ///// <param name="gender">tester gender</param>
+        //public Tester(uint Id, string firstName = "", string lastName = "", Gender gender = Gender.Male) : base(Id,
+        //    firstName, lastName, gender)
+        //{
+        //    LicenseTypeTeaching = new List<LicenseType>();
+        //    Schedule = new WeekSchedule((int) Configuration.NumbersOfWorkDaysInWeekTesters);
+        //    Experience = 0;
+        //    MaxWeekExams = 0;
+        //    _maxDistance = 0;
+        //}
 
-        /// <summary>
-        ///     An new tester
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="firstName"></param>
-        /// <param name="lastName"></param>
-        /// <param name="gender"></param>
-        /// <param name="emailAddress"></param>
-        /// <param name="birthDate"></param>
-        /// <param name="phoneNumber"></param>
-        /// <param name="address"></param>
-        /// <param name="licenseTypes"></param>
-        /// <param name="experience"></param>
-        /// <param name="maxWeekExams"></param>
-        /// <param name="licenseTypeTeaching"></param>
-        /// <param name="maxDistance"></param>
-        public Tester(uint Id, string firstName, string lastName, Gender gender, string emailAddress,
-            DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes,
-            uint experience, uint maxWeekExams, List<LicenseType> licenseTypeTeaching, float maxDistance) :
-            base(Id, firstName, lastName, gender, emailAddress, birthDate, phoneNumber, address, licenseTypes)
-        {
-            Experience = experience;
-            MaxWeekExams = maxWeekExams;
-            LicenseTypeTeaching = licenseTypeTeaching;
-            MaxDistance = maxDistance;
-        }
+        ///// <summary>
+        /////     An new tester
+        ///// </summary>
+        ///// <param name="Id"></param>
+        ///// <param name="firstName"></param>
+        ///// <param name="lastName"></param>
+        ///// <param name="gender"></param>
+        ///// <param name="emailAddress"></param>
+        ///// <param name="birthDate"></param>
+        ///// <param name="phoneNumber"></param>
+        ///// <param name="address"></param>
+        ///// <param name="licenseTypes"></param>
+        ///// <param name="experience"></param>
+        ///// <param name="maxWeekExams"></param>
+        ///// <param name="licenseTypeTeaching"></param>
+        ///// <param name="maxDistance"></param>
+        //public Tester(uint Id, string firstName, string lastName, Gender gender, string emailAddress,
+        //    DateTime birthDate, string phoneNumber, Address address, List<LicenseType> licenseTypes,
+        //    uint experience, uint maxWeekExams, List<LicenseType> licenseTypeTeaching, float maxDistance) :
+        //    base(Id, firstName, lastName, gender, emailAddress, birthDate, phoneNumber, address, licenseTypes)
+        //{
+        //    Experience = experience;
+        //    MaxWeekExams = maxWeekExams;
+        //    LicenseTypeTeaching = licenseTypeTeaching;
+        //    MaxDistance = maxDistance;
+        //}
 
         /// <summary>
         ///     Tester experience

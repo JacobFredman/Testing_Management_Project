@@ -9,21 +9,21 @@ namespace BE.MainObjects
     /// </summary>
     public class Trainee : Person, ICloneable
     {
-        /// <inheritdoc />
-        /// <summary>
-        ///     A new Trainee
-        /// </summary>
-        /// <param name="Id">Id</param>
-        /// <param name="gender">gender</param>
-        /// <param name="firstName">first name</param>
-        /// <param name="lastName">last name</param>
-        public Trainee(uint Id, Gender gender, string firstName = null, string lastName = null) : base(Id, lastName,
-            firstName, gender)
-        {
-            LicenseTypeLearning = new List<LessonsAndType>();
-  //          GearType = Gear.Automatic;
-            SchoolName = "";
-        }
+  //      /// <inheritdoc />
+  //      /// <summary>
+  //      ///     A new Trainee
+  //      /// </summary>
+  //      /// <param name="Id">Id</param>
+  //      /// <param name="gender">gender</param>
+  //      /// <param name="firstName">first name</param>
+  //      /// <param name="lastName">last name</param>
+  ////      public Trainee(uint Id, Gender gender, string firstName = null, string lastName = null) : base(Id, lastName,
+  ////          firstName, gender)
+  ////      {
+  ////          LicenseTypeLearning = new List<LessonsAndType>();
+  //////          GearType = Gear.Automatic;
+  ////          SchoolName = "";
+  ////      }
 
         /// <summary>
         ///     A new trainee
