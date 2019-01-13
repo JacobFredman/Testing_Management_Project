@@ -2,8 +2,9 @@
 
 namespace BE
 {
+    /// <inheritdoc />
     /// <summary>
-    ///     License lessons
+    ///     License type and lessons
     /// </summary>
     public class LessonsAndType : ICloneable
     {

@@ -2,11 +2,14 @@
 
 namespace BE
 {
+    /// <inheritdoc />
     /// <summary>
     ///     A criterion for passing the test
     /// </summary>
     public class Criterion : ICloneable
     {
+
+        // todo : the criteria not should be enum and not a free string?
         /// <summary>
         ///     new Criteria
         /// </summary>

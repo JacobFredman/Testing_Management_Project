@@ -13,11 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{B0BC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLWPF", "PLWPF\PLWPF.csproj", "{F6B346DF-6B35-47B9-BA9A-89A6E353F8B1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F11B38D6-74C5-46F4-A60E-F060C7E2D50C}"
-	ProjectSection(SolutionItems) = preProject
-		Notes\Errors.txt = Notes\Errors.txt
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLWPFTests", "PLWPFTests\PLWPFTests.csproj", "{9ED3C08D-C53B-4B7C-AC50-6370431E9F91}"
 EndProject
 Global

@@ -2,13 +2,15 @@
 
 namespace BE.Routes
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Google address exception
     /// </summary>
     public class GoogleAddressException : Exception
     {
+        /// <inheritdoc />
         /// <summary>
-        ///     A new Expection
+        ///     A new exception
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="errorCode">The code</param>
@@ -20,6 +22,6 @@ namespace BE.Routes
         /// <summary>
         ///     Error code
         /// </summary>
-        public string ErrorCode { set; get; }
+        public string ErrorCode { get; }
     }
 }

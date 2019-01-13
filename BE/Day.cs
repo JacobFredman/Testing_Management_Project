@@ -3,13 +3,16 @@ using System.Collections;
 
 namespace BE
 {
+
+    // todo all class should be simpfley
+    /// <inheritdoc />
     /// <summary>
     ///     A day schedule
     /// </summary>
     public class Day : IEnumerable, ICloneable
     {
         /// <summary>
-        ///     the hours in the day. if available then is true
+        ///     the hours in the day. = true if available
         /// </summary>
         public bool[] Hours = new bool[24];
 
@@ -163,10 +166,10 @@ namespace BE
         public override string ToString()
         {
             var str = TheDay + ": ";
-            int j;
             for (var i = 0; i < 24; i++)
                 if (Hours[i])
                 {
+                    int j;
                     for (j = i; j < 23 && Hours[j + 1]; j++) ;
                     if (j != i)
                         str += $"{i:00}:00 - {j:00}:00 ,";

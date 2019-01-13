@@ -6,7 +6,7 @@ namespace BE
     /// <summary>
     ///     static configurations for the program
     /// </summary>
-    public class Configuration
+    public static class Configuration
     {
         public static string Theme = "Light";
         public static string Color = "Blue";
@@ -18,17 +18,17 @@ namespace BE
         public static uint TestId = 1;
 
         /// <summary>
-        ///     Minimum lessons to take a test
+        ///     Minimum lessons before test
         /// </summary>
         public static uint MinLessons = 16;
 
         /// <summary>
-        ///     Minimum tester age
+        ///     Minimum tester's age
         /// </summary>
         public static uint MinTesterAge = 40;
 
         /// <summary>
-        ///     Minimum trainee age
+        ///     Minimum trainee's age
         /// </summary>
         public static uint MinTraineeAge = 17;
 
@@ -37,13 +37,14 @@ namespace BE
         /// </summary>
         public static uint MinTimeBetweenTests = 14;
 
-        /// <summary>
-        ///     The number of days that a tester works in default
-        /// </summary>
-        public static uint NumbersOfWorkDaysInWeekTesters = 5;
+        // todo: check if necassery
+        ///// <summary>
+        /////     The number of days that a tester works in default
+        ///// </summary>
+        //public static uint NumbersOfWorkDaysInWeekTesters = 5;
 
         /// <summary>
-        ///     Minimum criterion to fill in a test
+        ///     Minimum criteria to fill in a test
         /// </summary>
         public static uint MinimumCriteria = 3;
 
@@ -61,7 +62,7 @@ namespace BE
         /// <summary>
         ///     google distance url api
         /// </summary>
-        public static string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
+        public const string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
 
         /// <summary>
         ///     default language for google
@@ -123,15 +124,13 @@ namespace BE
             return fileName;
         }
 
-        public const string SaveTraineesXmlPath = @"Data\Trainees.xml";
-        public const string SaveTestersXmlPath = @"Data\Testers.xml";
-        public const string SaveTestsXmlPath = @"Data\Tests.xml";
+        // xml files paths
+        public const string TraineesXmlFilePath = @"Data\Trainees.xml";
+        public const string ConfigXmlFilePath = @"Data\Config.xml";
+        public const string TestsXmlFilePath = @"Data\Tests.xml";
+        public const string TestersXmlFilePath = @"Data\Testers.xml";
 
-        public static string SaveConfigXmlPath = @"Data\Config.xml";
-
-        public const string TestsXmlPathFile = @"Data\Tests.xml";
-        public const string TestersXmlPathFile = @"Data\Testers.xml";
-
+        // email configurations
         public const string FromEmailAddress = "tests.miniproject@gmail.com";
         public const string SenderPassword = "0586300016";
     }

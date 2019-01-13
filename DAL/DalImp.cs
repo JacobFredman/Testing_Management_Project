@@ -52,9 +52,9 @@ namespace DAL
         {
             try
             {
-                if (File.Exists(Configuration.SaveTraineesXmlPath))
+                if (File.Exists(Configuration.TraineesXmlFilePath))
                 {
-                    _traineesXml = XElement.Load(Configuration.SaveTraineesXmlPath);
+                    _traineesXml = XElement.Load(Configuration.TraineesXmlFilePath);
                 }
                 else
                 {
@@ -62,9 +62,9 @@ namespace DAL
                 }
                 GetAllTraineesXml();
 
-                if (File.Exists(Configuration.SaveTestersXmlPath))
+                if (File.Exists(Configuration.TestersXmlFilePath))
                 {
-                    _testersXML = XElement.Load(Configuration.TestersXmlPathFile);
+                    _testersXML = XElement.Load(Configuration.TestersXmlFilePath);
                 }
                 else
                 {
@@ -74,7 +74,7 @@ namespace DAL
                 _testers = GetAllTestersFromXml().ToList();
 
 
-                if (File.Exists(Configuration.SaveTestsXmlPath))
+                if (File.Exists(Configuration.TestsXmlFilePath))
                 {
                     _tests = DeSerializeTestFromXml().ToList();
                 }
@@ -93,53 +93,8 @@ namespace DAL
 
 
 
-        #region Tester
+    
 
-        /// <summary>
-        ///     Add tester
-        /// </summary>
-        /// <param name="newTester"></param>
-        //public void AddTester(Tester newTester)
-        //{
-        //    if (_testers.Any(tester => tester.Id == newTester.Id))
-        //        throw new Exception("The tester already exist in the system");
-
-        //    _testersXml.Add(TesterToXml(newTester));
-        //    _testersXml.Save(Configuration.SaveTestersXmlPath);
-        //    _testerChanged = true;
-        //}
-
-        ///// <summary>
-        /////     Remove a tester
-        ///// </summary>
-        ///// <param name="testerToDelete"></param>
-        //public void RemoveTester(Tester testerToDelete)
-        //{
-        //    if (_testers.All(x => x.Id != testerToDelete.Id))
-        //        throw new Exception("Tester doesn't exist");
-
-        //    _testersXml.Elements().First(x => x.Element("id").Value == testerToDelete.Id.ToString()).Remove();
-        //    _testersXml.Save(Configuration.SaveTestersXmlPath);
-        //    _testerChanged = true;
-        //}
-
-        ///// <summary>
-        /////     update existing Tester
-        ///// </summary>
-        ///// <param name="updatedTester"></param>
-        //public void UpdateTester(Tester updatedTester)
-        //{
-        //    if (_testers.All(x => x.Id != updatedTester.Id))
-        //        throw new Exception("Tester doesn't exist");
-
-        //    _testersXml.Elements().First(x => x.Element("id").Value == updatedTester.Id.ToString()).Remove();
-        //    _testersXml.Add(TesterToXml(updatedTester));
-        //    _testersXml.Save(Configuration.SaveTestersXmlPath);
-        //    _testerChanged = true;
-
-        //}
-
-        #endregion
 
         #region Trainee
 
@@ -153,7 +108,7 @@ namespace DAL
                 throw new Exception("The trainee already exist in the system");
 
             _traineesXml.Add(TraineeToXml(newTrainee));
-            _traineesXml.Save(Configuration.SaveTraineesXmlPath);
+            _traineesXml.Save(Configuration.TraineesXmlFilePath);
             _traineeChanged = true;
         }
 
@@ -168,7 +123,7 @@ namespace DAL
 
 
             _traineesXml.Elements().First(x => x.Element("id").Value == traineeToDelete.Id.ToString()).Remove();
-            _traineesXml.Save(Configuration.SaveTraineesXmlPath);
+            _traineesXml.Save(Configuration.TraineesXmlFilePath);
             _traineeChanged = true;
         }
 
@@ -183,7 +138,7 @@ namespace DAL
 
             _traineesXml.Elements().First(x => x.Element("id").Value == updatedTrainee.Id.ToString()).Remove();
             _traineesXml.Add(TraineeToXml(updatedTrainee));
-            _traineesXml.Save(Configuration.SaveTraineesXmlPath);
+            _traineesXml.Save(Configuration.TraineesXmlFilePath);
             _traineeChanged = true;
         }
 
@@ -550,14 +505,14 @@ namespace DAL
             _config.RemoveAll();
             _config.Add(adminPass, adminUser, firstOpen, testId, minLesson, minTesterAge, minTimeBetweenTests,
                 minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest, theme, color, criteria);
-            _config.Save(Configuration.SaveConfigXmlPath);
+            _config.Save(Configuration.ConfigXmlFilePath);
         }
 
         public void LoadConfigurations()
         {
-            if (File.Exists(Configuration.SaveConfigXmlPath))
+            if (File.Exists(Configuration.ConfigXmlFilePath))
             {
-                _config = XElement.Load(Configuration.SaveConfigXmlPath);
+                _config = XElement.Load(Configuration.ConfigXmlFilePath);
                 Configuration.Theme = _config.Element("Theme")?.Value;
                 Configuration.Color = _config.Element("Color")?.Value;
                 Configuration.AdminPassword = _config.Element("AdminPassword")?.Value;
@@ -610,7 +565,7 @@ namespace DAL
                 throw new Exception("The tester already exist in the system");
 
             _testersXML.Add(TesterToXmlElement(newTester));
-            _testersXML.Save(Configuration.TestersXmlPathFile);
+            _testersXML.Save(Configuration.TestersXmlFilePath);
             _testerChanged = true;
         }
 
@@ -624,7 +579,7 @@ namespace DAL
                 throw new Exception("Tester doesn't exist");
 
             _testersXML.Elements().First(x => x.Element("id")?.Value == testerToDelete.Id.ToString()).Remove();
-            _testersXML.Save(Configuration.TestersXmlPathFile);
+            _testersXML.Save(Configuration.TestersXmlFilePath);
             _testerChanged = true;
         }
 
@@ -639,13 +594,13 @@ namespace DAL
 
             _testersXML.Elements().First(x => x.Element("id")?.Value == testerToUpdate.Id.ToString()).Remove();
             _testersXML.Add(TesterToXmlElement(testerToUpdate));
-            _testersXML.Save(Configuration.TestersXmlPathFile);
+            _testersXML.Save(Configuration.TestersXmlFilePath);
             _testerChanged = true;
         }
 
         public static List<Test> LoadTestsFromXML()
         {
-            var file = new FileStream(Configuration.TestsXmlPathFile, FileMode.Open);
+            var file = new FileStream(Configuration.TestsXmlFilePath, FileMode.Open);
             var xmlSerializer = new XmlSerializer(typeof(List<Test>));
             var testsList = (List<Test>)xmlSerializer.Deserialize(file);
             file.Close();

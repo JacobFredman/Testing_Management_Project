@@ -2,6 +2,12 @@
 
 namespace BE.Routes
 {
+    /*
+     * In the requirement the address is made of city street and house num.
+     * Google gives the address in a string format that isn't made always  from street and house number. 
+     * We used google validated addressed and that's the reason why we didn't use the other fields.
+     */
+    /// <inheritdoc />
     /// <summary>
     ///     Represents an address
     /// </summary>
@@ -21,7 +27,6 @@ namespace BE.Routes
             Street = street;
             Entrance = entrance;
         }
-        public Address() { }
 
         /// <summary>
         ///     The city or the whole address
