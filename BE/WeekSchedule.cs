@@ -20,20 +20,20 @@ namespace BE
             for (var i = 0; i < this.days.Length; i++) this.days[i] = new Day((DayOfWeek) i);
         }
 
-        /// <summary>
-        ///     get a day
-        /// </summary>
-        /// <param name="i">the day. between 0-7</param>
-        /// <returns>the day or null if it don't exist</returns>
-        public Day this[int i]
-        {
-            get
-            {
-                if (i >= 0 && i < days.Length)
-                    return days[i];
-                return null;
-            }
-        }
+        ///// <summary>
+        /////     get a day
+        ///// </summary>
+        ///// <param name="i">the day. between 0-7</param>
+        ///// <returns>the day or null if it don't exist</returns>
+        //public Day this[int i]
+        //{
+        //    get
+        //    {
+        //        if (i >= 0 && i < days.Length)
+        //            return days[i];
+        //        return null;
+        //    }
+        //}
 
         /// <summary>
         ///     get a day
@@ -43,12 +43,7 @@ namespace BE
         public Day this[DayOfWeek d]
         {
             private set { }
-            get
-            {
-                if ((int) d < days.Length)
-                    return days[(int) d];
-                return null;
-            }
+            get => (int) d < days.Length ? days[(int) d] : null;
         }
 
         public object Clone()
@@ -70,97 +65,98 @@ namespace BE
             return days.GetEnumerator();
         }
 
-        /// <summary>
-        ///     add hours
-        /// </summary>
-        /// <param name="d">the day to add</param>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void AddHourToDay(DayOfWeek d, params uint[] range)
-        {
-            days[(int) d].AddHours(range);
-        }
+        // todo: clean the green....
+        ///// <summary>
+        /////     add hours
+        ///// </summary>
+        ///// <param name="d">the day to add</param>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void AddHourToDay(DayOfWeek d, params uint[] range)
+        //{
+        //    days[(int) d].AddHours(range);
+        //}
 
-        /// <summary>
-        ///     remove hours
-        /// </summary>
-        /// <param name="d">the day</param>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void RemoveHourFromDay(DayOfWeek d, params uint[] range)
-        {
-            days[(int) d].RemoveHours(range);
-        }
+        ///// <summary>
+        /////     remove hours
+        ///// </summary>
+        ///// <param name="d">the day</param>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void RemoveHourFromDay(DayOfWeek d, params uint[] range)
+        //{
+        //    days[(int) d].RemoveHours(range);
+        //}
 
-        /// <summary>
-        ///     replace hours in day
-        /// </summary>
-        /// <param name="d">the day</param>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void SetHourInDay(DayOfWeek d, params uint[] range)
-        {
-            days[(int) d].SetHours(range);
-        }
+        ///// <summary>
+        /////     replace hours in day
+        ///// </summary>
+        ///// <param name="d">the day</param>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void SetHourInDay(DayOfWeek d, params uint[] range)
+        //{
+        //    days[(int) d].SetHours(range);
+        //}
 
-        /// <summary>
-        ///     clear the hours in a day
-        /// </summary>
-        /// <param name="d">the day</param>
-        public void ClearHourInDay(DayOfWeek d)
-        {
-            days[(int) d].ClearHours();
-        }
+        ///// <summary>
+        /////     clear the hours in a day
+        ///// </summary>
+        ///// <param name="d">the day</param>
+        //public void ClearHourInDay(DayOfWeek d)
+        //{
+        //    days[(int) d].ClearHours();
+        //}
 
-        /// <summary>
-        ///     clear the whole week
-        /// </summary>
-        public void Clear()
-        {
-            foreach (var d in days) d.ClearHours();
-        }
+        ///// <summary>
+        /////     clear the whole week
+        ///// </summary>
+        //public void Clear()
+        //{
+        //    foreach (var d in days) d.ClearHours();
+        //}
 
-        /// <summary>
-        ///     set the same hours for all the days
-        /// </summary>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void SetHoursAllDays(params uint[] range)
-        {
-            foreach (var d in days) d.SetHours(range);
-        }
+        ///// <summary>
+        /////     set the same hours for all the days
+        ///// </summary>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void SetHoursAllDays(params uint[] range)
+        //{
+        //    foreach (var d in days) d.SetHours(range);
+        //}
 
-        /// <summary>
-        ///     add hours to all the days
-        /// </summary>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void AddHoursAllDays(params uint[] range)
-        {
-            foreach (var day in days) day.AddHours(range);
-        }
+        ///// <summary>
+        /////     add hours to all the days
+        ///// </summary>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void AddHoursAllDays(params uint[] range)
+        //{
+        //    foreach (var day in days) day.AddHours(range);
+        //}
 
-        /// <summary>
-        ///     remove the hours for all the days
-        /// </summary>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void RemoveHoursAllDays(params uint[] range)
-        {
-            foreach (var day in days) day.RemoveHours(range);
-        }
+        ///// <summary>
+        /////     remove the hours for all the days
+        ///// </summary>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void RemoveHoursAllDays(params uint[] range)
+        //{
+        //    foreach (var day in days) day.RemoveHours(range);
+        //}
 
         /// <summary>
         ///     check if is available on the day and hour

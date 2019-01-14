@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace BE
 {
-    // todo : day and hours too complexity
+    // todo : day and hours too complexity and the range shuold not be in constractor and parameter not always odd
     /// <inheritdoc />
     /// <summary>
     ///     A day schedule
@@ -55,7 +55,7 @@ namespace BE
         ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
         ///     pairs!
         /// </param>
-        public void AddHours(params uint[] range)
+        private void AddHours(params uint[] range)
         {
             if (range == null)
                 return;
@@ -74,31 +74,31 @@ namespace BE
                 Hours[range[i]] = true;
         }
 
-        /// <summary>
-        ///     remove hours
-        /// </summary>
-        /// <param name="range">
-        ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
-        ///     pairs!
-        /// </param>
-        public void RemoveHours(params uint[] range)
-        {
-            if (range == null)
-                return;
-            if (range.Length % 2 != 0)
-                throw new Exception("Invalid hour format");
-            var i = 0;
-            //remove the hours
-            for (i = 0; i < range.Length - 1; i += 2)
-            {
-                if (range[i] > range[i + 1])
-                    throw new Exception("Invalid hours range");
-                for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = false;
-            }
+        ///// <summary>
+        /////     remove hours
+        ///// </summary>
+        ///// <param name="range">
+        /////     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
+        /////     pairs!
+        ///// </param>
+        //public void RemoveHours(params uint[] range)
+        //{
+        //    if (range == null)
+        //        return;
+        //    if (range.Length % 2 != 0)
+        //        throw new Exception("Invalid hour format");
+        //    var i = 0;
+        //    //remove the hours
+        //    for (i = 0; i < range.Length - 1; i += 2)
+        //    {
+        //        if (range[i] > range[i + 1])
+        //            throw new Exception("Invalid hours range");
+        //        for (var j = range[i]; j <= range[i + 1]; j++) Hours[j] = false;
+        //    }
 
-            if (i != range.Length)
-                Hours[range[i]] = true;
-        }
+        //    if (i != range.Length)
+        //        Hours[range[i]] = true;
+        //}
 
         /// <summary>
         ///     clear hours
@@ -116,7 +116,7 @@ namespace BE
         ///     the hours. for example (12 ,13) will be 12:00-13:00. (12,12) will add only 12:00 .add only in
         ///     pairs!
         /// </param>
-        public void SetHours(params uint[] range)
+        private void SetHours(params uint[] range)
         {
             ClearHours();
             AddHours(range);
@@ -134,29 +134,29 @@ namespace BE
             return Hours[i];
         }
 
-        /// <summary>
-        ///     latest hour that he is working
-        /// </summary>
-        /// <returns>the hour</returns>
-        public int LatestWorkHour()
-        {
-            for (var i = 23; i >= 0; i--)
-                if (Hours[i])
-                    return i;
-            return -1;
-        }
+        ///// <summary>
+        /////     latest hour that he is working
+        ///// </summary>
+        ///// <returns>the hour</returns>
+        //public int LatestWorkHour()
+        //{
+        //    for (var i = 23; i >= 0; i--)
+        //        if (Hours[i])
+        //            return i;
+        //    return -1;
+        //}
 
-        /// <summary>
-        ///     the earliest hour that he is working
-        /// </summary>
-        /// <returns>the hours</returns>
-        public int EarliestWorkHour()
-        {
-            for (var i = 0; i < 24; i++)
-                if (Hours[i])
-                    return i;
-            return -1;
-        }
+        ///// <summary>
+        /////     the earliest hour that he is working
+        ///// </summary>
+        ///// <returns>the hours</returns>
+        //public int EarliestWorkHour()
+        //{
+        //    for (var i = 0; i < 24; i++)
+        //        if (Hours[i])
+        //            return i;
+        //    return -1;
+        //}
 
         /// <summary>
         ///     Get all the work hours in the day
