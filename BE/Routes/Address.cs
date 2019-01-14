@@ -2,6 +2,7 @@
 
 namespace BE.Routes
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Represents an address
     /// </summary>
@@ -21,12 +22,17 @@ namespace BE.Routes
             Street = street;
             Entrance = entrance;
         }
+
         public Address() { }
 
         /// <summary>
         ///     The city or the whole address
         /// </summary>
-        public string City { set; get; }
+        public string City
+        {
+            set;
+            get;
+        }
 
         /// <summary>
         ///     The street
