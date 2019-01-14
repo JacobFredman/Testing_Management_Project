@@ -6,23 +6,23 @@ using Newtonsoft.Json.Linq;
 
 namespace BE
 {
-    public class Tools
+    public static class Tools
     {
         /// <summary>
         ///     Check if Israel Id is valid
         /// </summary>
-        /// <param name="Id">Id</param>
-        /// <returns>true if it is valid</returns>
-        public static bool CheckID_IL(uint Id)
+        /// <param name="id">Id</param>
+        /// <returns>true if id number  valid</returns>
+        public static bool CheckID_IL(uint id)
         {
-            if (Id == 0) return false;
+            if (id == 0) return false;
             var idArr = new uint[9];
 
             //put the Id in an arr
             for (var i = 8; i >= 0; i--)
             {
-                idArr[i] = Id % 10;
-                Id /= 10;
+                idArr[i] = id % 10;
+                id /= 10;
             }
 
             //multiply the odd digits and add one
@@ -35,10 +35,8 @@ namespace BE
             uint sum = 0;
             for (uint i = 0; i < 9; i++) sum += idArr[i];
 
-            //check the Id
-            if (sum % 10 != 0)
-                return false;
-            return true;
+
+            return sum % 10 == 0;
         }
 
         /// <summary>
@@ -54,25 +52,24 @@ namespace BE
                 //create the url
                 var request = Configuration.GoogleDistanceUrl + "json?" + "key=" + Configuration.Key
                               + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
-                //check it
-                if (request.ToLower().IndexOf("https:") > -1 || request.ToLower().IndexOf("http:") > -1)
-                {
-                    //download the data
-                    var wc = new WebClient();
-                    var response = wc.DownloadData(request);
-                    var content = Encoding.UTF8.GetString(response);
-                    //parse it
-                    var o = JObject.Parse(content);
-                    var distance = (int) o.SelectToken("routes[0].legs[0].distance.value");
-                    //return it
-                    return distance;
-                }
 
-                throw new Exception("Google URL is not correct");
+                //check the url
+                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
+                    throw new Exception("Google URL is not correct");
+
+                //download the data
+                var wc = new WebClient();
+                var response = wc.DownloadData(request);
+                var contentResponse = Encoding.UTF8.GetString(response);
+                //parse it json
+                var jsonResponse = JObject.Parse(contentResponse);
+                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
+
+                return distance;
             }
             catch
             {
-                return int.MaxValue;
+                return -1;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace BE.MainObjects
         /// <summary>
         ///     License type learning
         /// </summary>
-        public List<LessonsAndType> LicenseTypeLearning { set; get; }
+        public List<TrainingDetails> LicenseTypeLearning { set; get; }
 
         /// <summary>
         ///     School name
@@ -34,10 +34,10 @@ namespace BE.MainObjects
                 foreach (var item in LicenseType)
                     newLicense.Add(item);
             else newLicense = null;
-            var newLicenseTypeLearning = new List<LessonsAndType>();
+            var newLicenseTypeLearning = new List<TrainingDetails>();
             if (LicenseTypeLearning != null)
                 foreach (var item in LicenseTypeLearning)
-                    newLicenseTypeLearning.Add(item.Clone() as LessonsAndType);
+                    newLicenseTypeLearning.Add(item.Clone() as TrainingDetails);
             else newLicenseTypeLearning = null;
             var trainee = new Trainee
             {

@@ -283,12 +283,12 @@ namespace DAL
                         Gender = (Gender)Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
                         SchoolName = trainee.Element("schoolName")?.Value,
                         TeacherName = trainee.Element("teacherName")?.Value,
-                        LicenseTypeLearning = new List<LessonsAndType>(),
+                        LicenseTypeLearning = new List<TrainingDetails>(),
                         LicenseType = new List<LicenseType>()
                     };
                     foreach (var item in trainee.Element("CollectionLicenseTypeLearning").Elements())
                     {
-                        t.LicenseTypeLearning.Add(new LessonsAndType()
+                        t.LicenseTypeLearning.Add(new TrainingDetails()
                         {
                             GearType = (Gear)Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
                             License = (LicenseType)Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),

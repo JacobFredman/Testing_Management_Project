@@ -23,7 +23,7 @@ namespace PLWPF.Admin.ManageTrainee
         private readonly List<string> errorMessage = new List<string>();
 
         //collection to work with the license
-        private readonly ObservableCollection<LessonsAndType> licenses = new ObservableCollection<LessonsAndType>();
+        private readonly ObservableCollection<TrainingDetails> licenses = new ObservableCollection<TrainingDetails>();
 
         private readonly Trainee trainee = new Trainee();
 
@@ -179,7 +179,7 @@ namespace PLWPF.Admin.ManageTrainee
 
             //Add the new license
             var number = NumberOfLessonsTextBox.Value;
-            licenses.Add(new LessonsAndType
+            licenses.Add(new TrainingDetails
             {
                 License = (LicenseType) ChooseLicense.SelectedItem,
                 NumberOfLessons = (int)number,

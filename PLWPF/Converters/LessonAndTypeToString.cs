@@ -14,7 +14,7 @@ namespace PLWPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var lesson = value as List<LessonsAndType>;
+            var lesson = value as List<TrainingDetails>;
             return string.Join(", ", lesson.Select(x => x.License.ToString())).TrimEnd(',', ' ');
         }
 

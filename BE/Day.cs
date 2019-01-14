@@ -3,6 +3,8 @@ using System.Collections;
 
 namespace BE
 {
+    // todo : day and hours too complexity
+    /// <inheritdoc />
     /// <summary>
     ///     A day schedule
     /// </summary>

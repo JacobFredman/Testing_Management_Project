@@ -50,8 +50,8 @@ namespace PLWPF
         //{
         //    try
         //    {
-        //        //var test = new LessonsAndType { License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true };
-        //        //var list = new List<LessonsAndType> { test };
+        //        //var test = new TrainingDetails { License = LicenseType.A, NumberOfLessons = 30, ReadyForTest = true };
+        //        //var list = new List<TrainingDetails> { test };
         //        //_blimp.SetTest(new Trainee(319185997, Gender.Male, "Elisha", "Mayer")
         //        //{
         //        //    BirthDate = new DateTime(1995, 1, 1),

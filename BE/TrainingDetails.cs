@@ -2,10 +2,11 @@
 
 namespace BE
 {
+    /// <inheritdoc />
     /// <summary>
     ///     License lessons
     /// </summary>
-    public class LessonsAndType : ICloneable
+    public class TrainingDetails : ICloneable
     {
         private int _numberOfLessons;
 
@@ -33,19 +34,22 @@ namespace BE
             }
         }
 
-        //ready for test
+        //is ready for test
         public bool ReadyForTest { set; get; }
 
         public object Clone()
         {
-            return new LessonsAndType
+            return new TrainingDetails
             {
-                License = License, NumberOfLessons = NumberOfLessons, ReadyForTest = ReadyForTest, GearType = GearType
+                License = License,
+                NumberOfLessons = NumberOfLessons,
+                ReadyForTest = ReadyForTest,
+                GearType = GearType
             };
         }
 
         /// <summary>
-        ///     lesson details
+        ///     training details in brief
         /// </summary>
         /// <returns></returns>
         public override string ToString()

@@ -27,7 +27,7 @@ namespace PLWPF.Admin.ManageTester
 
         //if it is an update
         private readonly bool _update;
-        private ObservableCollection<LessonsAndType> _licenses = new ObservableCollection<LessonsAndType>();
+        private ObservableCollection<TrainingDetails> _licenses = new ObservableCollection<TrainingDetails>();
 
         /// <summary>
         ///     Add tester window
