@@ -4,7 +4,7 @@ namespace BE
 {
     /// <inheritdoc />
     /// <summary>
-    ///     License lessons
+    ///     License type and lessons
     /// </summary>
     public class TrainingDetails : ICloneable
     {
