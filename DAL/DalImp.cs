@@ -31,56 +31,41 @@ namespace DAL
     /// </summary>
     public partial class DalImp : IDal
     {
-        private XElement _traineesXml;
-        private XElement _testersXML;
-        private XElement _testsXML;
+        private readonly XElement _traineesXml;
+        private readonly XElement _testersXML;
 
-
-        private List<Trainee> _trainees = new List<Trainee>();
-        private List<Test> _tests = new List<Test>();
-        private List<Tester> _testers = new List<Tester>();
+        private readonly List<Trainee> _trainees = new List<Trainee>();
+        private readonly List<Test> _tests = new List<Test>();
+        private readonly List<Tester> _testers = new List<Tester>();
 
         private bool _traineeChanged = true;
         private bool _testerChanged = true;
 
         private XElement _config;
         /// <summary>
-        ///     deny access to c-tor
+        ///     DalImp c-tor
         /// </summary>
         internal DalImp()
         {
             try
             {
                 if (File.Exists(Configuration.TraineesXmlFilePath))
-                {
                     _traineesXml = XElement.Load(Configuration.TraineesXmlFilePath);
-                }
                 else
-                {
                     _traineesXml = new XElement("trainees");
-                }
-                GetAllTraineesXml();
+                _trainees = XML.GetAllTraineesFromXml(_traineesXml).ToList();
 
                 if (File.Exists(Configuration.TestersXmlFilePath))
-                {
                     _testersXML = XElement.Load(Configuration.TestersXmlFilePath);
-                }
                 else
-                {
                     _testersXML = new XElement("testers");
-                }
-             //   _testers = GetAllTestersXml();
-                _testers = GetAllTestersFromXml().ToList();
+                _testers = XML.GetAllTestersFromXml(_testersXML).ToList();
 
 
                 if (File.Exists(Configuration.TestsXmlFilePath))
-                {
-                    _tests = DeSerializeTestFromXml().ToList();
-                }
+                    _tests = XML.DeSerializeTestFromXml().ToList();
                 else
-                {
                     _tests = new List<Test>();
-                }
 
                 LoadConfigurations();
             }
@@ -92,54 +77,6 @@ namespace DAL
 
 
 
-        #region Tester
-
-        /// <summary>
-        ///     Add tester
-        /// </summary>
-        /// <param name="newTester"></param>
-        //public void AddTester(Tester newTester)
-        //{
-        //    if (_testers.Any(tester => tester.Id == newTester.Id))
-        //        throw new Exception("The tester already exist in the system");
-
-        //    _testersXml.Add(TesterToXml(newTester));
-        //    _testersXml.Save(Configuration.TestersXmlFilePath);
-        //    _testerChanged = true;
-        //}
-
-        ///// <summary>
-        /////     Remove a tester
-        ///// </summary>
-        ///// <param name="testerToDelete"></param>
-        //public void RemoveTester(Tester testerToDelete)
-        //{
-        //    if (_testers.All(x => x.Id != testerToDelete.Id))
-        //        throw new Exception("Tester doesn't exist");
-
-        //    _testersXml.Elements().First(x => x.Element("id").Value == testerToDelete.Id.ToString()).Remove();
-        //    _testersXml.Save(Configuration.TestersXmlFilePath);
-        //    _testerChanged = true;
-        //}
-
-        ///// <summary>
-        /////     update existing Tester
-        ///// </summary>
-        ///// <param name="updatedTester"></param>
-        //public void UpdateTester(Tester updatedTester)
-        //{
-        //    if (_testers.All(x => x.Id != updatedTester.Id))
-        //        throw new Exception("Tester doesn't exist");
-
-        //    _testersXml.Elements().First(x => x.Element("id").Value == updatedTester.Id.ToString()).Remove();
-        //    _testersXml.Add(TesterToXml(updatedTester));
-        //    _testersXml.Save(Configuration.TestersXmlFilePath);
-        //    _testerChanged = true;
-
-        //}
-
-        #endregion
-
         #region Trainee
 
         /// <summary>
@@ -148,10 +85,10 @@ namespace DAL
         /// <param name="newTrainee"></param>
         public void AddTrainee(Trainee newTrainee)
         {
-            if (GetAllTraineesXml().Any(t => t.Id == newTrainee.Id))
+            if (XML.GetAllTraineesFromXml(_traineesXml).Any(t => t.Id == newTrainee.Id))
                 throw new Exception("The trainee already exist in the system");
 
-            _traineesXml.Add(TraineeToXml(newTrainee));
+            _traineesXml.Add(XML.ConvertTraineeToXml(newTrainee));
             _traineesXml.Save(Configuration.TraineesXmlFilePath);
             _traineeChanged = true;
         }
@@ -162,11 +99,10 @@ namespace DAL
         /// <param name="traineeToDelete"></param>
         public void RemoveTrainee(Trainee traineeToDelete)
         {
-            if (GetAllTraineesXml().All(x => x.Id != traineeToDelete.Id))
+            if (XML.GetAllTraineesFromXml(_traineesXml).All(x => x.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
 
-
-            _traineesXml.Elements().First(x => x.Element("id").Value == traineeToDelete.Id.ToString()).Remove();
+            _traineesXml.Elements().First(x => x.Element("id")?.Value == traineeToDelete.Id.ToString()).Remove();
             _traineesXml.Save(Configuration.TraineesXmlFilePath);
             _traineeChanged = true;
         }
@@ -177,348 +113,110 @@ namespace DAL
         /// <param name="updatedTrainee"></param>
         public void UpdateTrainee(Trainee updatedTrainee)
         {
-            if (GetAllTraineesXml().All(x => x.Id != updatedTrainee.Id))
+            if (XML.GetAllTraineesFromXml(_traineesXml).All(x => x.Id != updatedTrainee.Id))
                 throw new Exception("Trainee doesn't exist");
 
             _traineesXml.Elements().First(x => x.Element("id").Value == updatedTrainee.Id.ToString()).Remove();
-            _traineesXml.Add(TraineeToXml(updatedTrainee));
+            _traineesXml.Add(XML.ConvertTraineeToXml(updatedTrainee));
             _traineesXml.Save(Configuration.TraineesXmlFilePath);
             _traineeChanged = true;
         }
 
         #endregion
-
-        #region Return lists
+        
+        #region Tester
 
         /// <summary>
-        ///     return a copy of all testers
+        ///     Add tester
         /// </summary>
-        public IEnumerable<Tester> AllTesters
+        /// <param name="newTester"></param>
+        public void AddTester(Tester newTester)
         {
-            get
-            {
-                var allTesters = GetAllTestersFromXml().Select(item => item.Clone() as Tester).ToList();
-                return allTesters.OrderBy(x => x.Id);
-            }
+            if (XML.GetAllTestersFromXml(_testersXML).Any(tester => tester.Id == newTester.Id))
+                throw new Exception("The tester already exist in the system");
+
+            _testersXML.Add(XML.TesterToXmlElement(newTester));
+            _testersXML.Save(Configuration.TestersXmlFilePath);
+            _testerChanged = true;
         }
 
         /// <summary>
-        ///     return a copy of all tests
+        ///     Remove a tester
         /// </summary>
-        public IEnumerable<Test> AllTests
+        /// <param name="testerToDelete"></param>
+        public void RemoveTester(Tester testerToDelete)
         {
-            get
-            {
-                var allTest = new List<Test>();
-                foreach (var item in _tests)
-                    allTest.Add(item.Clone() as Test);
-                return allTest.OrderBy(x => x.Id);
-            }
+            if (XML.GetAllTestersFromXml(_testersXML).All(x => x.Id != testerToDelete.Id))
+                throw new Exception("Tester doesn't exist");
+
+            _testersXML.Elements().First(x => x.Element("id")?.Value == testerToDelete.Id.ToString()).Remove();
+            _testersXML.Save(Configuration.TestersXmlFilePath);
+            _testerChanged = true;
         }
 
         /// <summary>
-        ///     return a copy of all trainees
+        ///     update existing Tester
         /// </summary>
-        public IEnumerable<Trainee> AllTrainee
+        /// <param name="testerToUpdate"></param>
+        public void UpdateTester(Tester testerToUpdate)
         {
-            get
-            {
-                var allTrainee = new List<Trainee>();
-                foreach (var item in GetAllTraineesXml())
-                    allTrainee.Add(item.Clone() as Trainee);
-                return allTrainee.OrderBy(x => x.Id);
-                ;
-            }
+            if (XML.GetAllTestersFromXml(_testersXML).All(x => x.Id != testerToUpdate.Id))
+                throw new Exception("Trainee doesn't exist");
+
+            _testersXML.Elements().First(x => x.Element("id")?.Value == testerToUpdate.Id.ToString()).Remove();
+            _testersXML.Add(XML.TesterToXmlElement(testerToUpdate));
+            _testersXML.Save(Configuration.TestersXmlFilePath);
+            _testerChanged = true;
         }
 
         #endregion
 
-        #region Trainee XML
 
-        private XElement TraineeToXml(Trainee trainee)
+        #region Test
+
+
+        /// <summary>
+        ///     update an existing test
+        /// </summary>
+        /// <param name="updatedTest"></param>
+        public void UpdateTest(Test updatedTest)
         {
-            var id = new XElement("id", trainee.Id);
-            var firstName = new XElement("firstName", trainee.FirstName);
-            var lastName = new XElement("lastName", trainee.LastName);
-            var gender = new XElement("gender", trainee.Gender);
-            var address = new XElement("address", trainee.Address);
-            var schoolName = new XElement("schoolName", trainee.SchoolName);
-            var teacherName = new XElement("teacherName", trainee.TeacherName);
-            var birthDate = new XElement("birthDate", trainee.BirthDate);
-            var emailAddress = new XElement("emailAddress", trainee.EmailAddress);
-            var phoneNum = new XElement("phoneNum", trainee.PhoneNumber);
+            if (_tests.All(x => x.Id != updatedTest.Id))
+                throw new Exception("Test doesn't exist");
 
-            var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning");
-
-            foreach (var item in trainee.LicenseTypeLearning)
-            {
-                var gearType = new XElement("gearType", item.GearType);
-                var license = new XElement("license", item.License);
-                var numOfLessons = new XElement("numOfLessons", item.NumberOfLessons);
-                var readyForTest = new XElement("readyForTest", item.ReadyForTest);
-                var licenseTypeLearning = new XElement("licenseTypeLearning", gearType, license, numOfLessons, readyForTest);
-                collectionLicenseTypeLearning.Add(licenseTypeLearning);
-            }
-            return new XElement("trainee", id, firstName, lastName, gender, address, birthDate, emailAddress, phoneNum, teacherName, schoolName, collectionLicenseTypeLearning);
-
-        }
-
-        private List<Trainee> GetAllTraineesXml()
-        {
-            if (_traineeChanged)
-            {
-                _trainees = new List<Trainee>();
-                foreach (var trainee in _traineesXml.Elements())
-                {
-                    var t = new Trainee()
-                    {
-                        Id = uint.Parse(trainee.Element("id")?.Value),
-                        FirstName = trainee.Element("firstName")?.Value,
-                        LastName = trainee.Element("lastName")?.Value,
-                        BirthDate = DateTime.Parse(trainee.Element("birthDate")?.Value),
-                        Address = new Address(trainee.Element("address")?.Value),
-                        EmailAddress = trainee.Element("emailAddress")?.Value,
-                        PhoneNumber = trainee.Element("phoneNum")?.Value,
-                        Gender = (Gender)Enum.Parse(typeof(Gender), trainee.Element("gender")?.Value),
-                        SchoolName = trainee.Element("schoolName")?.Value,
-                        TeacherName = trainee.Element("teacherName")?.Value,
-                        LicenseTypeLearning = new List<TrainingDetails>(),
-                        LicenseType = new List<LicenseType>()
-                    };
-                    foreach (var item in trainee.Element("CollectionLicenseTypeLearning").Elements())
-                    {
-                        t.LicenseTypeLearning.Add(new TrainingDetails()
-                        {
-                            GearType = (Gear)Enum.Parse(typeof(Gear), item.Element("gearType")?.Value),
-                            License = (LicenseType)Enum.Parse(typeof(LicenseType), item.Element("license")?.Value),
-                            ReadyForTest = bool.Parse(item.Element("readyForTest")?.Value),
-                            NumberOfLessons = int.Parse(item.Element("numOfLessons")?.Value)
-                        });
-                    }
-
-                    _trainees.Add(t);
-                }
-
-                _traineeChanged = false;
-            }
-
-            return _trainees;
-        }
-
-        #endregion
-
-        #region Tester XML
-
-
-
-        private IEnumerable<Tester> GetAllTestersFromXml()
-        {
-            if (!_testerChanged)
-                return _testers;
-            var testers = new List<Tester>();
-            foreach (var xmLTester in _testersXML.Elements())
-            {
-                var licensesTypes = new List<LicenseType>();
-                licensesTypes.AddRange(xmLTester.Element("CollectionLicenseType")
-                                           ?.Elements()
-                                           .Select(
-                                               item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
-                                               )) ?? throw new InvalidOperationException());
-
-                var licensesTypesTeaching = new List<LicenseType>();
-                licensesTypesTeaching.AddRange(xmLTester.Element("CollectionLicenseTypeTeaching")
-                                                   ?.Elements()
-                                                   .Select(
-                                                       item => (LicenseType)Enum.Parse(typeof(LicenseType), item.Value
-                                                       )) ?? throw new InvalidOperationException());
-
-
-                var schedule = new WeekSchedule();
-                foreach (var day in xmLTester.Element("schedule")?.Elements())
-                {
-                    var theDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day.Name.ToString());
-                    var i = 0;
-                    foreach (var hour in day.Elements())
-                    {
-                        schedule[theDay].Hours[i] = bool.Parse(hour?.Value);
-                        i++;
-                    }
-                }
-
-
-                var tester = new Tester
-                {
-                    BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
-                    Address = new Address(xmLTester.Element("address")?.Value),
-                    EmailAddress = xmLTester.Element("emailAddress")?.Value,
-                    Experience = uint.Parse(xmLTester.Element("experience")?.Value ?? throw new InvalidOperationException()),
-                    Gender = (Gender)Enum.Parse(typeof(Gender), xmLTester.Element("gender")?.Value ?? throw new InvalidOperationException()),
-                    FirstName = xmLTester.Element("firstName")?.Value,
-                    Id = uint.Parse(xmLTester.Element("id")?.Value ?? throw new InvalidOperationException()),
-                    LastName = xmLTester.Element("lastName")?.Value,
-                    
-
-                    LicenseType = licensesTypes,
-                    LicenseTypeTeaching = licensesTypesTeaching,
-
-                    MaxDistance = float.Parse(xmLTester.Element("maxDistance")?.Value ?? throw new InvalidOperationException()),
-                    Schedule = schedule,
-                    MaxWeekExams = uint.Parse(xmLTester.Element("maxWeekExams")?.Value ?? throw new InvalidOperationException()),
-                    PhoneNumber = xmLTester.Element("phoneNum")?.Value
-                    
-                };
-                testers.Add(tester);
-            }
-
-            _testerChanged = false;
-            _testers = testers;
-            return testers;
+            var test = _tests.Find(t => t.Id == updatedTest.Id);
+            _tests.Remove(test);
+            _tests.Add(updatedTest);
+            XML.SerializeTestsToXml(_tests);
         }
 
 
-        private static XElement TesterToXmlElement(Tester tester)
+        /// <summary>
+        ///     Add a new test
+        /// </summary>
+        /// <param name="newTest"></param>
+        public void AddTest(Test newTest)
         {
-            var experience = new XElement("experience", tester.Experience.ToString());
+            newTest.Id = $"{Configuration.TestId:00000000}";
+            Configuration.TestId++;
+            SaveConfigurations();
 
-            var licenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
-            foreach (var license in tester.LicenseTypeTeaching)
-            {
-                var xmllicense = new XElement("license", license);
-                licenseTypeTeaching.Add(xmllicense);
-            }
-
-            var maxDistance = new XElement("maxDistance", tester.MaxDistance.ToString(CultureInfo.CurrentCulture));
-            var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams.ToString());
-            var id = new XElement("id", tester.Id.ToString());
-
-            var address = new XElement("address", tester.Address);
-
-            var birthDate = new XElement("birthDate", tester.BirthDate);
-            var emailAddress = new XElement("emailAddress", tester.EmailAddress);
-            var firstName = new XElement("firstName", tester.FirstName);
-            var gender = new XElement("gender", tester.Gender.ToString());
-            var lastName = new XElement("lastName", tester.LastName);
-
-
-            var licenseType = new XElement("CollectionLicenseType");
-            if (!tester.LicenseType.Any())
-                foreach (var license in tester.LicenseType)
-                {
-                    var xmllicense = new XElement("license", license.ToString());
-                    licenseType.Add(xmllicense);
-                }
-
-
-            var schedule = new XElement("schedule");
-            foreach (var day in tester.Schedule.days)
-            {
-                var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
-                foreach (var hour in day.Hours)
-                {
-                    var hourInDay = new XElement("hour", hour);
-                    dayOfWeek.Add(hourInDay);
-                }
-
-                schedule.Add(dayOfWeek);
-            }
-
-
-            var phoneNumber = new XElement("phoneNum", tester.PhoneNumber);
-
-
-            return new XElement("tester", experience, licenseTypeTeaching, maxDistance, maxWeekExams, schedule, id,
-                address, birthDate, emailAddress, firstName, gender, lastName, licenseType, phoneNumber);
+            _tests.Add(newTest);
+            XML.SerializeTestsToXml(_tests);
         }
 
-        //private XElement TesterToXml(Tester tester)
-        //{
-        //    var id = new XElement("id", tester.Id);
-        //    var firstName = new XElement("firstName", tester.FirstName);
-        //    var lastName = new XElement("lastName", tester.LastName);
-        //    var gender = new XElement("gender", tester.Gender);
-        //    var address = new XElement("address", tester.Address);
-        //    var experience = new XElement("experience", tester.Experience);
-        //    var maxDistance = new XElement("maxDistance", tester.MaxDistance);
-        //    var maxWeekExams = new XElement("maxWeekExams", tester.MaxWeekExams);
-        //    var birthDate = new XElement("birthDate", tester.BirthDate);
-        //    var emailAddress = new XElement("emailAddress", tester.EmailAddress);
-        //    var phoneNum = new XElement("phoneNum", tester.PhoneNumber);
-
-        //    var collectionLicenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
-
-        //    foreach (var item in tester.LicenseTypeTeaching)
-        //    {
-        //        var license = new XElement("license", item);
-
-        //        collectionLicenseTypeTeaching.Add(license);
-        //    }
-
-        //    var schedule = new XElement("schedule");
-        //    foreach (var day in tester.Schedule.days)
-        //    {
-        //        var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
-        //        foreach (var hour in day.Hours)
-        //        {
-        //            var hourInDay = new XElement("hour", hour);
-        //            dayOfWeek.Add(hourInDay);
-        //        }
-        //        schedule.Add(dayOfWeek);
-        //    }
-
-        //    return new XElement("tester", id, firstName, lastName, gender, address, maxWeekExams, birthDate, emailAddress, maxDistance, phoneNum, schedule, experience, collectionLicenseTypeTeaching);
-
-        //}
-
-        private List<Tester> GetAllTestersXml()
+        /// <summary>
+        ///     remove a test
+        /// </summary>
+        /// <param name="testToDelete"></param>
+        public void RemoveTest(Test testToDelete)
         {
-            if (_testerChanged)
-            {
-                _testers = new List<Tester>();
-                foreach (var tester in _testersXML.Elements())
-                {
-                    var t = new Tester()
-                    {
-                        Id = uint.Parse(tester.Element("id")?.Value),
-                        FirstName = tester.Element("firstName")?.Value,
-                        LastName = tester.Element("lastName")?.Value,
-                        BirthDate = DateTime.Parse(tester.Element("birthDate")?.Value),
-                        Address = new Address(tester.Element("address")?.Value),
-                        EmailAddress = tester.Element("emailAddress")?.Value,
-                        PhoneNumber = tester.Element("phoneNum")?.Value,
-                        Gender = (Gender)Enum.Parse(typeof(Gender), tester.Element("gender")?.Value),
-                        MaxWeekExams = uint.Parse(tester.Element("maxWeekExams")?.Value),
-                        MaxDistance = uint.Parse(tester.Element("maxDistance")?.Value),
-                        Experience = uint.Parse(tester.Element("experience")?.Value),
-                        LicenseTypeTeaching = new List<LicenseType>(),
-                        LicenseType = new List<LicenseType>()
-                    };
-                    foreach (var item in tester.Element("CollectionLicenseTypeTeaching").Elements())
-                    {
-                        t.LicenseTypeTeaching.Add((LicenseType)Enum.Parse(typeof(LicenseType),
-                            item?.Value));
-                    }
+            if (_tests.All(x => x.Id != testToDelete.Id))
+                throw new Exception("Test doesn't exist");
 
-                    t.Schedule = new WeekSchedule();
-                    foreach (var day in tester.Element("schedule")?.Elements())
-                    {
-                        var theDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day.Name.ToString());
-                        int i = 0;
-                        foreach (var hour in day.Elements())
-                        {
-                            t.Schedule[theDay].Hours[i] = bool.Parse(hour?.Value);
-                            i++;
-                        }
-
-                    }
-
-
-                    _testers.Add(t);
-                }
-
-                _testerChanged = false;
-            }
-
-            return _testers;
+            var testToRemove = _tests.Single(r => r.Id == testToDelete.Id);
+            _tests.Remove(testToRemove);
+            XML.SerializeTestsToXml(_tests);
         }
 
         #endregion
@@ -582,100 +280,53 @@ namespace DAL
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-        #region Tester
+        #region Return lists
 
         /// <summary>
-        ///     Add tester
+        ///     return a copy of all testers
         /// </summary>
-        /// <param name="newTester"></param>
-        public void AddTester(Tester newTester)
+        public IEnumerable<Tester> AllTesters
         {
-            if (GetAllTestersFromXml().Any(tester => tester.Id == newTester.Id))
-                throw new Exception("The tester already exist in the system");
-
-            _testersXML.Add(TesterToXmlElement(newTester));
-            _testersXML.Save(Configuration.TestersXmlFilePath);
-            _testerChanged = true;
+            get
+            {
+                if (!_testerChanged) // if the testers list didn't changed don't go to xml file 
+                    return _testers;
+                var allTesters = XML.GetAllTestersFromXml(_testersXML).Select(item => item.Clone() as Tester).ToList();
+                _testerChanged = false;
+                return allTesters.OrderBy(x => x.Id);
+            }
         }
 
         /// <summary>
-        ///     Remove a tester
+        ///     return a copy of all tests
         /// </summary>
-        /// <param name="testerToDelete"></param>
-        public void RemoveTester(Tester testerToDelete)
+        public IEnumerable<Test> AllTests
         {
-            if (GetAllTestersFromXml().All(x => x.Id != testerToDelete.Id))
-                throw new Exception("Tester doesn't exist");
-
-            _testersXML.Elements().First(x => x.Element("id")?.Value == testerToDelete.Id.ToString()).Remove();
-            _testersXML.Save(Configuration.TestersXmlFilePath);
-            _testerChanged = true;
+            get
+            {
+                var allTest = new List<Test>();
+                foreach (var item in _tests)
+                    allTest.Add(item.Clone() as Test);
+                return allTest.OrderBy(x => x.Id);
+            }
         }
 
         /// <summary>
-        ///     update existing Tester
+        ///     return a copy of all trainees
         /// </summary>
-        /// <param name="testerToUpdate"></param>
-        public void UpdateTester(Tester testerToUpdate)
+        public IEnumerable<Trainee> AllTrainee
         {
-            if (GetAllTestersFromXml().All(x => x.Id != testerToUpdate.Id))
-                throw new Exception("Trainee doesn't exist");
-
-            _testersXML.Elements().First(x => x.Element("id")?.Value == testerToUpdate.Id.ToString()).Remove();
-            _testersXML.Add(TesterToXmlElement(testerToUpdate));
-            _testersXML.Save(Configuration.TestersXmlFilePath);
-            _testerChanged = true;
+            get
+            {
+                if (!_traineeChanged) // if the testers list didn't changed don't go to xml file 
+                    return _trainees;
+                var allTrainee = XML.GetAllTraineesFromXml(_traineesXml).Select(item => item.Clone() as Trainee).ToList();
+                _traineeChanged = false;
+                return allTrainee.OrderBy(x => x.Id);
+            }
         }
-
-        public static List<Test> LoadTestsFromXML()
-        {
-            var file = new FileStream(Configuration.TestsXmlFilePath, FileMode.Open);
-            var xmlSerializer = new XmlSerializer(typeof(List<Test>));
-            var testsList = (List<Test>)xmlSerializer.Deserialize(file);
-            file.Close();
-            return testsList;
-        }
-
-
-
-
-
-
 
         #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
