@@ -6,6 +6,7 @@ using BE.Routes;
 
 namespace BE.MainObjects
 {
+    /// <inheritdoc />
     /// <summary>
     ///     A vehicle test
     /// </summary>
@@ -25,7 +26,7 @@ namespace BE.MainObjects
         {
         }
 
-        public Test(uint idTester, uint idTrainee)
+        private Test(uint idTester, uint idTrainee)
         {
             TesterId = idTester;
             TraineeId = idTrainee;
@@ -36,29 +37,6 @@ namespace BE.MainObjects
             Comment = "";
         }
 
-        /// <summary>
-        ///     For debugging
-        /// </summary>
-        /// <param name="testerId"></param>
-        /// <param name="traineeId"></param>
-        /// <param name="testTime"></param>
-        /// <param name="addressOfBeginningTest"></param>
-        /// <param name="criteria"></param>
-        /// <param name="passed"></param>
-        /// <param name="id"></param>
-        /// <param name="licenseType"></param>
-        public Test(uint testerId, uint traineeId, DateTime testTime, Address addressOfBeginningTest,
-            List<Criterion> criteria, bool passed, string id, LicenseType licenseType)
-        {
-            _testerId = testerId;
-            _traineeId = traineeId;
-            TestTime = testTime;
-            AddressOfBeginningTest = addressOfBeginningTest;
-            Criteria = criteria;
-            Passed = passed;
-            Id = id;
-            LicenseType = licenseType;
-        }
 
         public string Id { get; set; }
 
@@ -137,7 +115,7 @@ namespace BE.MainObjects
                 Comment = Comment,
                 Id = Id,
                 LicenseType = LicenseType,
-                RouteUrl = RouteUrl != null ? RouteUrl : null
+                RouteUrl = RouteUrl ?? null
             };
         }
 
