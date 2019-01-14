@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using BE;
@@ -15,6 +13,8 @@ namespace DAL
 {
   public static class XML
     {
+
+        #region testXML
 
         public static void SerializeTestsToXml(IReadOnlyCollection<Test> list)
         {
@@ -34,6 +34,10 @@ namespace DAL
             return list;
         }
 
+
+        #endregion
+
+        #region TreaineeXml
 
         public static XElement ConvertTraineeToXml(Trainee trainee)
         {
@@ -68,12 +72,12 @@ namespace DAL
         public static IEnumerable<Trainee> GetAllTraineesFromXml(XElement traineesXml)
         {
             var trainees = new List<Trainee>();
-         //   if (!_traineeChanged) return trainees;
+            //   if (!_traineeChanged) return trainees;
             foreach (var trainee in traineesXml.Elements())
             {
                 var t = new Trainee
                 {
-                    Id = uint.Parse(trainee.Element("id")?.Value ?? throw new InvalidOperationException()),
+                    Id = UInt32.Parse(trainee.Element("id")?.Value ?? throw new InvalidOperationException()),
                     FirstName = trainee.Element("firstName")?.Value,
                     LastName = trainee.Element("lastName")?.Value,
                     BirthDate = DateTime.Parse(trainee.Element("birthDate")?.Value),
@@ -92,18 +96,23 @@ namespace DAL
                     {
                         GearType = (Gear)Enum.Parse(typeof(Gear), item.Element("gearType")?.Value ?? throw new InvalidOperationException()),
                         License = (LicenseType)Enum.Parse(typeof(LicenseType), item.Element("license")?.Value ?? throw new InvalidOperationException()),
-                        ReadyForTest = bool.Parse(item.Element("readyForTest")?.Value ?? throw new InvalidOperationException()),
-                        NumberOfLessons = int.Parse(item.Element("numOfLessons")?.Value ?? throw new InvalidOperationException())
+                        ReadyForTest = Boolean.Parse(item.Element("readyForTest")?.Value ?? throw new InvalidOperationException()),
+                        NumberOfLessons = Int32.Parse(item.Element("numOfLessons")?.Value ?? throw new InvalidOperationException())
                     });
                 }
 
                 trainees.Add(t);
             }
 
-          //  _traineeChanged = false;
+            //  _traineeChanged = false;
 
             return trainees;
         }
+
+
+        #endregion
+
+        #region TestersXML
 
 
         public static IEnumerable<Tester> GetAllTestersFromXml(XElement testersXml)
@@ -135,7 +144,7 @@ namespace DAL
                     var i = 0;
                     foreach (var hour in day.Elements())
                     {
-                        schedule[theDay].Hours[i] = bool.Parse(hour?.Value);
+                        schedule[theDay].Hours[i] = Boolean.Parse(hour?.Value);
                         i++;
                     }
                 }
@@ -146,19 +155,19 @@ namespace DAL
                     BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
                     Address = new Address(xmLTester.Element("address")?.Value),
                     EmailAddress = xmLTester.Element("emailAddress")?.Value,
-                    Experience = uint.Parse(xmLTester.Element("experience")?.Value ?? throw new InvalidOperationException()),
+                    Experience = UInt32.Parse(xmLTester.Element("experience")?.Value ?? throw new InvalidOperationException()),
                     Gender = (Gender)Enum.Parse(typeof(Gender), xmLTester.Element("gender")?.Value ?? throw new InvalidOperationException()),
                     FirstName = xmLTester.Element("firstName")?.Value,
-                    Id = uint.Parse(xmLTester.Element("id")?.Value ?? throw new InvalidOperationException()),
+                    Id = UInt32.Parse(xmLTester.Element("id")?.Value ?? throw new InvalidOperationException()),
                     LastName = xmLTester.Element("lastName")?.Value,
 
 
                     LicenseType = licensesTypes,
                     LicenseTypeTeaching = licensesTypesTeaching,
 
-                    MaxDistance = float.Parse(xmLTester.Element("maxDistance")?.Value ?? throw new InvalidOperationException()),
+                    MaxDistance = Single.Parse(xmLTester.Element("maxDistance")?.Value ?? throw new InvalidOperationException()),
                     Schedule = schedule,
-                    MaxWeekExams = uint.Parse(xmLTester.Element("maxWeekExams")?.Value ?? throw new InvalidOperationException()),
+                    MaxWeekExams = UInt32.Parse(xmLTester.Element("maxWeekExams")?.Value ?? throw new InvalidOperationException()),
                     PhoneNumber = xmLTester.Element("phoneNum")?.Value
 
                 };
@@ -228,6 +237,71 @@ namespace DAL
 
 
 
+        #endregion
+
+        #region ConfigurationsXMl
+
+        public static XElement LoadConfigurations()
+        {
+            XElement config;
+            if (File.Exists(Configuration.ConfigXmlFilePath))
+            {
+                config = XElement.Load(Configuration.ConfigXmlFilePath);
+                Configuration.Theme = config.Element("Theme")?.Value;
+                Configuration.Color = config.Element("Color")?.Value;
+                Configuration.AdminPassword = config.Element("AdminPassword")?.Value;
+                Configuration.AdminUser = config.Element("AdminUser")?.Value;
+                Configuration.FirstOpenProgram = Boolean.Parse(config.Element("FirstOpenProgram")?.Value);
+                Configuration.TestId = UInt32.Parse(config.Element("TestId")?.Value);
+                Configuration.MinLessons = UInt32.Parse(config.Element("MinLessons")?.Value);
+                Configuration.MinTesterAge = UInt32.Parse(config.Element("MinTesterAge")?.Value);
+                Configuration.MinTraineeAge = UInt32.Parse(config.Element("MinTraineeAge")?.Value);
+                Configuration.MinTimeBetweenTests = UInt32.Parse(config.Element("MinTimeBetweenTests")?.Value);
+                Configuration.MinimumCriteria = UInt32.Parse(config.Element("MinimumCriteria")?.Value);
+                Configuration.PercentOfCriteriaToPassTest = UInt32.Parse(config.Element("PercentOfCriteriaToPassTest")?.Value);
+                Configuration.Criteria = (from item in config?.Element("Criteria").Elements()
+                                          select item.Value).ToArray();
+            }
+            else
+            {
+                config = new XElement("Config");
+            }
+
+            return config;
+        }
+
+
+
+
+        public static void SaveConfigurations(XElement config)
+        {
+            var adminPass = new XElement("AdminPassword", Configuration.AdminPassword);
+            var theme = new XElement("Theme", Configuration.Theme);
+            var color = new XElement("Color", Configuration.Color);
+            var adminUser = new XElement("AdminUser", Configuration.AdminUser);
+            var firstOpen = new XElement("FirstOpenProgram", Configuration.FirstOpenProgram);
+            var testId = new XElement("TestId", Configuration.TestId);
+            var minLesson = new XElement("MinLessons", Configuration.MinLessons);
+            var minTesterAge = new XElement("MinTesterAge", Configuration.MinTesterAge);
+            var minTraineeAge = new XElement("MinTraineeAge", Configuration.MinTraineeAge);
+            var minTimeBetweenTests = new XElement("MinTimeBetweenTests", Configuration.MinTimeBetweenTests);
+            var minimumCriteria = new XElement("MinimumCriteria", Configuration.MinimumCriteria);
+            var percentOfCriteriaToPassTest =
+                new XElement("PercentOfCriteriaToPassTest", Configuration.PercentOfCriteriaToPassTest);
+
+            var criteria = new XElement("Criteria");
+            foreach (var item in Configuration.Criteria)
+            {
+                criteria.Add(new XElement("Criterion", item));
+            }
+            config.RemoveAll();
+            config.Add(adminPass, adminUser, firstOpen, testId, minLesson, minTesterAge, minTimeBetweenTests,
+                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest, theme, color, criteria);
+            config.Save(Configuration.ConfigXmlFilePath);
+        }
+
+
+        #endregion
 
     }
 }

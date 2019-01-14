@@ -686,6 +686,5 @@ namespace BL
             _dalImp.SaveConfigurations();
         }
 
-
     }
 }

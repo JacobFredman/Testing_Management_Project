@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using BE;
 using BE.MainObjects;
-using BE.Routes;
 
 namespace DAL
 {
@@ -67,7 +64,7 @@ namespace DAL
                 else
                     _tests = new List<Test>();
 
-                LoadConfigurations();
+              _config = XML.LoadConfigurations();
             }
             catch
             {
@@ -122,8 +119,18 @@ namespace DAL
             _traineeChanged = true;
         }
 
+        public void SaveConfigurations()
+        {
+            XML.SaveConfigurations(_config);
+        }
+
+        public XElement LoadConfigurations()
+        {
+           return XML.LoadConfigurations();
+        }
+
         #endregion
-        
+
         #region Tester
 
         /// <summary>
@@ -199,7 +206,7 @@ namespace DAL
         {
             newTest.Id = $"{Configuration.TestId:00000000}";
             Configuration.TestId++;
-            SaveConfigurations();
+            XML.SaveConfigurations(_config);
 
             _tests.Add(newTest);
             XML.SerializeTestsToXml(_tests);
@@ -223,58 +230,7 @@ namespace DAL
 
         #region Conf XML
 
-        public void SaveConfigurations()
-        {
-            var adminPass = new XElement("AdminPassword", Configuration.AdminPassword);
-            var theme = new XElement("Theme", Configuration.Theme);
-            var color = new XElement("Color", Configuration.Color);
-            var adminUser = new XElement("AdminUser", Configuration.AdminUser);
-            var firstOpen = new XElement("FirstOpenProgram", Configuration.FirstOpenProgram);
-            var testId = new XElement("TestId", Configuration.TestId);
-            var minLesson = new XElement("MinLessons", Configuration.MinLessons);
-            var minTesterAge = new XElement("MinTesterAge", Configuration.MinTesterAge);
-            var minTraineeAge = new XElement("MinTraineeAge", Configuration.MinTraineeAge);
-            var minTimeBetweenTests = new XElement("MinTimeBetweenTests", Configuration.MinTimeBetweenTests);
-            var minimumCriteria = new XElement("MinimumCriteria", Configuration.MinimumCriteria);
-            var percentOfCriteriaToPassTest =
-                new XElement("PercentOfCriteriaToPassTest", Configuration.PercentOfCriteriaToPassTest);
 
-            var criteria = new XElement("Criteria");
-            foreach (var item in Configuration.Criteria)
-            {
-                criteria.Add(new XElement("Criterion", item));
-            }
-            _config.RemoveAll();
-            _config.Add(adminPass, adminUser, firstOpen, testId, minLesson, minTesterAge, minTimeBetweenTests,
-                minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest, theme, color, criteria);
-            _config.Save(Configuration.ConfigXmlFilePath);
-        }
-
-        public void LoadConfigurations()
-        {
-            if (File.Exists(Configuration.ConfigXmlFilePath))
-            {
-                _config = XElement.Load(Configuration.ConfigXmlFilePath);
-                Configuration.Theme = _config.Element("Theme")?.Value;
-                Configuration.Color = _config.Element("Color")?.Value;
-                Configuration.AdminPassword = _config.Element("AdminPassword")?.Value;
-                Configuration.AdminUser = _config.Element("AdminUser")?.Value;
-                Configuration.FirstOpenProgram = bool.Parse(_config.Element("FirstOpenProgram")?.Value);
-                Configuration.TestId = uint.Parse(_config.Element("TestId")?.Value);
-                Configuration.MinLessons = uint.Parse(_config.Element("MinLessons")?.Value);
-                Configuration.MinTesterAge = uint.Parse(_config.Element("MinTesterAge")?.Value);
-                Configuration.MinTraineeAge = uint.Parse(_config.Element("MinTraineeAge")?.Value);
-                Configuration.MinTimeBetweenTests = uint.Parse(_config.Element("MinTimeBetweenTests")?.Value);
-                Configuration.MinimumCriteria = uint.Parse(_config.Element("MinimumCriteria")?.Value);
-                Configuration.PercentOfCriteriaToPassTest = uint.Parse(_config.Element("PercentOfCriteriaToPassTest")?.Value);
-                Configuration.Criteria = (from item in _config?.Element("Criteria").Elements()
-                                          select item.Value).ToArray();
-            }
-            else
-            {
-                _config = new XElement("Config");
-            }
-        }
 
         #endregion
 
@@ -327,6 +283,5 @@ namespace DAL
         }
 
         #endregion
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 using BE.MainObjects;
 
 namespace DAL
@@ -12,10 +13,9 @@ namespace DAL
 
         IEnumerable<Test> AllTests { get; }
 
-        // Access to the Tester entity
         void AddTester(Tester newTester);
         void RemoveTester(Tester testerToDelete);
-        void UpdateTester(Tester TesterToUpdate);
+        void UpdateTester(Tester testerToUpdate);
 
         void AddTest(Test newTest);
         void RemoveTest(Test testToDelete);
@@ -26,6 +26,6 @@ namespace DAL
         void UpdateTrainee(Trainee updatedTrainee);
 
         void SaveConfigurations();
-        void LoadConfigurations();
+        XElement LoadConfigurations();
     }
 }
