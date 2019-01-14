@@ -14,7 +14,7 @@ namespace BL
     public static class Routes
     {
         /// <summary>
-        ///     Open a link in new chrome window
+        /// Open a link in new chrome window
         /// </summary>
         /// <param name="url"></param>
         public static void ShowUrlInChromeWindow(Uri url)
@@ -33,37 +33,39 @@ namespace BL
             {
                 //get locations around the address in the default radios
                 var arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())))
-                    .Distinct().ToArray();
+                    .Distinct().ToList();
                 //shrink the list 
-                arr = arr.Skip(1).Take(6).ToArray();
+                arr = arr.Skip(1).Take(5).ToList();
+                arr.Insert(0, GetAddressSuggestionsGoogleAsGoogleAdd(test.AddressOfBeginningTest.ToString(), "0").First());
+
                 //get the duration of the route
-                var duration = GetRouteDuration(arr);
+                var duration = GetRouteDuration(arr.ToArray());
 
                 //if the route takes too much time then find a new route where the radios is 500m shorter 
-                if (duration > Configuration.MaxTestDurationSec && arr.Length > 4)
+                if (duration > Configuration.MaxTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint) (Configuration.MaxTestDurationSec - 500))
-                        .Distinct().Skip(1).Take(6).ToArray();
-                    duration = GetRouteDuration(arr);
+                            (uint)(Configuration.MaxTestDurationSec - 500))
+                        .Distinct().Skip(1).Take(6).ToList();
+                    duration = GetRouteDuration(arr.ToArray());
                 }
 
                 //if the route is too short then find a route where the radios is 500m longer
-                if (duration < Configuration.MinTestDurationSec && arr.Length > 4)
+                if (duration < Configuration.MinTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint) (Configuration.MinTestDurationSec + 500))
-                        .Distinct().Skip(1).Take(7).ToArray();
-                    duration = GetRouteDuration(arr);
+                            (uint)(Configuration.MinTestDurationSec + 500))
+                        .Distinct().Skip(1).Take(7).ToList();
+                    duration = GetRouteDuration(arr.ToArray());
                 }
 
                 //if the duration of the route is still not ok then throw exception
                 if (duration < Configuration.MinTestDurationSec || duration > Configuration.MaxTestDurationSec)
                     throw new GoogleAddressException("Can't find a route near the given address", "NO_ROUTE");
                 //create an url to show thw route on a map
-                test.RouteUrl = new Uri(GetGoogleUrl(arr));
+                test.RouteUrl = new Uri(GetGoogleUrl(arr.ToArray()));
 
-                test.AddressOfBeginningTest = new Address(arr[0].AddressToHe());
+                //  test.AddressOfBeginningTest = new Address(arr[0].AddressToHe());
             }
             catch (Exception ex)
             {
@@ -78,7 +80,7 @@ namespace BL
         }
 
         /// <summary>
-        ///     Get a list of address suggestions for an input from google maps
+        /// Get a list of address suggestions for an input from google maps
         /// </summary>
         /// <param name="input"> the string</param>
         /// <param name="token">a token</param>
@@ -94,6 +96,25 @@ namespace BL
                 return (from adr in xml.Elements()
                         where adr.Name == "prediction"
                         select adr.Element("description").Value
+                    ).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<GoogleAddress> GetAddressSuggestionsGoogleAsGoogleAdd(string input, string token)
+        {
+            var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
+                      "&types=address&components=country:il&language=iw&key=" + Configuration.Key + "&sessiontoken=" +
+                      token;
+            try
+            {
+                var xml = DownloadDataIntoXml(url);
+                return (from adr in xml.Elements()
+                        where adr.Name == "prediction"
+                        select new GoogleAddress(adr.Element("description").Value, adr.Element("place_id").Value)
                     ).ToList();
             }
             catch (Exception ex)
@@ -121,12 +142,12 @@ namespace BL
 
             //get all the results
             return (from adr in xml.Elements()
-                where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
-                select new GoogleAddress
-                {
-                    Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
-                    Id = adr.Element("place_id").Value
-                }).ToArray();
+                    where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
+                    select new GoogleAddress
+                    {
+                        Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
+                        Id = adr.Element("place_id").Value
+                    }).ToArray();
         }
 
         /// <summary>
@@ -175,8 +196,8 @@ namespace BL
 
             //return the sum of the durations
             return (from leg in xml.Elements("route").Elements()
-                where leg.Name == "leg"
-                select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
+                    where leg.Name == "leg"
+                    select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
         }
 
         /// <summary>
@@ -238,6 +259,7 @@ namespace BL
             var xml = DownloadDataIntoXml(url);
             return xml.Element("result").Element("formatted_address").Value;
         }
+
 
         #endregion
     }
