@@ -91,7 +91,7 @@ namespace DAL
 
         private static void SerializeTestsToXml(IReadOnlyCollection<Test> list)
         {
-            var file = new FileStream(Configuration.TestsXmlPathFile, FileMode.Create);
+            var file = new FileStream(Configuration.TestsXmlFilePath, FileMode.Create);
             var xmlSerializer = new XmlSerializer(list.GetType());
             xmlSerializer.Serialize(file, list);
             file.Close();
@@ -100,7 +100,7 @@ namespace DAL
 
         private static IEnumerable<Test> DeSerializeTestFromXml()
         {
-            var file = new FileStream(Configuration.SaveTestsXmlPath,FileMode.Open);
+            var file = new FileStream(Configuration.TestsXmlFilePath,FileMode.Open);
             var xmlSerializer = new XmlSerializer(typeof(List<Test>));
             var list = (List<Test>) xmlSerializer.Deserialize(file);
             file.Close();

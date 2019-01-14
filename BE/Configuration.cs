@@ -6,7 +6,7 @@ namespace BE
     /// <summary>
     ///     static configurations for the program
     /// </summary>
-    public class Configuration
+    public static class Configuration
     {
         public static string Theme = "Light";
         public static string Color = "Blue";
@@ -37,13 +37,13 @@ namespace BE
         /// </summary>
         public static uint MinTimeBetweenTests = 14;
 
-        /// <summary>
-        ///     The number of days that a tester works in default
-        /// </summary>
-        public static uint NumbersOfWorkDaysInWeekTesters = 5;
+        ///// <summary>
+        /////     The number of days that a tester works in default
+        ///// </summary>
+        //public static uint NumbersOfWorkDaysInWeekTesters = 5;
 
         /// <summary>
-        ///     Minimum criterion to fill in a test
+        ///     Minimum Criteria to fill in a test
         /// </summary>
         public static uint MinimumCriteria = 3;
 
@@ -56,12 +56,12 @@ namespace BE
         ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permission !!
         ///     For details contact elisja.mayer@gmail.com.To get your own key go to http://g.co/dev/maps-no-account
         /// </summary>
-        public static string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
+        public const string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
 
         /// <summary>
         ///     google distance url api
         /// </summary>
-        public static string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
+        public const string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
 
         /// <summary>
         ///     default language for google
@@ -74,7 +74,7 @@ namespace BE
         public static int MaxTestDurationSec = 3000;
 
         /// <summary>
-        ///     Min test route duration
+        ///     Min test route duration in seconds
         /// </summary>
         public static int MinTestDurationSec = 800;
 
@@ -123,14 +123,11 @@ namespace BE
             return fileName;
         }
 
-        public const string SaveTraineesXmlPath = @"Data\Trainees.xml";
-        public const string SaveTestersXmlPath = @"Data\Testers.xml";
-        public const string SaveTestsXmlPath = @"Data\Tests.xml";
+        public const string TraineesXmlFilePath = @"Data\Trainees.xml";
+        public const string TestersXmlFilePath = @"Data\Testers.xml";
 
-        public static string SaveConfigXmlPath = @"Data\Config.xml";
-
-        public const string TestsXmlPathFile = @"Data\Tests.xml";
-        public const string TestersXmlPathFile = @"Data\Testers.xml";
+        public const string ConfigXmlFilePath = @"Data\Config.xml";
+        public const string TestsXmlFilePath = @"Data\Tests.xml";
 
         public const string FromEmailAddress = "tests.miniproject@gmail.com";
         public const string SenderPassword = "0586300016";
