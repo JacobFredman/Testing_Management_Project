@@ -188,9 +188,9 @@
                                 <ComboBox x:Name="ComboBoxFilterTesterIdTrainee" Grid.Row="2" Grid.Column="1"
                                           Margin="3" SelectionChanged="ComboBoxFilterTesterIdTrainee_SelectionChanged" />
 
-                                <Label Visibility="Collapsed" Content="Other: " Grid.Row="3" Margin="3" />
-                                <ComboBox Visibility="Collapsed" x:Name="ComboBoxFilterOtherTrainee" Grid.Row="3"
-                                          Grid.Column="1" Margin="3" />
+                                <Label  Content="Number Of Tests: " Grid.Row="3" Margin="3" />
+                                <ComboBox  x:Name="ComboBoxFilterMunOfTestsTrainee" Grid.Row="3"
+                                          Grid.Column="1" Margin="3" SelectionChanged="ComboBoxFilterMunOfTestsTrainee_OnSelectionChanged"/>
 
                                 <Button Style="{DynamicResource SquareButtonStyle}" FontSize="12"
                                         x:Name="ClearFilterButtonTrainee" Content="Clear Filters" Grid.Row="4"
