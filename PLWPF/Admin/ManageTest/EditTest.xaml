@@ -82,7 +82,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Label x:Name="WaitTraineeLabel" Content="Finding Tester..." Foreground="Red" Visibility="Hidden" />
+                 
 
 
                     <Label Content="Test Time:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4"
@@ -151,8 +151,6 @@
 
                     <mah:ProgressRing x:Name="ProgressRing" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Width="70"
                                       Height="70" IsActive="False" />
-
-
                 </Grid>
             </GroupBox>
 

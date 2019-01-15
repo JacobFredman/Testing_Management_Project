@@ -72,7 +72,7 @@ namespace BL
                        ? "Congratulations for the new license"
                        : "we are sorry to inform you that you didn't Passed the test this time";
             var message = test.Passed == true
-                ? "You successfully passed in the test in " + test.ActualTestTime + ", now you are allowed to drive"
+                ? "You successfully passed in the test in " + test.ActualTestTime.ToString("f") + ", now you are allowed to drive"
                 : "you have  do the test again";
             bool addAttachemnt;
             if (test.Passed == true) addAttachemnt = true;
