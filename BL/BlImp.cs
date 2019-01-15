@@ -430,11 +430,6 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license)
         {
-            try
-            {
-                ////check internet connectivity
-                //var wc = new WebClient();
-                //wc.DownloadData("https://www.google.com/");
                 List<Tester> te = AllTesters.ToList(); 
 
                 var testerDistance = from tester in AllTesters
@@ -452,18 +447,6 @@ namespace BL
                     throw new Exception("There is no tester with the right license in the current date and location");
 
                 return testerLicense;
-            }
-            catch
-            {
-                //var testerLicense = from tester in AllTesters
-                //    where tester.LicenseTypeTeaching.Any(x => x == license)
-                //    select tester;
-                //if (!testerLicense.Any())
-                //    throw new Exception("There is no tester with the right license");
-
-                //return testerLicense;
-                throw new Exception("There is No Internet Connection. Please Try Again Later.");
-            }
         }
 
         /// <summary>

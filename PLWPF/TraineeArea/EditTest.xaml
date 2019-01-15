@@ -57,7 +57,7 @@
                               VerticalAlignment="Center" SelectionChanged="LicenseTypeComBox_OnSelectionChanged" />
 
 
-                    <Label Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3"
+                    <!--<Label  Content="Tester:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3"
                            VerticalAlignment="Center" />
                     <ComboBox x:Name="testerIdComboBox" ItemsSource="{Binding}" Grid.Column="1"
                               HorizontalAlignment="Stretch" Height="30" Grid.Row="3" VerticalAlignment="Center"
@@ -73,7 +73,7 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
-                    </ComboBox>
+                    </ComboBox>-->
                     <Label x:Name="WaitTraineeLabel" Content="Finding Tester..." Foreground="Red" Visibility="Hidden" />
 
 
@@ -126,7 +126,7 @@
                 </Grid>
             </GroupBox>
 
-            <!-- Route Box -->
+            <!-- Route Box --><!--
             <GroupBox Margin="3" Background="{DynamicResource Background}" Header="Test Route" Grid.ColumnSpan="2"
                       Grid.Row="8">
                 <StackPanel MinHeight="60" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -136,7 +136,7 @@
                     <Button Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center" FontSize="12" x:Name="SetRouteButton" Content="Set new Route"
                             Margin="10,3,10,3" Click="SetRouteButton_Click" />
                 </StackPanel>
-            </GroupBox>
+            </GroupBox>-->
         </StackPanel>
 
         <!-- Save Button -->
@@ -160,7 +160,7 @@
             </GroupBox>-->
             <!-- Notifications -->
             <GroupBox Background="{DynamicResource Background}" Header="Notifications" BorderBrush="Black" Margin="3">
-                <TextBlock x:Name="Errors" Margin="10" Height="70" Foreground="Red" />
+                <TextBlock MinWidth="150" x:Name="Errors" Margin="10" Height="70" Foreground="Red" />
             </GroupBox>
         </StackPanel>
     </DockPanel>
