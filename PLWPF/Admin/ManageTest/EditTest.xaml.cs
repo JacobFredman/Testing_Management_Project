@@ -124,8 +124,6 @@ namespace PLWPF.Admin.ManageTest
                 //Check address
                 if (addressOfBeginningTestTextBox.Address.ToString() == "")
                     throw new Exception("Please Select an Address for the test");
-                //Update address
-               // _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
 
                 //Save or update the test
                 if ((string) Save.Content == "Save")
@@ -313,10 +311,12 @@ namespace PLWPF.Admin.ManageTest
                 var hours = (bool[])((Tester) testerIdComboBox.SelectedItem).Schedule
                     .Days[(int) date.DayOfWeek].Hours.Clone();
 
+                //disable hours today that passed
                 if (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
                     for (int i = DateTime.Now.Hour; i > 0; i--)
                         hours[i] = false;
 
+                //disable hours that the tester has a test already
                 var hourNum = new int[]
                     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
                 foreach (var h in hourNum)
@@ -374,9 +374,6 @@ namespace PLWPF.Admin.ManageTest
         {
             try
             {
-                //Update the address
-              //  _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
-
                 //Reset all selections
                 licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
                 testerIdComboBox.SelectedIndex = -1;
@@ -443,6 +440,7 @@ namespace PLWPF.Admin.ManageTest
                 var dateNow = DateTime.Today;
                 var hourNmu = new int[]
                     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+        
                 //add the days of the 2 month in the calendar
                 for (var i = 0; i < 64; i++)
                 {
@@ -547,9 +545,6 @@ namespace PLWPF.Admin.ManageTest
                         ShowRouteUrlButton.IsEnabled = true;
                     else
                         ShowRouteUrlButton.IsEnabled = false;
-
-                    //Update address
-                    //addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;
 
                     SetRouteButton.IsEnabled = true;
                     ClearAllMessages();
