@@ -324,9 +324,29 @@ namespace PLWPF.TraineeArea
                 //Reset old selections
                 TimePickerTest.ResetSelection();
 
+                var date = ((DateTime)testTimeDatePicker.SelectedDate);
+                var tester = (Tester)testerIdComboBox.SelectedItem;
+                var hours = (bool[])((Tester)testerIdComboBox.SelectedItem).Schedule
+                    .Days[(int)date.DayOfWeek].Hours.Clone();
+
+                if (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
+                    for (int i = DateTime.Now.Hour; i > 0; i--)
+                        hours[i] = false;
+
+                var hourNum = new int[]
+                    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+                foreach (var h in hourNum)
+                {
+                    if (FactoryBl.GetObject.AllTests.Any(x =>
+                        date.Year == x.TestTime.Year && date.DayOfYear == x.TestTime.DayOfYear &&
+                        x.TestTime.Hour == h && x.TesterId == tester.Id))
+                    {
+                        hours[h] = false;
+                    }
+                }
+
                 //Set The hours according to the schedule
-                TimePickerTest.HourToShow = ((Tester) testerIdComboBox.SelectedItem).Schedule
-                    .Days[(int) ((DateTime) testTimeDatePicker.SelectedDate).DayOfWeek].Hours;
+                TimePickerTest.HourToShow = hours;
 
                 //Enable Time Picker
                 TimePickerTest.IsEnabled = true;
@@ -417,7 +437,7 @@ namespace PLWPF.TraineeArea
         {
             try
             {
-                testTimeDatePicker.DisplayDateStart=DateTime.Now.AddDays(-1);
+                testTimeDatePicker.DisplayDateStart = DateTime.Now.AddDays(-1);
                 testTimeDatePicker.DisplayDateEnd = DateTime.Now.AddMonths(2);
                 testTimeDatePicker.BlackoutDates.Clear();
 
@@ -429,18 +449,23 @@ namespace PLWPF.TraineeArea
                 var date = DateTime.Now;
 
                 //make an arr with days that the tester is available on
-                var weekSchedule = new bool[7] {false, false, false, false, false, false, false};
+                var weekSchedule = new bool[7] { false, false, false, false, false, false, false };
                 foreach (var day in schedule.Days)
                     if (day.Hours.Any(x => x))
-                        weekSchedule[(int) day.TheDay] = true;
+                        weekSchedule[(int)day.TheDay] = true;
 
-
+                var tester = (Tester)testerIdComboBox.SelectedItem;
                 var dateNow = DateTime.Today;
-
+                var hourNmu = new int[]
+                    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
                 //add the days of the 2 month in the calendar
                 for (var i = 0; i < 64; i++)
                 {
-                    if (!weekSchedule[(int) date.DayOfWeek])
+                    if (!weekSchedule[(int)date.DayOfWeek] || hourNmu
+                            .Where(z => tester.Schedule[date.DayOfWeek].Hours[z]).All(x =>
+                                FactoryBl.GetObject.AllTests.Any(y =>
+                                    y.TesterId == tester.Id && y.TestTime.Year == date.Year &&
+                                    y.TestTime.DayOfYear == date.DayOfYear && y.TestTime.Hour == x)))
                     {
                         //if today is already selected then move the selection to tomorrow
                         if (date.DayOfYear == dateNow.DayOfYear)
