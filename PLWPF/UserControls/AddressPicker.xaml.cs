@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using BE.Routes;
 using BL;
@@ -22,17 +23,20 @@ namespace PLWPF.UserControls
             InitializeComponent();
             GenerateNewToken();
         }
+       
+            public static readonly DependencyProperty AddressProperty =
+                DependencyProperty.Register("Address", typeof(Address), typeof(AddressPicker), new PropertyMetadata(null));
 
-        /// <summary>
-        ///     The Selected address
-        /// </summary>
-        public Address Address
+            /// <summary>
+            ///     The Selected address
+            /// </summary>
+            public Address Address
         {
             set
             {
                 TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
                 TexBoxAddress.Text = value != null ? value.ToString() : "";
-
+                SetValue(AddressProperty, new Address(TexBoxAddress.Text));
                 //search address on google
                 new Thread(() =>
                 {
@@ -43,6 +47,7 @@ namespace PLWPF.UserControls
 
                         void Action()
                         {
+                            SetValue(AddressProperty,new Address(text));
                             TexBoxAddress.Text = text;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
                             TexBoxAddress.BorderBrush = Brushes.LightGray;
@@ -62,7 +67,7 @@ namespace PLWPF.UserControls
                     }
                 }).Start();
             }
-            get => new Address(TexBoxAddress.Text);
+            get => (Address)GetValue(AddressProperty);
         }
 
         /// <summary>
@@ -145,6 +150,7 @@ namespace PLWPF.UserControls
             if (ListBoxSuggestions.SelectedItem == null) return;
             TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
             TexBoxAddress.Text = (string) ListBoxSuggestions.SelectedItem;
+            SetValue(AddressProperty, new Address(TexBoxAddress.Text));
             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
             GenerateNewToken();

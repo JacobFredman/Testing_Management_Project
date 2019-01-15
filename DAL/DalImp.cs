@@ -241,7 +241,7 @@ namespace DAL
             get
             {
                 if (!_testerChanged) // if the testers list didn't changed don't go to xml file 
-                    return _testers.Select(item => item.Clone() as Tester).ToList(); ;
+                    return _testers.Select(item => item.Clone() as Tester).OrderBy(x => x.Id).ToList(); ;
                 var allTesters = XML.GetAllTestersFromXml(_testersXml).Select(item => item.Clone() as Tester).ToList();
                 _testerChanged = false;
                 return allTesters.OrderBy(x => x.Id);
@@ -270,7 +270,7 @@ namespace DAL
             get
             {
                 if (!_traineeChanged) // if the testers list didn't changed don't go to xml file 
-                    return _trainees.Select(item => item.Clone() as Trainee).ToList(); ;
+                    return _trainees.Select(item => item.Clone() as Trainee).OrderBy(x => x.Id).ToList(); ;
                 var allTrainee = XML.GetAllTraineesFromXml(_traineesXml).Select(item => item.Clone() as Trainee).ToList();
                 _traineeChanged = false;
                 return allTrainee.OrderBy(x => x.Id);

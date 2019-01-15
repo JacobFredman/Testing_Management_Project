@@ -125,7 +125,7 @@ namespace PLWPF.Admin.ManageTest
                 if (addressOfBeginningTestTextBox.Address.ToString() == "")
                     throw new Exception("Please Select an Address for the test");
                 //Update address
-                _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
+               // _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
 
                 //Save or update the test
                 if ((string) Save.Content == "Save")
@@ -375,7 +375,7 @@ namespace PLWPF.Admin.ManageTest
             try
             {
                 //Update the address
-                _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
+              //  _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
 
                 //Reset all selections
                 licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
@@ -549,7 +549,7 @@ namespace PLWPF.Admin.ManageTest
                         ShowRouteUrlButton.IsEnabled = false;
 
                     //Update address
-                    addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;
+                    //addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;
 
                     SetRouteButton.IsEnabled = true;
                     ClearAllMessages();

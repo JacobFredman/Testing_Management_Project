@@ -127,7 +127,7 @@
 
                     <StackPanel ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3" Grid.Row="5"
                                 Grid.RowSpan="4" VerticalAlignment="Top">
-                        <UserControls:AddressPicker x:Name="addressOfBeginningTestTextBox"
+                        <UserControls:AddressPicker Address="{Binding AddressOfBeginningTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" x:Name="addressOfBeginningTestTextBox"
                                                     HorizontalAlignment="Stretch" />
 
 

@@ -53,11 +53,11 @@ namespace PLWPF.TraineeArea
 
                 _test.TraineeId = trainee.Id;
 
-                addressOfBeginningTestTextBox.Address = trainee.Address;
-
                 //set data context
                 DataContext = _test;
 
+                addressOfBeginningTestTextBox.Address = trainee.Address;
+               
                 //add events
                 addressOfBeginningTestTextBox.TextChanged += AddressOfBeginningTestTextBox_TextChanged;
                 licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;

@@ -72,7 +72,6 @@ namespace PLWPF.Admin.ManageTester
                     Close();
                 }
 
-                AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             }
 
             //set comBox source
@@ -121,22 +120,22 @@ namespace PLWPF.Admin.ManageTester
             }
         }
 
-        /// <summary>
-        ///     update address
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddressTextBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                _tester.Address = AddressTextBox.Address;
-            }
-            catch
-            {
-                AddressTextBox.Address = null;
-            }
-        }
+        ///// <summary>
+        /////     update address
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void AddressTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        _tester.Address = AddressTextBox.Address;
+        //    }
+        //    catch
+        //    {
+        //        AddressTextBox.Address = null;
+        //    }
+        //}
 
         /// <summary>
         ///     when license selection changed update license list

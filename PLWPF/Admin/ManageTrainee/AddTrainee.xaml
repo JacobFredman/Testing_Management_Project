@@ -82,7 +82,7 @@
 
             <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Address:" />
-            <UserControls:AddressPicker Panel.ZIndex="1" x:Name="AddressTextBox" Height="120" Width="180"
+            <UserControls:AddressPicker Panel.ZIndex="1" x:Name="AddressTextBox" Height="120" Width="180" Address="{Binding Address, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                         VerticalAlignment="Top" Grid.RowSpan="6" Grid.Row="7" Margin="3,8,3,3"
                                         HorizontalAlignment="Left" Grid.Column="1" />
 

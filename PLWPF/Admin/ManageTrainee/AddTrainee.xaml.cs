@@ -68,7 +68,6 @@ namespace PLWPF.Admin.ManageTrainee
 
             BoxColumnGear.ItemsSource = Enum.GetValues(typeof(Gear));
 
-            AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             //set combox source
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             gearTypeComboBox.ItemsSource = Enum.GetValues(typeof(Gear));
@@ -134,22 +133,22 @@ namespace PLWPF.Admin.ManageTrainee
             }
         }
 
-        /// <summary>
-        ///     On address text box changed update the address
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddressTextBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                trainee.Address = AddressTextBox.Address;
-            }
-            catch
-            {
-                AddressTextBox.Address = null;
-            }
-        }
+        ///// <summary>
+        /////     On address text box changed update the address
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void AddressTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        trainee.Address = AddressTextBox.Address;
+        //    }
+        //    catch
+        //    {
+        //        AddressTextBox.Address = null;
+        //    }
+        //}
 
         /// <summary>
         ///     When an error occured  in the data binding
