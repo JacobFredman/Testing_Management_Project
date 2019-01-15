@@ -217,7 +217,7 @@ namespace PLWPF.Admin.ManageTester
             //update  hours in all days in week
             if (AllWeek.IsChecked == true)
             {
-                foreach (var day in _tester.Schedule.days)
+                foreach (var day in _tester.Schedule.Days)
                 {
                     day.ClearHours();
                     foreach (var hour in ChooseHours.SelectedItems)

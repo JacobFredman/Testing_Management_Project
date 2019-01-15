@@ -326,7 +326,7 @@ namespace PLWPF.TraineeArea
 
                 //Set The hours according to the schedule
                 TimePickerTest.HourToShow = ((Tester) testerIdComboBox.SelectedItem).Schedule
-                    .days[(int) ((DateTime) testTimeDatePicker.SelectedDate).DayOfWeek].Hours;
+                    .Days[(int) ((DateTime) testTimeDatePicker.SelectedDate).DayOfWeek].Hours;
 
                 //Enable Time Picker
                 TimePickerTest.IsEnabled = true;
@@ -430,7 +430,7 @@ namespace PLWPF.TraineeArea
 
                 //make an arr with days that the tester is available on
                 var weekSchedule = new bool[7] {false, false, false, false, false, false, false};
-                foreach (var day in schedule.days)
+                foreach (var day in schedule.Days)
                     if (day.Hours.Any(x => x))
                         weekSchedule[(int) day.TheDay] = true;
 

@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using BE;
 using BE.MainObjects;
 using BE.Routes;
+using Newtonsoft.Json.Linq;
 
 namespace BL
 {
@@ -36,7 +37,7 @@ namespace BL
                     .Distinct().ToList();
                 //shrink the list 
                 arr = arr.Skip(1).Take(5).ToList();
-                arr.Insert(0, GetAddressSuggestionsGoogleAsGoogleAdd(test.AddressOfBeginningTest.ToString(), "0").First());
+                arr.Insert(0, GetAddressSuggestionsGoogle(test.AddressOfBeginningTest.ToString(), "0").First());
 
                 //get the duration of the route
                 var duration = GetRouteDuration(arr.ToArray());
@@ -79,32 +80,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Get a list of address suggestions for an input from google maps
-        /// </summary>
-        /// <param name="input"> the string</param>
-        /// <param name="token">a token</param>
-        /// <returns></returns>
-        public static List<string> GetAddressSuggestionsGoogle(string input, string token)
-        {
-            var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
-                      "&types=address&components=country:il&language=iw&key=" + Configuration.Key + "&sessiontoken=" +
-                      token;
-            try
-            {
-                var xml = DownloadDataIntoXml(url);
-                return (from adr in xml.Elements()
-                        where adr.Name == "prediction"
-                        select adr.Element("description").Value
-                    ).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public static List<GoogleAddress> GetAddressSuggestionsGoogleAsGoogleAdd(string input, string token)
+        public static List<GoogleAddress> GetAddressSuggestionsGoogle(string input, string token)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
                       "&types=address&components=country:il&language=iw&key=" + Configuration.Key + "&sessiontoken=" +
@@ -122,6 +98,41 @@ namespace BL
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        ///     returns the distance between to points from google maps
+        /// </summary>
+        /// <param name="origin">an addressLatLog</param>
+        /// <param name="destination">an address</param>
+        /// <returns>the distance in meters</returns>
+        public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
+        {
+            try
+            {
+                //create the url
+                var request = Configuration.GoogleDistanceUrl + "json?" + "key=" + Configuration.Key
+                              + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
+
+                //check the url
+                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
+                    throw new Exception("Google URL is not correct");
+
+                //download the data
+                var wc = new WebClient();
+                var response = wc.DownloadData(request);
+                var contentResponse = Encoding.UTF8.GetString(response);
+                //parse it json
+                var jsonResponse = JObject.Parse(contentResponse);
+                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
+
+                return distance;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
 
         #region Help Functions
 

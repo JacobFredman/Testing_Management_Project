@@ -26,19 +26,22 @@ namespace DAL
     /// <summary>
     ///     DAL implantation
     /// </summary>
-    public partial class DalImp : IDal
+    public class DalImp : IDal
     {
+        //the data in xml
         private readonly XElement _traineesXml;
-        private readonly XElement _testersXML;
+        private readonly XElement _testersXml;
+        private XElement _config;
 
+        //lists of the data
         private readonly List<Trainee> _trainees = new List<Trainee>();
         private readonly List<Test> _tests = new List<Test>();
         private readonly List<Tester> _testers = new List<Tester>();
 
+        //flags
         private bool _traineeChanged = true;
         private bool _testerChanged = true;
 
-        private XElement _config;
         /// <summary>
         ///     DalImp c-tor
         /// </summary>
@@ -46,24 +49,27 @@ namespace DAL
         {
             try
             {
+                //initialize trainees
                 if (File.Exists(Configuration.TraineesXmlFilePath))
                     _traineesXml = XElement.Load(Configuration.TraineesXmlFilePath);
                 else
                     _traineesXml = new XElement("trainees");
                 _trainees = XML.GetAllTraineesFromXml(_traineesXml).ToList();
 
+                //initialize testers
                 if (File.Exists(Configuration.TestersXmlFilePath))
-                    _testersXML = XElement.Load(Configuration.TestersXmlFilePath);
+                    _testersXml = XElement.Load(Configuration.TestersXmlFilePath);
                 else
-                    _testersXML = new XElement("testers");
-                _testers = XML.GetAllTestersFromXml(_testersXML).ToList();
+                    _testersXml = new XElement("testers");
+                _testers = XML.GetAllTestersFromXml(_testersXml).ToList();
 
-
+                //initialize tests
                 if (File.Exists(Configuration.TestsXmlFilePath))
                     _tests = XML.DeSerializeTestFromXml().ToList();
                 else
                     _tests = new List<Test>();
 
+                //Load configurations
               _config = XML.LoadConfigurations();
             }
             catch
@@ -71,8 +77,6 @@ namespace DAL
                 //do nothing
             }
         }
-
-
 
         #region Trainee
 
@@ -139,11 +143,11 @@ namespace DAL
         /// <param name="newTester"></param>
         public void AddTester(Tester newTester)
         {
-            if (XML.GetAllTestersFromXml(_testersXML).Any(tester => tester.Id == newTester.Id))
+            if (XML.GetAllTestersFromXml(_testersXml).Any(tester => tester.Id == newTester.Id))
                 throw new Exception("The tester already exist in the system");
 
-            _testersXML.Add(XML.TesterToXmlElement(newTester));
-            _testersXML.Save(Configuration.TestersXmlFilePath);
+            _testersXml.Add(XML.TesterToXmlElement(newTester));
+            _testersXml.Save(Configuration.TestersXmlFilePath);
             _testerChanged = true;
         }
 
@@ -153,11 +157,11 @@ namespace DAL
         /// <param name="testerToDelete"></param>
         public void RemoveTester(Tester testerToDelete)
         {
-            if (XML.GetAllTestersFromXml(_testersXML).All(x => x.Id != testerToDelete.Id))
+            if (XML.GetAllTestersFromXml(_testersXml).All(x => x.Id != testerToDelete.Id))
                 throw new Exception("Tester doesn't exist");
 
-            _testersXML.Elements().First(x => x.Element("id")?.Value == testerToDelete.Id.ToString()).Remove();
-            _testersXML.Save(Configuration.TestersXmlFilePath);
+            _testersXml.Elements().First(x => x.Element("id")?.Value == testerToDelete.Id.ToString()).Remove();
+            _testersXml.Save(Configuration.TestersXmlFilePath);
             _testerChanged = true;
         }
 
@@ -167,17 +171,16 @@ namespace DAL
         /// <param name="testerToUpdate"></param>
         public void UpdateTester(Tester testerToUpdate)
         {
-            if (XML.GetAllTestersFromXml(_testersXML).All(x => x.Id != testerToUpdate.Id))
+            if (XML.GetAllTestersFromXml(_testersXml).All(x => x.Id != testerToUpdate.Id))
                 throw new Exception("Trainee doesn't exist");
 
-            _testersXML.Elements().First(x => x.Element("id")?.Value == testerToUpdate.Id.ToString()).Remove();
-            _testersXML.Add(XML.TesterToXmlElement(testerToUpdate));
-            _testersXML.Save(Configuration.TestersXmlFilePath);
+            _testersXml.Elements().First(x => x.Element("id")?.Value == testerToUpdate.Id.ToString()).Remove();
+            _testersXml.Add(XML.TesterToXmlElement(testerToUpdate));
+            _testersXml.Save(Configuration.TestersXmlFilePath);
             _testerChanged = true;
         }
 
         #endregion
-
 
         #region Test
 
@@ -228,14 +231,6 @@ namespace DAL
 
         #endregion
 
-        #region Conf XML
-
-
-
-        #endregion
-
-
-
         #region Return lists
 
         /// <summary>
@@ -246,8 +241,8 @@ namespace DAL
             get
             {
                 if (!_testerChanged) // if the testers list didn't changed don't go to xml file 
-                    return _testers;
-                var allTesters = XML.GetAllTestersFromXml(_testersXML).Select(item => item.Clone() as Tester).ToList();
+                    return _testers.Select(item => item.Clone() as Tester).ToList(); ;
+                var allTesters = XML.GetAllTestersFromXml(_testersXml).Select(item => item.Clone() as Tester).ToList();
                 _testerChanged = false;
                 return allTesters.OrderBy(x => x.Id);
             }
@@ -275,7 +270,7 @@ namespace DAL
             get
             {
                 if (!_traineeChanged) // if the testers list didn't changed don't go to xml file 
-                    return _trainees;
+                    return _trainees.Select(item => item.Clone() as Trainee).ToList(); ;
                 var allTrainee = XML.GetAllTraineesFromXml(_traineesXml).Select(item => item.Clone() as Trainee).ToList();
                 _traineeChanged = false;
                 return allTrainee.OrderBy(x => x.Id);

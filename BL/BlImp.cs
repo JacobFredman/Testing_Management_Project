@@ -180,7 +180,7 @@ namespace BL
             if (tooManyTestInWeek) throw new Exception("To many tests for tester");
             if (!traineeExist) throw new Exception("This trainee doesn't exist");
             if (!testerExist) throw new Exception("This tester doesn't exist");
-            if (twoTestesTooClose) throw new Exception("The trainee has a test less then a week ago");
+            if (twoTestesTooClose) throw new Exception("The trainee has a already a test in "+Configuration.MinTimeBetweenTests+" days");
             if (lessThenMinLessons)
                 throw new Exception("The trainee learned less then " + Configuration.MinLessons +
                                     " lessons which is the minimum");
@@ -347,7 +347,7 @@ namespace BL
         public IEnumerable<Tester> GetAllTestersInRadios(int r, Address a)
         {
             return AllTesters.Where(tester =>
-                tester.Address != null && Tools.GetDistanceGoogleMapsApi(tester.Address, a) <= r);
+                tester.Address != null && Routes.GetDistanceGoogleMapsApi(tester.Address, a) <= r);
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace BL
 
                 var testerDistance = from tester in testerInDate
                     where tester.Address != null
-                    let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                    let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
                     where distance < tester.MaxDistance
                     select new {tester, distance};
                 if (!testerDistance.Any())
@@ -439,7 +439,7 @@ namespace BL
 
                 var testerDistance = from tester in AllTesters
                     where tester.Address != null
-                    let distance = Tools.GetDistanceGoogleMapsApi(address, tester.Address)
+                    let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
                     select new {tester, distance};
                 if (!testerDistance.Any())
                     throw new Exception("There are no testers in the current address please try an other address");

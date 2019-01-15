@@ -39,7 +39,7 @@ namespace PLWPF.UserControls
                     try
                     {
                         GenerateNewToken();
-                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).First();
+                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).Select(x=>x.Name).First();
 
                         void Action()
                         {
@@ -87,7 +87,7 @@ namespace PLWPF.UserControls
                     {
                         try
                         {
-                            var list = Routes.GetAddressSuggestionsGoogle(text, _token);
+                            var list = Routes.GetAddressSuggestionsGoogle(text, _token).Select(x=>x.Name);
                             //if the address is already typed
                             if (list.Any(x => x == text))
                             {

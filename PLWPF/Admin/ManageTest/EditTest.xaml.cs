@@ -311,10 +311,10 @@ namespace PLWPF.Admin.ManageTest
                 var date= ((DateTime)testTimeDatePicker.SelectedDate);
                 var tester = (Tester) testerIdComboBox.SelectedItem;
                 var hours = (bool[])((Tester) testerIdComboBox.SelectedItem).Schedule
-                    .days[(int) date.DayOfWeek].Hours.Clone();
+                    .Days[(int) date.DayOfWeek].Hours.Clone();
 
                 if (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
-                    for (int i = DateTime.Now.Hour; i > 0; i++)
+                    for (int i = DateTime.Now.Hour; i > 0; i--)
                         hours[i] = false;
 
                 var hourNum = new int[]
@@ -435,7 +435,7 @@ namespace PLWPF.Admin.ManageTest
 
                 //make an arr with days that the tester is available on
                 var weekSchedule = new bool[7] {false, false, false, false, false, false, false};
-                foreach (var day in schedule.days)
+                foreach (var day in schedule.Days)
                     if (day.Hours.Any(x => x))
                         weekSchedule[(int) day.TheDay] = true;
 

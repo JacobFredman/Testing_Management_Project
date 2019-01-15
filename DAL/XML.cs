@@ -34,7 +34,6 @@ namespace DAL
             return list;
         }
 
-
         #endregion
 
         #region TreaineeXml
@@ -67,12 +66,9 @@ namespace DAL
 
         }
 
-
-
         public static IEnumerable<Trainee> GetAllTraineesFromXml(XElement traineesXml)
         {
             var trainees = new List<Trainee>();
-            //   if (!_traineeChanged) return trainees;
             foreach (var trainee in traineesXml.Elements())
             {
                 var t = new Trainee
@@ -104,22 +100,16 @@ namespace DAL
                 trainees.Add(t);
             }
 
-            //  _traineeChanged = false;
-
             return trainees;
         }
-
 
         #endregion
 
         #region TestersXML
 
-
         public static IEnumerable<Tester> GetAllTestersFromXml(XElement testersXml)
         {
-            //if (!_testerChanged)
-            //    return _testers;
-            var testers = new List<Tester>();
+             var testers = new List<Tester>();
             foreach (var xmLTester in testersXml.Elements())
             {
                 var licensesTypes = new List<LicenseType>();
@@ -149,7 +139,6 @@ namespace DAL
                     }
                 }
 
-
                 var tester = new Tester
                 {
                     BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
@@ -174,12 +163,8 @@ namespace DAL
                 testers.Add(tester);
             }
 
-            //  _testerChanged = false;
             return testers;
         }
-
-
-
 
         public static XElement TesterToXmlElement(Tester tester)
         {
@@ -209,13 +194,12 @@ namespace DAL
             if (!tester.LicenseType.Any())
                 foreach (var license in tester.LicenseType)
                 {
-                    var xmllicense = new XElement("license", license.ToString());
-                    licenseType.Add(xmllicense);
+                    var xmlLisence = new XElement("license", license.ToString());
+                    licenseType.Add(xmlLisence);
                 }
 
-
             var schedule = new XElement("schedule");
-            foreach (var day in tester.Schedule.days)
+            foreach (var day in tester.Schedule.Days)
             {
                 var dayOfWeek = new XElement(day.TheDay.ToString(), day.TheDay);
                 foreach (var hour in day.Hours)
@@ -227,15 +211,11 @@ namespace DAL
                 schedule.Add(dayOfWeek);
             }
 
-
             var phoneNumber = new XElement("phoneNum", tester.PhoneNumber);
-
 
             return new XElement("tester", experience, licenseTypeTeaching, maxDistance, maxWeekExams, schedule, id,
                 address, birthDate, emailAddress, firstName, gender, lastName, licenseType, phoneNumber);
         }
-
-
 
         #endregion
 
@@ -270,9 +250,6 @@ namespace DAL
             return config;
         }
 
-
-
-
         public static void SaveConfigurations(XElement config)
         {
             var adminPass = new XElement("AdminPassword", Configuration.AdminPassword);
@@ -299,7 +276,6 @@ namespace DAL
                 minTraineeAge, minimumCriteria, percentOfCriteriaToPassTest, theme, color, criteria);
             config.Save(Configuration.ConfigXmlFilePath);
         }
-
 
         #endregion
 

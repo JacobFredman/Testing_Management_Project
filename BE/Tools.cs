@@ -39,38 +39,5 @@ namespace BE
             return sum % 10 == 0;
         }
 
-        /// <summary>
-        ///     returns the distance between to points from google maps
-        /// </summary>
-        /// <param name="origin">an addressLatLog</param>
-        /// <param name="destination">an address</param>
-        /// <returns>the distance in meters</returns>
-        public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
-        {
-            try
-            {
-                //create the url
-                var request = Configuration.GoogleDistanceUrl + "json?" + "key=" + Configuration.Key
-                              + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
-
-                //check the url
-                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
-                    throw new Exception("Google URL is not correct");
-
-                //download the data
-                var wc = new WebClient();
-                var response = wc.DownloadData(request);
-                var contentResponse = Encoding.UTF8.GetString(response);
-                //parse it json
-                var jsonResponse = JObject.Parse(contentResponse);
-                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
-
-                return distance;
-            }
-            catch
-            {
-                return -1;
-            }
-        }
     }
 }
