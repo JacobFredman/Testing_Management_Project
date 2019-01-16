@@ -26,7 +26,7 @@ namespace PLWPF.Admin
         /// <summary>
         /// Bl object
         /// </summary>
-        private readonly IBL bL = FactoryBl.GetObject;
+        private readonly IBL _bL = FactoryBl.GetObject;
 
         /// <summary>
         /// list of showed testers
@@ -41,7 +41,7 @@ namespace PLWPF.Admin
         /// </summary>
         private IEnumerable<Trainee> _traineeList = FactoryBl.GetObject.AllTrainees;
 
-        //backgoud worker for sendind emails
+        //background worker for sending emails
         private BackgroundWorker _worker;
 
         /// <summary>
@@ -71,18 +71,18 @@ namespace PLWPF.Admin
         {
             //update data grid source
             TraineeGrid.DataContext = null;
-            TraineeGrid.DataContext = bL.AllTrainees;
+            TraineeGrid.DataContext = _bL.AllTrainees;
 
             TesterGrid.DataContext = null;
-            TesterGrid.DataContext = bL.AllTesters;
+            TesterGrid.DataContext = _bL.AllTesters;
 
             TestGrid.DataContext = null;
-            TestGrid.DataContext = bL.AllTests;
+            TestGrid.DataContext = _bL.AllTests;
 
             //update number of objects
-            NumberOfTraineesLabel.Content = bL.AllTrainees.Count().ToString();
-            NumberOfTestersLabel.Content = bL.AllTesters.Count().ToString();
-            NumberOfTestsLabel.Content = bL.AllTests.Count().ToString();
+            NumberOfTraineesLabel.Content = _bL.AllTrainees.Count().ToString();
+            NumberOfTestersLabel.Content = _bL.AllTesters.Count().ToString();
+            NumberOfTestsLabel.Content = _bL.AllTests.Count().ToString();
 
             //update comBox source
             ComboBoxFilterSchoolTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineesBySchool()
@@ -213,7 +213,7 @@ namespace PLWPF.Admin
             try
             {
                 //open window
-                var win = new AddTrainee((TraineeGrid.SelectedItem as Trainee).Id);
+                var win = new AddTrainee(((Trainee) TraineeGrid.SelectedItem).Id);
                 win.ShowDialog();
                 RefreshData();
             }
@@ -235,9 +235,9 @@ namespace PLWPF.Admin
             {
                 var trainee = TraineeGrid.SelectedItem as Trainee;
                 //validate delete
-                if (!ValidationMessage.Show("Are you sure you want to delete "+trainee.FirstName+" "+trainee.LastName+"?"))
+                if (!ValidationMessage.Show("Are you sure you want to delete "+trainee?.FirstName+" "+trainee?.LastName+"?"))
                     return;
-                bL.RemoveTrainee(trainee);
+                _bL.RemoveTrainee(trainee);
                 RefreshData();
             }
             catch (Exception ex)
@@ -277,8 +277,8 @@ namespace PLWPF.Admin
             //if the the search is empty
             if (TextBoxSearchTrainee.Text == "")
             {
-                TraineeGrid.DataContext = bL.AllTrainees.ToList();
-                _traineeList = bL.AllTrainees.ToList();
+                TraineeGrid.DataContext = _bL.AllTrainees.ToList();
+                _traineeList = _bL.AllTrainees.ToList();
             }
             else
             {
@@ -286,7 +286,7 @@ namespace PLWPF.Admin
                 var text = TextBoxSearchTrainee.Text;
                 (new Thread(() =>
                 {
-                    var list = bL.SearchTrainee(text);
+                    var list = _bL.SearchTrainee(text);
 
                     void Act()
                     {
@@ -313,7 +313,7 @@ namespace PLWPF.Admin
             var lName = TextBoxSearchLastNameTrainee.Text != "" ? TextBoxSearchLastNameTrainee.Text : null;
 
             //search in trainees
-            var list = bL.AllTrainees.Where(p =>
+            var list = _bL.AllTrainees.Where(p =>
             {
                 if (id != null && id == p.Id.ToString()) return true;
                 if (fName != null && fName.ToLower() == p.FirstName.ToLower()) return true;
@@ -495,7 +495,7 @@ namespace PLWPF.Admin
             try
             {
                 //open window
-                var win = new AddTester((TesterGrid.SelectedItem as Tester).Id);
+                var win = new AddTester(((Tester) TesterGrid.SelectedItem).Id);
                 win.ShowDialog();
                 RefreshData();
             }
@@ -517,9 +517,9 @@ namespace PLWPF.Admin
             {
                 var tester = TesterGrid.SelectedItem as Tester;
                 //validate delete
-                if (!ValidationMessage.Show("Are you sure you want to delete " + tester.FirstName + " " + tester.LastName + "?"))
+                if (!ValidationMessage.Show("Are you sure you want to delete " + tester?.FirstName + " " + tester?.LastName + "?"))
                     return;
-                bL.RemoveTester(tester);
+                _bL.RemoveTester(tester);
                 RefreshData();
             }
             catch (Exception ex)
@@ -559,13 +559,13 @@ namespace PLWPF.Admin
             //if search is empty
             if (SearchTextBoxTester.Text == "")
             {
-                TesterGrid.DataContext = bL.AllTesters.ToList();
-                _testerList = bL.AllTesters.ToList();
+                TesterGrid.DataContext = _bL.AllTesters.ToList();
+                _testerList = _bL.AllTesters.ToList();
             }
             else
             {
-                TesterGrid.DataContext = bL.SearchTester(SearchTextBoxTester.Text);
-                _testerList = bL.SearchTester(SearchTextBoxTester.Text);
+                TesterGrid.DataContext = _bL.SearchTester(SearchTextBoxTester.Text);
+                _testerList = _bL.SearchTester(SearchTextBoxTester.Text);
             }
         }
 
@@ -582,7 +582,7 @@ namespace PLWPF.Admin
             var lName = TextBoxSearchLastNameTester.Text != "" ? TextBoxSearchLastNameTester.Text : null;
 
             //filter
-            var list = bL.AllTesters.Where(p =>
+            var list = _bL.AllTesters.Where(p =>
             {
                 if (id != null && id == p.Id.ToString()) return true;
                 if (fName != null && fName.ToLower() == p.FirstName.ToLower()) return true;
@@ -682,16 +682,16 @@ namespace PLWPF.Admin
             {
                 //save test details
                 var test = TestGrid.SelectedItem as Test;
-                var win = new EditTest(test.Id);
-                var passed = test.Passed;
+                var win = new EditTest(test?.Id);
+                var passed = test?.Passed;
                 
                 //open window
                 win.ShowDialog();
                 RefreshData();
 
                 //get trainee and updated test
-                var trainee = bL.AllTrainees.First(x => x.Id == test.TraineeId);
-                test = bL.AllTests.First(x => x.Id == test.Id);
+                var trainee = _bL.AllTrainees.First(x => x.Id == test?.TraineeId);
+                test = _bL.AllTests.First(x => x.Id == test?.Id);
 
                 //if the passed state didn't change
                 if (test.Passed == passed)
@@ -754,9 +754,9 @@ namespace PLWPF.Admin
             {
                 var test = TestGrid.SelectedItem as Test;
                 //validate delete
-                if (!ValidationMessage.Show("Are you sure you want to delete test number " + test.Id + " ?"))
+                if (!ValidationMessage.Show("Are you sure you want to delete test number " + test?.Id + " ?"))
                     return;
-                bL.RemoveTest(test);
+                _bL.RemoveTest(test);
                 RefreshData();
             }
             catch (Exception ex)
@@ -786,18 +786,23 @@ namespace PLWPF.Admin
                    catch { throw new Exception("There is No Internet Connection.Please Try Again Later."); }
 
                    //open window
-                   Action act1 = () =>
+                   void Act1()
                    {
                        var win = new EditTest();
                        win.ShowDialog();
                        RefreshData();
-                   };
-                   Dispatcher.BeginInvoke(act1);
+                   }
+
+                   Dispatcher.BeginInvoke((Action) Act1);
                }
                catch (Exception ex)
                {
-                   Action act2 = () => { ExceptionMessage.Show(ex.Message, ex.ToString()); };
-                   Dispatcher.BeginInvoke(act2);
+                   void Act2()
+                   {
+                       ExceptionMessage.Show(ex.Message, ex.ToString());
+                   }
+
+                   Dispatcher.BeginInvoke((Action) Act2);
                }
            })).Start();
         }
@@ -814,13 +819,13 @@ namespace PLWPF.Admin
                 //if search is empty
                 if (TextBoxSearchTest.Text == "")
                 {
-                    TestGrid.DataContext = bL.AllTests.ToList();
-                    _testList = bL.AllTests.ToList();
+                    TestGrid.DataContext = _bL.AllTests.ToList();
+                    _testList = _bL.AllTests.ToList();
                 }
                 else
                 {
-                    TestGrid.DataContext = bL.SearchTest(TextBoxSearchTest.Text);
-                    _testList = bL.SearchTest(TextBoxSearchTest.Text);
+                    TestGrid.DataContext = _bL.SearchTest(TextBoxSearchTest.Text);
+                    _testList = _bL.SearchTest(TextBoxSearchTest.Text);
                 }
             }
             catch
@@ -844,7 +849,7 @@ namespace PLWPF.Admin
                 var testerId = TextBoxSearchTesterIDTest.Text != "" ? TextBoxSearchTesterIDTest.Text : null;
 
                 //filter the tests
-                var list = bL.AllTests.Where(p =>
+                var list = _bL.AllTests.Where(p =>
                 {
                     if (id != null && id == p.Id.ToString()) return true;
                     if (traineeId != null && traineeId.ToLower() == p.TraineeId.ToString().ToLower()) return true;
@@ -909,16 +914,16 @@ namespace PLWPF.Admin
                 switch (selection)
                 {
                     case "Not Updated Tests":
-                        tests = bL.GetAllTestsToCome();
+                        tests = _bL.GetAllTestsToCome();
                         break;
                     case "Updated Tests":
-                        tests = bL.GetAllTestsThatHappened();
+                        tests = _bL.GetAllTestsThatHappened();
                         break;
                     case "Test That Passed":
-                        tests = bL.AllTests.Where(x => x.Passed != null);
+                        tests = _bL.AllTests.Where(x => x.Passed != null);
                         break;
                     case "Tests That Didn't Pass":
-                        tests = bL.AllTests.Where(x => x.Passed == null);
+                        tests = _bL.AllTests.Where(x => x.Passed == null);
                         break;
                 }
                 //update filter
@@ -942,7 +947,7 @@ namespace PLWPF.Admin
             {
                 //filter on selected range
                 var dates = CalendarFilter.SelectedDates;
-                _testList = bL.AllTests.Where(
+                _testList = _bL.AllTests.Where(
                     x => x.TestTime >= dates.First() && x.TestTime <= dates.Last().AddHours(23));
                 TestGrid.DataContext = _testList;
             }

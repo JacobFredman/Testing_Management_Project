@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 using BE;
 using BE.MainObjects;
@@ -105,16 +106,18 @@ namespace BL
         /// <param name="origin">an addressLatLog</param>
         /// <param name="destination">an address</param>
         /// <returns>the distance in meters</returns>
-        public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
+        public static int GetDistanceGoogleMapsApi(Address origin, Address destination,int times=0)
         {
             try
             {
+
                 //create the url
                 var request = Configuration.GoogleDistanceUrl + "json?" + "key=" + Configuration.Key
                               + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
 
                 //check the url
-                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
+                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 &&
+                    request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
                     throw new Exception("Google URL is not correct");
 
                 //download the data
@@ -123,13 +126,17 @@ namespace BL
                 var contentResponse = Encoding.UTF8.GetString(response);
                 //parse it json
                 var jsonResponse = JObject.Parse(contentResponse);
-                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
+                var distance = (int) jsonResponse.SelectToken("routes[0].legs[0].distance.value");
 
                 return distance;
             }
-            catch
+            catch(Exception ex)
             {
-                return -1;
+                if(times==2)
+                    throw  new Exception(ex.Message);
+                Thread.Sleep(2000);
+                return GetDistanceGoogleMapsApi(origin, destination, ++times);
+
             }
         }
 

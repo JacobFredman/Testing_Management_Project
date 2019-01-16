@@ -14,9 +14,14 @@ namespace PLWPF.Admin
     /// </summary>
     public partial class Settings : MetroWindow
     {
-        //collection  for the criteria
+        /// <summary>
+        /// collection  for the criteria
+        /// </summary>
         private readonly ObservableCollection<string> _criteria = new ObservableCollection<string>();
 
+        /// <summary>
+        /// C-tor for settings
+        /// </summary>
         public Settings()
         {
             InitializeComponent();
@@ -43,7 +48,11 @@ namespace PLWPF.Admin
                 DarkTheme.IsChecked = true;
         }
 
-        //On Add new criterion click
+        /// <summary>
+        /// On Add new criterion click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -57,7 +66,11 @@ namespace PLWPF.Admin
             }
         }
 
-        //on remove selected criterion
+        /// <summary>
+        /// on remove selected criterion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveSelected_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -70,7 +83,11 @@ namespace PLWPF.Admin
             }
         }
 
-        //on Save click
+        /// <summary>
+        /// on Save click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -140,10 +157,6 @@ namespace PLWPF.Admin
             {
                 ExceptionMessage.Show(ex.Message, ex.ToString());
             }
-        }
-
-
-    
-        
+        }        
     }
 }

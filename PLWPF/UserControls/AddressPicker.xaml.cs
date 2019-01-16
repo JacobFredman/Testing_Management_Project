@@ -15,16 +15,25 @@ namespace PLWPF.UserControls
     /// </summary>
     public partial class AddressPicker : UserControl
     {
+        /// <summary>
+        /// A token for a session
+        /// </summary>
         private string _token;
 
-        //ctor
+        /// <summary>
+        /// A address picker
+        /// </summary>
         public AddressPicker()
         {
             InitializeComponent();
+
             GenerateNewToken();
         }
        
-            public static readonly DependencyProperty AddressProperty =
+        /// <summary>
+        /// Address dependency property
+        /// </summary>
+        public static readonly DependencyProperty AddressProperty =
                 DependencyProperty.Register("Address", typeof(Address), typeof(AddressPicker), new PropertyMetadata(null));
 
             /// <summary>
@@ -34,10 +43,13 @@ namespace PLWPF.UserControls
         {
             set
             {
+                //set the address in the text box
                 TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
                 TexBoxAddress.Text = value != null ? value.ToString() : "";
+                //update dp
                 SetValue(AddressProperty, new Address(TexBoxAddress.Text));
-                //search address on google
+
+                //validate address on google
                 new Thread(() =>
                 {
                     try
@@ -45,6 +57,7 @@ namespace PLWPF.UserControls
                         GenerateNewToken();
                         var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).Select(x=>x.Name).First();
 
+                        //set the validated address
                         void Action()
                         {
                             SetValue(AddressProperty,new Address(text));
@@ -57,6 +70,7 @@ namespace PLWPF.UserControls
                     }
                     catch
                     {
+                        //error with address
                         void Act()
                         {
                             TexBoxAddress.BorderBrush = Brushes.Red;
@@ -137,27 +151,43 @@ namespace PLWPF.UserControls
             }
         }
 
-        //close suggestions on lost focus
+        /// <summary>
+        /// close suggestions on lost focus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
         }
 
-        //on select suggestion
+        /// <summary>
+        /// on select suggestion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListBoxSuggestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //set the selected address
+            
             if (ListBoxSuggestions.SelectedItem == null) return;
+
+            //set the selected address
             TexBoxAddress.TextChanged -= TexBoxAddress_TextChanged;
             TexBoxAddress.Text = (string) ListBoxSuggestions.SelectedItem;
             SetValue(AddressProperty, new Address(TexBoxAddress.Text));
             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
+
+            //remove the list
             ListBoxSuggestions.Visibility = Visibility.Collapsed;
+
             GenerateNewToken();
+
             TextChanged?.Invoke(this, e);
         }
 
-        //generate token for a new session
+        /// <summary>
+        /// generate token for a new session
+        /// </summary>
         private void GenerateNewToken()
         {
             _token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "")

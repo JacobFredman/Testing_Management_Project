@@ -10,6 +10,10 @@ namespace PLWPF
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Load data and set theme
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnStartup(StartupEventArgs e)
         {
             var bl=BL.FactoryBl.GetObject;
@@ -18,11 +22,21 @@ namespace PLWPF
             base.OnStartup(e);
         }
 
-        public static void SetTheme(string Newcolor, string Newlight ,string OldColor="Blue",string OldLight="Light",bool startup=true)
+        /// <summary>
+        /// Set theme for app
+        /// </summary>
+        /// <param name="newColor">New color</param>
+        /// <param name="newLight">New Theme</param>
+        /// <param name="oldColor">Old color</param>
+        /// <param name="oldLight">Old theme</param>
+        /// <param name="startup">if it is startup</param>
+        public static void SetTheme(string newColor, string newLight ,string oldColor="Blue",string oldLight="Light",bool startup=true)
         {
-            if (Newlight == "Light")
+            //set background color
+            if (newLight == "Light")
             {
-                switch (Newcolor)
+                //on light theme
+                switch (newColor)
                 {
                     case "Red":
                         Application.Current.Resources["Background"] = Brushes.LightCoral;
@@ -93,23 +107,21 @@ namespace PLWPF
                     case "Amber":
                         Application.Current.Resources["Background"] = Brushes.LightGoldenrodYellow;
                         break;
-
-
                 }
-
             }
             else
             {
-
+                //on black theme
                 Application.Current.Resources["Background"] = Brushes.Black;
             }
 
-            Uri dictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+Newlight+"."+Newcolor+".xaml", UriKind.RelativeOrAbsolute);
-            Uri RdictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+OldLight+"."+OldColor+".xaml", UriKind.RelativeOrAbsolute);
-            ResourceDictionary RresourceDict = new ResourceDictionary() { Source = RdictUri };
-            ResourceDictionary resourceDict = new ResourceDictionary() { Source = dictUri };
+            //change the directory
+            var dictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+newLight+"."+newColor+".xaml", UriKind.RelativeOrAbsolute);
+            var removeDictUri = new Uri(@"pack://application:,,,/MahApps.Metro;component/Styles/Themes/"+oldLight+"."+oldColor+".xaml", UriKind.RelativeOrAbsolute);
+            var removeResourceDict = new ResourceDictionary() { Source = removeDictUri };
+            var resourceDict = new ResourceDictionary() { Source = dictUri };
             if(!startup)
-                 Application.Current.Resources.MergedDictionaries.Remove(RresourceDict);
+                 Application.Current.Resources.MergedDictionaries.Remove(removeResourceDict);
             Application.Current.Resources.MergedDictionaries.Add(resourceDict);
         }
     }

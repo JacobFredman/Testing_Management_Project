@@ -3,14 +3,26 @@ using MahApps.Metro.Controls;
 
 namespace PLWPF.Nofitications
 {
+    /// <summary>
+    /// A validation message
+    /// </summary>
     public static class ValidationMessage
     {
-        public static bool returnedYes = false;
+        /// <summary>
+        /// the returned value
+        /// </summary>
+        public static bool ReturnedYes;
+
+        /// <summary>
+        /// Show a validation message
+        /// </summary>
+        /// <param name="message">message to show</param>
+        /// <returns></returns>
         public static  bool Show(string message)
         {
             var win=new ValidationWin(message);
             win.ShowDialog();
-            return returnedYes;
+            return ReturnedYes;
         }
     }
 
@@ -22,18 +34,29 @@ namespace PLWPF.Nofitications
         public ValidationWin(string message)
         {
             InitializeComponent();
+            //set text
             TextBlock.Text = message;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// On yes click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_Yes(object sender, RoutedEventArgs e)
         {
-            ValidationMessage.returnedYes = true;
+            ValidationMessage.ReturnedYes = true;
             Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// On no click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_No(object sender, RoutedEventArgs e)
         {
-            ValidationMessage.returnedYes = false;
+            ValidationMessage.ReturnedYes = false;
             Close();
         }
     }

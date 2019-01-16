@@ -60,6 +60,21 @@ namespace BE
         }
 
         /// <summary>
+        /// minimum hour that tester works
+        /// </summary>
+        /// <returns></returns>
+        public int MaxHourWorking()
+        {
+            for (int i = 23; i > 0; i--)
+            {
+                if (Hours[i] == true)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
         ///     Get all the work hours in the day
         /// </summary>
         /// <returns></returns>

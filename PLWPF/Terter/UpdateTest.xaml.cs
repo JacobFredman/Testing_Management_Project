@@ -13,10 +13,20 @@ namespace PLWPF.Terter
     /// </summary>
     public partial class UpdateTest : MetroWindow
     {
-        private Test _test;
+        /// <summary>
+        /// the test
+        /// </summary>
+        private readonly Test _test;
+
+        /// <summary>
+        /// Update test
+        /// </summary>
+        /// <param name="test"></param>
         public UpdateTest(Test test)
         {
             InitializeComponent();
+
+            //set data context
             _test = test;
             DataContext = test;
 
@@ -27,6 +37,11 @@ namespace PLWPF.Terter
 
         }
 
+        /// <summary>
+        /// On update click update test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -109,9 +109,9 @@
                         <Label Content="Num of lessons: " Margin="3" />
                         <mah:NumericUpDown x:Name="NumberOfLessonsTextBox" Margin="6" Width="40" Value="0" MinWidth="80" Minimum="0"/>
                         <Button Style="{DynamicResource SquareButtonStyle}" x:Name="AddLicnseButton" Content="Add"
-                                FontSize="12" Margin="3" Click="AddLicnseButton_Click" />
+                                FontSize="12" Margin="3" Click="AddLicenseButton_Click" />
                         <Button Style="{DynamicResource SquareButtonStyle}" x:Name="RemoveLicnseButton"
-                                Content="Remove" FontSize="12" Margin="3" Click="RemoveLicnseButton_Click" />
+                                Content="Remove" FontSize="12" Margin="3" Click="RemoveLicenseButton_Click" />
 
                     </StackPanel>
                     <Border BorderBrush="LightGray" BorderThickness="2">

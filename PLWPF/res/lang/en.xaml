@@ -14,9 +14,9 @@
     <System:String x:Key="TraineeLb">Trainee</System:String>
     <System:String x:Key="Manage">Manage</System:String>
     <System:String x:Key="ExportToExcelLb">Export to Excel</System:String>
-    <System:String x:Key="TraineesInGrid">Trainees in GrtraineeId</System:String>
-    <System:String x:Key="TestersInGridLb">Testers in GrtraineeId</System:String>
-    <System:String x:Key="TestsInGridLb">Tests in GrtraineeId</System:String>
+    <System:String x:Key="TraineesInGrid">Trainees in Grid</System:String>
+    <System:String x:Key="TestersInGridLb">Testers in Grid</System:String>
+    <System:String x:Key="TestsInGridLb">Tests in Grid</System:String>
     <System:String x:Key="Trainees">Trainees</System:String>
     <System:String x:Key="Testers">Testers</System:String>
     <System:String x:Key="Tests">Tests</System:String>

@@ -51,7 +51,7 @@
         <GroupBox Grid.Row="3" Background="{DynamicResource Background}" Header="Test To Update">
             <DataGrid x:Name="TestToUpdateGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
-                                  AutoGenerateColumns="False" IsReadOnly="True" 
+                                  AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="TestToUpdateGrid_OnMouseDoubleClick"
                                   >
 
                 <DataGrid.Columns>
@@ -69,7 +69,7 @@
 
         </GroupBox>
         <DockPanel Grid.Row="4" HorizontalAlignment="Stretch">
-           <Button DockPanel.Dock="Right"  HorizontalAlignment="Center" ToolTip="Refresh" Margin="3" Style="{DynamicResource SquareButtonStyle}" Click="Button_Click">
+           <Button DockPanel.Dock="Right"  HorizontalAlignment="Center" ToolTip="Refresh" Margin="3" Style="{DynamicResource SquareButtonStyle}" Click="Button_Click_Refresh">
                <Button.Content>
                    <Viewbox Width="24" Height="24">
                        <Canvas Width="24" Height="24">
@@ -78,7 +78,7 @@
                    </Viewbox>
                </Button.Content>
            </Button>
-            <Button Content="Set New Test" DockPanel.Dock="Left" HorizontalAlignment="Center" Margin="3"  Style="{DynamicResource SquareButtonStyle}" Click="ButtonBase_OnClick"></Button>
+            <Button Content="Set New Test" DockPanel.Dock="Left" HorizontalAlignment="Center" Margin="3"  Style="{DynamicResource SquareButtonStyle}" Click="SetTest_Button_Click"></Button>
         </DockPanel>
     </Grid>
 </mah:MetroWindow>

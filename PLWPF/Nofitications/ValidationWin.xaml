@@ -10,9 +10,8 @@
     <StackPanel>
         <TextBlock TextWrapping="Wrap" x:Name="TextBlock" Text="Empty Win" Foreground="{DynamicResource LabelTextBrush}" HorizontalAlignment="Center" Margin="20"></TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Yes" Style="{DynamicResource SquareButtonStyle}" Padding="16,8,16,8" Margin="10,10,5,10" HorizontalAlignment="Right" Click="Button_Click"></Button>
-            <Button Content="No" Style="{DynamicResource SquareButtonStyle}" Padding="16,8,16,8" Margin="5,10,10,10" HorizontalAlignment="Right" Click="Button_Click_1"></Button>
-
+            <Button Content="Yes" Style="{DynamicResource SquareButtonStyle}" Padding="16,8,16,8" Margin="10,10,5,10" HorizontalAlignment="Right" Click="Button_Click_Yes"></Button>
+            <Button Content="No" Style="{DynamicResource SquareButtonStyle}" Padding="16,8,16,8" Margin="5,10,10,10" HorizontalAlignment="Right" Click="Button_Click_No"></Button>
         </StackPanel>
     </StackPanel>
 </mah:MetroWindow>

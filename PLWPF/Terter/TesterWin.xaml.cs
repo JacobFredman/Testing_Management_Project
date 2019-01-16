@@ -15,9 +15,20 @@ namespace PLWPF
     /// </summary>
     public partial class TesterWin : MetroWindow
     {
+        /// <summary>
+        /// Bl object
+        /// </summary>
         private readonly IBL _blimp = FactoryBl.GetObject;
+
+        /// <summary>
+        /// the tester
+        /// </summary>
         private readonly Tester _tester;
 
+        /// <summary>
+        ///  tester window
+        /// </summary>
+        /// <param name="id"></param>
         public TesterWin(int id)
         {
             InitializeComponent();
@@ -44,38 +55,53 @@ namespace PLWPF
 
         }
 
-        //on test to do grid double click
+        /// <summary>
+        /// on test to do grid double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestToDoGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try
             {
+                //open window
                 var win = new ShowTest((Test) TestToDoGrid.SelectedItem);
                 win.ShowDialog();
 
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
-        //on test to update grid double click
+        /// <summary>
+        /// on test to update grid double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestToUpdateGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try
             {
+                //open window
                 var test = TestToUpdateGrid.SelectedItem as Test;
                 var win = new UpdateTest(test);
                 win.ShowDialog();
-                var passed = test.Passed;
+                var passed = test?.Passed;
 
 
                 Refresh();
 
                 //get trainee and updated test
-                var trainee = FactoryBl.GetObject.AllTrainees.First(x => x.Id == test.TraineeId);
-                test = FactoryBl.GetObject.AllTests.First(x => x.Id == test.Id);
+                var trainee = FactoryBl.GetObject.AllTrainees.First(x => x.Id == test?.TraineeId);
+                test = FactoryBl.GetObject.AllTests.First(x => x.Id == test?.Id);
 
+                //if passed state didn't change
                 if (test.Passed == passed)
                     return;
 
+                //if email is empty
                 if (string.IsNullOrEmpty(trainee.EmailAddress))
                 {
                     return;
@@ -87,17 +113,12 @@ namespace PLWPF
                     try
                     {
                         Pdf.CreateLicensePdf(test, trainee);
-                        Email.SentEmailToTraineeAfterTest(test, trainee);
-
-                    
+                        Email.SentEmailToTraineeAfterTest(test, trainee);                  
                     }
-                    catch 
+                    catch
                     {
-                  
+                        // ignored
                     }
-
-
-
                 });
                 thread.Start();
             }

@@ -8,17 +8,7 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="PLWPF.MainWindow"
     mc:Ignorable="d"
     Title="Login" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
-    <!-- <Window.Resources>
-        <Style TargetType="{x:Type Control}" x:Key="baseStyle">
-            <Setter Property="FontSize" Value="20" />
-        </Style>
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource baseStyle}"></Style>
-
-    </Window.Resources -->
+   
     <Controls:MetroWindow.Resources>
         <Style x:Name="TabStyle" TargetType="TabItem">
           <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush1}"></Setter>

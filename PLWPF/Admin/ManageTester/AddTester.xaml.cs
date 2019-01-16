@@ -19,14 +19,20 @@ namespace PLWPF.Admin.ManageTester
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
 
-        //all the errors
+        /// <summary>
+        /// all the errors
+        /// </summary>
         private readonly List<string> _errorMessage = new List<string>();
 
+        /// <summary>
+        /// the tester
+        /// </summary>
         private readonly Tester _tester = new Tester();
 
-        //if it is an update
+        /// <summary>
+        /// if it is an update
+        /// </summary>
         private readonly bool _update;
-        private ObservableCollection<TrainingDetails> _licenses = new ObservableCollection<TrainingDetails>();
 
         /// <summary>
         ///     Add tester window
@@ -63,7 +69,7 @@ namespace PLWPF.Admin.ManageTester
                     AllWeek.IsChecked = false;
                     DayWeek.IsEnabled = true;
                     //set the address
-                    AddressTextBox.Address = _tester.Address != null ? _tester.Address : null;
+                    AddressTextBox.Address = _tester.Address;
 
                     Title = "Update Tester";
                 }
