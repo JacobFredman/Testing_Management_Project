@@ -12,7 +12,7 @@ namespace PLWPF.Converters
     internal class LicenseTypeLearningToString : IValueConverter
     {
         /// <summary>
-        ///  Convert the lessons to a string of license types to show on grid
+        ///     Convert the lessons to a string of license types to show on grid
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -25,7 +25,7 @@ namespace PLWPF.Converters
         }
 
         /// <summary>
-        ///  Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>

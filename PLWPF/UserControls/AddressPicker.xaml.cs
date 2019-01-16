@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using System.Windows.Media;
 using BE.Routes;
 using BL;
@@ -16,12 +15,18 @@ namespace PLWPF.UserControls
     public partial class AddressPicker : UserControl
     {
         /// <summary>
-        /// A token for a session
+        ///     Address dependency property
+        /// </summary>
+        public static readonly DependencyProperty AddressProperty =
+            DependencyProperty.Register("Address", typeof(Address), typeof(AddressPicker), new PropertyMetadata(null));
+
+        /// <summary>
+        ///     A token for a session
         /// </summary>
         private string _token;
 
         /// <summary>
-        /// A address picker
+        ///     A address picker
         /// </summary>
         public AddressPicker()
         {
@@ -29,17 +34,11 @@ namespace PLWPF.UserControls
 
             GenerateNewToken();
         }
-       
-        /// <summary>
-        /// Address dependency property
-        /// </summary>
-        public static readonly DependencyProperty AddressProperty =
-                DependencyProperty.Register("Address", typeof(Address), typeof(AddressPicker), new PropertyMetadata(null));
 
-            /// <summary>
-            ///     The Selected address
-            /// </summary>
-            public Address Address
+        /// <summary>
+        ///     The Selected address
+        /// </summary>
+        public Address Address
         {
             set
             {
@@ -55,12 +54,13 @@ namespace PLWPF.UserControls
                     try
                     {
                         GenerateNewToken();
-                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).Select(x=>x.Name).First();
+                        var text = Routes.GetAddressSuggestionsGoogle(value.ToString(), _token).Select(x => x.Name)
+                            .First();
 
                         //set the validated address
                         void Action()
                         {
-                            SetValue(AddressProperty,new Address(text));
+                            SetValue(AddressProperty, new Address(text));
                             TexBoxAddress.Text = text;
                             TexBoxAddress.TextChanged += TexBoxAddress_TextChanged;
                             TexBoxAddress.BorderBrush = Brushes.LightGray;
@@ -81,7 +81,7 @@ namespace PLWPF.UserControls
                     }
                 }).Start();
             }
-            get => (Address)GetValue(AddressProperty);
+            get => (Address) GetValue(AddressProperty);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace PLWPF.UserControls
                     {
                         try
                         {
-                            var list = Routes.GetAddressSuggestionsGoogle(text, _token).Select(x=>x.Name);
+                            var list = Routes.GetAddressSuggestionsGoogle(text, _token).Select(x => x.Name);
                             //if the address is already typed
                             if (list.Any(x => x == text))
                             {
@@ -152,7 +152,7 @@ namespace PLWPF.UserControls
         }
 
         /// <summary>
-        /// close suggestions on lost focus
+        ///     close suggestions on lost focus
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -162,13 +162,12 @@ namespace PLWPF.UserControls
         }
 
         /// <summary>
-        /// on select suggestion
+        ///     on select suggestion
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ListBoxSuggestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             if (ListBoxSuggestions.SelectedItem == null) return;
 
             //set the selected address
@@ -186,7 +185,7 @@ namespace PLWPF.UserControls
         }
 
         /// <summary>
-        /// generate token for a new session
+        ///     generate token for a new session
         /// </summary>
         private void GenerateNewToken()
         {

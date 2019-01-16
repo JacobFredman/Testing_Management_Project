@@ -10,7 +10,7 @@ namespace PLWPF.Converters
     public class ActualTestTimeConv : IValueConverter
     {
         /// <summary>
-        ///  Show the actual test time only if it is set (not min value)
+        ///     Show the actual test time only if it is set (not min value)
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -24,7 +24,7 @@ namespace PLWPF.Converters
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>

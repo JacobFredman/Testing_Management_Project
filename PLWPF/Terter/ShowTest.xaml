@@ -1,54 +1,67 @@
 ﻿<mah:MetroWindow
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PLWPF.Terter"
-        xmlns:MainObjects="clr-namespace:BE.MainObjects;assembly=BE"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        x:Class="PLWPF.Terter.ShowTest"
-        mc:Ignorable="d"
-        Title="Test Details" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" >
-   
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:PLWPF.Terter"
+    xmlns:MainObjects="clr-namespace:BE.MainObjects;assembly=BE"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    x:Class="PLWPF.Terter.ShowTest"
+    mc:Ignorable="d"
+    Title="Test Details" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+
     <Grid>
 
-        <Grid x:Name="grid1" VerticalAlignment="Top" Margin="10" HorizontalAlignment="Left" >
+        <Grid x:Name="grid1" VerticalAlignment="Top" Margin="10" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Id:"/>
-            <Label x:Name="idLabel" VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding Id}"/>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Id:" />
+            <Label x:Name="idLabel" VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left"
+                   Grid.Column="1" Content="{Binding Id}" />
 
-            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Address:"/>
-            <Label x:Name="addressOfBeginningTestLabel" VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding AddressOfBeginningTest}"/>
-            
-           
-            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="License Type:"/>
-            <Label x:Name="licenseTypeLabel" VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding LicenseType}"/>
-            
-          
-            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Test Time:"/>
-            <Label x:Name="testTimeLabel" VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding TestTime}"/>
-            
-            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Trainee Id:"/>
-            <Label x:Name="traineeIdLabel" VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding TraineeId}"/>
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Address:" />
+            <Label x:Name="addressOfBeginningTestLabel" VerticalAlignment="Center" Grid.Row="1" Margin="3"
+                   HorizontalAlignment="Left" Grid.Column="1" Content="{Binding AddressOfBeginningTest}" />
 
-            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Route Url:"/>
-            <Button x:Name="routeUrlButton" Style="{DynamicResource SquareButtonStyle}" Content="Show Route" Width="75" VerticalAlignment="Center" Grid.Row="5" Margin="3" Height="Auto" HorizontalAlignment="Left" Command="{Binding RouteUrl}" Grid.Column="1" Click="RouteUrlButton_Click"/>
 
-</Grid>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="License Type:" />
+            <Label x:Name="licenseTypeLabel" VerticalAlignment="Center" Grid.Row="2" Margin="3"
+                   HorizontalAlignment="Left" Grid.Column="1" Content="{Binding LicenseType}" />
+
+
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Test Time:" />
+            <Label x:Name="testTimeLabel" VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left"
+                   Grid.Column="1" Content="{Binding TestTime}" />
+
+            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Trainee Id:" />
+            <Label x:Name="traineeIdLabel" VerticalAlignment="Center" Grid.Row="4" Margin="3"
+                   HorizontalAlignment="Left" Grid.Column="1" Content="{Binding TraineeId}" />
+
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Route Url:" />
+            <Button x:Name="routeUrlButton" Style="{DynamicResource SquareButtonStyle}" Content="Show Route" Width="75"
+                    VerticalAlignment="Center" Grid.Row="5" Margin="3" Height="Auto" HorizontalAlignment="Left"
+                    Command="{Binding RouteUrl}" Grid.Column="1" Click="RouteUrlButton_Click" />
+
+        </Grid>
 
     </Grid>
 </mah:MetroWindow>

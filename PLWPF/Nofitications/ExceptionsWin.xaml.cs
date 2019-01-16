@@ -4,12 +4,12 @@ using MahApps.Metro.Controls;
 namespace PLWPF.Nofitications
 {
     /// <summary>
-    /// Show Message in Metro style
+    ///     Show Message in Metro style
     /// </summary>
     internal static class ExceptionMessage
     {
         /// <summary>
-        /// Show Message in Metro style
+        ///     Show Message in Metro style
         /// </summary>
         /// <param name="message">Main message</param>
         /// <param name="details">Details</param>
@@ -35,8 +35,9 @@ namespace PLWPF.Nofitications
             //remove the details it they are emoty
             if (Details == "") Expander.Visibility = Visibility.Collapsed;
         }
+
         /// <summary>
-        /// On click ok
+        ///     On click ok
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

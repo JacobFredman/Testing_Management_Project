@@ -92,8 +92,8 @@ namespace BE.MainObjects
 
         public string XmlSaveRouteUrlSerializer
         {
-            get {return RouteUrl?.ToString(); }
-            set { RouteUrl=new Uri(value);}
+            get => RouteUrl?.ToString();
+            set => RouteUrl = new Uri(value);
         }
 
         public object Clone()

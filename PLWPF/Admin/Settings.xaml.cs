@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using BE;
+using BL;
 using MahApps.Metro.Controls;
 using PLWPF.Nofitications;
 
@@ -15,12 +16,12 @@ namespace PLWPF.Admin
     public partial class Settings : MetroWindow
     {
         /// <summary>
-        /// collection  for the criteria
+        ///     collection  for the criteria
         /// </summary>
         private readonly ObservableCollection<string> _criteria = new ObservableCollection<string>();
 
         /// <summary>
-        /// C-tor for settings
+        ///     C-tor for settings
         /// </summary>
         public Settings()
         {
@@ -39,7 +40,12 @@ namespace PLWPF.Admin
             CriterionsListBox.DataContext = _criteria;
 
             //Set theme ComBox
-            Color.ItemsSource = new List<string> { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+            Color.ItemsSource = new List<string>
+            {
+                "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo",
+                "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe",
+                "Sienna"
+            };
             Color.SelectedItem = Configuration.Color;
 
             if (Configuration.Theme == "Light")
@@ -49,7 +55,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On Add new criterion click
+        ///     On Add new criterion click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -67,7 +73,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// on remove selected criterion
+        ///     on remove selected criterion
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -84,7 +90,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// on Save click
+        ///     on Save click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -150,13 +156,13 @@ namespace PLWPF.Admin
                 Configuration.MinimumCriteria = (uint) MinimumCriterionsBox.Value;
                 Configuration.PercentOfCriteriaToPassTest = (uint) PercentOfCritirionsToPassTestBox.Value;
 
-                BL.FactoryBl.GetObject.SaveSettings();
+                FactoryBl.GetObject.SaveSettings();
                 Close();
             }
             catch (Exception ex)
             {
                 ExceptionMessage.Show(ex.Message, ex.ToString());
             }
-        }        
+        }
     }
 }

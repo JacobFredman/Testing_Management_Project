@@ -10,26 +10,25 @@ using MahApps.Metro.Controls;
 using PLWPF.Nofitications;
 using PLWPF.TraineeArea;
 
-
 namespace PLWPF
 {
     /// <summary>
-    ///     Interaction logic for TraineeWin.xaml 
+    ///     Interaction logic for TraineeWin.xaml
     /// </summary>
     public partial class TraineeWin : MetroWindow
     {
         /// <summary>
-        /// Bl object
+        ///     Bl object
         /// </summary>
         private readonly IBL _blimp = FactoryBl.GetObject;
 
         /// <summary>
-        /// The trainee
+        ///     The trainee
         /// </summary>
         private readonly Trainee _trainee;
 
         /// <summary>
-        /// Trainee window
+        ///     Trainee window
         /// </summary>
         /// <param name="id"></param>
         public TraineeWin(int id)
@@ -39,7 +38,7 @@ namespace PLWPF
             {
                 //try to add trainee
                 _trainee = _blimp.AllTrainees.First(x => x.Id == id);
-                TextBoxHi.Content = "Welcome " +_trainee.FirstName+" "+_trainee.LastName;
+                TextBoxHi.Content = "Welcome " + _trainee.FirstName + " " + _trainee.LastName;
                 Refresh();
             }
             catch
@@ -49,7 +48,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// refresh grid content
+        ///     refresh grid content
         /// </summary>
         private void Refresh()
         {
@@ -57,11 +56,10 @@ namespace PLWPF
                 FactoryBl.GetObject.AllTests.Where(x => x.TraineeId == _trainee.Id && x.TestTime >= DateTime.Now);
             TestToUpdateGrid.DataContext =
                 FactoryBl.GetObject.AllTests.Where(x => x.TraineeId == _trainee.Id && x.TestTime <= DateTime.Now);
-
         }
 
         /// <summary>
-        /// Add new test
+        ///     Add new test
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -69,7 +67,7 @@ namespace PLWPF
         {
             SetTest.IsEnabled = false;
             SetTest.ToolTip = "Checking Internet Connection";
-            (new Thread(() =>
+            new Thread(() =>
             {
                 try
                 {
@@ -79,7 +77,10 @@ namespace PLWPF
                         var wc = new WebClient();
                         wc.DownloadData("https://www.google.com/");
                     }
-                    catch { throw new Exception("There is No Internet Connection.Please Try Again Later."); }
+                    catch
+                    {
+                        throw new Exception("There is No Internet Connection.Please Try Again Later.");
+                    }
 
                     //open window
                     void Act1()
@@ -91,7 +92,7 @@ namespace PLWPF
                         Refresh();
                     }
 
-                    Dispatcher.BeginInvoke((Action)Act1);
+                    Dispatcher.BeginInvoke((Action) Act1);
                 }
                 catch (Exception ex)
                 {
@@ -102,14 +103,14 @@ namespace PLWPF
                         ExceptionMessage.Show(ex.Message, ex.ToString());
                     }
 
-                    Dispatcher.BeginInvoke((Action)Act2);
+                    Dispatcher.BeginInvoke((Action) Act2);
                 }
-            })).Start();
+            }).Start();
         }
 
-  
+
         /// <summary>
-        /// Refresh data
+        ///     Refresh data
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -119,7 +120,7 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// Show test results
+        ///     Show test results
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

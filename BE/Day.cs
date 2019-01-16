@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 
 namespace BE
 {
@@ -7,17 +6,12 @@ namespace BE
     /// <summary>
     ///     A day schedule
     /// </summary>
-    public class Day :  ICloneable
+    public class Day : ICloneable
     {
         /// <summary>
         ///     the hours in the day. if available then is true
         /// </summary>
         public bool[] Hours = new bool[24];
-
-        /// <summary>
-        ///     the day in the week
-        /// </summary>
-        public DayOfWeek TheDay { set; get; }
 
         /// <summary>
         ///     A new day
@@ -28,9 +22,14 @@ namespace BE
             ClearHours();
             TheDay = d;
         }
-    
+
         /// <summary>
-        /// Clone the day
+        ///     the day in the week
+        /// </summary>
+        public DayOfWeek TheDay { set; get; }
+
+        /// <summary>
+        ///     Clone the day
         /// </summary>
         /// <returns></returns>
         public object Clone()
@@ -46,7 +45,7 @@ namespace BE
             for (var i = 0; i < 24; i++)
                 Hours[i] = false;
         }
-  
+
         /// <summary>
         ///     check if he is working on the hour
         /// </summary>
@@ -60,16 +59,14 @@ namespace BE
         }
 
         /// <summary>
-        /// minimum hour that tester works
+        ///     minimum hour that tester works
         /// </summary>
         /// <returns></returns>
         public int MaxHourWorking()
         {
-            for (int i = 23; i > 0; i--)
-            {
-                if (Hours[i] == true)
+            for (var i = 23; i > 0; i--)
+                if (Hours[i])
                     return i;
-            }
 
             return -1;
         }

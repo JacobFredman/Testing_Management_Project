@@ -82,6 +82,11 @@ namespace BL
             }
         }
 
+        public void SaveSettings()
+        {
+            _dalImp.SaveConfigurations();
+        }
+
         #region Access Tester
 
         /// <summary>
@@ -108,8 +113,9 @@ namespace BL
         public void RemoveTester(Tester testerToDelete)
         {
             if (AllTesters.All(tester => tester.Id != testerToDelete.Id)) throw new Exception("Tester doesn't exist");
-            if(AllTests.Any(x=>x.TesterId==testerToDelete.Id))
-                throw new Exception("Tester Has "+ AllTests.Count(x => x.TesterId == testerToDelete.Id)+" Tests. Please Delete Them First.");
+            if (AllTests.Any(x => x.TesterId == testerToDelete.Id))
+                throw new Exception("Tester Has " + AllTests.Count(x => x.TesterId == testerToDelete.Id) +
+                                    " Tests. Please Delete Them First.");
             _dalImp.RemoveTester(testerToDelete);
         }
 
@@ -180,7 +186,9 @@ namespace BL
             if (tooManyTestInWeek) throw new Exception("To many tests for tester");
             if (!traineeExist) throw new Exception("This trainee doesn't exist");
             if (!testerExist) throw new Exception("This tester doesn't exist");
-            if (twoTestesTooClose) throw new Exception("The trainee has a already a test in "+Configuration.MinTimeBetweenTests+" days");
+            if (twoTestesTooClose)
+                throw new Exception(
+                    "The trainee has a already a test in " + Configuration.MinTimeBetweenTests + " days");
             if (lessThenMinLessons)
                 throw new Exception("The trainee learned less then " + Configuration.MinLessons +
                                     " lessons which is the minimum");
@@ -224,7 +232,7 @@ namespace BL
                 throw new Exception("Not enough criterion");
             if (updatedTest.ActualTestTime == DateTime.MinValue)
                 throw new Exception("Test date not updated");
-            if ((updatedTest.ActualTestTime - updatedTest.TestTime).Days<0)
+            if ((updatedTest.ActualTestTime - updatedTest.TestTime).Days < 0)
                 throw new Exception("Actual date can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
@@ -263,7 +271,8 @@ namespace BL
             if (AllTrainees.All(trainee => trainee.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
             if (AllTests.Any(x => x.TraineeId == traineeToDelete.Id))
-                throw new Exception("Trainee Has " + AllTests.Count(x => x.TraineeId == traineeToDelete.Id) + " Test. Please Delete Them First.");
+                throw new Exception("Trainee Has " + AllTests.Count(x => x.TraineeId == traineeToDelete.Id) +
+                                    " Test. Please Delete Them First.");
 
             _dalImp.RemoveTrainee(traineeToDelete);
         }
@@ -430,23 +439,23 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license)
         {
-                List<Tester> te = AllTesters.ToList(); 
+            var te = AllTesters.ToList();
 
-                var testerDistance = from tester in AllTesters
-                    where tester.Address != null
-                    let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
-                    select new {tester, distance};
-                if (!testerDistance.Any())
-                    throw new Exception("There are no testers in the current address please try an other address");
+            var testerDistance = from tester in AllTesters
+                where tester.Address != null
+                let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
+                select new {tester, distance};
+            if (!testerDistance.Any())
+                throw new Exception("There are no testers in the current address please try an other address");
 
-                var testerLicense = from tester in testerDistance
-                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                    orderby tester.distance
-                    select tester.tester;
-                if (!testerLicense.Any())
-                    throw new Exception("There is no tester with the right license in the current date and location");
+            var testerLicense = from tester in testerDistance
+                where tester.tester.LicenseTypeTeaching.Any(x => x == license)
+                orderby tester.distance
+                select tester.tester;
+            if (!testerLicense.Any())
+                throw new Exception("There is no tester with the right license in the current date and location");
 
-                return testerLicense;
+            return testerLicense;
         }
 
         /// <summary>
@@ -602,7 +611,7 @@ namespace BL
         #region SearchTrainee
 
         /// <summary>
-        /// Free search in trainees
+        ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -624,7 +633,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Free search in trainees
+        ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -644,7 +653,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Free search in trainees
+        ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -663,11 +672,5 @@ namespace BL
         }
 
         #endregion
-
-        public void SaveSettings()
-        {
-            _dalImp.SaveConfigurations();
-        }
-
     }
 }

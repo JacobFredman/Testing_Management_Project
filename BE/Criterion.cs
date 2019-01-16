@@ -18,7 +18,10 @@ namespace BE
             Type = t;
             Pass = p;
         }
-        public Criterion() { }
+
+        public Criterion()
+        {
+        }
 
         /// <summary>
         ///     the type of the criterion

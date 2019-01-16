@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Linq;
 using BE;
 using BE.MainObjects;
 using MahApps.Metro.Controls;
@@ -18,17 +6,17 @@ using MahApps.Metro.Controls;
 namespace PLWPF.TraineeArea
 {
     /// <summary>
-    /// Interaction logic for ShowTestResoults.xaml
+    ///     Interaction logic for ShowTestResoults.xaml
     /// </summary>
     public partial class ShowTestResoults : MetroWindow
     {
         /// <summary>
-        /// the test
+        ///     the test
         /// </summary>
         private readonly Test _test;
 
         /// <summary>
-        /// Show test Results
+        ///     Show test Results
         /// </summary>
         /// <param name="test"></param>
         public ShowTestResoults(Test test)

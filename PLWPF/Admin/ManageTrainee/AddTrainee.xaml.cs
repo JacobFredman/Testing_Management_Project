@@ -20,22 +20,22 @@ namespace PLWPF.Admin.ManageTrainee
         private readonly IBL _blimp = FactoryBl.GetObject;
 
         /// <summary>
-        /// all the exceptions
+        ///     all the exceptions
         /// </summary>
         private readonly List<string> _errorMessage = new List<string>();
 
         /// <summary>
-        /// collection to work with the license
+        ///     collection to work with the license
         /// </summary>
         private readonly ObservableCollection<TrainingDetails> _licenses = new ObservableCollection<TrainingDetails>();
 
         /// <summary>
-        /// the trainee
+        ///     the trainee
         /// </summary>
         private readonly Trainee _trainee = new Trainee();
 
         /// <summary>
-        /// true if it is an update
+        ///     true if it is an update
         /// </summary>
         private readonly bool _update;
 
@@ -52,7 +52,8 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 DataContext = _trainee;
                 _trainee.BirthDate = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
-                birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
+                birthDateDatePicker.DisplayDateEnd =
+                    DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
                 Title = "Add New Trainee";
             }
             //initialize as update
@@ -60,7 +61,8 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 try
                 {
-                    birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int)Configuration.MinTraineeAge).AddDays(-1);
+                    birthDateDatePicker.DisplayDateEnd =
+                        DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
 
                     Title = "Update Trainee";
                     _trainee = _blimp.AllTrainees.First(x => x.Id == id);
@@ -135,7 +137,8 @@ namespace PLWPF.Admin.ManageTrainee
                 //let the user type only numbers
                 if (idTextBox.Text != "")
                     idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length - 1);
-                idTextBox.CaretIndex = idTextBox.Text.Length; Save.IsEnabled = false;
+                idTextBox.CaretIndex = idTextBox.Text.Length;
+                Save.IsEnabled = false;
             }
         }
 

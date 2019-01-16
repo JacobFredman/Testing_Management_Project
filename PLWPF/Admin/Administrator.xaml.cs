@@ -24,20 +24,22 @@ namespace PLWPF.Admin
     public partial class Administrator : MetroWindow
     {
         /// <summary>
-        /// Bl object
+        ///     Bl object
         /// </summary>
         private readonly IBL _bL = FactoryBl.GetObject;
 
         /// <summary>
-        /// list of showed testers
+        ///     list of showed testers
         /// </summary>
         private IEnumerable<Tester> _testerList = FactoryBl.GetObject.AllTesters;
+
         /// <summary>
-        /// list of showed tests
+        ///     list of showed tests
         /// </summary>
         private IEnumerable<Test> _testList = FactoryBl.GetObject.AllTests;
+
         /// <summary>
-        /// showed trainees
+        ///     showed trainees
         /// </summary>
         private IEnumerable<Trainee> _traineeList = FactoryBl.GetObject.AllTrainees;
 
@@ -45,7 +47,7 @@ namespace PLWPF.Admin
         private BackgroundWorker _worker;
 
         /// <summary>
-        /// Administrator window c-tor
+        ///     Administrator window c-tor
         /// </summary>
         public Administrator()
         {
@@ -101,11 +103,10 @@ namespace PLWPF.Admin
             SearchTextBoxTester.Text = "";
             TextBoxSearchTest.Text = "";
             TextBoxSearchTrainee.Text = "";
-
         }
 
         /// <summary>
-        /// Open Settings
+        ///     Open Settings
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -125,7 +126,7 @@ namespace PLWPF.Admin
         #region Send Email Before Tests
 
         /// <summary>
-        /// Send Email Before Test
+        ///     Send Email Before Test
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -156,7 +157,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// finish send email
+        ///     finish send email
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -164,11 +165,11 @@ namespace PLWPF.Admin
         {
             ProgressBarB.Visibility = Visibility.Collapsed;
             ProgressLabel.Visibility = Visibility.Collapsed;
-            ExceptionMessage.Show((string)e.Result);
+            ExceptionMessage.Show((string) e.Result);
         }
 
         /// <summary>
-        /// progress of sending emails changed
+        ///     progress of sending emails changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -178,7 +179,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// send emails
+        ///     send emails
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -235,7 +236,8 @@ namespace PLWPF.Admin
             {
                 var trainee = TraineeGrid.SelectedItem as Trainee;
                 //validate delete
-                if (!ValidationMessage.Show("Are you sure you want to delete "+trainee?.FirstName+" "+trainee?.LastName+"?"))
+                if (!ValidationMessage.Show("Are you sure you want to delete " + trainee?.FirstName + " " +
+                                            trainee?.LastName + "?"))
                     return;
                 _bL.RemoveTrainee(trainee);
                 RefreshData();
@@ -284,7 +286,7 @@ namespace PLWPF.Admin
             {
                 //filter the trainees
                 var text = TextBoxSearchTrainee.Text;
-                (new Thread(() =>
+                new Thread(() =>
                 {
                     var list = _bL.SearchTrainee(text);
 
@@ -295,8 +297,7 @@ namespace PLWPF.Admin
                     }
 
                     Dispatcher.BeginInvoke((Action) Act);
-                })).Start();
-           
+                }).Start();
             }
         }
 
@@ -359,7 +360,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On Clear filter click
+        ///     On Clear filter click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -375,7 +376,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On Select School filter
+        ///     On Select School filter
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -383,8 +384,7 @@ namespace PLWPF.Admin
         {
             try
             {
-             
-               //copy the items
+                //copy the items
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesBySchool()
                     .First(x => x.Key == (string) ComboBoxFilterSchoolTrainee.SelectedItem))
@@ -400,7 +400,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On select Filter Teacher
+        ///     On select Filter Teacher
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -408,7 +408,6 @@ namespace PLWPF.Admin
         {
             try
             {
-              
                 //copy the items
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesByTester()
@@ -425,7 +424,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On number of tests changed
+        ///     On number of tests changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -433,11 +432,10 @@ namespace PLWPF.Admin
         {
             try
             {
-
                 //copy items
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineeByNumberOfTests()
-                    .First(x => x.Key == (int)ComboBoxFilterMunOfTestsTrainee.SelectedItem))
+                    .First(x => x.Key == (int) ComboBoxFilterMunOfTestsTrainee.SelectedItem))
                     list.Add(item);
                 //update list
                 TraineeGrid.DataContext = list;
@@ -450,7 +448,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// disable update and remove in context menu when nothing is selected
+        ///     disable update and remove in context menu when nothing is selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -469,7 +467,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On press enter on grid
+        ///     On press enter on grid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -481,6 +479,7 @@ namespace PLWPF.Admin
                 e.Handled = true;
             }
         }
+
         #endregion
 
         #region Tester
@@ -517,7 +516,8 @@ namespace PLWPF.Admin
             {
                 var tester = TesterGrid.SelectedItem as Tester;
                 //validate delete
-                if (!ValidationMessage.Show("Are you sure you want to delete " + tester?.FirstName + " " + tester?.LastName + "?"))
+                if (!ValidationMessage.Show("Are you sure you want to delete " + tester?.FirstName + " " +
+                                            tester?.LastName + "?"))
                     return;
                 _bL.RemoveTester(tester);
                 RefreshData();
@@ -570,7 +570,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On button Search click ,update grid
+        ///     On button Search click ,update grid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -595,7 +595,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// clear all search
+        ///     clear all search
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -625,7 +625,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On clear filter click 
+        ///     On clear filter click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -636,7 +636,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// disable update and remove in context menu when nothing is selected
+        ///     disable update and remove in context menu when nothing is selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -655,7 +655,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On press enter on grid
+        ///     On press enter on grid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -667,6 +667,7 @@ namespace PLWPF.Admin
                 e.Handled = true;
             }
         }
+
         #endregion
 
         #region Test
@@ -684,7 +685,7 @@ namespace PLWPF.Admin
                 var test = TestGrid.SelectedItem as Test;
                 var win = new EditTest(test?.Id);
                 var passed = test?.Passed;
-                
+
                 //open window
                 win.ShowDialog();
                 RefreshData();
@@ -711,7 +712,8 @@ namespace PLWPF.Admin
 
                         void Act()
                         {
-                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " + trainee.LastName);
+                            ExceptionMessage.Show("Successfully Send Email to " + trainee.FirstName + " " +
+                                                  trainee.LastName);
                         }
 
                         Dispatcher.BeginInvoke((Action) Act);
@@ -732,7 +734,6 @@ namespace PLWPF.Admin
                     }
 
                     Dispatcher.BeginInvoke((Action) Action);
-                    
                 });
                 thread.Start();
             }
@@ -773,42 +774,45 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void AddTestClick(object sender, RoutedEventArgs e)
         {
-           (new Thread(() =>
-           {
-               try
-               {
-                   //Check internet connectivity
-                   try
-                   {
-                       var wc = new WebClient();
-                       wc.DownloadData("https://www.google.com/");
-                   }
-                   catch { throw new Exception("There is No Internet Connection.Please Try Again Later."); }
+            new Thread(() =>
+            {
+                try
+                {
+                    //Check internet connectivity
+                    try
+                    {
+                        var wc = new WebClient();
+                        wc.DownloadData("https://www.google.com/");
+                    }
+                    catch
+                    {
+                        throw new Exception("There is No Internet Connection.Please Try Again Later.");
+                    }
 
-                   //open window
-                   void Act1()
-                   {
-                       var win = new EditTest();
-                       win.ShowDialog();
-                       RefreshData();
-                   }
+                    //open window
+                    void Act1()
+                    {
+                        var win = new EditTest();
+                        win.ShowDialog();
+                        RefreshData();
+                    }
 
-                   Dispatcher.BeginInvoke((Action) Act1);
-               }
-               catch (Exception ex)
-               {
-                   void Act2()
-                   {
-                       ExceptionMessage.Show(ex.Message, ex.ToString());
-                   }
+                    Dispatcher.BeginInvoke((Action) Act1);
+                }
+                catch (Exception ex)
+                {
+                    void Act2()
+                    {
+                        ExceptionMessage.Show(ex.Message, ex.ToString());
+                    }
 
-                   Dispatcher.BeginInvoke((Action) Act2);
-               }
-           })).Start();
+                    Dispatcher.BeginInvoke((Action) Act2);
+                }
+            }).Start();
         }
 
         /// <summary>
-        /// On search Test update grid
+        ///     On search Test update grid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -835,7 +839,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On Advanced search click
+        ///     On Advanced search click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -867,7 +871,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// clear all filters
+        ///     clear all filters
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -877,7 +881,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On license filter click
+        ///     On license filter click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -899,7 +903,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// filer test grid on selection
+        ///     filer test grid on selection
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -926,6 +930,7 @@ namespace PLWPF.Admin
                         tests = _bL.AllTests.Where(x => x.Passed == null);
                         break;
                 }
+
                 //update filter
                 _testList = tests;
                 TestGrid.DataContext = tests;
@@ -937,7 +942,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// filter on selected dates
+        ///     filter on selected dates
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -958,7 +963,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// Clear all filters
+        ///     Clear all filters
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -980,7 +985,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// disable update and remove in context menu when nothing is selected
+        ///     disable update and remove in context menu when nothing is selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1006,7 +1011,7 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// On press enter on grid
+        ///     On press enter on grid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1018,6 +1023,7 @@ namespace PLWPF.Admin
                 e.Handled = true;
             }
         }
+
         #endregion
 
         #region Export to Excel
@@ -1158,6 +1164,6 @@ namespace PLWPF.Admin
             }).Start();
         }
 
-        #endregion  
+        #endregion
     }
 }

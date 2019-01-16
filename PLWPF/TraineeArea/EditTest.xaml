@@ -25,7 +25,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                      
+
                     </Grid.RowDefinitions>
                     <Label Content="Trainee Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0"
                            VerticalAlignment="Center" />
@@ -38,8 +38,10 @@
 
                     <StackPanel ZIndex="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3" Grid.Row="1"
                                 Grid.RowSpan="4" VerticalAlignment="Top">
-                        <UserControls:AddressPicker Address="{Binding AddressOfBeginningTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" x:Name="addressOfBeginningTestTextBox"
-                                                    HorizontalAlignment="Stretch" />
+                        <UserControls:AddressPicker
+                            Address="{Binding AddressOfBeginningTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                            x:Name="addressOfBeginningTestTextBox"
+                            HorizontalAlignment="Stretch" />
                     </StackPanel>
 
                     <Label Content="License:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2"
@@ -58,12 +60,13 @@
                                     VerticalAlignment="Center" CalendarClosed="TestTimeDatePicker_OnCalendarOpened">
                             <DatePicker.Resources>
                                 <Style TargetType="DatePickerTextBox">
-                                    <Setter Property="IsReadOnly" Value="True"/>
-                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="IsReadOnly" Value="True" />
+                                    <Setter Property="IsEnabled" Value="False" />
                                 </Style>
                             </DatePicker.Resources>
                             <DatePicker.CalendarStyle>
-                                <Style TargetType="{x:Type Calendar}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroCalendar}">
+                                <Style TargetType="{x:Type Calendar}"
+                                       BasedOn="{StaticResource MahApps.Metro.Styles.MetroCalendar}">
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Calendar}">

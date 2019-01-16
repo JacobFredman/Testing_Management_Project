@@ -10,12 +10,12 @@ namespace PLWPF.UserControls
     public partial class TimePicker : UserControl
     {
         /// <summary>
-        /// Hours to show
+        ///     Hours to show
         /// </summary>
         private readonly bool[] _hoursToShow = new bool[24];
 
         /// <summary>
-        /// A time picker
+        ///     A time picker
         /// </summary>
         public TimePicker()
         {
@@ -69,7 +69,7 @@ namespace PLWPF.UserControls
         public event EventHandler SelectionChanged;
 
         /// <summary>
-        /// forward the selection changed
+        ///     forward the selection changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

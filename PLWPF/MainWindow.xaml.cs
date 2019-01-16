@@ -16,17 +16,17 @@ namespace PLWPF
     public partial class MainWindow : MetroWindow
     {
         /// <summary>
-        /// get an object of BL
+        ///     get an object of BL
         /// </summary>
         private readonly IBL _blimp = FactoryBl.GetObject;
 
         /// <summary>
-        /// Login window
+        ///     Login window
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-            var bl = BL.FactoryBl.GetObject;
+            var bl = FactoryBl.GetObject;
 
             //On first login enter username and password
             if (Configuration.FirstOpenProgram)
@@ -177,49 +177,35 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// Login Admin on Key enter pressed
+        ///     Login Admin on Key enter pressed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TabItem_KeyDown_Admin(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 if (AdminLoginButton.IsEnabled)
-                {
-                    AdminLoginButton_Click(this,new EventArgs());
-                }
-            }
+                    AdminLoginButton_Click(this, new EventArgs());
         }
 
         /// <summary>
-        /// Login Tester on Key enter pressed
+        ///     Login Tester on Key enter pressed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TabItem_KeyDown_Tester(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 if (TesterLoginButton.IsEnabled)
-                {
                     TesterLoginButton_Click(this, new EventArgs());
-                }
-            }
         }
 
         //Login Trainee on Key enter pressed
         private void TabItem_KeyDown_Trainee(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 if (TraineeLoginButton.IsEnabled)
-                {
                     TraineeLoginButton_Click(this, new EventArgs());
-
-                }
-            }
         }
     }
-    
 }

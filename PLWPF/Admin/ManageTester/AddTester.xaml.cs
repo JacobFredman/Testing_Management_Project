@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,17 +19,17 @@ namespace PLWPF.Admin.ManageTester
         private readonly IBL _blimp = FactoryBl.GetObject;
 
         /// <summary>
-        /// all the errors
+        ///     all the errors
         /// </summary>
         private readonly List<string> _errorMessage = new List<string>();
 
         /// <summary>
-        /// the tester
+        ///     the tester
         /// </summary>
         private readonly Tester _tester = new Tester();
 
         /// <summary>
-        /// if it is an update
+        ///     if it is an update
         /// </summary>
         private readonly bool _update;
 
@@ -48,8 +47,9 @@ namespace PLWPF.Admin.ManageTester
                 //bind the new tester to the window
                 DataContext = _tester;
                 //set default values
-                _tester.BirthDate = DateTime.Now.AddYears(-(int)Configuration.MinTesterAge).AddDays(-1);
-                birthDateDatePicker.DisplayDateEnd= DateTime.Now.AddYears(-(int)Configuration.MinTesterAge).AddDays(-1);
+                _tester.BirthDate = DateTime.Now.AddYears(-(int) Configuration.MinTesterAge).AddDays(-1);
+                birthDateDatePicker.DisplayDateEnd =
+                    DateTime.Now.AddYears(-(int) Configuration.MinTesterAge).AddDays(-1);
                 _tester.Schedule = new WeekSchedule();
                 Title = "Add New Tester";
             }
@@ -57,7 +57,8 @@ namespace PLWPF.Admin.ManageTester
             {
                 try
                 {
-                    birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int)Configuration.MinTesterAge).AddDays(-1);
+                    birthDateDatePicker.DisplayDateEnd =
+                        DateTime.Now.AddYears(-(int) Configuration.MinTesterAge).AddDays(-1);
                     _update = true;
                     //find the existing tester
                     _tester = _blimp.AllTesters.First(x => x.Id == id);
@@ -77,7 +78,6 @@ namespace PLWPF.Admin.ManageTester
                 {
                     Close();
                 }
-
             }
 
             //set comBox source
@@ -119,8 +119,8 @@ namespace PLWPF.Admin.ManageTester
             }
             catch
             {
-                if(idTextBox.Text!="")
-                   idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length-1);
+                if (idTextBox.Text != "")
+                    idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length - 1);
                 idTextBox.CaretIndex = idTextBox.Text.Length;
                 Save.IsEnabled = false;
             }
@@ -243,7 +243,5 @@ namespace PLWPF.Admin.ManageTester
         }
 
         #endregion
-
-    
     }
 }

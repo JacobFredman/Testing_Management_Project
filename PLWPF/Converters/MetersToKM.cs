@@ -5,12 +5,12 @@ using System.Windows.Data;
 namespace PLWPF.Converters
 {
     /// <summary>
-    /// Convert meters to Km
+    ///     Convert meters to Km
     /// </summary>
     public class MetersToKM : IValueConverter
     {
         /// <summary>
-        /// Convert meters to Km
+        ///     Convert meters to Km
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -23,7 +23,7 @@ namespace PLWPF.Converters
         }
 
         /// <summary>
-        /// Convert Km to meters
+        ///     Convert Km to meters
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>

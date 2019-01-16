@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using BE.MainObjects;
 using BL;
 using MahApps.Metro.Controls;
@@ -16,17 +17,17 @@ namespace PLWPF
     public partial class TesterWin : MetroWindow
     {
         /// <summary>
-        /// Bl object
+        ///     Bl object
         /// </summary>
         private readonly IBL _blimp = FactoryBl.GetObject;
 
         /// <summary>
-        /// the tester
+        ///     the tester
         /// </summary>
         private readonly Tester _tester;
 
         /// <summary>
-        ///  tester window
+        ///     tester window
         /// </summary>
         /// <param name="id"></param>
         public TesterWin(int id)
@@ -49,25 +50,23 @@ namespace PLWPF
         private void Refresh()
         {
             TestToDoGrid.DataContext =
-                FactoryBl.GetObject.AllTests.Where(x => x.TesterId == _tester.Id && x.TestTime >=DateTime.Now);
+                FactoryBl.GetObject.AllTests.Where(x => x.TesterId == _tester.Id && x.TestTime >= DateTime.Now);
             TestToUpdateGrid.DataContext =
                 FactoryBl.GetObject.AllTests.Where(x => x.TesterId == _tester.Id && x.TestTime <= DateTime.Now);
-
         }
 
         /// <summary>
-        /// on test to do grid double click
+        ///     on test to do grid double click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TestToDoGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TestToDoGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 //open window
                 var win = new ShowTest((Test) TestToDoGrid.SelectedItem);
                 win.ShowDialog();
-
             }
             catch
             {
@@ -76,11 +75,11 @@ namespace PLWPF
         }
 
         /// <summary>
-        /// on test to update grid double click
+        ///     on test to update grid double click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TestToUpdateGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TestToUpdateGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -102,10 +101,7 @@ namespace PLWPF
                     return;
 
                 //if email is empty
-                if (string.IsNullOrEmpty(trainee.EmailAddress))
-                {
-                    return;
-                }
+                if (string.IsNullOrEmpty(trainee.EmailAddress)) return;
 
                 //Send Email
                 var thread = new Thread(() =>
@@ -113,7 +109,7 @@ namespace PLWPF
                     try
                     {
                         Pdf.CreateLicensePdf(test, trainee);
-                        Email.SentEmailToTraineeAfterTest(test, trainee);                  
+                        Email.SentEmailToTraineeAfterTest(test, trainee);
                     }
                     catch
                     {
@@ -127,7 +123,6 @@ namespace PLWPF
                 if (ex.Message != "Object reference not set to an instance of an object.")
                     ExceptionMessage.Show(ex.Message, ex.ToString());
             }
-
         }
 
         //refresh button
