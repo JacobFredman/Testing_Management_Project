@@ -70,7 +70,6 @@ namespace PLWPF.Admin.ManageTrainee
 
             //set combox source
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            gearTypeComboBox.ItemsSource = Enum.GetValues(typeof(Gear));
 
             //set the choose license 
             ChooseLicense.ItemsSource = Enum.GetValues(typeof(LicenseType));
@@ -132,23 +131,6 @@ namespace PLWPF.Admin.ManageTrainee
                 idTextBox.CaretIndex = idTextBox.Text.Length; Save.IsEnabled = false;
             }
         }
-
-        ///// <summary>
-        /////     On address text box changed update the address
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void AddressTextBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        trainee.Address = AddressTextBox.Address;
-        //    }
-        //    catch
-        //    {
-        //        AddressTextBox.Address = null;
-        //    }
-        //}
 
         /// <summary>
         ///     When an error occured  in the data binding

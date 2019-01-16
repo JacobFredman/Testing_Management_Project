@@ -25,11 +25,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -73,36 +70,30 @@
             <DatePicker x:Name="birthDateDatePicker" Width="180" VerticalAlignment="Center"
                         SelectedDate="{Binding BirthDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                         Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" />
-
+    
             <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Address:" />
+            <UserControls:AddressPicker Panel.ZIndex="1" x:Name="AddressTextBox"  Width="180" Address="{Binding Address, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                                        VerticalAlignment="Top" Grid.RowSpan="6" Grid.Row="6" Margin="3,3,3,3"
+                                        HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3,5,3,3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Phone Number:" />
             <TextBox x:Name="phoneNumberTextBox" Width="180" VerticalAlignment="Center"
                      Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+                     Grid.Row="7" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
 
-            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Address:" />
-            <UserControls:AddressPicker Panel.ZIndex="1" x:Name="AddressTextBox" Height="120" Width="180" Address="{Binding Address, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                                        VerticalAlignment="Top" Grid.RowSpan="6" Grid.Row="7" Margin="3,8,3,3"
-                                        HorizontalAlignment="Left" Grid.Column="1" />
-
-            <Label VerticalAlignment="Center" Visibility="Collapsed" Grid.Row="8" Margin="3" HorizontalAlignment="Left"
-                   Grid.Column="0" Content="Gear Type:" />
-            <ComboBox x:Name="gearTypeComboBox" Visibility="Collapsed" Width="180" VerticalAlignment="Center"
-                      Grid.Row="8" Margin="3" SelectedItem="{Binding GearType}" Height="Auto"
-                      HorizontalAlignment="Left" Grid.Column="1" />
-
-            <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+            <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="School Name:" />
             <TextBox x:Name="schoolNameTextBox" Width="180" VerticalAlignment="Center"
                      Text="{Binding SchoolName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+                     Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
 
-            <Label VerticalAlignment="Center" Grid.Row="11" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+            <Label VerticalAlignment="Top" Grid.Row="9" Margin="3,5,3,3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Teacher Name:" />
-            <TextBox x:Name="TeacherNameTextBox" Width="180" VerticalAlignment="Center"
+            <TextBox x:Name="TeacherNameTextBox" Width="180"  VerticalAlignment="Top"
                      Text="{Binding TeacherName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="11" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+                     Grid.Row="9" Margin="3,5,3,3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
 
 
         </Grid>
