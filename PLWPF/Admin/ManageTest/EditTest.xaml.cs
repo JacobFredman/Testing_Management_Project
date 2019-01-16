@@ -230,6 +230,7 @@ namespace PLWPF.Admin.ManageTest
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
                 _test.LicenseType = license;
 
+                //todo: Background worker
                 //find all available testers
                 new Thread(() =>
                 {

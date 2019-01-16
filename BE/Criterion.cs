@@ -2,7 +2,6 @@
 
 namespace BE
 {
-    // todo : the criterion should be enum
     /// <inheritdoc />
     /// <summary>
     ///     A criterion for passing the test

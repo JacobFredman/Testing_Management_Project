@@ -13,7 +13,7 @@ namespace DAL
     /// </summary>
     public static class FactoryDal
     {
-        //todo: hell
+      
         private static DalImp _dal;
 
         /// <summary>
