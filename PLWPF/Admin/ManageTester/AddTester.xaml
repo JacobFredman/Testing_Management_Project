@@ -8,7 +8,7 @@
                  xmlns:converters="clr-namespace:PLWPF.Converters"
                  mc:Ignorable="d"
                  Validation.Error="validation_Error"
-                 Title="Add Tester" SizeToContent="WidthAndHeight">
+                 Title="Add Tester" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <mah:MetroWindow.Resources>
         <converters:MetersToKM x:Key="MeterToKM" />
     </mah:MetroWindow.Resources>

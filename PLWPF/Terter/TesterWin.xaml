@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PLWPF"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Tester" Height="450"  SizeToContent="Width">
+        Title="Tester" WindowStartupLocation="CenterScreen" Height="450"  SizeToContent="Width">
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>

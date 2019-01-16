@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PLWPF.Terter"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Update Test" SizeToContent="WidthAndHeight">
+        Title="Update Test" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -27,7 +27,7 @@
 
                     <DataGrid MaxHeight="180" x:Name="CriterionsDataGrid"
                               ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                              HorizontalAlignment="Stretch" MinHeight="150" AutoGenerateColumns="False">
+                              HorizontalAlignment="Stretch" CanUserAddRows="False" MinHeight="150" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}"
                                                 IsReadOnly="True" />

@@ -9,7 +9,7 @@
                  x:Class="PLWPF.TraineeArea.EditTest"
                  mc:Ignorable="d"
                  Validation.Error="EditTest_OnError"
-                 Title="EditTest" SizeToContent="WidthAndHeight">
+                 Title="EditTest" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
 
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Left">

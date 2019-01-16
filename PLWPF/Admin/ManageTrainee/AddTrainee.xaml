@@ -9,7 +9,7 @@
                  x:Class="PLWPF.Admin.ManageTrainee.AddTrainee"
                  mc:Ignorable="d"
                  Validation.Error="validation_Error"
-                 Title="Add Trainee" SizeToContent="WidthAndHeight">
+                 Title="Add Trainee" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
 
     <StackPanel Orientation="Horizontal">
 

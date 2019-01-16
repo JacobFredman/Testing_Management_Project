@@ -67,6 +67,8 @@ namespace PLWPF
         /// <param name="e"></param>
         private void SetTest_Button_Click(object sender, RoutedEventArgs e)
         {
+            SetTest.IsEnabled = false;
+            SetTest.ToolTip = "Checking Internet Connection";
             (new Thread(() =>
             {
                 try
@@ -82,6 +84,8 @@ namespace PLWPF
                     //open window
                     void Act1()
                     {
+                        SetTest.IsEnabled = true;
+                        SetTest.ToolTip = "";
                         var win = new EditTest(_trainee);
                         win.ShowDialog();
                         Refresh();
@@ -93,6 +97,8 @@ namespace PLWPF
                 {
                     void Act2()
                     {
+                        SetTest.IsEnabled = true;
+                        SetTest.ToolTip = "";
                         ExceptionMessage.Show(ex.Message, ex.ToString());
                     }
 

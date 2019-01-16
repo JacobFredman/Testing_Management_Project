@@ -9,7 +9,7 @@
                  x:Class="PLWPF.Admin.ManageTest.EditTest"
                  mc:Ignorable="d"
                  Validation.Error="EditTest_OnError"
-                 Title="EditTest" SizeToContent="WidthAndHeight">
+                 Title="EditTest" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
 
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Left">
@@ -186,7 +186,7 @@
 
                         <DataGrid MaxHeight="180" x:Name="CriterionsDataGrid"
                                   ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                                  HorizontalAlignment="Stretch" MinHeight="150" AutoGenerateColumns="False">
+                                  HorizontalAlignment="Stretch" MinHeight="150" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}"
                                                     IsReadOnly="True" />

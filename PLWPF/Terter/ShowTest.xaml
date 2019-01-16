@@ -8,7 +8,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         x:Class="PLWPF.Terter.ShowTest"
         mc:Ignorable="d"
-        Title="Test Details" SizeToContent="WidthAndHeight" >
+        Title="Test Details" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" >
    
     <Grid>
 

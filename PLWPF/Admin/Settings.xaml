@@ -6,7 +6,7 @@
                  xmlns:local="clr-namespace:PLWPF.Admin"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
-                 Title="Settings" SizeToContent="WidthAndHeight">
+                 Title="Settings" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <StackPanel  Orientation="Horizontal">
 
         <!-- The parameters-->

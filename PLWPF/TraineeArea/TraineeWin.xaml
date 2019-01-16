@@ -8,7 +8,7 @@
         xmlns:converters="clr-namespace:PLWPF.Converters"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="TraineeWin" Height="450" SizeToContent="Width">
+        Title="TraineeWin" WindowStartupLocation="CenterScreen" Height="450" SizeToContent="Width">
     <mah:MetroWindow.Resources>
         <converters:LessonAndTypeToString x:Key="LessonAndTypeToString" />
         <converters:LicenseTypeLearningToString x:Key="LicenseTypeLearningToString" />
@@ -78,7 +78,7 @@
                    </Viewbox>
                </Button.Content>
            </Button>
-            <Button Content="Set New Test" DockPanel.Dock="Left" HorizontalAlignment="Center" Margin="3"  Style="{DynamicResource SquareButtonStyle}" Click="SetTest_Button_Click"></Button>
+            <Button x:Name="SetTest" Content="Set New Test" DockPanel.Dock="Left" HorizontalAlignment="Center" Margin="3"  Style="{DynamicResource SquareButtonStyle}" Click="SetTest_Button_Click"></Button>
         </DockPanel>
     </Grid>
 </mah:MetroWindow>

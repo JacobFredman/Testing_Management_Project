@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PLWPF.TraineeArea"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Test Results" SizeToContent="WidthAndHeight">
+        Title="Test Results" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -17,7 +17,7 @@
             <StackPanel VerticalAlignment="Stretch">
                 <GroupBox Background="{DynamicResource Background}" VerticalAlignment="Stretch" Header="Comment"
                           Margin="3">
-                    <TextBox VerticalAlignment="Stretch" x:Name="TextBoxComment" MinHeight="50"
+                    <TextBox  IsReadOnly="True" VerticalAlignment="Stretch" x:Name="TextBoxComment" MinHeight="50"
                              Text="{Binding Comment, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
 
                 </GroupBox>
@@ -27,7 +27,7 @@
 
                     <DataGrid MaxHeight="180" x:Name="CriterionsDataGrid"
                               ItemsSource="{Binding Criteria, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                              HorizontalAlignment="Stretch" MinHeight="150" AutoGenerateColumns="False">
+                              HorizontalAlignment="Stretch" MinHeight="150"  IsReadOnly="True" CanUserAddRows="False" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Criterion description" Binding="{Binding Type}"
                                                 IsReadOnly="True" />
