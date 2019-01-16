@@ -54,7 +54,8 @@
             <Label x:Name="NumberOfTestersLabel" Content="0" />
             <Label Content="{DynamicResource Tests}" Margin="30,0,0,0" />
             <Label x:Name="NumberOfTestsLabel" Content="0" />
-            <Label x:Name="ProgressLabel" Margin="100,0,0,0" Foreground="Red" />
+            <Label x:Name="ProgressLabel" Visibility="Collapsed" Margin="100,0,0,0" Foreground="Red" />
+            <ProgressBar Visibility="Collapsed"  x:Name="ProgressBarB" Margin="5" Width="120"></ProgressBar>
         </StackPanel>
      
         <TabControl Padding="0">
@@ -345,7 +346,7 @@
                         <DataGrid x:Name="TesterGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick"
-                                  SelectionChanged="TesterGrid_OnSelectionChanged">
+                                  SelectionChanged="TesterGrid_OnSelectionChanged" PreviewKeyDown="TesterGrid_OnPreviewKeyDown">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Update" x:Name="MenuItemUpdateTester" IsEnabled="False"
@@ -491,7 +492,7 @@
                         <DataGrid x:Name="TestGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick"
-                                  SelectionChanged="TestGrid_OnSelectionChanged">
+                                  SelectionChanged="TestGrid_OnSelectionChanged" PreviewKeyDown="TestGrid_OnPreviewKeyDown">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Update" x:Name="MenuItemUpdateTest" IsEnabled="False"

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Mail;
 using System.Net;
 using BE.MainObjects;
@@ -14,7 +15,7 @@ namespace BL
        // private const string FromEmailAddress = "tests.miniproject@gmail.com";
        // private const string SenderPassword = "0586300016";
 
-        public static int SendEmailToAllTraineeBeforeTest(this IEnumerable<Test> tests)
+        public static int SendEmailToAllTraineeBeforeTest(this IEnumerable<Test> tests, ref  BackgroundWorker worker)
         {
             int count = 0;
             foreach (Test test in tests)
@@ -24,8 +25,12 @@ namespace BL
                 {
                     SentEmailToTraineeBeforeTest(test, trainee);
                     count++;
+                    worker.ReportProgress(count);
                 }
-                catch { }
+                catch
+                {
+                    //do nothing
+                }
             }
             return count;
         }
