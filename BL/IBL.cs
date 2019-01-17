@@ -7,7 +7,7 @@ using BE.Routes;
 
 namespace BL
 {
-    public interface IBL
+    public interface IBl
     {
         //get list copy's
         IEnumerable<Trainee> AllTrainees { get; }
@@ -40,7 +40,7 @@ namespace BL
         IEnumerable<Test> GetAllTestInMonth(DateTime date);
         IEnumerable<Test> GetAllTestInDay(DateTime date);
         IEnumerable<Test> GetAllTestsToCome();
-        IEnumerable<Test> GetAllTestsThatHappened();
+        IEnumerable<Test> GetAllDoneTests();
         IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date);
         IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date);
 

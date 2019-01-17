@@ -18,7 +18,7 @@ namespace PLWPF
         /// <summary>
         ///     get an object of BL
         /// </summary>
-        private readonly IBL _blimp = FactoryBl.GetObject;
+        private readonly IBl _blimp = FactoryBl.GetObject;
 
         /// <summary>
         ///     Login window

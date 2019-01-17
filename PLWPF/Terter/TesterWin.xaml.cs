@@ -19,7 +19,7 @@ namespace PLWPF
         /// <summary>
         ///     Bl object
         /// </summary>
-        private readonly IBL _blimp = FactoryBl.GetObject;
+        private readonly IBl _blimp = FactoryBl.GetObject;
 
         /// <summary>
         ///     the tester

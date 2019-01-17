@@ -24,9 +24,9 @@ namespace BL
     }
 
     /// <summary>
-    ///     Bl implementation
+    ///    business logic implementation
     /// </summary>
-    public class BlImp : IBL
+    public class BlImp : IBl
     {
         private readonly IDal _dalImp = FactoryDal.GetObject;
 
@@ -40,8 +40,8 @@ namespace BL
         /// <summary>
         ///     Get the number of tests that the Trainee did
         /// </summary>
-        /// <param name="trainee">The Trainee</param>
-        /// <returns>The number of Tests</returns>
+        /// <param name="trainee">Trainee</param>
+        /// <returns>The number of Tests trainee has</returns>
         public int GetNumberOfTests(Trainee trainee)
         {
             return AllTests.Count(x => x.TraineeId == trainee.Id);
@@ -97,7 +97,7 @@ namespace BL
         {
             //check if tester is ok
             if (AllTesters.Any(tester => tester.Id == newTester.Id)) throw new Exception("Tester exist already");
-            if (GetAge(newTester.BirthDate) < Configuration.MinTesterAge)
+            if (Tools.GetAge(newTester.BirthDate) < Configuration.MinTesterAge)
                 throw new Exception("The Tester is too young");
             if (newTester.Address == null) throw new Exception("Need to know tester address");
             if (newTester.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
@@ -127,7 +127,7 @@ namespace BL
         {
             //check if tester is ok
             if (AllTesters.All(tester => tester.Id != updatedTester.Id)) throw new Exception("tester doesn't exist");
-            if (GetAge(updatedTester.BirthDate) < Configuration.MinTesterAge)
+            if (Tools.GetAge(updatedTester.BirthDate) < Configuration.MinTesterAge)
                 throw new Exception("The Tester is too young");
             if (updatedTester.Address == null) throw new Exception("Need to know tester address");
             if (updatedTester.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
@@ -150,12 +150,14 @@ namespace BL
             var testMissingDate = newTest.TestTime == DateTime.MinValue;
 
             var testerExist = AllTesters.Any(tester => tester.Id == newTest.TesterId);
+
             var traineeExist = AllTrainees.Any(trainee => trainee.Id == newTest.TraineeId);
 
             var twoTestesTooClose = AllTests.Any(test =>
                 test.TraineeId == newTest.TraineeId && test.LicenseType == newTest.LicenseType &&
                 Math.Abs((newTest.TestTime - test.TestTime).TotalDays) < Configuration.MinTimeBetweenTests);
 
+            // the trainee didn't the minimum number of lessens before test
             var lessThenMinLessons = AllTrainees.Any(trainee =>
                 trainee.Id == newTest.TraineeId && trainee.LicenseTypeLearning.Any(l =>
                     l.License == newTest.LicenseType && l.NumberOfLessons < Configuration.MinLessons));
@@ -163,12 +165,13 @@ namespace BL
             var traineeIsLearningLicense = AllTrainees.Any(trainee =>
                 trainee.Id == newTest.TraineeId &&
                 trainee.LicenseTypeLearning.Any(l => l.License == newTest.LicenseType));
+
             var testerIsTeachingLicense = AllTesters.Any(tester =>
                 tester.Id == newTest.TesterId && tester.LicenseTypeTeaching.Any(l => l == newTest.LicenseType));
 
             var tooManyTestInWeek =
                 AllTests.Count(test =>
-                    test.TesterId == newTest.TesterId && DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) + 1 >
+                    test.TesterId == newTest.TesterId && Tools.DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) + 1 >
                 AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
 
             var traineeHasTestInSameTime = AllTests.Any(test =>
@@ -210,7 +213,8 @@ namespace BL
         /// <param name="testToDelete">The Test to remove</param>
         public void RemoveTest(Test testToDelete)
         {
-            if (AllTests.All(test => test.Id != testToDelete.Id)) throw new Exception("Test doesn't exist");
+            if (AllTests.All(test => test.Id != testToDelete.Id))
+                throw new Exception("Test doesn't exist");
             _dalImp.RemoveTest(testToDelete);
         }
 
@@ -254,10 +258,12 @@ namespace BL
         /// <param name="newTrainee">The Trainee to add</param>
         public void AddTrainee(Trainee newTrainee)
         {
-            if (AllTrainees.Any(trainee => trainee.Id == newTrainee.Id)) throw new Exception("Trainee already exist");
-            if (GetAge(newTrainee.BirthDate) < Configuration.MinTraineeAge)
+            if (AllTrainees.Any(trainee => trainee.Id == newTrainee.Id))
+                throw new Exception("Trainee already exist");
+            if (Tools.GetAge(newTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("The trainee is too young");
-            if (newTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
+            if (newTrainee.BirthDate == DateTime.MinValue)
+                throw new Exception("Invalid birth date");
 
             _dalImp.AddTrainee(newTrainee);
         }
@@ -265,15 +271,14 @@ namespace BL
         /// <summary>
         ///     Remove Trainee
         /// </summary>
-        /// <param name="traineeToDelete">The Trainee to add</param>
+        /// <param name="traineeToDelete">The Trainee to remove</param>
         public void RemoveTrainee(Trainee traineeToDelete)
         {
             if (AllTrainees.All(trainee => trainee.Id != traineeToDelete.Id))
                 throw new Exception("Trainee doesn't exist");
             if (AllTests.Any(x => x.TraineeId == traineeToDelete.Id))
                 throw new Exception("Trainee Has " + AllTests.Count(x => x.TraineeId == traineeToDelete.Id) +
-                                    " Test. Please Delete Them First.");
-
+                                    " Tests. Please Delete Them First.");
             _dalImp.RemoveTrainee(traineeToDelete);
         }
 
@@ -285,9 +290,10 @@ namespace BL
         {
             if (AllTrainees.All(trainee => trainee.Id != updatedTrainee.Id))
                 throw new Exception("Trainee doesn't exist");
-            if (GetAge(updatedTrainee.BirthDate) < Configuration.MinTraineeAge)
+            if (Tools.GetAge(updatedTrainee.BirthDate) < Configuration.MinTraineeAge)
                 throw new Exception("The trainee is too young");
-            if (updatedTrainee.BirthDate == DateTime.MinValue) throw new Exception("Invalid birth date");
+            if (updatedTrainee.BirthDate == DateTime.MinValue)
+                throw new Exception("Invalid birth date");
 
             _dalImp.UpdateTrainee(updatedTrainee);
         }
@@ -314,8 +320,8 @@ namespace BL
         /// <summary>
         ///     Get all the Testers that are available on the date
         /// </summary>
-        /// <param name="date">Checks if the teacher is available on the given day and hour</param>
-        /// <returns>List of Testers</returns>
+        /// <param name="date">day and hour for checking availability</param>
+        /// <returns>available testers in this time</returns>
         public IEnumerable<Tester> GetAvailableTesters(DateTime date)
         {
             return AllTesters.Where(tester =>
@@ -338,7 +344,7 @@ namespace BL
         /// <summary>
         ///     Get all tests where the function returns true
         /// </summary>
-        /// <param name="func">A func that gets a Test and returns bool</param>
+        /// <param name="func">A func that gets a Test and return bool if condition == true</param>
         /// <returns>List of Tests</returns>
         public IEnumerable<Test> GetAllTestsWhere(Func<Test, bool> func)
         {
@@ -347,8 +353,7 @@ namespace BL
 
         /// <summary>
         ///     Get all the testers that are in a specified distance from an address.
-        ///     This function uses requests from internet. in can take a long time ,so it is recommended to use in a separate
-        ///     thread.
+        ///     This function uses requests from internet. in can take a long time ,so it is recommended to use in a ///separate  thread.
         /// </summary>
         /// <param name="r">the distance</param>
         /// <param name="a">the address</param>
@@ -383,79 +388,34 @@ namespace BL
                 select test;
         }
 
+       
         /// <summary>
         ///     Get all the testers that are the best for the test ordered by the distance from the address
         /// </summary>
-        /// <param name="date">the date</param>
         /// <param name="address">the address</param>
-        /// <param name="license">the license</param>
-        /// <returns></returns>
-        public IEnumerable<Tester> GetRecommendedTesters(DateTime date, Address address, LicenseType license)
-        {
-            try
-            {
-                var testerInDate = GetAvailableTesters(date);
-                if (testerInDate == null) throw new Exception("There are no testers for this date");
-
-                //check internet connectivity
-                var wc = new WebClient();
-                wc.DownloadData("https://www.google.com/");
-
-                var testerDistance = from tester in testerInDate
-                    where tester.Address != null
-                    let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
-                    where distance < tester.MaxDistance
-                    select new {tester, distance};
-                if (!testerDistance.Any())
-                    throw new Exception("There are no testers in the current address please try an other address");
-
-                var testerLicense = from tester in testerDistance
-                    where tester.tester.LicenseTypeTeaching.Any(x => x == license)
-                    orderby tester.distance
-                    select tester.tester;
-                if (!testerLicense.Any())
-                    throw new Exception("There is no tester with the right license in the current date and location");
-
-                return testerLicense;
-            }
-            catch
-            {
-                var testerLicense = from tester in GetAvailableTesters(date)
-                    where tester.LicenseTypeTeaching.Any(x => x == license)
-                    select tester;
-                if (!testerLicense.Any())
-                    throw new Exception("There is no tester with the right license in the current date and location");
-
-                return testerLicense;
-            }
-        }
-
-        /// <summary>
-        ///     Get all the testers that are the best for the test ordered by the distance from the address
-        /// </summary>
-        /// <param name="date">the date</param>
-        /// <param name="address">the address</param>
-        /// <param name="license">the license</param>
-        /// <returns></returns>
+        /// <param name="license">the license type</param>
+        /// <returns>testers list </returns>
         public IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license)
         {
-            var te = AllTesters.ToList();
-
-            var testerDistance = from tester in AllTesters
+            var testerDistance = 
+                from tester in AllTesters
                 where tester.Address != null
                 let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
                 select new {tester, distance};
-            if (!testerDistance.Any())
+            var testerDistanceList = testerDistance.ToList();
+            if (!testerDistanceList.Any())
                 throw new Exception("There are no testers in the current address please try an other address");
 
-            var testerLicense = from tester in testerDistance
+            var testerLicense = 
+                from tester in testerDistanceList
                 where tester.tester.LicenseTypeTeaching.Any(x => x == license)
                 orderby tester.distance
                 select tester.tester;
-            if (!testerLicense.Any())
+            var testersByDistanceList = testerLicense.ToList();
+            if (!testersByDistanceList.Any())
                 throw new Exception("There is no tester with the right license in the current date and location");
 
-            return testerLicense;
+            return testersByDistanceList;
         }
 
         /// <summary>
@@ -468,13 +428,17 @@ namespace BL
         }
 
         /// <summary>
-        ///     get all tests that the results are updated
+        ///     get all tests that the done already
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Test> GetAllTestsThatHappened()
+        public IEnumerable<Test> GetAllDoneTests()
         {
-            Func<Test, bool> predicate = delegate(Test test) { return test.Passed != null; };
-            return AllTests.Where(predicate);
+            bool DoneTests(Test test)
+            {
+                return test.Passed != null;
+            }
+
+            return AllTests.Where(DoneTests);
         }
 
         /// <summary>
@@ -484,7 +448,8 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date)
         {
-            return from test in AllTests
+            return 
+                from test in AllTests
                 where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
                       date.Year && test.Passed == true
                 select AllTrainees.First(x => x.Id == test.TraineeId);
@@ -522,11 +487,15 @@ namespace BL
         /// <returns>All Trainee's grouped by Their Tester's </returns>
         public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false)
         {
-            return sorted
-                ? from trainee in AllTrainees
+            return 
+                sorted?
+                from trainee in AllTrainees
                 orderby trainee.Id
                 group trainee by trainee.TeacherName
-                : from trainee in AllTrainees
+
+                // if not sorted
+                :
+                from trainee in AllTrainees
                 group trainee by trainee.TeacherName;
         }
 
@@ -536,11 +505,14 @@ namespace BL
         /// <returns>All Trainee's grouped by Their school's </returns>
         public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false)
         {
-            return sorted
-                ? from trainee in AllTrainees
+            return
+                sorted 
+                ?
+                from trainee in AllTrainees
                 orderby trainee.Id
                 group trainee by trainee.SchoolName
-                : from trainee in AllTrainees
+                :
+                from trainee in AllTrainees
                 orderby trainee.Id
                 group trainee by trainee.SchoolName;
         }
@@ -579,32 +551,7 @@ namespace BL
 
         #region Help Function's
 
-        /// <summary>
-        ///     Get an age from a birth date
-        /// </summary>
-        /// <param name="birthDate">The birth date</param>
-        /// <returns>The age in years</returns>
-        private static int GetAge(DateTime birthDate)
-        {
-            var today = DateTime.Today;
-            var age = today.Year - birthDate.Year;
-            if (birthDate > today.AddYears(-age)) age--;
-            return age;
-        }
-
-        /// <summary>
-        ///     Check if two dates are in the same week
-        /// </summary>
-        /// <param name="date1">first date</param>
-        /// <param name="date2">second date</param>
-        /// <returns></returns>
-        private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
-        {
-            var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
-            var d1 = date1.Date.AddDays(-1 * (int) cal.GetDayOfWeek(date1));
-            var d2 = date2.Date.AddDays(-1 * (int) cal.GetDayOfWeek(date2));
-            return d1 == d2;
-        }
+       
 
         #endregion
 
@@ -614,7 +561,7 @@ namespace BL
         ///     Free search in trainees
         /// </summary>
         /// <param name="key"></param>
-        /// <returns></returns>
+        /// <returns>fitting trainees</returns>
         public IEnumerable<Trainee> SearchTrainee(string key)
         {
             var keys = key.ToLower().Split();
@@ -622,13 +569,13 @@ namespace BL
 
 
             return AllTrainees.AsParallel().AsOrdered().Where(x => keys.Any(y =>
-                x.Id.ToString()?.ToLower()?.Contains(y) == true ||
-                x.FirstName?.ToLower()?.Contains(y) == true ||
-                x.LastName?.ToLower()?.Contains(y) == true ||
-                x.SchoolName?.ToLower()?.Contains(y) == true ||
-                x.Address?.ToString()?.ToLower().Contains(y) == true ||
-                x.TeacherName?.ToLower()?.Contains(y) == true ||
-                x.EmailAddress?.ToLower()?.Contains(y) == true ||
+                x.Id.ToString().ToLower().Contains(y) == true ||
+                x.FirstName?.ToLower().Contains(y) == true ||
+                x.LastName?.ToLower().Contains(y) == true ||
+                x.SchoolName?.ToLower().Contains(y) == true ||
+                x.Address?.ToString().ToLower().Contains(y) == true ||
+                x.TeacherName?.ToLower().Contains(y) == true ||
+                x.EmailAddress?.ToLower().Contains(y) == true ||
                 x.PhoneNumber?.ToLower()?.Contains(y) == true));
         }
 
@@ -644,12 +591,12 @@ namespace BL
 
 
             return AllTesters.Where(x => keys.Any(y =>
-                x.Id.ToString()?.ToLower()?.Contains(y) == true ||
-                x.FirstName?.ToLower()?.Contains(y) == true ||
-                x.LastName?.ToLower()?.Contains(y) == true ||
-                x.Address?.ToString()?.ToLower().Contains(y) == true ||
-                x.EmailAddress?.ToLower()?.Contains(y) == true ||
-                x.PhoneNumber?.ToLower()?.Contains(y) == true));
+                x.Id.ToString().ToLower().Contains(y) == true ||
+                x.FirstName?.ToLower().Contains(y) == true ||
+                x.LastName?.ToLower().Contains(y) == true ||
+                x.Address?.ToString().ToLower().Contains(y) == true ||
+                x.EmailAddress?.ToLower().Contains(y) == true ||
+                x.PhoneNumber?.ToLower().Contains(y) == true));
         }
 
         /// <summary>
@@ -664,11 +611,11 @@ namespace BL
 
 
             return AllTests.Where(x => keys.Any(y =>
-                x.Id.ToString()?.ToLower()?.Contains(y) == true ||
-                x.AddressOfBeginningTest?.ToString().ToLower()?.Contains(y) == true ||
-                x.TraineeId.ToString()?.ToLower()?.Contains(y) == true ||
-                x.TesterId.ToString()?.ToString()?.ToLower().Contains(y) == true ||
-                x.Comment?.ToLower()?.Contains(y) == true));
+                x.Id.ToString().ToLower().Contains(y) == true ||
+                x.AddressOfBeginningTest?.ToString().ToLower().Contains(y) == true ||
+                x.TraineeId.ToString().ToLower().Contains(y) == true ||
+                x.TesterId.ToString().ToString().ToLower().Contains(y) == true ||
+                x.Comment?.ToLower().Contains(y) == true));
         }
 
         #endregion

@@ -26,7 +26,7 @@ namespace PLWPF.Admin
         /// <summary>
         ///     Bl object
         /// </summary>
-        private readonly IBL _bL = FactoryBl.GetObject;
+        private readonly IBl _bL = FactoryBl.GetObject;
 
         /// <summary>
         ///     list of showed testers
@@ -192,7 +192,8 @@ namespace PLWPF.Admin
                 var count = _testList
                     .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
                                 x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
-                    .SendEmailToAllTraineeBeforeTest(ref _worker);
+                    .SendEmailToAllTraineeBeforeTest(); // todo: there was ref _worker as paramter which not compiled
+                
                 e.Result = "You Sent " + count + " Emails";
             }
             catch (Exception ex)
@@ -922,7 +923,7 @@ namespace PLWPF.Admin
                         tests = _bL.GetAllTestsToCome();
                         break;
                     case "Updated Tests":
-                        tests = _bL.GetAllTestsThatHappened();
+                        tests = _bL.GetAllDoneTests();
                         break;
                     case "Test That Passed":
                         tests = _bL.AllTests.Where(x => x.Passed != null);

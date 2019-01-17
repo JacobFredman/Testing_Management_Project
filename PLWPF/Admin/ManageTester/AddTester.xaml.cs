@@ -16,7 +16,7 @@ namespace PLWPF.Admin.ManageTester
     /// </summary>
     public partial class AddTester : MetroWindow
     {
-        private readonly IBL _blimp = FactoryBl.GetObject;
+        private readonly IBl _blimp = FactoryBl.GetObject;
 
         /// <summary>
         ///     all the errors

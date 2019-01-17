@@ -1,4 +1,7 @@
-﻿namespace BE
+﻿using System;
+using System.Globalization;
+
+namespace BE
 {
     public static class Tools
     {
@@ -32,5 +35,34 @@
 
             return sum % 10 == 0;
         }
+
+        /// <summary>
+        ///     Get an age from a birth date
+        /// </summary>
+        /// <param name="birthDate">The birth date</param>
+        /// <returns>The age in years</returns>
+        public static int GetAge(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthDate.Year;
+            if (birthDate > today.AddYears(-age)) age--;
+            return age;
+        }
+
+
+        /// <summary>
+        ///     Check if two dates are in the same week
+        /// </summary>
+        /// <param name="date1">first date</param>
+        /// <param name="date2">second date</param>
+        /// <returns></returns>
+        public static bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        {
+            var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
+            var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+            var d2 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
+            return d1 == d2;
+        }
+
     }
 }

@@ -15,8 +15,8 @@ namespace BL
         /// <summary>
         ///     Export all Trainees to excel file
         /// </summary>
-        /// <param name="allTrainee">All trainee</param>
-        /// <param name="predicate">Witch trainee</param>
+        /// <param name="allTrainee">trainees</param>
+        /// <param name="predicate">select specific trainees</param>
         public static void ToExcel(this IEnumerable<Trainee> allTrainee, Func<Trainee, bool> predicate = null)
         {
             //get all the trainees that are like the predicate
@@ -69,7 +69,8 @@ namespace BL
             {
                 //Get all the license types
                 var licenseType = "";
-                foreach (var license in trainee.LicenseTypeLearning) licenseType += license.License + " ";
+                foreach (var license in trainee.LicenseTypeLearning)
+                    licenseType += license.License + " ";
 
                 row++;
 
@@ -84,8 +85,7 @@ namespace BL
                 workSheet.Cells[row, "H"] = trainee.TeacherName ?? "";
                 workSheet.Cells[row, "I"] = trainee.SchoolName;
                 workSheet.Cells[row, "J"] = licenseType;
-                //             workSheet.Cells[row, "K"] = trainee.GearType.ToString();
-                workSheet.Cells[row, "L"] = trainee.BirthDate != null ? trainee.BirthDate.ToString("d") : "";
+                workSheet.Cells[row, "L"] = true ? trainee.BirthDate.ToString("d") : "";
             }
 
             //Add borders to the Table
@@ -170,7 +170,7 @@ namespace BL
                 workSheet.Cells[row, "I"] = tester.MaxWeekExams;
                 workSheet.Cells[row, "J"] = licenseType;
                 workSheet.Cells[row, "K"] = tester.MaxDistance;
-                workSheet.Cells[row, "L"] = tester.BirthDate != null ? tester.BirthDate.ToString("d") : "";
+                workSheet.Cells[row, "L"] = true ? tester.BirthDate.ToString("d") : "";
             }
 
             //Add borders to the Table
@@ -187,7 +187,7 @@ namespace BL
         ///     Export all Tests to excel file
         /// </summary>
         /// <param name="allTest">All tests</param>
-        /// <param name="predicate">witch tests</param>
+        /// <param name="predicate">which tests</param>
         public static void ToExcel(this IEnumerable<Test> allTest, Func<Test, bool> predicate = null)
         {
             //get all the trainees that are like the predicate
@@ -243,7 +243,7 @@ namespace BL
                 workSheet.Cells[row, "A"] = test.Id;
                 workSheet.Cells[row, "B"] = test.TraineeId;
                 workSheet.Cells[row, "C"] = test.TesterId;
-                workSheet.Cells[row, "D"] = test.TestTime != null ? test.TestTime.ToString("d") : "";
+                workSheet.Cells[row, "D"] = true ? test.TestTime.ToString("d") : "";
                 workSheet.Cells[row, "E"] =
                     test.ActualTestTime != DateTime.MinValue ? test.ActualTestTime.ToString("d") : "";
                 workSheet.Cells[row, "F"] =

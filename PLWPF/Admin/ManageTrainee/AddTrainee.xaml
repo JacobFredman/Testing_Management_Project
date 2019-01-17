@@ -105,7 +105,7 @@
                       Grid.ColumnSpan="2" Grid.Row="11" BorderThickness="1" BorderBrush="Gray">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Licnse: " Margin="3" />
+                        <Label Content="License: " Margin="3" />
                         <ComboBox x:Name="ChooseLicense" Margin="3" Width="60" Height="Auto" />
                         <Label Content="Num of lessons: " Margin="3" />
                         <mah:NumericUpDown x:Name="NumberOfLessonsTextBox" Margin="6" Width="40" Value="0"
@@ -131,7 +131,7 @@
                                 <mah:DataGridNumericUpDownColumn Header="Number of lessons" Minimum="0"
                                                                  IsReadOnly="False"
                                                                  Binding="{Binding NumberOfLessons }" />
-                                <DataGridCheckBoxColumn Header="Is ready" IsReadOnly="True"
+                                <DataGridCheckBoxColumn Header="ready for test" IsReadOnly="True"
                                                         Binding="{Binding ReadyForTest}" />
                             </DataGrid.Columns>
                         </DataGrid>
