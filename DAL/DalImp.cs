@@ -27,20 +27,45 @@ namespace DAL
     /// </summary>
     public class DalImp : IDal
     {
+        /// <summary>
+        /// Trainees in XML
+        /// </summary>
+        private readonly XElement _traineesXml;
+
+        /// <summary>
+        /// Configuration in XML
+        /// </summary>
+        private readonly XElement _config;
+
+        /// <summary>
+        /// Tester in XML
+        /// </summary>
         private readonly XElement _testersXml;
 
-        //the data in xml
-        private readonly XElement _traineesXml;
-        private readonly XElement _config;
-        private bool _testerChanged = true;
-        private List<Tester> _testers = new List<Tester>();
-        private readonly List<Test> _tests = new List<Test>();
-
-        //flags
+        /// <summary>
+        /// Trainee changed flag
+        /// </summary>
         private bool _traineeChanged = true;
 
-        //lists of the data
+        /// <summary>
+        /// tester changed flag
+        /// </summary>
+        private bool _testerChanged = true;
+
+        /// <summary>
+        /// All trainees
+        /// </summary>
         private List<Trainee> _trainees = new List<Trainee>();
+
+        /// <summary>
+        /// All tests
+        /// </summary>
+        private readonly List<Test> _tests = new List<Test>();
+
+        /// <summary>
+        /// All testers
+        /// </summary>
+        private List<Tester> _testers = new List<Tester>();
 
         /// <summary>
         ///     DalImp c-tor
@@ -123,16 +148,6 @@ namespace DAL
             _traineeChanged = true;
         }
 
-        public void SaveConfigurations()
-        {
-            XML.SaveConfigurations(_config);
-        }
-
-        public XElement LoadConfigurations()
-        {
-            return XML.LoadConfigurations();
-        }
-
         #endregion
 
         #region Tester
@@ -199,7 +214,6 @@ namespace DAL
             XML.SerializeTestsToXml(_tests);
         }
 
-
         /// <summary>
         ///     Add a new test
         /// </summary>
@@ -226,6 +240,27 @@ namespace DAL
             var testToRemove = _tests.Single(r => r.Id == testToDelete.Id);
             _tests.Remove(testToRemove);
             XML.SerializeTestsToXml(_tests);
+        }
+
+        #endregion
+
+        #region Configuration
+
+        /// <summary>
+        /// Save configurations to xml
+        /// </summary>
+        public void SaveConfigurations()
+        {
+            XML.SaveConfigurations(_config);
+        }
+
+        /// <summary>
+        /// Load configuration from xml
+        /// </summary>
+        /// <returns></returns>
+        public XElement LoadConfigurations()
+        {
+            return XML.LoadConfigurations();
         }
 
         #endregion

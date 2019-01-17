@@ -65,6 +65,7 @@ namespace BL
                 //if the duration of the route is still not ok then throw exception
                 if (duration < Configuration.MinTestDurationSec || duration > Configuration.MaxTestDurationSec)
                     throw new GoogleAddressException("Can't find a route near the given address", "NO_ROUTE");
+               
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr.ToArray()));
             }
@@ -80,6 +81,12 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Get suggestions for places from google
+        /// </summary>
+        /// <param name="input">the input to search</param>
+        /// <param name="token">a session token</param>
+        /// <returns></returns>
         public static IEnumerable<GoogleAddress> GetAddressSuggestionsGoogle(string input, string token)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +

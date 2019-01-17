@@ -45,6 +45,10 @@ namespace BE.MainObjects
         /// </summary>
         public WeekSchedule Schedule { set; get; }
 
+        /// <summary>
+        /// clone tester
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var newLicense = new List<LicenseType>();
@@ -75,7 +79,6 @@ namespace BE.MainObjects
             if (Schedule != null) tester.Schedule = Schedule.Clone() as WeekSchedule;
             return tester;
         }
-
 
         /// <summary>
         ///     Basic data about tester

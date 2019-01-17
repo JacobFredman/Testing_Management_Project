@@ -10,7 +10,7 @@ namespace BE
     {
         /// <summary>
         ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permission !!
-        ///     For details contact elisja.mayer@gmail.com.To get your own key go to http://g.co/dev/maps-no-account
+        ///     For details contact elisja.mayer@gmail.com . To get your own key go to http://g.co/dev/maps-no-account
         /// </summary>
         public const string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
 
@@ -112,7 +112,6 @@ namespace BE
             "Reverse Parking",
             "Check Mirrors",
             "Used Signal",
-            "kept Right of Presidency",
             "Stopped at Red",
             "Stopped At Cross Walk",
             "Right Turn",

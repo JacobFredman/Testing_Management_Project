@@ -22,10 +22,18 @@ namespace BE.MainObjects
         /// </summary>
         private uint _traineeId;
 
+        /// <summary>
+        /// Test
+        /// </summary>
         public Test()
         {
         }
 
+        /// <summary>
+        /// Test
+        /// </summary>
+        /// <param name="idTester">Tester id</param>
+        /// <param name="idTrainee">Trainee id</param>
         private Test(uint idTester, uint idTrainee)
         {
             TesterId = idTester;
@@ -40,12 +48,18 @@ namespace BE.MainObjects
 
         public string Id { get; set; }
 
+        /// <summary>
+        /// Tester id
+        /// </summary>
         public uint TesterId
         {
             get => _testerId;
             set => _testerId = Tools.CheckID_IL(value) ? value : 0;
         }
 
+        /// <summary>
+        /// Trainee id
+        /// </summary>
         public uint TraineeId
         {
             get => _traineeId;
@@ -62,6 +76,9 @@ namespace BE.MainObjects
         /// </summary>
         public DateTime ActualTestTime { set; get; }
 
+        /// <summary>
+        /// Address of the beginning  of the test
+        /// </summary>
         public Address AddressOfBeginningTest { set; get; }
 
         /// <summary>
@@ -90,12 +107,19 @@ namespace BE.MainObjects
         [XmlIgnore]
         public Uri RouteUrl { set; get; }
 
+        /// <summary>
+        /// For xml serializer
+        /// </summary>
         public string XmlSaveRouteUrlSerializer
         {
             get => RouteUrl?.ToString();
             set => RouteUrl = new Uri(value);
         }
 
+        /// <summary>
+        /// Clone test
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var newCriteria = new List<Criterion>();
@@ -128,6 +152,10 @@ namespace BE.MainObjects
                      Configuration.PercentOfCriteriaToPassTest;
         }
 
+        /// <summary>
+        /// test details
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "Tester Id: " + TesterId + " Trainee Id: " + TraineeId + " Test Code: " + Id + " Passed Test: " +

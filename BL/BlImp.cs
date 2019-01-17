@@ -35,56 +35,7 @@ namespace BL
         /// </summary>
         internal BlImp()
         {
-        }
-
-        /// <summary>
-        ///     Get the number of tests that the Trainee did
-        /// </summary>
-        /// <param name="trainee">Trainee</param>
-        /// <returns>The number of Tests trainee has</returns>
-        public int GetNumberOfTests(Trainee trainee)
-        {
-            return AllTests.Count(x => x.TraineeId == trainee.Id);
-        }
-
-        /// <summary>
-        ///     Check if Trainee Passed the test
-        /// </summary>
-        /// <param name="trainee">The Trainee</param>
-        /// <param name="license">The license</param>
-        /// <returns>True if he Passed</returns>
-        public bool TraineePassedTest(Trainee trainee, LicenseType license)
-        {
-            return AllTests.Any(test =>
-                test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
-        }
-
-        public string GetTypeFromId(int id, DateTime birthDate)
-        {
-            try
-            {
-                var tester = AllTesters.First(x => x.Id == id && x.BirthDate == birthDate);
-                return tester.GetType().ToString();
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
-                var trainee = AllTrainees.First(x => x.Id == id && x.BirthDate == birthDate);
-                return trainee.GetType().ToString();
-            }
-            catch
-            {
-                throw new Exception("Id and birth don't exist");
-            }
-        }
-
-        public void SaveSettings()
-        {
-            _dalImp.SaveConfigurations();
+            //Block creating new instances 
         }
 
         #region Access Tester
@@ -179,8 +130,7 @@ namespace BL
             var testerHasTestInSameTime =
                 AllTests.Any(test => test.TesterId == newTest.TesterId && newTest.TestTime == test.TestTime);
 
-            var traineeHasLicenseAlready = AllTrainees.Any(trainee =>
-                trainee.Id == newTest.TraineeId && trainee.LicenseType.Any(license => license == newTest.LicenseType));
+            var traineeHasLicenseAlready = AllTests.Any(y=>y.TraineeId==newTest.TraineeId && y.Passed==true && y.LicenseType==newTest.LicenseType);
 
             var traineePassedTestAlready = AllTests.Any(test =>
                 test.TraineeId == newTest.TraineeId && test.LicenseType == newTest.LicenseType && test.Passed == true);
@@ -240,10 +190,7 @@ namespace BL
                 throw new Exception("Actual date can't be before test date time");
             //update passed status
             updatedTest.UpdatePassedTest();
-            //add the test to the trainee
-            if (updatedTest.Passed == true)
-                AllTrainees.First(trainee => trainee.Id == updatedTest.TraineeId).LicenseType
-                    .Add(updatedTest.LicenseType);
+
             //update test
             _dalImp.UpdateTest(updatedTest);
         }
@@ -551,7 +498,35 @@ namespace BL
 
         #region Help Function's
 
-       
+        /// <summary>
+        /// Save Configuration to xml file
+        /// </summary>
+        public void SaveSettings()
+        {
+            _dalImp.SaveConfigurations();
+        }
+
+        /// <summary>
+        ///     Get the number of tests that the Trainee did
+        /// </summary>
+        /// <param name="trainee">Trainee</param>
+        /// <returns>The number of Tests trainee has</returns>
+        public int GetNumberOfTests(Trainee trainee)
+        {
+            return AllTests.Count(x => x.TraineeId == trainee.Id);
+        }
+
+        /// <summary>
+        ///     Check if Trainee Passed the test
+        /// </summary>
+        /// <param name="trainee">The Trainee</param>
+        /// <param name="license">The license</param>
+        /// <returns>True if he Passed</returns>
+        public bool TraineePassedTest(Trainee trainee, LicenseType license)
+        {
+            return AllTests.Any(test =>
+                test.TesterId == trainee.Id && test.LicenseType == license && test.Passed == true);
+        }
 
         #endregion
 

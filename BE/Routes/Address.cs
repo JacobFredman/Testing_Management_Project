@@ -23,6 +23,9 @@ namespace BE.Routes
             Entrance = entrance;
         }
 
+        /// <summary>
+        /// Address
+        /// </summary>
         public Address()
         {
         }
@@ -47,6 +50,10 @@ namespace BE.Routes
         /// </summary>
         public string Entrance { set; get; }
 
+        /// <summary>
+        /// clone Address
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             return new Address(City, Street, Building, Entrance);

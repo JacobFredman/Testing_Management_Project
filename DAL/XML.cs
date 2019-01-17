@@ -15,6 +15,10 @@ namespace DAL
     {
         #region testXML
 
+        /// <summary>
+        /// Serialize all tests to XML
+        /// </summary>
+        /// <param name="list"></param>
         public static void SerializeTestsToXml(IReadOnlyCollection<Test> list)
         {
             var file = new FileStream(Configuration.TestsXmlFilePath, FileMode.Create);
@@ -23,7 +27,10 @@ namespace DAL
             file.Close();
         }
 
-
+        /// <summary>
+        /// Deserialize all XML
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<Test> DeSerializeTestFromXml()
         {
             var file = new FileStream(Configuration.TestsXmlFilePath, FileMode.Open);
@@ -37,6 +44,11 @@ namespace DAL
 
         #region TreaineeXml
 
+        /// <summary>
+        /// Convert trainee to XElement
+        /// </summary>
+        /// <param name="trainee"></param>
+        /// <returns></returns>
         public static XElement ConvertTraineeToXml(Trainee trainee)
         {
             var id = new XElement("id", trainee.Id);
@@ -67,6 +79,11 @@ namespace DAL
                 teacherName, schoolName, collectionLicenseTypeLearning);
         }
 
+        /// <summary>
+        /// Convert All trainees XElement to trainees list
+        /// </summary>
+        /// <param name="traineesXml"></param>
+        /// <returns></returns>
         public static IEnumerable<Trainee> GetAllTraineesFromXml(XElement traineesXml)
         {
             var trainees = new List<Trainee>();
@@ -111,11 +128,17 @@ namespace DAL
 
         #region TestersXML
 
+        /// <summary>
+        /// Get list of testers from XML
+        /// </summary>
+        /// <param name="testersXml"></param>
+        /// <returns></returns>
         public static IEnumerable<Tester> GetAllTestersFromXml(XElement testersXml)
         {
             var testers = new List<Tester>();
             foreach (var xmLTester in testersXml.Elements())
             {
+                //get license
                 var licensesTypes = new List<LicenseType>();
                 licensesTypes.AddRange(xmLTester.Element("CollectionLicenseType")
                                            ?.Elements()
@@ -130,7 +153,7 @@ namespace DAL
                                                        item => (LicenseType) Enum.Parse(typeof(LicenseType), item.Value
                                                        )) ?? throw new InvalidOperationException());
 
-
+                //get schedule
                 var schedule = new WeekSchedule();
                 foreach (var day in xmLTester.Element("schedule")?.Elements())
                 {
@@ -142,7 +165,7 @@ namespace DAL
                         i++;
                     }
                 }
-
+                //Make new tester
                 var tester = new Tester
                 {
                     BirthDate = DateTime.Parse(xmLTester.Element("birthDate")?.Value),
@@ -173,6 +196,11 @@ namespace DAL
             return testers;
         }
 
+        /// <summary>
+        /// Convert tester to XElement
+        /// </summary>
+        /// <param name="tester"></param>
+        /// <returns></returns>
         public static XElement TesterToXmlElement(Tester tester)
         {
             var experience = new XElement("experience", tester.Experience.ToString());
@@ -180,8 +208,8 @@ namespace DAL
             var licenseTypeTeaching = new XElement("CollectionLicenseTypeTeaching");
             foreach (var license in tester.LicenseTypeTeaching)
             {
-                var xmllicense = new XElement("license", license);
-                licenseTypeTeaching.Add(xmllicense);
+                var xmlLicense = new XElement("license", license);
+                licenseTypeTeaching.Add(xmlLicense);
             }
 
             var maxDistance = new XElement("maxDistance", tester.MaxDistance.ToString(CultureInfo.CurrentCulture));
@@ -196,15 +224,16 @@ namespace DAL
             var gender = new XElement("gender", tester.Gender.ToString());
             var lastName = new XElement("lastName", tester.LastName);
 
-
+            //add license
             var licenseType = new XElement("CollectionLicenseType");
             if (!tester.LicenseType.Any())
                 foreach (var license in tester.LicenseType)
                 {
-                    var xmlLisence = new XElement("license", license.ToString());
-                    licenseType.Add(xmlLisence);
+                    var xmlLicense = new XElement("license", license.ToString());
+                    licenseType.Add(xmlLicense);
                 }
 
+            //Add schedule
             var schedule = new XElement("schedule");
             foreach (var day in tester.Schedule.Days)
             {
@@ -228,6 +257,10 @@ namespace DAL
 
         #region ConfigurationsXMl
 
+        /// <summary>
+        /// Load configurations
+        /// </summary>
+        /// <returns></returns>
         public static XElement LoadConfigurations()
         {
             XElement config;
@@ -258,6 +291,10 @@ namespace DAL
             return config;
         }
 
+        /// <summary>
+        /// Save configurations
+        /// </summary>
+        /// <param name="config"></param>
         public static void SaveConfigurations(XElement config)
         {
             var adminPass = new XElement("AdminPassword", Configuration.AdminPassword);

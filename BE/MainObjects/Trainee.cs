@@ -25,6 +25,10 @@ namespace BE.MainObjects
         /// </summary>
         public string TeacherName { set; get; }
 
+        /// <summary>
+        /// Clone trainee
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             var newLicense = new List<LicenseType>();

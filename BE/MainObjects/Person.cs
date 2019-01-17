@@ -117,7 +117,10 @@ namespace BE.MainObjects
         /// </summary>
         public List<LicenseType> LicenseType { set; get; }
 
-        //Basic data about the person
+        /// <summary>
+        /// Basic data about the person
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (FirstName != "" && LastName != "")
