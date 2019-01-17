@@ -34,9 +34,9 @@ namespace DAL
         private XElement _config;
 
         //lists of the data
-        private List<Trainee> _trainees = new List<Trainee>();
-        private readonly List<Test> _tests = new List<Test>();
-        private List<Tester> _testers = new List<Tester>();
+        private  List<Trainee> _trainees = new List<Trainee>();
+        private  List<Test> _tests = new List<Test>();
+        private  List<Tester> _testers = new List<Tester>();
 
         //flags
         private bool _traineeChanged = true;
@@ -243,7 +243,7 @@ namespace DAL
                 if (!_testerChanged) // if the testers list didn't changed don't go to xml file 
                     return _testers.Select(item => item.Clone() as Tester).OrderBy(x => x.Id).ToList(); ;
                 var allTesters = XML.GetAllTestersFromXml(_testersXml).Select(item => item.Clone() as Tester).ToList();
-               // _testers = XML.GetAllTestersFromXml().ToList();
+                _testers = allTesters;
                 _testerChanged = false;
                 return allTesters.OrderBy(x => x.Id);
             }
@@ -273,7 +273,7 @@ namespace DAL
                 if (!_traineeChanged) // if the testers list didn't changed don't go to xml file 
                     return _trainees.Select(item => item.Clone() as Trainee).OrderBy(x => x.Id).ToList(); ;
                 var allTrainee = XML.GetAllTraineesFromXml(_traineesXml).Select(item => item.Clone() as Trainee).ToList();
-              
+                _trainees = allTrainee;
                 _traineeChanged = false;
                 return allTrainee.OrderBy(x => x.Id);
             }

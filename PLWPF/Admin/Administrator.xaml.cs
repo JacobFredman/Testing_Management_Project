@@ -71,6 +71,8 @@ namespace PLWPF.Admin
                 .Where(y => y.Key != "").Select(x => x.Key);
             ComboBoxFilterTesterIdTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineesByTester()
                 .Where(y => y.Key != "").Select(x => x.Key);
+            ComboBoxFilterMunOfTestsTrainee.ItemsSource = FactoryBl.GetObject.GetAllTraineeByNumberOfTests()
+                .Select(x => x.Key);
 
             //update list
             _traineeList = FactoryBl.GetObject.AllTrainees;
@@ -301,7 +303,7 @@ namespace PLWPF.Admin
             ComboBoxLicenseFilterTrainee.SelectedIndex = -1;
             ComboBoxFilterSchoolTrainee.SelectedIndex = -1;
             ComboBoxFilterTesterIdTrainee.SelectedIndex = -1;
-
+            ComboBoxFilterMunOfTestsTrainee.SelectedIndex = -1;
             RefreshData();
         }
 
@@ -335,6 +337,26 @@ namespace PLWPF.Admin
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesByTester()
                     .First(x => x.Key == (string) ComboBoxFilterTesterIdTrainee.SelectedItem))
+                    list.Add(item);
+                TraineeGrid.DataContext = list;
+                _traineeList = list;
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        //On number of tests changed
+        private void ComboBoxFilterMunOfTestsTrainee_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+
+                //update list
+                var list = new List<Trainee>();
+                foreach (var item in FactoryBl.GetObject.GetAllTraineeByNumberOfTests()
+                    .First(x => x.Key == (int)ComboBoxFilterMunOfTestsTrainee.SelectedItem))
                     list.Add(item);
                 TraineeGrid.DataContext = list;
                 _traineeList = list;
@@ -949,5 +971,7 @@ namespace PLWPF.Admin
                 e.Handled = true;
             }
         }
+
+     
     }
 }
