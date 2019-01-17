@@ -87,7 +87,7 @@
 
             <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Distance:" />
-            <mah:NumericUpDown x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
+            <mah:NumericUpDown Interval="5" Maximum="500" x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
                                Value="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,Converter={StaticResource NumberConv}}"
                                Minimum="0" StringFormat="{}{0} km" Grid.Row="8" Margin="3" Height="23"
                                HorizontalAlignment="Left" Grid.Column="1" />
