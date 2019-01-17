@@ -24,6 +24,7 @@ namespace PLWPF.TraineeArea
 
         //the test 
         private readonly Test _test;
+        
 
         private Tester _tester = null;
 
