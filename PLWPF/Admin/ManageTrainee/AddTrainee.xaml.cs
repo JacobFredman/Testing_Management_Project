@@ -19,16 +19,25 @@ namespace PLWPF.Admin.ManageTrainee
     {
         private readonly IBL _blimp = FactoryBl.GetObject;
 
-        //all the exceptions
-        private readonly List<string> errorMessage = new List<string>();
+        /// <summary>
+        ///     all the exceptions
+        /// </summary>
+        private readonly List<string> _errorMessage = new List<string>();
 
-        //collection to work with the license
-        private readonly ObservableCollection<TrainingDetails> licenses = new ObservableCollection<TrainingDetails>();
+        /// <summary>
+        ///     collection to work with the license
+        /// </summary>
+        private readonly ObservableCollection<TrainingDetails> _licenses = new ObservableCollection<TrainingDetails>();
 
-        private readonly Trainee trainee = new Trainee();
+        /// <summary>
+        ///     the trainee
+        /// </summary>
+        private readonly Trainee _trainee = new Trainee();
 
-        //true if it is an update
-        private readonly bool update;
+        /// <summary>
+        ///     true if it is an update
+        /// </summary>
+        private readonly bool _update;
 
         /// <summary>
         ///     Add or update an trainee
@@ -41,9 +50,10 @@ namespace PLWPF.Admin.ManageTrainee
             //initialize as add
             if (id == 0)
             {
-                DataContext = trainee;
-                trainee.BirthDate = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
-                birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
+                DataContext = _trainee;
+                _trainee.BirthDate = DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
+                birthDateDatePicker.DisplayDateEnd =
+                    DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
                 Title = "Add New Trainee";
             }
             //initialize as update
@@ -51,14 +61,15 @@ namespace PLWPF.Admin.ManageTrainee
             {
                 try
                 {
-                    birthDateDatePicker.DisplayDateEnd = DateTime.Now.AddYears(-(int)Configuration.MinTraineeAge).AddDays(-1);
+                    birthDateDatePicker.DisplayDateEnd =
+                        DateTime.Now.AddYears(-(int) Configuration.MinTraineeAge).AddDays(-1);
 
                     Title = "Update Trainee";
-                    trainee = _blimp.AllTrainees.First(x => x.Id == id);
-                    DataContext = trainee;
+                    _trainee = _blimp.AllTrainees.First(x => x.Id == id);
+                    DataContext = _trainee;
                     idTextBox.IsEnabled = false;
-                    update = true;
-                    AddressTextBox.Address = trainee.Address != null ? trainee.Address : null;
+                    _update = true;
+                    AddressTextBox.Address = _trainee.Address;
                 }
                 catch
                 {
@@ -68,19 +79,18 @@ namespace PLWPF.Admin.ManageTrainee
 
             BoxColumnGear.ItemsSource = Enum.GetValues(typeof(Gear));
 
-            //set combox source
+            //set comBox source
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            gearTypeComboBox.ItemsSource = Enum.GetValues(typeof(Gear));
 
             //set the choose license 
             ChooseLicense.ItemsSource = Enum.GetValues(typeof(LicenseType));
             ChooseLicense.SelectedItem = LicenseType.A;
 
-            //initialze the license grid
+            //initialize the license grid
             if (id != 0)
-                foreach (var item in trainee.LicenseTypeLearning)
-                    licenses.Add(item);
-            LicenseDataGrid.ItemsSource = licenses;
+                foreach (var item in _trainee.LicenseTypeLearning)
+                    _licenses.Add(item);
+            LicenseDataGrid.ItemsSource = _licenses;
 
             //disable the Save button
             Save.IsEnabled = false;
@@ -95,14 +105,14 @@ namespace PLWPF.Admin.ManageTrainee
         {
             try
             {
-                //update the licnse
-                trainee.LicenseTypeLearning = licenses.ToList();
+                //update the license
+                _trainee.LicenseTypeLearning = _licenses.ToList();
 
                 //update or add the trainee
-                if (update)
-                    _blimp.UpdateTrainee(trainee);
+                if (_update)
+                    _blimp.UpdateTrainee(_trainee);
                 else
-                    _blimp.AddTrainee(trainee);
+                    _blimp.AddTrainee(_trainee);
                 Close();
             }
             catch (Exception ex)
@@ -120,35 +130,17 @@ namespace PLWPF.Admin.ManageTrainee
         {
             try
             {
-                if (Tools.CheckID_IL(uint.Parse(idTextBox.Text)))
-                    Save.IsEnabled = true;
-                else
-                    Save.IsEnabled = false;
+                Save.IsEnabled = Tools.CheckID_IL(uint.Parse(idTextBox.Text));
             }
             catch
             {
+                //let the user type only numbers
                 if (idTextBox.Text != "")
                     idTextBox.Text = idTextBox.Text.Substring(0, idTextBox.Text.Length - 1);
-                idTextBox.CaretIndex = idTextBox.Text.Length; Save.IsEnabled = false;
+                idTextBox.CaretIndex = idTextBox.Text.Length;
+                Save.IsEnabled = false;
             }
         }
-
-        ///// <summary>
-        /////     On address text box changed update the address
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void AddressTextBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        trainee.Address = AddressTextBox.Address;
-        //    }
-        //    catch
-        //    {
-        //        AddressTextBox.Address = null;
-        //    }
-        //}
 
         /// <summary>
         ///     When an error occured  in the data binding
@@ -157,34 +149,35 @@ namespace PLWPF.Admin.ManageTrainee
         /// <param name="e"></param>
         private void validation_Error(object sender, ValidationErrorEventArgs e)
         {
-            if (e.Action == ValidationErrorEventAction.Added) errorMessage.Add(e.Error.Exception.Message);
-            else errorMessage.Remove(e.Error.Exception.Message);
+            if (e.Action == ValidationErrorEventAction.Added) _errorMessage.Add(e.Error.Exception.Message);
+            else _errorMessage.Remove(e.Error.Exception.Message);
             ErrorMessage.Text = "";
-            foreach (var item in errorMessage) ErrorMessage.Text += item + "\n";
+            foreach (var item in _errorMessage) ErrorMessage.Text += item + "\n";
         }
 
         #region License
 
         /// <summary>
-        ///     On add license click, add a new licnese
+        ///     On add license click, add a new license
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddLicnseButton_Click(object sender, RoutedEventArgs e)
+        private void AddLicenseButton_Click(object sender, RoutedEventArgs e)
         {
             //if he is learning it already
-            if (licenses.Any(x => x.License == (LicenseType) ChooseLicense.SelectedItem))
+            if (_licenses.Any(x => x.License == (LicenseType) ChooseLicense.SelectedItem))
                 return;
 
             //Add the new license
             var number = NumberOfLessonsTextBox.Value;
-            licenses.Add(new TrainingDetails
-            {
-                License = (LicenseType) ChooseLicense.SelectedItem,
-                NumberOfLessons = (int)number,
-                ReadyForTest = number > Configuration.MinLessons,
-                GearType = Gear.Automatic
-            });
+            if (number != null)
+                _licenses.Add(new TrainingDetails
+                {
+                    License = (LicenseType) ChooseLicense.SelectedItem,
+                    NumberOfLessons = (int) number,
+                    ReadyForTest = number > Configuration.MinLessons,
+                    GearType = Gear.Automatic
+                });
         }
 
         /// <summary>
@@ -192,14 +185,15 @@ namespace PLWPF.Admin.ManageTrainee
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RemoveLicnseButton_Click(object sender, RoutedEventArgs e)
+        private void RemoveLicenseButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                licenses.Remove(licenses.First(x => x.License == (LicenseType) ChooseLicense.SelectedItem));
+                _licenses.Remove(_licenses.First(x => x.License == (LicenseType) ChooseLicense.SelectedItem));
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -216,6 +210,7 @@ namespace PLWPF.Admin.ManageTrainee
             }
             catch
             {
+                // ignored
             }
         }
 

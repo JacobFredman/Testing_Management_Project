@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using BE;
 using BE.MainObjects;
-using BE.Routes;
 using BL;
 using MahApps.Metro.Controls;
 using PLWPF.Nofitications;
@@ -18,16 +17,31 @@ namespace PLWPF.TraineeArea
     /// </summary>
     public partial class EditTest : MetroWindow
     {
+        /// <summary>
+        ///     Error messages
+        /// </summary>
         private readonly List<string> _errorMessage = new List<string>();
 
+        /// <summary>
+        ///     Notification messages
+        /// </summary>
         private readonly List<string> _notifications = new List<string>();
 
-        //the test 
+        /// <summary>
+        ///     the test
+        /// </summary>
         private readonly Test _test;
         
 
-        private Tester _tester = null;
+        /// <summary>
+        ///     The tester
+        /// </summary>
+        private Tester _tester;
 
+        /// <summary>
+        ///     Edit a test
+        /// </summary>
+        /// <param name="trainee"></param>
         public EditTest(Trainee trainee)
         {
             InitializeComponent();
@@ -37,6 +51,7 @@ namespace PLWPF.TraineeArea
                 Title = "Set New Test";
 
                 _test = new Test();
+
                 //check if the trainee has a license to do a test
                 if (!trainee.LicenseTypeLearning.Any(x => x.ReadyForTest))
                     AddMessage("the trainee are not ready for test");
@@ -46,19 +61,20 @@ namespace PLWPF.TraineeArea
                     .Select(x => x.License).ToList();
 
                 //set the source of the trainees
-                if (trainee != null)
-                    idTextBox.Text = "Id: " + trainee.Id + " Name: " + trainee.FirstName + " " + trainee.LastName;
+                idTextBox.Text = "Id: " + trainee.Id + " Name: " + trainee.FirstName + " " + trainee.LastName;
 
                 //set default date
                 _test.TestTime = DateTime.Now;
 
+                //set trainee id
                 _test.TraineeId = trainee.Id;
 
                 //set data context
                 DataContext = _test;
 
+                //set address
                 addressOfBeginningTestTextBox.Address = trainee.Address;
-               
+
                 //add events
                 addressOfBeginningTestTextBox.TextChanged += AddressOfBeginningTestTextBox_TextChanged;
                 licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
@@ -82,58 +98,79 @@ namespace PLWPF.TraineeArea
             }
         }
 
-        //Save the Test
+        /// <summary>
+        ///     Save the Test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-         
-                //Check address
-                if (addressOfBeginningTestTextBox.Address.ToString() == "")
-                    ExceptionMessage.Show("Please Select an Address for the test");
-                //Update address
-                _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
-                AddMessage("Saving test...");
-               (new Thread(() =>
-               {
-                   try
-                   {
-                       _test.SetRouteAndAddressToTest(_test.AddressOfBeginningTest);
-                   }
-                   catch
-                   {
-                       //Do nothing
-                   }
-                   try { 
-                  
-                       FactoryBl.GetObject.AddTest(_test);
-                
-                   Action act = () => { Close(); };
-                   Dispatcher.BeginInvoke(act);
-                   }
-                   catch (Exception ex)
-                   {
-                       Action act1 = () =>
-                       {
-                           ExceptionMessage.Show(ex.Message, ex.ToString());
-                           ClearAllMessages();
-                       };
-                       Dispatcher.BeginInvoke(act1);
-                   }              
-               })).Start();    
+            //Check address
+            if (addressOfBeginningTestTextBox.Address.ToString() == "")
+                ExceptionMessage.Show("Please Select an Address for the test");
+
+            //Update address
+            _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
+            AddMessage("Saving test...");
+
+            //try to add route and save
+            new Thread(() =>
+            {
+                try
+                {
+                    _test.SetRouteAndAddressToTest(_test.AddressOfBeginningTest);
+                }
+                catch
+                {
+                    //Do nothing
+                }
+
+                try
+                {
+                    //Add test
+                    FactoryBl.GetObject.AddTest(_test);
+
+                    void Act()
+                    {
+                        Close();
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Act);
+                }
+                catch (Exception ex)
+                {
+                    void Act1()
+                    {
+                        ExceptionMessage.Show(ex.Message, ex.ToString());
+                        ClearAllMessages();
+                    }
+
+                    Dispatcher.BeginInvoke((Action) Act1);
+                }
+            }).Start();
         }
 
         #region Details
-        //When user Selects License type
+
+        /// <summary>
+        ///     When user Selects License type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LicenseTypeComBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
+                //if the selection is the same
                 if ((LicenseType) licenseTypeComBox.SelectedItem == _test.LicenseType)
                     return;
+
                 //Show wait message
                 ClearAllMessages();
                 AddMessage("Searching for Tester. Please wait.");
+
+                //enable and disable controls
                 licenseTypeComBox.IsEnabled = false;
-                //traineeIdComboBox.IsEnabled = false;
                 addressOfBeginningTestTextBox.IsEnabled = false;
                 ProgressRing.IsActive = true;
                 testTimeDatePicker.IsEnabled = false;
@@ -145,14 +182,14 @@ namespace PLWPF.TraineeArea
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
                 _test.LicenseType = license;
 
-                //find all available testers
+                //todo: Background worker
+                //find all available testers and choose the first
                 new Thread(() =>
                 {
-                    IEnumerable<Tester> testers = new List<Tester>();
-
                     try
                     {
-                        testers = FactoryBl.GetObject
+                        //get the tester
+                        IEnumerable<Tester> testers = FactoryBl.GetObject
                             .GetTestersByDistance(address, license
                             ).Where(x =>
                                 x.LicenseTypeTeaching.Any(y => y == license)).ToList();
@@ -170,14 +207,12 @@ namespace PLWPF.TraineeArea
 
                             //Enable tester comBox and disable the rest
                             addressOfBeginningTestTextBox.IsEnabled = true;
-                            //traineeIdComboBox.IsEnabled = true;
                             licenseTypeComBox.IsEnabled = true;
-                            //   testerIdComboBox.IsEnabled = true;
                             testTimeDatePicker.IsEnabled = true;
                             TimePickerTest.IsEnabled = false;
                             Save.IsEnabled = false;
-
                             ProgressRing.IsActive = false;
+
                             testTimeDatePicker.Focus();
                         }
 
@@ -190,11 +225,11 @@ namespace PLWPF.TraineeArea
                             ProgressRing.IsActive = false;
                             licenseTypeComBox.IsEnabled = true;
 
-                            ExceptionMessage.Show("Sorry We Couldn't Find A Tester.");
+                            ExceptionMessage.Show("Sorry We Couldn't Find A Tester.", ex.Message);
                         }
+
                         Dispatcher.BeginInvoke((Action) Act);
                     }
-
                 }).Start();
             }
             catch
@@ -203,7 +238,11 @@ namespace PLWPF.TraineeArea
             }
         }
 
-        //When user Selects Date
+        /// <summary>
+        ///     When user Selects Date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestTimeDatePicker_OnCalendarOpened(object sender, RoutedEventArgs e)
         {
             try
@@ -211,25 +250,23 @@ namespace PLWPF.TraineeArea
                 //Reset old selections
                 TimePickerTest.ResetSelection();
 
-                var date = ((DateTime) testTimeDatePicker.SelectedDate);
+                var date = (DateTime) testTimeDatePicker.SelectedDate;
                 var hours = (bool[]) _tester.Schedule
                     .Days[(int) date.DayOfWeek].Hours.Clone();
 
+                //disable hour that happened
                 if (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
-                    for (int i = DateTime.Now.Hour; i > 0; i--)
+                    for (var i = DateTime.Now.Hour; i > 0; i--)
                         hours[i] = false;
 
-                var hourNum = new int[]
+                //disable all hours that the tester has a test already
+                var hourNum = new[]
                     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
                 foreach (var h in hourNum)
-                {
                     if (FactoryBl.GetObject.AllTests.Any(x =>
                         date.Year == x.TestTime.Year && date.DayOfYear == x.TestTime.DayOfYear &&
                         x.TestTime.Hour == h && x.TesterId == _tester.Id))
-                    {
                         hours[h] = false;
-                    }
-                }
 
                 //Set The hours according to the schedule
                 TimePickerTest.HourToShow = hours;
@@ -251,7 +288,11 @@ namespace PLWPF.TraineeArea
             }
         }
 
-        //When user Selects Hour
+        /// <summary>
+        ///     When user Selects Hour
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimePicker_OnSelectionChanged(object sender, EventArgs e)
         {
             try
@@ -259,6 +300,7 @@ namespace PLWPF.TraineeArea
                 //Update the hour
                 var date = (DateTime) testTimeDatePicker.SelectedDate;
                 _test.TestTime = new DateTime(date.Year, date.Month, date.Day, TimePickerTest.SelectedHour, 0, 0);
+
                 Save.IsEnabled = true;
                 ClearAllMessages();
 
@@ -271,7 +313,11 @@ namespace PLWPF.TraineeArea
             }
         }
 
-        //When user Changes Address
+        /// <summary>
+        ///     When user Changes Address
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddressOfBeginningTestTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -281,10 +327,8 @@ namespace PLWPF.TraineeArea
 
                 //Reset all selections
                 licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
-                //         testerIdComboBox.SelectedIndex = -1;
                 licenseTypeComBox.SelectedIndex = -1;
                 TimePickerTest.ResetSelection();
-                //      testerIdComboBox.ItemsSource = null;
                 licenseTypeComBox.SelectionChanged += LicenseTypeComBox_OnSelectionChanged;
 
                 //Show Message
@@ -292,7 +336,6 @@ namespace PLWPF.TraineeArea
                 AddMessage("Please Select license.");
 
                 //Disable all the controls
-                //      testerIdComboBox.IsEnabled = false;
                 TimePickerTest.IsEnabled = false;
                 testTimeDatePicker.IsEnabled = false;
                 Save.IsEnabled = false;
@@ -303,7 +346,10 @@ namespace PLWPF.TraineeArea
             }
         }
 
-        //Blackout Days in the Test Time Picker
+        /// <summary>
+        ///     Blackout Days in the Test Time Picker
+        /// </summary>
+        /// <param name="schedule"></param>
         private void SetSelectableDates(WeekSchedule schedule)
         {
             try
@@ -320,22 +366,26 @@ namespace PLWPF.TraineeArea
                 var date = DateTime.Now;
 
                 //make an arr with days that the tester is available on
-                var weekSchedule = new bool[7] {false, false, false, false, false, false, false};
+                var weekSchedule = new[] {false, false, false, false, false, false, false};
                 foreach (var day in schedule.Days)
                     if (day.Hours.Any(x => x))
                         weekSchedule[(int) day.TheDay] = true;
 
                 var dateNow = DateTime.Today;
-                var hourNmu = new int[]
+                var hourNmu = new[]
                     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+
                 //add the days of the 2 month in the calendar
                 for (var i = 0; i < 64; i++)
                 {
+                    //the day need to be blacked out
                     if (!weekSchedule[(int) date.DayOfWeek] || hourNmu
                             .Where(z => _tester.Schedule[date.DayOfWeek].Hours[z]).All(x =>
                                 FactoryBl.GetObject.AllTests.Any(y =>
                                     y.TesterId == _tester.Id && y.TestTime.Year == date.Year &&
-                                    y.TestTime.DayOfYear == date.DayOfYear && y.TestTime.Hour == x)))
+                                    y.TestTime.DayOfYear == date.DayOfYear && y.TestTime.Hour == x)) ||
+                        date.Year == DateTime.Now.Year && date.DayOfYear == DateTime.Now.DayOfYear &&
+                        DateTime.Now.Hour > schedule[DateTime.Now.DayOfWeek].MaxHourWorking())
                     {
                         //if today is already selected then move the selection to tomorrow
                         if (date.DayOfYear == dateNow.DayOfYear)
@@ -356,11 +406,16 @@ namespace PLWPF.TraineeArea
                 // ignored
             }
         }
+
         #endregion
 
         #region Notifications
 
-        //Show Binding errors in Notification area
+        /// <summary>
+        ///     Show Binding errors in Notification area
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditTest_OnError(object sender, ValidationErrorEventArgs e)
         {
             if (e.Action == ValidationErrorEventAction.Added) _errorMessage.Add(e.Error.Exception.Message);
@@ -369,7 +424,10 @@ namespace PLWPF.TraineeArea
             foreach (var item in _errorMessage) Errors.Text += item + "\n";
         }
 
-        //Add a message to the notification area
+        /// <summary>
+        ///     Add a message to the notification area
+        /// </summary>
+        /// <param name="message"></param>
         private void AddMessage(string message)
         {
             _notifications.Add(message);
@@ -377,7 +435,9 @@ namespace PLWPF.TraineeArea
             foreach (var item in _notifications) Errors.Text += item + "\n";
         }
 
-        //Clean all notifications
+        /// <summary>
+        ///     Clean all notifications
+        /// </summary>
         private void ClearAllMessages()
         {
             _notifications.Clear();
@@ -385,7 +445,5 @@ namespace PLWPF.TraineeArea
         }
 
         #endregion
-
-  
     }
 }

@@ -10,8 +10,6 @@ namespace BE.MainObjects
     /// </summary>
     public class Trainee : Person, ICloneable
     {
-  
-     
         /// <summary>
         ///     License type learning
         /// </summary>

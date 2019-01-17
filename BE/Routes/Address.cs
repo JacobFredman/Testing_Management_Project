@@ -23,16 +23,14 @@ namespace BE.Routes
             Entrance = entrance;
         }
 
-        public Address() { }
+        public Address()
+        {
+        }
 
         /// <summary>
         ///     The city or the whole address
         /// </summary>
-        public string City
-        {
-            set;
-            get;
-        }
+        public string City { set; get; }
 
         /// <summary>
         ///     The street

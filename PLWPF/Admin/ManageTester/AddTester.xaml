@@ -8,7 +8,7 @@
                  xmlns:converters="clr-namespace:PLWPF.Converters"
                  mc:Ignorable="d"
                  Validation.Error="validation_Error"
-                 Title="Add Tester" SizeToContent="WidthAndHeight">
+                 Title="Add Tester" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <mah:MetroWindow.Resources>
         <converters:MetersToKM x:Key="MeterToKM" />
     </mah:MetroWindow.Resources>
@@ -27,31 +27,63 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-
             </Grid.ColumnDefinitions>
-            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Birth Date:" />
-            <DatePicker x:Name="birthDateDatePicker" VerticalAlignment="Center"
-                        SelectedDate="{Binding BirthDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                        Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" />
-            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Email Address:" />
-            <TextBox x:Name="emailAddressTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding EmailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="3" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Id:" />
+            <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center"
+                     Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                     Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
+                     TextChanged="IdTextBox_TextChanged" />
+
             <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="First Name:" />
             <TextBox x:Name="firstNameTextBox" Width="120" VerticalAlignment="Center"
                      Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Last Name:" />
+            <TextBox x:Name="lastNameTextBox" Width="120" VerticalAlignment="Center"
+                     Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                     Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Email Address:" />
+            <TextBox x:Name="emailAddressTextBox" Width="120" VerticalAlignment="Center"
+                     Text="{Binding EmailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                     Grid.Row="3" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Gender:" />
+            <ComboBox x:Name="genderComboBox" Width="120" VerticalAlignment="Center" Grid.Row="4" Margin="3"
+                      SelectedItem="{Binding Gender}" Height="Auto" HorizontalAlignment="Left" Grid.Column="1" />
+
+
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Birth Date:" />
+            <DatePicker x:Name="birthDateDatePicker" VerticalAlignment="Center"
+                        SelectedDate="{Binding BirthDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                        Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Phone Number:" />
+            <TextBox x:Name="phoneNumberTextBox" Width="120" VerticalAlignment="Center"
+                     Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                     Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
+
+            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+                   Content="Address:" />
+            <UserControls:AddressPicker
+                Address="{Binding Address, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                Panel.ZIndex="1" x:Name="AddressTextBox" Width="180" VerticalAlignment="top"
+                Grid.Row="7" Margin="3"
+                HorizontalAlignment="Left" Grid.Column="1" Grid.RowSpan="5" />
+
             <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Distance:" />
             <mah:NumericUpDown x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
@@ -59,42 +91,16 @@
                                Minimum="0" StringFormat="{}{0} km" Grid.Row="8" Margin="3" Height="23"
                                HorizontalAlignment="Left" Grid.Column="1" />
 
-            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Gender:" />
-            <ComboBox x:Name="genderComboBox" Width="120" VerticalAlignment="Center" Grid.Row="4" Margin="3"
-                      SelectedItem="{Binding Gender}" Height="Auto" HorizontalAlignment="Left" Grid.Column="1" />
-            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Id:" />
-            <TextBox  x:Name="idTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"
-                     TextChanged="IdTextBox_TextChanged" />
-            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Last Name:" />
-            <TextBox x:Name="lastNameTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
-            <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Phone Number:" />
-            <TextBox x:Name="phoneNumberTextBox" Width="120" VerticalAlignment="Center"
-                     Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" />
-            <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+            <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Experience:" />
             <mah:NumericUpDown x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center"
                                Value="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                               Minimum="0" Grid.Row="10" Margin="3" Height="23" HorizontalAlignment="Left"
+                               Minimum="0" Grid.Row="9" Margin="3" Height="23" HorizontalAlignment="Left"
                                Grid.Column="1" />
-            <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
-                   Content="Address:" />
 
-            <UserControls:AddressPicker Address="{Binding Address, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Panel.ZIndex="1" x:Name="AddressTextBox" Width="180" VerticalAlignment="top"
-                                        Grid.Row="7" Margin="3"
-                                        HorizontalAlignment="Left" Grid.Column="1" Grid.RowSpan="5" />
-
-            <Label VerticalAlignment="Center" Grid.Row="11" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
+            <Label VerticalAlignment="Center" Grid.Row="10" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Exams in Week:" />
-            <mah:NumericUpDown x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="11" Margin="3"
+            <mah:NumericUpDown x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="10" Margin="3"
                                Height="23" HorizontalAlignment="Left" Grid.Column="1"
                                Minimum="0"
                                Value="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
@@ -103,6 +109,7 @@
         </Grid>
         <DockPanel LastChildFill="True" Margin="3">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2">
+
                 <!-- License -->
                 <GroupBox Background="{DynamicResource Background}" Margin="5" Header="License" BorderBrush="Black"
                           BorderThickness="1">
@@ -123,10 +130,8 @@
                         </DockPanel>
                         <ListBox x:Name="ChooseHours" ItemsSource="{Binding}" Height="180" Width="100"
                                  SelectionMode="Multiple" SelectionChanged="ChooseHours_SelectionChanged" />
-
                     </StackPanel>
                 </GroupBox>
-
             </StackPanel>
 
             <!-- Save Button -->
@@ -134,11 +139,11 @@
                     VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Save" Grid.Row="13"
                     Grid.ColumnSpan="2"
                     Height="30" Width="100" Margin="94,10,59,12" Click="Save_Click" IsEnabled="False" />
+
             <!-- Notifications -->
             <GroupBox Background="{DynamicResource Background}" Margin="5" BorderThickness="1" BorderBrush="Black"
                       Header="Errors" DockPanel.Dock="Right">
                 <TextBlock x:Name="ErrorMessage" Grid.Row="13" Foreground="Red" MinHeight="100" />
-
             </GroupBox>
         </DockPanel>
     </StackPanel>

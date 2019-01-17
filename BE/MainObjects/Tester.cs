@@ -12,7 +12,7 @@ namespace BE.MainObjects
     {
         private float _maxDistance;
 
-        
+
         /// <summary>
         ///     Tester experience
         /// </summary>

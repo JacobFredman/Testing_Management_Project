@@ -2,7 +2,6 @@
 
 namespace BE
 {
-    // todo : the criterion should be enum
     /// <inheritdoc />
     /// <summary>
     ///     A criterion for passing the test
@@ -19,7 +18,10 @@ namespace BE
             Type = t;
             Pass = p;
         }
-        public Criterion() { }
+
+        public Criterion()
+        {
+        }
 
         /// <summary>
         ///     the type of the criterion

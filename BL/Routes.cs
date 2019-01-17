@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 using BE;
 using BE.MainObjects;
@@ -15,7 +16,7 @@ namespace BL
     public static class Routes
     {
         /// <summary>
-        /// Open a link in new chrome window
+        ///     Open a link in new chrome window
         /// </summary>
         /// <param name="url"></param>
         public static void ShowUrlInChromeWindow(Uri url)
@@ -46,7 +47,7 @@ namespace BL
                 if (duration > Configuration.MaxTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint)(Configuration.MaxTestDurationSec - 500))
+                            (uint) (Configuration.MaxTestDurationSec - 500))
                         .Distinct().Skip(1).Take(6).ToList();
                     duration = GetRouteDuration(arr.ToArray());
                 }
@@ -55,7 +56,7 @@ namespace BL
                 if (duration < Configuration.MinTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint)(Configuration.MinTestDurationSec + 500))
+                            (uint) (Configuration.MinTestDurationSec + 500))
                         .Distinct().Skip(1).Take(7).ToList();
                     duration = GetRouteDuration(arr.ToArray());
                 }
@@ -105,7 +106,7 @@ namespace BL
         /// <param name="origin">an addressLatLog</param>
         /// <param name="destination">an address</param>
         /// <returns>the distance in meters</returns>
-        public static int GetDistanceGoogleMapsApi(Address origin, Address destination)
+        public static int GetDistanceGoogleMapsApi(Address origin, Address destination, int times = 0)
         {
             try
             {
@@ -114,7 +115,8 @@ namespace BL
                               + "&origin=" + origin + "&destination=" + destination + "&sensor=false";
 
                 //check the url
-                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
+                if (request.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 &&
+                    request.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
                     throw new Exception("Google URL is not correct");
 
                 //download the data
@@ -123,13 +125,16 @@ namespace BL
                 var contentResponse = Encoding.UTF8.GetString(response);
                 //parse it json
                 var jsonResponse = JObject.Parse(contentResponse);
-                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
+                var distance = (int) jsonResponse.SelectToken("routes[0].legs[0].distance.value");
 
                 return distance;
             }
-            catch
+            catch (Exception ex)
             {
-                return -1;
+                if (times == 2)
+                    throw new Exception(ex.Message);
+                Thread.Sleep(2000);
+                return GetDistanceGoogleMapsApi(origin, destination, ++times);
             }
         }
 
@@ -153,12 +158,12 @@ namespace BL
 
             //get all the results
             return (from adr in xml.Elements()
-                    where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
-                    select new GoogleAddress
-                    {
-                        Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
-                        Id = adr.Element("place_id").Value
-                    }).ToArray();
+                where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
+                select new GoogleAddress
+                {
+                    Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
+                    Id = adr.Element("place_id").Value
+                }).ToArray();
         }
 
         /// <summary>
@@ -207,8 +212,8 @@ namespace BL
 
             //return the sum of the durations
             return (from leg in xml.Elements("route").Elements()
-                    where leg.Name == "leg"
-                    select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
+                where leg.Name == "leg"
+                select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
         }
 
         /// <summary>
@@ -270,7 +275,6 @@ namespace BL
             var xml = DownloadDataIntoXml(url);
             return xml.Element("result").Element("formatted_address").Value;
         }
-
 
         #endregion
     }

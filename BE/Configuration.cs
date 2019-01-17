@@ -8,6 +8,25 @@ namespace BE
     /// </summary>
     public static class Configuration
     {
+        /// <summary>
+        ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permission !!
+        ///     For details contact elisja.mayer@gmail.com.To get your own key go to http://g.co/dev/maps-no-account
+        /// </summary>
+        public const string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
+
+        /// <summary>
+        ///     google distance url api
+        /// </summary>
+        public const string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
+
+        public const string TraineesXmlFilePath = @"Data\Trainees.xml";
+        public const string TestersXmlFilePath = @"Data\Testers.xml";
+
+        public const string ConfigXmlFilePath = @"Data\Config.xml";
+        public const string TestsXmlFilePath = @"Data\Tests.xml";
+
+        public const string FromEmailAddress = "tests.miniproject@gmail.com";
+        public const string SenderPassword = "0586300016";
         public static string Theme = "Light";
         public static string Color = "Blue";
 
@@ -51,17 +70,6 @@ namespace BE
         ///     percent of criteria in order to pass the test
         /// </summary>
         public static uint PercentOfCriteriaToPassTest = 70;
-
-        /// <summary>
-        ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permission !!
-        ///     For details contact elisja.mayer@gmail.com.To get your own key go to http://g.co/dev/maps-no-account
-        /// </summary>
-        public const string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
-
-        /// <summary>
-        ///     google distance url api
-        /// </summary>
-        public const string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
 
         /// <summary>
         ///     default language for google
@@ -122,15 +130,5 @@ namespace BE
             var fileName = Path.Combine(path, "license.pdf");
             return fileName;
         }
-
-        public const string TraineesXmlFilePath = @"Data\Trainees.xml";
-        public const string TestersXmlFilePath = @"Data\Testers.xml";
-
-        public const string ConfigXmlFilePath = @"Data\Config.xml";
-        public const string TestsXmlFilePath = @"Data\Tests.xml";
-
-        public const string FromEmailAddress = "tests.miniproject@gmail.com";
-        public const string SenderPassword = "0586300016";
     }
-
 }

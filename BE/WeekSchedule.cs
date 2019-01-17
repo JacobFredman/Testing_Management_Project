@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 
 namespace BE
 {
-    public class WeekSchedule :  ICloneable
+    public class WeekSchedule : ICloneable
     {
         //default days
         private const int DefaultWeekDays = 5;
 
         /// <summary>
-        /// Days in week
+        ///     Days in week
         /// </summary>
         public Day[] Days;
 
@@ -20,8 +19,8 @@ namespace BE
         /// <param name="days">the days in the week between 1-7</param>
         public WeekSchedule(int days = DefaultWeekDays)
         {
-            this.Days = days < 8 ? new Day[days] : new Day[DefaultWeekDays];
-            for (var i = 0; i < this.Days.Length; i++) this.Days[i] = new Day((DayOfWeek) i);
+            Days = days < 8 ? new Day[days] : new Day[DefaultWeekDays];
+            for (var i = 0; i < Days.Length; i++) Days[i] = new Day((DayOfWeek) i);
         }
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace BE
         }
 
         /// <summary>
-        /// Clone the week
+        ///     Clone the week
         /// </summary>
         /// <returns></returns>
         public object Clone()

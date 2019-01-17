@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using BE.MainObjects;
 using BL;
 using MahApps.Metro.Controls;
@@ -15,9 +16,20 @@ namespace PLWPF
     /// </summary>
     public partial class TesterWin : MetroWindow
     {
+        /// <summary>
+        ///     Bl object
+        /// </summary>
         private readonly IBL _blimp = FactoryBl.GetObject;
+
+        /// <summary>
+        ///     the tester
+        /// </summary>
         private readonly Tester _tester;
 
+        /// <summary>
+        ///     tester window
+        /// </summary>
+        /// <param name="id"></param>
         public TesterWin(int id)
         {
             InitializeComponent();
@@ -37,49 +49,62 @@ namespace PLWPF
         //refresh grid content
         private void Refresh()
         {
+            TestToUpdateGrid.DataContext = null;
+            TestToDoGrid.DataContext = null;
             TestToDoGrid.DataContext =
-                FactoryBl.GetObject.AllTests.Where(x => x.TesterId == _tester.Id && x.TestTime >=DateTime.Now);
+                FactoryBl.GetObject.AllTests.Where(x => x.TesterId == _tester.Id && x.TestTime >= DateTime.Now);
             TestToUpdateGrid.DataContext =
                 FactoryBl.GetObject.AllTests.Where(x => x.TesterId == _tester.Id && x.TestTime <= DateTime.Now);
-
         }
 
-        //on test to do grid double click
-        private void TestToDoGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        /// <summary>
+        ///     on test to do grid double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TestToDoGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
+                //open window
                 var win = new ShowTest((Test) TestToDoGrid.SelectedItem);
                 win.ShowDialog();
-
+                Refresh();
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
-        //on test to update grid double click
-        private void TestToUpdateGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        /// <summary>
+        ///     on test to update grid double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TestToUpdateGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
+                //open window
                 var test = TestToUpdateGrid.SelectedItem as Test;
                 var win = new UpdateTest(test);
                 win.ShowDialog();
-                var passed = test.Passed;
+                var passed = test?.Passed;
 
 
                 Refresh();
 
                 //get trainee and updated test
-                var trainee = FactoryBl.GetObject.AllTrainees.First(x => x.Id == test.TraineeId);
-                test = FactoryBl.GetObject.AllTests.First(x => x.Id == test.Id);
+                var trainee = FactoryBl.GetObject.AllTrainees.First(x => x.Id == test?.TraineeId);
+                test = FactoryBl.GetObject.AllTests.First(x => x.Id == test?.Id);
 
+                //if passed state didn't change
                 if (test.Passed == passed)
                     return;
 
-                if (string.IsNullOrEmpty(trainee.EmailAddress))
-                {
-                    return;
-                }
+                //if email is empty
+                if (string.IsNullOrEmpty(trainee.EmailAddress)) return;
 
                 //Send Email
                 var thread = new Thread(() =>
@@ -88,16 +113,11 @@ namespace PLWPF
                     {
                         Pdf.CreateLicensePdf(test, trainee);
                         Email.SentEmailToTraineeAfterTest(test, trainee);
-
-                    
                     }
-                    catch 
+                    catch
                     {
-                  
+                        // ignored
                     }
-
-
-
                 });
                 thread.Start();
             }
@@ -106,7 +126,6 @@ namespace PLWPF
                 if (ex.Message != "Object reference not set to an instance of an object.")
                     ExceptionMessage.Show(ex.Message, ex.ToString());
             }
-
         }
 
         //refresh button

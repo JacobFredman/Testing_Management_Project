@@ -1,10 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Text;
-using BE.Routes;
-using Newtonsoft.Json.Linq;
-
-namespace BE
+﻿namespace BE
 {
     public static class Tools
     {
@@ -38,6 +32,5 @@ namespace BE
 
             return sum % 10 == 0;
         }
-
     }
 }

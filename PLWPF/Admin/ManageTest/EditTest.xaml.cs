@@ -18,11 +18,25 @@ namespace PLWPF.Admin.ManageTest
     /// </summary>
     public partial class EditTest : MetroWindow
     {
-        //the test 
-        private readonly Test _test;
+        /// <summary>
+        ///     error messages
+        /// </summary>
         private readonly List<string> _errorMessage = new List<string>();
+
+        /// <summary>
+        ///     notifications
+        /// </summary>
         private readonly List<string> _notifications = new List<string>();
 
+        /// <summary>
+        ///     the test
+        /// </summary>
+        private readonly Test _test;
+
+        /// <summary>
+        ///     c-tor for edit test
+        /// </summary>
+        /// <param name="id"></param>
         public EditTest(string id = null)
         {
             InitializeComponent();
@@ -116,7 +130,11 @@ namespace PLWPF.Admin.ManageTest
             if (_test.RouteUrl == null) ShowRouteUrlButton.IsEnabled = false;
         }
 
-        //Save the Test
+        /// <summary>
+        ///     Save the Test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -124,8 +142,6 @@ namespace PLWPF.Admin.ManageTest
                 //Check address
                 if (addressOfBeginningTestTextBox.Address.ToString() == "")
                     throw new Exception("Please Select an Address for the test");
-                //Update address
-               // _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
 
                 //Save or update the test
                 if ((string) Save.Content == "Save")
@@ -142,9 +158,13 @@ namespace PLWPF.Admin.ManageTest
 
         #region Details
 
-        //When user Selects Trainee
+        /// <summary>
+        ///     When user Selects Trainee
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TraineeIdComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-       {
+        {
             try
             {
                 //Clean License and Tester ComBox
@@ -181,7 +201,11 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //When user Selects License type
+        /// <summary>
+        ///     When user Selects License type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LicenseTypeComBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -198,20 +222,24 @@ namespace PLWPF.Admin.ManageTest
                 {
                     testerIdComboBox.SelectedIndex = -1;
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
 
                 //Get the data
                 var address = addressOfBeginningTestTextBox.Address;
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
                 _test.LicenseType = license;
 
+                //todo: Background worker
                 //find all available testers
                 new Thread(() =>
                 {
-                    IEnumerable<Tester> testers=new List<Tester>();
+                    IEnumerable<Tester> testers = new List<Tester>();
                     try
                     {
-                         testers = FactoryBl.GetObject
+                        testers = FactoryBl.GetObject
                             .GetTestersByDistance(address, license
                             ).Where(x =>
                                 x.LicenseTypeTeaching.Any(y => y == license)).ToList();
@@ -250,10 +278,7 @@ namespace PLWPF.Admin.ManageTest
 
                         ProgressRing.IsActive = false;
 
-                        if (!testers.Any())
-                        {
-                            testerIdComboBox.IsEnabled = false;
-                        }
+                        if (!testers.Any()) testerIdComboBox.IsEnabled = false;
 
                         //focus on testers
                         testerIdComboBox.Focus();
@@ -264,7 +289,6 @@ namespace PLWPF.Admin.ManageTest
 
                 //Update the license
                 _test.LicenseType = (LicenseType) licenseTypeComBox.SelectedItem;
-
             }
             catch
             {
@@ -272,7 +296,11 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //When user Selects Tester
+        /// <summary>
+        ///     When user Selects Tester
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TesterIdComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -301,36 +329,41 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //When user Selects Date
+        /// <summary>
+        ///     When user Selects Date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestTimeDatePicker_OnCalendarOpened(object sender, RoutedEventArgs e)
         {
             try
             {
                 //Reset old selections
                 TimePickerTest.ResetSelection();
-                var date= ((DateTime)testTimeDatePicker.SelectedDate);
-                var tester = (Tester) testerIdComboBox.SelectedItem;
-                var hours = (bool[])((Tester) testerIdComboBox.SelectedItem).Schedule
-                    .Days[(int) date.DayOfWeek].Hours.Clone();
-
-                if (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
-                    for (int i = DateTime.Now.Hour; i > 0; i--)
-                        hours[i] = false;
-
-                var hourNum = new int[]
-                    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
-                foreach (var h in hourNum)
+                if (testTimeDatePicker.SelectedDate != null)
                 {
-                    if (FactoryBl.GetObject.AllTests.Any(x =>
-                        date.Year == x.TestTime.Year && date.DayOfYear == x.TestTime.DayOfYear &&
-                        x.TestTime.Hour == h && x.TesterId == tester.Id))
-                    {
-                        hours[h] = false;
-                    }
-                }
+                    var date = (DateTime) testTimeDatePicker.SelectedDate;
+                    var tester = (Tester) testerIdComboBox.SelectedItem;
+                    var hours = (bool[]) ((Tester) testerIdComboBox.SelectedItem).Schedule
+                        .Days[(int) date.DayOfWeek].Hours.Clone();
 
-                //Set The hours according to the schedule
-                TimePickerTest.HourToShow = hours;
+                    //disable hours today that passed
+                    if (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
+                        for (var i = DateTime.Now.Hour; i > 0; i--)
+                            hours[i] = false;
+
+                    //disable hours that the tester has a test already
+                    var hourNum = new[]
+                        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+                    foreach (var h in hourNum)
+                        if (FactoryBl.GetObject.AllTests.Any(x =>
+                            date.Year == x.TestTime.Year && date.DayOfYear == x.TestTime.DayOfYear &&
+                            x.TestTime.Hour == h && x.TesterId == tester.Id))
+                            hours[h] = false;
+
+                    //Set The hours according to the schedule
+                    TimePickerTest.HourToShow = hours;
+                }
 
                 //Enable Time Picker
                 TimePickerTest.IsEnabled = true;
@@ -349,14 +382,22 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //When user Selects Hour
+        /// <summary>
+        ///     When user Selects Hour
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimePicker_OnSelectionChanged(object sender, EventArgs e)
         {
             try
             {
                 //Update the hour
-                var date = (DateTime) testTimeDatePicker.SelectedDate;
-                _test.TestTime = new DateTime(date.Year, date.Month, date.Day, TimePickerTest.SelectedHour, 0, 0);
+                if (testTimeDatePicker.SelectedDate != null)
+                {
+                    var date = (DateTime) testTimeDatePicker.SelectedDate;
+                    _test.TestTime = new DateTime(date.Year, date.Month, date.Day, TimePickerTest.SelectedHour, 0, 0);
+                }
+
                 Save.IsEnabled = true;
                 ClearAllMessages();
 
@@ -369,14 +410,15 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //When user Changes Address
+        /// <summary>
+        ///     When user Changes Address
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddressOfBeginningTestTextBox_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                //Update the address
-              //  _test.AddressOfBeginningTest = addressOfBeginningTestTextBox.Address;
-
                 //Reset all selections
                 licenseTypeComBox.SelectionChanged -= LicenseTypeComBox_OnSelectionChanged;
                 testerIdComboBox.SelectedIndex = -1;
@@ -402,7 +444,11 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //When user Sets Actual Test Time
+        /// <summary>
+        ///     When user Sets Actual Test Time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ActualTimePickerTestOnSelectionChanged(object sender, EventArgs e)
         {
             try
@@ -417,12 +463,15 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-        //Blackout Days in the Test Time Picker
+        /// <summary>
+        ///     Blackout Days in the Test Time Picker
+        /// </summary>
+        /// <param name="schedule"></param>
         private void SetSelectableDates(WeekSchedule schedule)
         {
             try
             {
-                testTimeDatePicker.DisplayDateStart=DateTime.Now.AddDays(-1);
+                testTimeDatePicker.DisplayDateStart = DateTime.Now.AddDays(-1);
                 testTimeDatePicker.DisplayDateEnd = DateTime.Now.AddMonths(2);
                 testTimeDatePicker.BlackoutDates.Clear();
 
@@ -434,23 +483,27 @@ namespace PLWPF.Admin.ManageTest
                 var date = DateTime.Now;
 
                 //make an arr with days that the tester is available on
-                var weekSchedule = new bool[7] {false, false, false, false, false, false, false};
+                var weekSchedule = new[] {false, false, false, false, false, false, false};
                 foreach (var day in schedule.Days)
                     if (day.Hours.Any(x => x))
                         weekSchedule[(int) day.TheDay] = true;
 
                 var tester = (Tester) testerIdComboBox.SelectedItem;
                 var dateNow = DateTime.Today;
-                var hourNmu = new int[]
+                var hourNmu = new[]
                     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+
                 //add the days of the 2 month in the calendar
                 for (var i = 0; i < 64; i++)
                 {
+                    //the day need to be blacked out
                     if (!weekSchedule[(int) date.DayOfWeek] || hourNmu
                             .Where(z => tester.Schedule[date.DayOfWeek].Hours[z]).All(x =>
                                 FactoryBl.GetObject.AllTests.Any(y =>
                                     y.TesterId == tester.Id && y.TestTime.Year == date.Year &&
-                                    y.TestTime.DayOfYear == date.DayOfYear && y.TestTime.Hour == x)))
+                                    y.TestTime.DayOfYear == date.DayOfYear && y.TestTime.Hour == x)) ||
+                        date.Year == DateTime.Now.Year && date.DayOfYear == DateTime.Now.DayOfYear &&
+                        DateTime.Now.Hour > schedule[DateTime.Now.DayOfWeek].MaxHourWorking())
                     {
                         //if today is already selected then move the selection to tomorrow
                         if (date.DayOfYear == dateNow.DayOfYear)
@@ -476,7 +529,11 @@ namespace PLWPF.Admin.ManageTest
 
         #region Notifications
 
-        //Show Binding errors in Notification area
+        /// <summary>
+        ///     Show Binding errors in Notification area
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditTest_OnError(object sender, ValidationErrorEventArgs e)
         {
             if (e.Action == ValidationErrorEventAction.Added) _errorMessage.Add(e.Error.Exception.Message);
@@ -485,7 +542,10 @@ namespace PLWPF.Admin.ManageTest
             foreach (var item in _errorMessage) Errors.Text += item + "\n";
         }
 
-        //Add a message to the notification area
+        /// <summary>
+        ///     Add a message to the notification area
+        /// </summary>
+        /// <param name="message"></param>
         private void AddMessage(string message)
         {
             _notifications.Add(message);
@@ -493,7 +553,9 @@ namespace PLWPF.Admin.ManageTest
             foreach (var item in _notifications) Errors.Text += item + "\n";
         }
 
-        //Clean all notifications
+        /// <summary>
+        ///     Clean all notifications
+        /// </summary>
         private void ClearAllMessages()
         {
             _notifications.Clear();
@@ -504,7 +566,11 @@ namespace PLWPF.Admin.ManageTest
 
         #region  Route
 
-        //Set new Route for the test
+        /// <summary>
+        ///     Set new Route for the test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetRouteButton_Click(object sender, RoutedEventArgs e)
         {
             //Add Message
@@ -529,10 +595,12 @@ namespace PLWPF.Admin.ManageTest
                         switch (ex.ErrorCode)
                         {
                             case "CONNECTION_FAILURE":
-                                ExceptionMessage.Show("There is no Internet Connection. Please try again later.", ex.Message);
+                                ExceptionMessage.Show("There is no Internet Connection. Please try again later.",
+                                    ex.Message);
                                 break;
                             case "ADDRESS_FAILURE":
-                                ExceptionMessage.Show("There is a problem with the address. Please try another address.", ex.Message);
+                                ExceptionMessage.Show(
+                                    "There is a problem with the address. Please try another address.", ex.Message);
                                 break;
                         }
                     }
@@ -543,13 +611,7 @@ namespace PLWPF.Admin.ManageTest
                 void Action()
                 {
                     //Update the show route
-                    if (_test.RouteUrl != null)
-                        ShowRouteUrlButton.IsEnabled = true;
-                    else
-                        ShowRouteUrlButton.IsEnabled = false;
-
-                    //Update address
-                    //addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;
+                    ShowRouteUrlButton.IsEnabled = _test.RouteUrl != null;
 
                     SetRouteButton.IsEnabled = true;
                     ClearAllMessages();
@@ -559,7 +621,11 @@ namespace PLWPF.Admin.ManageTest
             }).Start();
         }
 
-        //Show route on map
+        /// <summary>
+        ///     Show route on map
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowRouteUrlButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -572,9 +638,6 @@ namespace PLWPF.Admin.ManageTest
             }
         }
 
-
         #endregion
-
-    
     }
 }

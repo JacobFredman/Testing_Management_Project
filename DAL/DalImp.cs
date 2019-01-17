@@ -13,7 +13,6 @@ namespace DAL
     /// </summary>
     public static class FactoryDal
     {
-        //todo: hell
         private static DalImp _dal;
 
         /// <summary>
@@ -28,19 +27,20 @@ namespace DAL
     /// </summary>
     public class DalImp : IDal
     {
+        private readonly XElement _testersXml;
+
         //the data in xml
         private readonly XElement _traineesXml;
-        private readonly XElement _testersXml;
-        private XElement _config;
-
-        //lists of the data
-        private  List<Trainee> _trainees = new List<Trainee>();
-        private  List<Test> _tests = new List<Test>();
-        private  List<Tester> _testers = new List<Tester>();
+        private readonly XElement _config;
+        private bool _testerChanged = true;
+        private List<Tester> _testers = new List<Tester>();
+        private readonly List<Test> _tests = new List<Test>();
 
         //flags
         private bool _traineeChanged = true;
-        private bool _testerChanged = true;
+
+        //lists of the data
+        private List<Trainee> _trainees = new List<Trainee>();
 
         /// <summary>
         ///     DalImp c-tor
@@ -70,7 +70,7 @@ namespace DAL
                     _tests = new List<Test>();
 
                 //Load configurations
-              _config = XML.LoadConfigurations();
+                _config = XML.LoadConfigurations();
             }
             catch
             {
@@ -130,7 +130,7 @@ namespace DAL
 
         public XElement LoadConfigurations()
         {
-           return XML.LoadConfigurations();
+            return XML.LoadConfigurations();
         }
 
         #endregion
@@ -183,7 +183,6 @@ namespace DAL
         #endregion
 
         #region Test
-
 
         /// <summary>
         ///     update an existing test
@@ -241,7 +240,8 @@ namespace DAL
             get
             {
                 if (!_testerChanged) // if the testers list didn't changed don't go to xml file 
-                    return _testers.Select(item => item.Clone() as Tester).OrderBy(x => x.Id).ToList(); ;
+                    return _testers.Select(item => item.Clone() as Tester).OrderBy(x => x.Id).ToList();
+                ;
                 var allTesters = XML.GetAllTestersFromXml(_testersXml).Select(item => item.Clone() as Tester).ToList();
                 _testers = allTesters;
                 _testerChanged = false;
@@ -271,8 +271,10 @@ namespace DAL
             get
             {
                 if (!_traineeChanged) // if the testers list didn't changed don't go to xml file 
-                    return _trainees.Select(item => item.Clone() as Trainee).OrderBy(x => x.Id).ToList(); ;
-                var allTrainee = XML.GetAllTraineesFromXml(_traineesXml).Select(item => item.Clone() as Trainee).ToList();
+                    return _trainees.Select(item => item.Clone() as Trainee).OrderBy(x => x.Id).ToList();
+                ;
+                var allTrainee = XML.GetAllTraineesFromXml(_traineesXml).Select(item => item.Clone() as Trainee)
+                    .ToList();
                 _trainees = allTrainee;
                 _traineeChanged = false;
                 return allTrainee.OrderBy(x => x.Id);

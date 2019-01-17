@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using BE;
+using BL;
 using MahApps.Metro.Controls;
 using PLWPF.Nofitications;
 
@@ -14,9 +15,14 @@ namespace PLWPF.Admin
     /// </summary>
     public partial class Settings : MetroWindow
     {
-        //collection  for the criteria
+        /// <summary>
+        ///     collection  for the criteria
+        /// </summary>
         private readonly ObservableCollection<string> _criteria = new ObservableCollection<string>();
 
+        /// <summary>
+        ///     C-tor for settings
+        /// </summary>
         public Settings()
         {
             InitializeComponent();
@@ -34,7 +40,12 @@ namespace PLWPF.Admin
             CriterionsListBox.DataContext = _criteria;
 
             //Set theme ComBox
-            Color.ItemsSource = new List<string> { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+            Color.ItemsSource = new List<string>
+            {
+                "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo",
+                "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe",
+                "Sienna"
+            };
             Color.SelectedItem = Configuration.Color;
 
             if (Configuration.Theme == "Light")
@@ -43,7 +54,11 @@ namespace PLWPF.Admin
                 DarkTheme.IsChecked = true;
         }
 
-        //On Add new criterion click
+        /// <summary>
+        ///     On Add new criterion click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -57,7 +72,11 @@ namespace PLWPF.Admin
             }
         }
 
-        //on remove selected criterion
+        /// <summary>
+        ///     on remove selected criterion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveSelected_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -70,7 +89,11 @@ namespace PLWPF.Admin
             }
         }
 
-        //on Save click
+        /// <summary>
+        ///     on Save click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -133,7 +156,7 @@ namespace PLWPF.Admin
                 Configuration.MinimumCriteria = (uint) MinimumCriterionsBox.Value;
                 Configuration.PercentOfCriteriaToPassTest = (uint) PercentOfCritirionsToPassTestBox.Value;
 
-                BL.FactoryBl.GetObject.SaveSettings();
+                FactoryBl.GetObject.SaveSettings();
                 Close();
             }
             catch (Exception ex)
@@ -141,9 +164,5 @@ namespace PLWPF.Admin
                 ExceptionMessage.Show(ex.Message, ex.ToString());
             }
         }
-
-
-    
-        
     }
 }

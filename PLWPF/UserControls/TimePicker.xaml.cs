@@ -9,9 +9,14 @@ namespace PLWPF.UserControls
     /// </summary>
     public partial class TimePicker : UserControl
     {
+        /// <summary>
+        ///     Hours to show
+        /// </summary>
         private readonly bool[] _hoursToShow = new bool[24];
 
-        //ctor
+        /// <summary>
+        ///     A time picker
+        /// </summary>
         public TimePicker()
         {
             InitializeComponent();
@@ -63,12 +68,16 @@ namespace PLWPF.UserControls
         /// </summary>
         public event EventHandler SelectionChanged;
 
-        //forward the selection changed
+        /// <summary>
+        ///     forward the selection changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ComBoxTime_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                SelectionChanged(this, e);
+                SelectionChanged?.Invoke(this, e);
             }
             catch
             {
