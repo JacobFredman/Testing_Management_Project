@@ -923,7 +923,7 @@ namespace PLWPF.Admin
                         tests = _bL.GetAllTestsToCome();
                         break;
                     case "Updated Tests":
-                        tests = _bL.GetAllTestsThatHappened();
+                        tests = _bL.GetAllDoneTests();
                         break;
                     case "Test That Passed":
                         tests = _bL.AllTests.Where(x => x.Passed != null);

@@ -40,7 +40,7 @@ namespace BL
         IEnumerable<Test> GetAllTestInMonth(DateTime date);
         IEnumerable<Test> GetAllTestInDay(DateTime date);
         IEnumerable<Test> GetAllTestsToCome();
-        IEnumerable<Test> GetAllTestsThatHappened();
+        IEnumerable<Test> GetAllDoneTests();
         IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date);
         IEnumerable<Trainee> GetAllTraineeThatDidNotPassedToday(DateTime date);
 
