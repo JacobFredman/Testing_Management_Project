@@ -11,6 +11,7 @@
                  Title="Add Tester" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <mah:MetroWindow.Resources>
         <converters:MetersToKM x:Key="MeterToKM" />
+        <converters:NumberConv x:Key="NumberConv"/>
     </mah:MetroWindow.Resources>
     <StackPanel Orientation="Horizontal">
         <!-- Details -->
@@ -87,14 +88,14 @@
             <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Max Distance:" />
             <mah:NumericUpDown x:Name="MaxDistanceTextBox" Width="120" VerticalAlignment="Center"
-                               Value="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                               Value="{Binding MaxDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,Converter={StaticResource NumberConv}}"
                                Minimum="0" StringFormat="{}{0} km" Grid.Row="8" Margin="3" Height="23"
                                HorizontalAlignment="Left" Grid.Column="1" />
 
             <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0"
                    Content="Experience:" />
             <mah:NumericUpDown x:Name="ExpirienceTextBox" Width="120" VerticalAlignment="Center"
-                               Value="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+                               Value="{Binding Experience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,Converter={StaticResource NumberConv}}"
                                Minimum="0" Grid.Row="9" Margin="3" Height="23" HorizontalAlignment="Left"
                                Grid.Column="1" />
 
@@ -103,7 +104,7 @@
             <mah:NumericUpDown x:Name="MaxExamsTextBox" Width="120" VerticalAlignment="Center" Grid.Row="10" Margin="3"
                                Height="23" HorizontalAlignment="Left" Grid.Column="1"
                                Minimum="0"
-                               Value="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                               Value="{Binding MaxWeekExams, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,Converter={StaticResource NumberConv}}" />
 
 
         </Grid>
@@ -126,7 +127,7 @@
                                       SelectionChanged="DayWeek_SelectionChanged" />
                             <CheckBox x:Name="AllWeek" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="5"
                                       IsChecked="True" Checked="AllWeek_Checked" Unchecked="AllWeek_Unchecked" />
-                            <Label Content="All week" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                            <Label x:Name="AllWeekLabel" Content="All week" VerticalAlignment="Center" DockPanel.Dock="Left" />
                         </DockPanel>
                         <ListBox x:Name="ChooseHours" ItemsSource="{Binding}" Height="180" Width="100"
                                  SelectionMode="Multiple" SelectionChanged="ChooseHours_SelectionChanged" />

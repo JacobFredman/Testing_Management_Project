@@ -5,8 +5,12 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:local="clr-namespace:PLWPF.Admin"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:converters="clr-namespace:PLWPF.Converters"
                  mc:Ignorable="d"
                  Title="Settings" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+    <mah:MetroWindow.Resources>
+        <converters:NumberConv x:Key="NumberConv"/>
+    </mah:MetroWindow.Resources>
     <StackPanel Orientation="Horizontal">
 
         <!-- The parameters-->
@@ -24,31 +28,31 @@
                 </Grid.RowDefinitions>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                     <Label Content="Minimum Lesson to Do a Test: " Margin="3" />
-                    <mah:NumericUpDown Minimum="0" x:Name="MinLessonsBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged"  Minimum="0" x:Name="MinLessonsBox" Margin="3" NumericInputMode="Numbers"/>
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
                     <Label Content="Minimum Tester Age: " Margin="3" />
-                    <mah:NumericUpDown Minimum="0" x:Name="MinTesterAgeBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinTesterAgeBox" Margin="3" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
                     <Label Content="Minimum Trainee Age: " Margin="3" />
-                    <mah:NumericUpDown Minimum="0" x:Name="MinTraineeAgeBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinTraineeAgeBox" Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
                     <Label Content="Minimum Time Between Tests: " Margin="3" />
-                    <mah:NumericUpDown Minimum="0" x:Name="MinTimeBetweenTestsBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinTimeBetweenTestsBox" Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
                     <Label Content="Minimum Criteria: " Margin="3" />
-                    <mah:NumericUpDown Minimum="0" x:Name="MinimumCriterionsBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinimumCriterionsBox" Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="5" Grid.Column="0">
                     <Label Content="Percent Of Critirions To Pass Test: " Margin="3" />
-                    <mah:NumericUpDown Maximum="100" Minimum="0" StringFormat="{}{0:P0}"
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Maximum="100" Minimum="0" StringFormat="{}{0:P0}"
                                        x:Name="PercentOfCritirionsToPassTestBox" Margin="3" />
                 </StackPanel>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="6">

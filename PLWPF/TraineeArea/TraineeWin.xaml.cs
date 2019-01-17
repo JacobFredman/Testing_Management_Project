@@ -132,7 +132,7 @@ namespace PLWPF
             {
                 var win = new ShowTestResoults((Test) TestToUpdateGrid.SelectedItem);
                 win.ShowDialog();
-                Refresh();
+                Refresh();  
             }
             catch
             {

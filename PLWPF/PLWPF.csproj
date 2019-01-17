@@ -103,6 +103,7 @@
     <Compile Include="Converters\LessonAndTypeToString.cs" />
     <Compile Include="Converters\LicenseTypeLearningToString.cs" />
     <Compile Include="Converters\MetersToKM.cs" />
+    <Compile Include="Converters\NumberConv.cs" />
     <Compile Include="Nofitications\ExceptionsWin.xaml.cs">
       <DependentUpon>ExceptionsWin.xaml</DependentUpon>
     </Compile>

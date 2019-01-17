@@ -73,6 +73,8 @@ namespace PLWPF.Admin.ManageTester
                     AddressTextBox.Address = _tester.Address;
 
                     Title = "Update Tester";
+                    AllWeek.Visibility = Visibility.Hidden;
+                    AllWeekLabel.Visibility = Visibility.Hidden;
                 }
                 catch
                 {
