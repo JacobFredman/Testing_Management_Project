@@ -36,6 +36,7 @@ namespace BL
                 //get locations around the address in the default radios
                 var arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())))
                     .Distinct().ToList();
+
                 //shrink the list 
                 arr = arr.Skip(1).Take(5).ToList();
                 arr.Insert(0, GetAddressSuggestionsGoogle(test.AddressOfBeginningTest.ToString(), "0").First());
@@ -47,7 +48,7 @@ namespace BL
                 if (duration > Configuration.MaxTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint) (Configuration.MaxTestDurationSec - 500))
+                            (uint)(Configuration.MaxTestDurationSec - 500))
                         .Distinct().Skip(1).Take(6).ToList();
                     duration = GetRouteDuration(arr.ToArray());
                 }
@@ -56,7 +57,7 @@ namespace BL
                 if (duration < Configuration.MinTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint) (Configuration.MinTestDurationSec + 500))
+                            (uint)(Configuration.MinTestDurationSec + 500))
                         .Distinct().Skip(1).Take(7).ToList();
                     duration = GetRouteDuration(arr.ToArray());
                 }
@@ -66,8 +67,6 @@ namespace BL
                     throw new GoogleAddressException("Can't find a route near the given address", "NO_ROUTE");
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr.ToArray()));
-
-                //  test.AddressOfBeginningTest = new Address(arr[0].AddressToHe());
             }
             catch (Exception ex)
             {
@@ -81,7 +80,7 @@ namespace BL
             }
         }
 
-        public static List<GoogleAddress> GetAddressSuggestionsGoogle(string input, string token)
+        public static IEnumerable<GoogleAddress> GetAddressSuggestionsGoogle(string input, string token)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=" + input +
                       "&types=address&components=country:il&language=iw&key=" + Configuration.Key + "&sessiontoken=" +
@@ -125,7 +124,7 @@ namespace BL
                 var contentResponse = Encoding.UTF8.GetString(response);
                 //parse it json
                 var jsonResponse = JObject.Parse(contentResponse);
-                var distance = (int) jsonResponse.SelectToken("routes[0].legs[0].distance.value");
+                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
 
                 return distance;
             }
@@ -142,14 +141,14 @@ namespace BL
         #region Help Functions
 
         /// <summary>
-        ///     Get a arry of locations in the radios of the location
+        ///     Get an array of locations in the radios of the location
         /// </summary>
         /// <param name="locationLatLog">the location in lat,log for example 31.750068,34.9907657 </param>
         /// <param name="radios">the radios in meters</param>
-        /// <returns>an arry of address with name and Id</returns>
-        private static GoogleAddress[] GetLocationsInRadius(string locationLatLog, uint radios = 2000)
+        /// <returns>an array of address with name and Id</returns>
+        private static IEnumerable<GoogleAddress> GetLocationsInRadius(string locationLatLog, uint radios = 2000)
         {
-            //make the url
+            //create the url
             var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/xml?key=" + Configuration.Key +
                       "&location=" + locationLatLog + "&radius=" + radios + " & language=wi";
 
@@ -158,12 +157,12 @@ namespace BL
 
             //get all the results
             return (from adr in xml.Elements()
-                where adr.Name == "result" && adr.Element("vicinity").Value.ToLower() != "israel"
-                select new GoogleAddress
-                {
-                    Name = adr.Element("vicinity").Value + ", " + adr.Element("name").Value,
-                    Id = adr.Element("place_id").Value
-                }).ToArray();
+                    where adr.Name == "result" && adr.Element("vicinity")?.Value.ToLower() != "israel"
+                    select new GoogleAddress
+                    {
+                        Name = adr.Element("vicinity")?.Value + ", " + adr.Element("name")?.Value,
+                        Id = adr.Element("place_id")?.Value
+                    }).ToArray();
         }
 
         /// <summary>
@@ -181,30 +180,31 @@ namespace BL
             var xml = DownloadDataIntoXml(url);
 
             //return the value
-            return xml.Element("result").Element("geometry").Element("location").Element("lat").Value + "," +
-                   xml.Element("result").Element("geometry").Element("location").Element("lng").Value;
+            return xml.Element("result")?.Element("geometry")?.Element("location")?.Element("lat")?.Value + "," +
+                   xml.Element("result")?.Element("geometry")?.Element("location")?.Element("lng")?.Value;
         }
 
         /// <summary>
         ///     get the time in sec of an route
         /// </summary>
         /// <param name="arr">the address</param>
-        /// <returns>the time in sec</returns>
-        private static int GetRouteDuration(GoogleAddress[] arr)
+        /// <returns>the route time in sec</returns>
+        private static int GetRouteDuration(IReadOnlyList<GoogleAddress> arr)
         {
             //create the url of the start and end point
             var url = "https://maps.googleapis.com/maps/api/directions/xml?key=" + Configuration.Key +
                       "&origin=" + arr[0].Name + "&origin_place_id=" + arr[0].Id +
-                      " &destination=" + arr[arr.Length - 1].Name + "&destination_place_id=" + arr[arr.Length - 1].Id +
+                      " &destination=" + arr[arr.Count - 1].Name + "&destination_place_id=" + arr[arr.Count - 1].Id +
                       " &waypoints=";
 
-            //add the waypoints
-            for (var i = 1; i < arr.Length - 1; i++) url += arr[i].Name + "|";
+            //add the wayPoints
+            for (var i = 1; i < arr.Count - 1; i++)
+                url += arr[i].Name + "|";
             url = url.TrimEnd('|');
 
-            //add the waypoints Id
+            //add the wayPoints Id
             url += "&waypoint_place_ids=";
-            for (var i = 1; i < arr.Length - 1; i++) url += arr[i].Id + "|";
+            for (var i = 1; i < arr.Count - 1; i++) url += arr[i].Id + "|";
             url = url.TrimEnd('|');
 
             //download the data
@@ -212,8 +212,8 @@ namespace BL
 
             //return the sum of the durations
             return (from leg in xml.Elements("route").Elements()
-                where leg.Name == "leg"
-                select int.Parse(leg.Element("duration").Element("value").Value)).Sum();
+                    where leg.Name == "leg"
+                    select int.Parse(leg.Element("duration")?.Element("value")?.Value ?? throw new InvalidOperationException())).Sum();
         }
 
         /// <summary>
@@ -221,61 +221,51 @@ namespace BL
         /// </summary>
         /// <param name="arr">the address</param>
         /// <returns>an url</returns>
-        private static string GetGoogleUrl(GoogleAddress[] arr)
+        private static string GetGoogleUrl(IReadOnlyList<GoogleAddress> arr)
         {
-            //create the url for start and end
+            //create the url for start point and end point
             var url = "https://www.google.com/maps/dir/?api=1" + "&travelmode=driving" +
                       "&origin=" + arr[0].Name + "&origin_place_id=" + arr[0].Id +
                       "&destination=" + arr[0].Name + "&destination_place_id=" + arr[0].Id +
                       "&waypoints=";
 
-            //add the waypoints
-            for (var i = 1; i < arr.Length; i++) url += arr[i].Name + "|";
+            //add the wayPoints
+            for (var i = 1; i < arr.Count; i++) url += arr[i].Name + "|";
             url = url.TrimEnd('|');
 
-            //add the waypoints Id's
+            //add the wayPoints Ids
             url += "&waypoint_place_ids=";
-            for (var i = 1; i < arr.Length; i++) url += arr[i].Id + "|";
+            for (var i = 1; i < arr.Count; i++) url += arr[i].Id + "|";
             url = url.TrimEnd('|');
 
             return url;
         }
 
         /// <summary>
-        ///     download the data from the url address into an xml and check if the google api response was OK
+        ///     download the data from the url address into an xml
+        ///     and check if the google api response was OK
         /// </summary>
         /// <param name="url">the url</param>
         /// <returns>the xml</returns>
         private static XElement DownloadDataIntoXml(string url)
         {
             //check the url
-            if (url.ToLower().IndexOf("https:") > -1 || url.ToLower().IndexOf("http:") > -1)
-            {
-                //download the data into an xml
-                var wc = new WebClient();
-                var response = wc.DownloadData(url);
-                var content = Encoding.UTF8.GetString(response);
-                var xml = XElement.Parse(content);
+            if (url.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && url.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
+                throw new GoogleAddressException("Google URL is not correct", "WRONG_URL");
 
-                //check the request state
-                if (xml.Element("status").Value != "OK")
-                    throw new GoogleAddressException("Google returns the next error: ", xml.Element("status").Value);
+            //download the data into an xml
+            var wc = new WebClient();
+            var response = wc.DownloadData(url);
+            var content = Encoding.UTF8.GetString(response);
+            var xml = XElement.Parse(content);
 
-                return xml;
-            }
-
-            throw new GoogleAddressException("Google URL is not correct", "WRONG_URL");
+            //check the request state
+            if (xml.Element("status")?.Value != "OK")
+                throw new GoogleAddressException("Google returns the next error: ", xml.Element("status")?.Value);
+            return xml;
         }
 
-        private static string AddressToHe(this GoogleAddress address)
-        {
-            var url =
-                "https://maps.googleapis.com/maps/api/place/details/xml?placeid=" + address.Id + "&language=iw&key=" +
-                Configuration.Key;
-            var xml = DownloadDataIntoXml(url);
-            return xml.Element("result").Element("formatted_address").Value;
-        }
-
+       
         #endregion
     }
 }

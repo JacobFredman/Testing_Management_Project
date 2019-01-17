@@ -192,7 +192,8 @@ namespace PLWPF.Admin
                 var count = _testList
                     .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
                                 x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
-                    .SendEmailToAllTraineeBeforeTest(ref _worker);
+                    .SendEmailToAllTraineeBeforeTest(); // todo: there was ref _worker as paramter which not compiled
+                
                 e.Result = "You Sent " + count + " Emails";
             }
             catch (Exception ex)
