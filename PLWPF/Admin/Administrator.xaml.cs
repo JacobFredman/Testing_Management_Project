@@ -139,6 +139,7 @@ namespace PLWPF.Admin
                 ProgressBarB.Maximum = _testList.Count(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
                                                             x.TestTime.DayOfYear == DateTime.Now.DayOfYear);
                 ProgressBarB.Minimum = 0;
+                ProgressBarB.Value = 0;
                 ProgressLabel.Content = "Sending Emails:  ";
                 ProgressLabel.Visibility = Visibility.Visible;
 

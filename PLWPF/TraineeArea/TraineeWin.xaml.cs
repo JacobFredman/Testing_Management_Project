@@ -52,6 +52,8 @@ namespace PLWPF
         /// </summary>
         private void Refresh()
         {
+            TestToDoGrid.DataContext = null;
+            TestToUpdateGrid.DataContext = null;
             TestToDoGrid.DataContext =
                 FactoryBl.GetObject.AllTests.Where(x => x.TraineeId == _trainee.Id && x.TestTime >= DateTime.Now);
             TestToUpdateGrid.DataContext =
@@ -130,6 +132,7 @@ namespace PLWPF
             {
                 var win = new ShowTestResoults((Test) TestToUpdateGrid.SelectedItem);
                 win.ShowDialog();
+                Refresh();
             }
             catch
             {
