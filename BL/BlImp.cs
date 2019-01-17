@@ -26,7 +26,7 @@ namespace BL
     /// <summary>
     ///     Bl implementation
     /// </summary>
-    public class BlImp : IBL
+    public class BlImp : IBl
     {
         private readonly IDal _dalImp = FactoryDal.GetObject;
 

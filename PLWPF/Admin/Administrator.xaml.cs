@@ -26,7 +26,7 @@ namespace PLWPF.Admin
         /// <summary>
         ///     Bl object
         /// </summary>
-        private readonly IBL _bL = FactoryBl.GetObject;
+        private readonly IBl _bL = FactoryBl.GetObject;
 
         /// <summary>
         ///     list of showed testers

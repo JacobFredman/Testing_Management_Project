@@ -17,7 +17,7 @@ namespace PLWPF.Admin.ManageTrainee
     /// </summary>
     public partial class AddTrainee : MetroWindow
     {
-        private readonly IBL _blimp = FactoryBl.GetObject;
+        private readonly IBl _blimp = FactoryBl.GetObject;
 
         /// <summary>
         ///     all the exceptions

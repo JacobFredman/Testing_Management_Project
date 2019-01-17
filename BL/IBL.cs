@@ -7,7 +7,7 @@ using BE.Routes;
 
 namespace BL
 {
-    public interface IBL
+    public interface IBl
     {
         //get list copy's
         IEnumerable<Trainee> AllTrainees { get; }
