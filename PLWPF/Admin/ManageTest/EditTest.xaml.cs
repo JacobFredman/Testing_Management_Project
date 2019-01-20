@@ -91,7 +91,7 @@ namespace PLWPF.Admin.ManageTest
                 testerIdComboBox.ItemsSource = new List<Tester>
                     {FactoryBl.GetObject.AllTesters.First(x => x.Id == _test.TesterId)};
                 testerIdComboBox.SelectedIndex = 0;
-                licenseTypeComBox.ItemsSource = new List<LicenseType> {_test.LicenseType};
+                licenseTypeComBox.ItemsSource = new List<LicenseType?> {_test.LicenseType};
                 licenseTypeComBox.SelectedIndex = 0;
                 TimePickerTest.SelectedHour = _test.TestTime.Hour;
                 addressOfBeginningTestTextBox.Address = _test.AddressOfBeginningTest;

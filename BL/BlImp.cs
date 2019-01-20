@@ -478,7 +478,7 @@ namespace BL
         /// </summary>
         /// <param name="sorted">if sorted</param>
         /// <returns></returns>
-        public IEnumerable<IGrouping<LicenseType, Test>> GetAllTestsByLicense(bool sorted = false)
+        public IEnumerable<IGrouping<LicenseType?, Test>> GetAllTestsByLicense(bool sorted = false)
         {
             return (sorted ? AllTests.OrderBy(x => x.Id) : AllTests).GroupBy(x => x.LicenseType);
         }

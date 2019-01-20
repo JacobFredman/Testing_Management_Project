@@ -99,7 +99,7 @@ namespace BE.MainObjects
         /// <summary>
         ///     license type test
         /// </summary>
-        public LicenseType LicenseType { get; set; }
+        public LicenseType? LicenseType { get; set; }
 
         /// <summary>
         ///     url for the test route on google maps
