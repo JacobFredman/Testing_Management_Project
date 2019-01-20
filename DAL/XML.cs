@@ -62,18 +62,13 @@ namespace DAL
             var emailAddress = new XElement("emailAddress", trainee.EmailAddress);
             var phoneNum = new XElement("phoneNum", trainee.PhoneNumber);
 
-            var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning");
-
-            foreach (var item in trainee.LicenseTypeLearning)
-            {
-                var gearType = new XElement("gearType", item.GearType);
-                var license = new XElement("license", item.License);
-                var numOfLessons = new XElement("numOfLessons", item.NumberOfLessons);
-                var readyForTest = new XElement("readyForTest", item.ReadyForTest);
-                var licenseTypeLearning =
-                    new XElement("licenseTypeLearning", gearType, license, numOfLessons, readyForTest);
-                collectionLicenseTypeLearning.Add(licenseTypeLearning);
-            }
+            var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning", 
+                from item in trainee.LicenseTypeLearning
+                select new XElement("licenseTypeLearning", 
+                    new XElement("gearType", item.GearType),
+                    new XElement("license", item.License), 
+                    new XElement("numOfLessons", item.NumberOfLessons), 
+                    new XElement("readyForTest", item.ReadyForTest)));
 
             return new XElement("trainee", id, firstName, lastName, gender, address, birthDate, emailAddress, phoneNum,
                 teacherName, schoolName, collectionLicenseTypeLearning);
@@ -86,10 +81,9 @@ namespace DAL
         /// <returns></returns>
         public static IEnumerable<Trainee> GetAllTraineesFromXml(XElement traineesXml)
         {
-            var trainees = new List<Trainee>();
-            foreach (var trainee in traineesXml.Elements())
-            {
-                var t = new Trainee
+            return (
+                from trainee in traineesXml.Elements()
+                select new Trainee
                 {
                     Id = uint.Parse(trainee.Element("id")?.Value ?? throw new InvalidOperationException()),
                     FirstName = trainee.Element("firstName")?.Value,
@@ -102,26 +96,22 @@ namespace DAL
                         trainee.Element("gender")?.Value ?? throw new InvalidOperationException()),
                     SchoolName = trainee.Element("schoolName")?.Value,
                     TeacherName = trainee.Element("teacherName")?.Value,
-                    LicenseTypeLearning = new List<TrainingDetails>(),
+                    LicenseTypeLearning = (
+                        from item in trainee.Element("CollectionLicenseTypeLearning")?.Elements()
+                        select new TrainingDetails
+                        {
+                            GearType = (Gear) Enum.Parse(typeof(Gear),
+                                item.Element("gearType")?.Value ?? throw new InvalidOperationException()),
+                            License = (LicenseType) Enum.Parse(typeof(LicenseType),
+                                item.Element("license")?.Value ?? throw new InvalidOperationException()),
+                            ReadyForTest =
+                                bool.Parse(item.Element("readyForTest")?.Value ??
+                                           throw new InvalidOperationException()),
+                            NumberOfLessons =
+                                int.Parse(item.Element("numOfLessons")?.Value ?? throw new InvalidOperationException())
+                        }).ToList(),
                     LicenseType = new List<LicenseType>()
-                };
-                foreach (var item in trainee.Element("CollectionLicenseTypeLearning")?.Elements())
-                    t.LicenseTypeLearning.Add(new TrainingDetails
-                    {
-                        GearType = (Gear) Enum.Parse(typeof(Gear),
-                            item.Element("gearType")?.Value ?? throw new InvalidOperationException()),
-                        License = (LicenseType) Enum.Parse(typeof(LicenseType),
-                            item.Element("license")?.Value ?? throw new InvalidOperationException()),
-                        ReadyForTest =
-                            bool.Parse(item.Element("readyForTest")?.Value ?? throw new InvalidOperationException()),
-                        NumberOfLessons =
-                            int.Parse(item.Element("numOfLessons")?.Value ?? throw new InvalidOperationException())
-                    });
-
-                trainees.Add(t);
-            }
-
-            return trainees;
+                }).ToList();
         }
 
         #endregion
