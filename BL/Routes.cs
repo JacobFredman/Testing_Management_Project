@@ -48,7 +48,7 @@ namespace BL
                 if (duration > Configuration.MaxTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint)(Configuration.MaxTestDurationSec - 500))
+                            (uint) (Configuration.MaxTestDurationSec - 500))
                         .Distinct().Skip(1).Take(6).ToList();
                     duration = GetRouteDuration(arr.ToArray());
                 }
@@ -57,7 +57,7 @@ namespace BL
                 if (duration < Configuration.MinTestDurationSec && arr.Count > 4)
                 {
                     arr = GetLocationsInRadius(GetLocationLatLog(new Address(address.ToString())),
-                            (uint)(Configuration.MinTestDurationSec + 500))
+                            (uint) (Configuration.MinTestDurationSec + 500))
                         .Distinct().Skip(1).Take(7).ToList();
                     duration = GetRouteDuration(arr.ToArray());
                 }
@@ -65,7 +65,7 @@ namespace BL
                 //if the duration of the route is still not ok then throw exception
                 if (duration < Configuration.MinTestDurationSec || duration > Configuration.MaxTestDurationSec)
                     throw new GoogleAddressException("Can't find a route near the given address", "NO_ROUTE");
-               
+
                 //create an url to show thw route on a map
                 test.RouteUrl = new Uri(GetGoogleUrl(arr.ToArray()));
             }
@@ -73,7 +73,7 @@ namespace BL
             {
                 //if there was an error
                 test.RouteUrl = null;
-                test.AddressOfBeginningTest = null;
+                //test.AddressOfBeginningTest = null;
                 //check that it throw an GoogleAddressException  
                 if (!(ex is GoogleAddressException gex))
                     throw new GoogleAddressException(ex.Message, "CONNECTION_FAILURE");
@@ -82,7 +82,7 @@ namespace BL
         }
 
         /// <summary>
-        /// Get suggestions for places from google
+        ///     Get suggestions for places from google
         /// </summary>
         /// <param name="input">the input to search</param>
         /// <param name="token">a session token</param>
@@ -131,7 +131,7 @@ namespace BL
                 var contentResponse = Encoding.UTF8.GetString(response);
                 //parse it json
                 var jsonResponse = JObject.Parse(contentResponse);
-                var distance = (int)jsonResponse.SelectToken("routes[0].legs[0].distance.value");
+                var distance = (int) jsonResponse.SelectToken("routes[0].legs[0].distance.value");
 
                 return distance;
             }
@@ -164,12 +164,12 @@ namespace BL
 
             //get all the results
             return (from adr in xml.Elements()
-                    where adr.Name == "result" && adr.Element("vicinity")?.Value.ToLower() != "israel"
-                    select new GoogleAddress
-                    {
-                        Name = adr.Element("vicinity")?.Value + ", " + adr.Element("name")?.Value,
-                        Id = adr.Element("place_id")?.Value
-                    }).ToArray();
+                where adr.Name == "result" && adr.Element("vicinity")?.Value.ToLower() != "israel"
+                select new GoogleAddress
+                {
+                    Name = adr.Element("vicinity")?.Value + ", " + adr.Element("name")?.Value,
+                    Id = adr.Element("place_id")?.Value
+                }).ToArray();
         }
 
         /// <summary>
@@ -219,8 +219,9 @@ namespace BL
 
             //return the sum of the durations
             return (from leg in xml.Elements("route").Elements()
-                    where leg.Name == "leg"
-                    select int.Parse(leg.Element("duration")?.Element("value")?.Value ?? throw new InvalidOperationException())).Sum();
+                where leg.Name == "leg"
+                select int.Parse(leg.Element("duration")?.Element("value")?.Value ??
+                                 throw new InvalidOperationException())).Sum();
         }
 
         /// <summary>
@@ -257,7 +258,8 @@ namespace BL
         private static XElement DownloadDataIntoXml(string url)
         {
             //check the url
-            if (url.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 && url.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
+            if (url.ToLower().IndexOf("https:", StringComparison.Ordinal) <= -1 &&
+                url.ToLower().IndexOf("http:", StringComparison.Ordinal) <= -1)
                 throw new GoogleAddressException("Google URL is not correct", "WRONG_URL");
 
             //download the data into an xml
@@ -272,7 +274,6 @@ namespace BL
             return xml;
         }
 
-       
         #endregion
     }
 }

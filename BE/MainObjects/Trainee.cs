@@ -26,7 +26,7 @@ namespace BE.MainObjects
         public string TeacherName { set; get; }
 
         /// <summary>
-        /// Clone trainee
+        ///     Clone trainee
         /// </summary>
         /// <returns></returns>
         public object Clone()

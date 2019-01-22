@@ -31,7 +31,7 @@ namespace PLWPF.TraineeArea
         ///     the test
         /// </summary>
         private readonly Test _test;
-        
+
 
         /// <summary>
         ///     The tester
@@ -182,7 +182,6 @@ namespace PLWPF.TraineeArea
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
                 _test.LicenseType = license;
 
-                //todo: Background worker
                 //find all available testers and choose the first
                 new Thread(() =>
                 {

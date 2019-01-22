@@ -69,6 +69,8 @@ namespace PLWPF
         {
             SetTest.IsEnabled = false;
             SetTest.ToolTip = "Checking Internet Connection";
+            LabelConnecting.Visibility = Visibility.Visible;
+
             new Thread(() =>
             {
                 try
@@ -87,6 +89,7 @@ namespace PLWPF
                     //open window
                     void Act1()
                     {
+                        LabelConnecting.Visibility = Visibility.Hidden;
                         SetTest.IsEnabled = true;
                         SetTest.ToolTip = "";
                         var win = new EditTest(_trainee);
@@ -100,6 +103,7 @@ namespace PLWPF
                 {
                     void Act2()
                     {
+                        LabelConnecting.Visibility = Visibility.Hidden;
                         SetTest.IsEnabled = true;
                         SetTest.ToolTip = "";
                         ExceptionMessage.Show(ex.Message, ex.ToString());
@@ -132,7 +136,7 @@ namespace PLWPF
             {
                 var win = new ShowTestResoults((Test) TestToUpdateGrid.SelectedItem);
                 win.ShowDialog();
-                Refresh();  
+                Refresh();
             }
             catch
             {

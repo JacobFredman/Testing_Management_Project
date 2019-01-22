@@ -232,7 +232,6 @@ namespace PLWPF.Admin.ManageTest
                 var license = (LicenseType) licenseTypeComBox.SelectedItem;
                 _test.LicenseType = license;
 
-                //todo: Background worker
                 //find all available testers
                 new Thread(() =>
                 {
@@ -503,7 +502,7 @@ namespace PLWPF.Admin.ManageTest
                                     y.TesterId == tester.Id && y.TestTime.Year == date.Year &&
                                     y.TestTime.DayOfYear == date.DayOfYear && y.TestTime.Hour == x)) ||
                         date.Year == DateTime.Now.Year && date.DayOfYear == DateTime.Now.DayOfYear &&
-                        DateTime.Now.Hour > schedule[DateTime.Now.DayOfWeek].MaxHourWorking())
+                        DateTime.Now.Hour >= schedule[DateTime.Now.DayOfWeek].MaxHourWorking())
                     {
                         //if today is already selected then move the selection to tomorrow
                         if (date.DayOfYear == dateNow.DayOfYear)

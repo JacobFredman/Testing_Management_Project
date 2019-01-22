@@ -68,7 +68,7 @@
             </DataGrid>
 
         </GroupBox>
-        <DockPanel Grid.Row="4" HorizontalAlignment="Stretch">
+        <DockPanel Grid.Row="4" HorizontalAlignment="Stretch" LastChildFill="True">
             <Button DockPanel.Dock="Right" HorizontalAlignment="Center" ToolTip="Refresh" Margin="3"
                     Style="{DynamicResource SquareButtonStyle}" Click="Button_Click_Refresh">
                 <Button.Content>
@@ -81,8 +81,11 @@
                     </Viewbox>
                 </Button.Content>
             </Button>
-            <Button x:Name="SetTest" Content="Set New Test" DockPanel.Dock="Left" HorizontalAlignment="Center"
+            <Label x:Name="LabelConnecting" Visibility="Hidden" Content="Connecting to Internet...."
+                   DockPanel.Dock="Left" Margin="8" Foreground="Red" />
+            <Button x:Name="SetTest" Content="Set New Test" HorizontalAlignment="Center"
                     Margin="3" Style="{DynamicResource SquareButtonStyle}" Click="SetTest_Button_Click" />
+
         </DockPanel>
     </Grid>
 </mah:MetroWindow>

@@ -23,14 +23,14 @@ namespace BE.MainObjects
         private uint _traineeId;
 
         /// <summary>
-        /// Test
+        ///     Test
         /// </summary>
         public Test()
         {
         }
 
         /// <summary>
-        /// Test
+        ///     Test
         /// </summary>
         /// <param name="idTester">Tester id</param>
         /// <param name="idTrainee">Trainee id</param>
@@ -49,7 +49,7 @@ namespace BE.MainObjects
         public string Id { get; set; }
 
         /// <summary>
-        /// Tester id
+        ///     Tester id
         /// </summary>
         public uint TesterId
         {
@@ -58,7 +58,7 @@ namespace BE.MainObjects
         }
 
         /// <summary>
-        /// Trainee id
+        ///     Trainee id
         /// </summary>
         public uint TraineeId
         {
@@ -77,7 +77,7 @@ namespace BE.MainObjects
         public DateTime ActualTestTime { set; get; }
 
         /// <summary>
-        /// Address of the beginning  of the test
+        ///     Address of the beginning  of the test
         /// </summary>
         public Address AddressOfBeginningTest { set; get; }
 
@@ -108,7 +108,7 @@ namespace BE.MainObjects
         public Uri RouteUrl { set; get; }
 
         /// <summary>
-        /// For xml serializer
+        ///     For xml serializer
         /// </summary>
         public string XmlSaveRouteUrlSerializer
         {
@@ -117,7 +117,7 @@ namespace BE.MainObjects
         }
 
         /// <summary>
-        /// Clone test
+        ///     Clone test
         /// </summary>
         /// <returns></returns>
         public object Clone()
@@ -153,7 +153,7 @@ namespace BE.MainObjects
         }
 
         /// <summary>
-        /// test details
+        ///     test details
         /// </summary>
         /// <returns></returns>
         public override string ToString()

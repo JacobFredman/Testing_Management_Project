@@ -24,7 +24,7 @@ namespace BE.Routes
         }
 
         /// <summary>
-        /// Address
+        ///     Address
         /// </summary>
         public Address()
         {
@@ -51,7 +51,7 @@ namespace BE.Routes
         public string Entrance { set; get; }
 
         /// <summary>
-        /// clone Address
+        ///     clone Address
         /// </summary>
         /// <returns></returns>
         public object Clone()

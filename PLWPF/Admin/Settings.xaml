@@ -9,7 +9,7 @@
                  mc:Ignorable="d"
                  Title="Settings" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <mah:MetroWindow.Resources>
-        <converters:NumberConv x:Key="NumberConv"/>
+        <converters:NumberConv x:Key="NumberConv" />
     </mah:MetroWindow.Resources>
     <StackPanel Orientation="Horizontal">
 
@@ -28,7 +28,8 @@
                 </Grid.RowDefinitions>
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                     <Label Content="Minimum Lesson to Do a Test: " Margin="3" />
-                    <mah:NumericUpDown ValueChanged="OnValueChanged"  Minimum="0" x:Name="MinLessonsBox" Margin="3" NumericInputMode="Numbers"/>
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinLessonsBox" Margin="3"
+                                       NumericInputMode="Numbers" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
@@ -42,12 +43,14 @@
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
                     <Label Content="Minimum Time Between Tests: " Margin="3" />
-                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinTimeBetweenTestsBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinTimeBetweenTestsBox"
+                                       Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
                     <Label Content="Minimum Criteria: " Margin="3" />
-                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinimumCriterionsBox" Margin="3" />
+                    <mah:NumericUpDown ValueChanged="OnValueChanged" Minimum="0" x:Name="MinimumCriterionsBox"
+                                       Margin="3" />
                 </StackPanel>
 
                 <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="5" Grid.Column="0">

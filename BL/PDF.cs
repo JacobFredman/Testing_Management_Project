@@ -7,12 +7,12 @@ using PdfSharp.Pdf;
 namespace BL
 {
     /// <summary>
-    /// creates a pdf file
+    ///     creates a pdf file
     /// </summary>
     public static class Pdf
     {
         /// <summary>
-        /// create a temporary license pdf
+        ///     create a temporary license pdf
         /// </summary>
         /// <param name="test">the passed test</param>
         /// <param name="trainee">the passed trainee</param>
@@ -24,13 +24,13 @@ namespace BL
         }
 
         /// <summary>
-        /// create a pdf document by parameters
+        ///     create a pdf document by parameters
         /// </summary>
         /// <param name="fullName">the trainee full name</param>
         /// <param name="traineeId">traineeId</param>
         /// <param name="testDate">the date when the test was</param>
         /// <param name="licenseType">licenseType</param>
-        private static void CreateDocument(string fullName, uint traineeId, string testDate, string licenseType) 
+        private static void CreateDocument(string fullName, uint traineeId, string testDate, string licenseType)
         {
             var document = new PdfDocument();
             var page = document.AddPage();
@@ -48,13 +48,14 @@ namespace BL
                 XStringFormats.Center);
             gfx.DrawString("Test date: " + testDate, font, XBrushes.Black, new XRect(0, -260, page.Width, page.Height),
                 XStringFormats.Center);
-            gfx.DrawString("license Type: " + licenseType, font, XBrushes.Black, new XRect(0, -240, page.Width, page.Height),
+            gfx.DrawString("license Type: " + licenseType, font, XBrushes.Black,
+                new XRect(0, -240, page.Width, page.Height),
                 XStringFormats.Center);
 
             // if another temporary license exists delete
             if (File.Exists(Configuration.GetPdfFullPath()))
                 File.Delete(Configuration.GetPdfFullPath());
-            
+
             //save
             document.Save(Configuration.GetPdfFullPath());
             document.Close();

@@ -16,7 +16,7 @@ namespace DAL
         #region testXML
 
         /// <summary>
-        /// Serialize all tests to XML
+        ///     Serialize all tests to XML
         /// </summary>
         /// <param name="list"></param>
         public static void SerializeTestsToXml(IReadOnlyCollection<Test> list)
@@ -28,7 +28,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// Deserialize all XML
+        ///     Deserialize all XML
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Test> DeSerializeTestFromXml()
@@ -45,7 +45,7 @@ namespace DAL
         #region TreaineeXml
 
         /// <summary>
-        /// Convert trainee to XElement
+        ///     Convert trainee to XElement
         /// </summary>
         /// <param name="trainee"></param>
         /// <returns></returns>
@@ -62,12 +62,12 @@ namespace DAL
             var emailAddress = new XElement("emailAddress", trainee.EmailAddress);
             var phoneNum = new XElement("phoneNum", trainee.PhoneNumber);
 
-            var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning", 
+            var collectionLicenseTypeLearning = new XElement("CollectionLicenseTypeLearning",
                 from item in trainee.LicenseTypeLearning
-                select new XElement("licenseTypeLearning", 
+                select new XElement("licenseTypeLearning",
                     new XElement("gearType", item.GearType),
-                    new XElement("license", item.License), 
-                    new XElement("numOfLessons", item.NumberOfLessons), 
+                    new XElement("license", item.License),
+                    new XElement("numOfLessons", item.NumberOfLessons),
                     new XElement("readyForTest", item.ReadyForTest)));
 
             return new XElement("trainee", id, firstName, lastName, gender, address, birthDate, emailAddress, phoneNum,
@@ -75,7 +75,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// Convert All trainees XElement to trainees list
+        ///     Convert All trainees XElement to trainees list
         /// </summary>
         /// <param name="traineesXml"></param>
         /// <returns></returns>
@@ -119,7 +119,7 @@ namespace DAL
         #region TestersXML
 
         /// <summary>
-        /// Get list of testers from XML
+        ///     Get list of testers from XML
         /// </summary>
         /// <param name="testersXml"></param>
         /// <returns></returns>
@@ -155,6 +155,7 @@ namespace DAL
                         i++;
                     }
                 }
+
                 //Make new tester
                 var tester = new Tester
                 {
@@ -187,7 +188,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// Convert tester to XElement
+        ///     Convert tester to XElement
         /// </summary>
         /// <param name="tester"></param>
         /// <returns></returns>
@@ -248,7 +249,7 @@ namespace DAL
         #region ConfigurationsXMl
 
         /// <summary>
-        /// Load configurations
+        ///     Load configurations
         /// </summary>
         /// <returns></returns>
         public static XElement LoadConfigurations()
@@ -282,7 +283,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// Save configurations
+        ///     Save configurations
         /// </summary>
         /// <param name="config"></param>
         public static void SaveConfigurations(XElement config)

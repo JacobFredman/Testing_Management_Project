@@ -118,7 +118,7 @@ namespace BE.MainObjects
         public List<LicenseType> LicenseType { set; get; }
 
         /// <summary>
-        /// Basic data about the person
+        ///     Basic data about the person
         /// </summary>
         /// <returns></returns>
         public override string ToString()

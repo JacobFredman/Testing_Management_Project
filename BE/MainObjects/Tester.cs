@@ -46,7 +46,7 @@ namespace BE.MainObjects
         public WeekSchedule Schedule { set; get; }
 
         /// <summary>
-        /// clone tester
+        ///     clone tester
         /// </summary>
         /// <returns></returns>
         public object Clone()

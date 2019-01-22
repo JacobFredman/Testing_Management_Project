@@ -192,8 +192,8 @@ namespace PLWPF.Admin
                 var count = _testList
                     .Where(x => x.Passed == null && x.TestTime.Year == DateTime.Now.Year &&
                                 x.TestTime.DayOfYear == DateTime.Now.DayOfYear)
-                    .SendEmailToAllTraineeBeforeTest(); // todo: there was ref _worker as paramter which not compiled
-                
+                    .SendEmailToAllTraineeBeforeTest(_worker);
+
                 e.Result = "You Sent " + count + " Emails";
             }
             catch (Exception ex)
@@ -685,6 +685,7 @@ namespace PLWPF.Admin
             {
                 //save test details
                 var test = TestGrid.SelectedItem as Test;
+                if (test == null) return;
                 var win = new EditTest(test?.Id);
                 var passed = test?.Passed;
 
@@ -776,6 +777,8 @@ namespace PLWPF.Admin
         /// <param name="e"></param>
         private void AddTestClick(object sender, RoutedEventArgs e)
         {
+            ProgressLabel.Content = "Connecting to Internet...";
+            ProgressLabel.Visibility = Visibility.Visible;
             new Thread(() =>
             {
                 try
@@ -794,6 +797,7 @@ namespace PLWPF.Admin
                     //open window
                     void Act1()
                     {
+                        ProgressLabel.Visibility = Visibility.Collapsed;
                         var win = new EditTest();
                         win.ShowDialog();
                         RefreshData();
@@ -805,6 +809,7 @@ namespace PLWPF.Admin
                 {
                     void Act2()
                     {
+                        ProgressLabel.Visibility = Visibility.Collapsed;
                         ExceptionMessage.Show(ex.Message, ex.ToString());
                     }
 
@@ -926,10 +931,10 @@ namespace PLWPF.Admin
                         tests = _bL.GetAllDoneTests();
                         break;
                     case "Test That Passed":
-                        tests = _bL.AllTests.Where(x => x.Passed != null);
+                        tests = _bL.AllTests.Where(x => x.Passed == true);
                         break;
                     case "Tests That Didn't Pass":
-                        tests = _bL.AllTests.Where(x => x.Passed == null);
+                        tests = _bL.AllTests.Where(x => x.Passed != true);
                         break;
                 }
 

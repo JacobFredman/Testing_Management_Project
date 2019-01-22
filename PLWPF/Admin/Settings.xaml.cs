@@ -166,16 +166,13 @@ namespace PLWPF.Admin
         }
 
         /// <summary>
-        /// if Value is null then change to 0
+        ///     if Value is null then change to 0
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
-            if ( sender is NumericUpDown control && control.Value==null)
-            {
-                control.Value = 0;
-            }
+            if (sender is NumericUpDown control && control.Value == null) control.Value = 0;
         }
     }
 }

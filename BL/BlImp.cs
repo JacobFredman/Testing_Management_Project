@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Net;
 using BE;
 using BE.MainObjects;
 using BE.Routes;
@@ -24,7 +22,7 @@ namespace BL
     }
 
     /// <summary>
-    ///    business logic implementation
+    ///     business logic implementation
     /// </summary>
     public class BlImp : IBl
     {
@@ -122,7 +120,8 @@ namespace BL
 
             var tooManyTestInWeek =
                 AllTests.Count(test =>
-                    test.TesterId == newTest.TesterId && Tools.DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) + 1 >
+                    test.TesterId == newTest.TesterId && Tools.DatesAreInTheSameWeek(newTest.TestTime, test.TestTime)) +
+                1 >
                 AllTesters.First(tester => tester.Id == newTest.TesterId).MaxWeekExams;
 
             var traineeHasTestInSameTime = AllTests.Any(test =>
@@ -130,7 +129,8 @@ namespace BL
             var testerHasTestInSameTime =
                 AllTests.Any(test => test.TesterId == newTest.TesterId && newTest.TestTime == test.TestTime);
 
-            var traineeHasLicenseAlready = AllTests.Any(y=>y.TraineeId==newTest.TraineeId && y.Passed==true && y.LicenseType==newTest.LicenseType);
+            var traineeHasLicenseAlready = AllTests.Any(y =>
+                y.TraineeId == newTest.TraineeId && y.Passed == true && y.LicenseType == newTest.LicenseType);
 
             var traineePassedTestAlready = AllTests.Any(test =>
                 test.TraineeId == newTest.TraineeId && test.LicenseType == newTest.LicenseType && test.Passed == true);
@@ -300,7 +300,8 @@ namespace BL
 
         /// <summary>
         ///     Get all the testers that are in a specified distance from an address.
-        ///     This function uses requests from internet. in can take a long time ,so it is recommended to use in a ///separate  thread.
+        ///     This function uses requests from internet. in can take a long time ,so it is recommended to use in a ///separate
+        ///     thread.
         /// </summary>
         /// <param name="r">the distance</param>
         /// <param name="a">the address</param>
@@ -335,7 +336,7 @@ namespace BL
                 select test;
         }
 
-       
+
         /// <summary>
         ///     Get all the testers that are the best for the test ordered by the distance from the address
         /// </summary>
@@ -344,7 +345,7 @@ namespace BL
         /// <returns>testers list </returns>
         public IEnumerable<Tester> GetTestersByDistance(Address address, LicenseType license)
         {
-            var testerDistance = 
+            var testerDistance =
                 from tester in AllTesters
                 where tester.Address != null
                 let distance = Routes.GetDistanceGoogleMapsApi(address, tester.Address)
@@ -353,7 +354,7 @@ namespace BL
             if (!testerDistanceList.Any())
                 throw new Exception("There are no testers in the current address please try an other address");
 
-            var testerLicense = 
+            var testerLicense =
                 from tester in testerDistanceList
                 where tester.tester.LicenseTypeTeaching.Any(x => x == license)
                 orderby tester.distance
@@ -395,7 +396,7 @@ namespace BL
         /// <returns></returns>
         public IEnumerable<Trainee> GetAllTraineeThatPassedToday(DateTime date)
         {
-            return 
+            return
                 from test in AllTests
                 where test.ActualTestTime.DayOfYear == date.DayOfYear && test.ActualTestTime.Year ==
                       date.Year && test.Passed == true
@@ -434,16 +435,15 @@ namespace BL
         /// <returns>All Trainee's grouped by Their Tester's </returns>
         public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesByTester(bool sorted = false)
         {
-            return 
-                sorted?
-                from trainee in AllTrainees
-                orderby trainee.Id
-                group trainee by trainee.TeacherName
+            return
+                sorted
+                    ? from trainee in AllTrainees
+                    orderby trainee.Id
+                    group trainee by trainee.TeacherName
 
-                // if not sorted
-                :
-                from trainee in AllTrainees
-                group trainee by trainee.TeacherName;
+                    // if not sorted
+                    : from trainee in AllTrainees
+                    group trainee by trainee.TeacherName;
         }
 
         /// <summary>
@@ -453,15 +453,13 @@ namespace BL
         public IEnumerable<IGrouping<string, Trainee>> GetAllTraineesBySchool(bool sorted = false)
         {
             return
-                sorted 
-                ?
-                from trainee in AllTrainees
-                orderby trainee.Id
-                group trainee by trainee.SchoolName
-                :
-                from trainee in AllTrainees
-                orderby trainee.Id
-                group trainee by trainee.SchoolName;
+                sorted
+                    ? from trainee in AllTrainees
+                    orderby trainee.Id
+                    group trainee by trainee.SchoolName
+                    : from trainee in AllTrainees
+                    orderby trainee.Id
+                    group trainee by trainee.SchoolName;
         }
 
         /// <summary>
@@ -499,7 +497,7 @@ namespace BL
         #region Help Function's
 
         /// <summary>
-        /// Save Configuration to xml file
+        ///     Save Configuration to xml file
         /// </summary>
         public void SaveSettings()
         {
@@ -544,7 +542,7 @@ namespace BL
 
 
             return AllTrainees.AsParallel().AsOrdered().Where(x => keys.Any(y =>
-                x.Id.ToString().ToLower().Contains(y) == true ||
+                x.Id.ToString().ToLower().Contains(y) ||
                 x.FirstName?.ToLower().Contains(y) == true ||
                 x.LastName?.ToLower().Contains(y) == true ||
                 x.SchoolName?.ToLower().Contains(y) == true ||
@@ -566,7 +564,7 @@ namespace BL
 
 
             return AllTesters.Where(x => keys.Any(y =>
-                x.Id.ToString().ToLower().Contains(y) == true ||
+                x.Id.ToString().ToLower().Contains(y) ||
                 x.FirstName?.ToLower().Contains(y) == true ||
                 x.LastName?.ToLower().Contains(y) == true ||
                 x.Address?.ToString().ToLower().Contains(y) == true ||
@@ -586,10 +584,10 @@ namespace BL
 
 
             return AllTests.Where(x => keys.Any(y =>
-                x.Id.ToString().ToLower().Contains(y) == true ||
+                x.Id.ToString().ToLower().Contains(y) ||
                 x.AddressOfBeginningTest?.ToString().ToLower().Contains(y) == true ||
-                x.TraineeId.ToString().ToLower().Contains(y) == true ||
-                x.TesterId.ToString().ToString().ToLower().Contains(y) == true ||
+                x.TraineeId.ToString().ToLower().Contains(y) ||
+                x.TesterId.ToString().ToString().ToLower().Contains(y) ||
                 x.Comment?.ToLower().Contains(y) == true));
         }
 

@@ -28,44 +28,44 @@ namespace DAL
     public class DalImp : IDal
     {
         /// <summary>
-        /// Trainees in XML
-        /// </summary>
-        private readonly XElement _traineesXml;
-
-        /// <summary>
-        /// Configuration in XML
+        ///     Configuration in XML
         /// </summary>
         private readonly XElement _config;
 
         /// <summary>
-        /// Tester in XML
+        ///     Tester in XML
         /// </summary>
         private readonly XElement _testersXml;
 
         /// <summary>
-        /// Trainee changed flag
-        /// </summary>
-        private bool _traineeChanged = true;
-
-        /// <summary>
-        /// tester changed flag
-        /// </summary>
-        private bool _testerChanged = true;
-
-        /// <summary>
-        /// All trainees
-        /// </summary>
-        private List<Trainee> _trainees = new List<Trainee>();
-
-        /// <summary>
-        /// All tests
+        ///     All tests
         /// </summary>
         private readonly List<Test> _tests = new List<Test>();
 
         /// <summary>
-        /// All testers
+        ///     Trainees in XML
+        /// </summary>
+        private readonly XElement _traineesXml;
+
+        /// <summary>
+        ///     tester changed flag
+        /// </summary>
+        private bool _testerChanged = true;
+
+        /// <summary>
+        ///     All testers
         /// </summary>
         private List<Tester> _testers = new List<Tester>();
+
+        /// <summary>
+        ///     Trainee changed flag
+        /// </summary>
+        private bool _traineeChanged = true;
+
+        /// <summary>
+        ///     All trainees
+        /// </summary>
+        private List<Trainee> _trainees = new List<Trainee>();
 
         /// <summary>
         ///     DalImp c-tor
@@ -247,7 +247,7 @@ namespace DAL
         #region Configuration
 
         /// <summary>
-        /// Save configurations to xml
+        ///     Save configurations to xml
         /// </summary>
         public void SaveConfigurations()
         {
@@ -255,7 +255,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// Load configuration from xml
+        ///     Load configuration from xml
         /// </summary>
         /// <returns></returns>
         public XElement LoadConfigurations()
