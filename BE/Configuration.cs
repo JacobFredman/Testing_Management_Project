@@ -94,7 +94,7 @@ namespace BE
         /// <summary>
         ///     Administrator password
         /// </summary>
-        public static string AdminPassword = "admin";
+        public static string AdminPassword = "";
 
         /// <summary>
         ///     If the program is opened for the first time
