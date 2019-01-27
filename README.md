@@ -13,4 +13,4 @@ To download the solution and run it in visual studio:
   3. In solution explorer click on Solution with the right mouse button and click on "Restore NuGet Packages".
   4. Press Ctrl + F5 to run the program.
 
-We used 
+We used "MahApps.Metro.2.0.0" for the WPF, "PDFsharp.1.32.3057.0" for sending pdf in the email and "Newtonsoft.Json.12.0.1" to extract the replay from google.
