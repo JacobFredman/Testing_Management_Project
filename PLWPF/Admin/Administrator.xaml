@@ -215,7 +215,7 @@
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"
                                   Background="{DynamicResource AccentBaseColorBrush}" />
                     <Border Grid.Column="0" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
-                        <DataGrid GridLinesVisibility="All" VerticalGridLinesBrush="LightGray"
+                        <DataGrid ToolTip="Double Click to Update" GridLinesVisibility="All" VerticalGridLinesBrush="LightGray"
                                   HorizontalGridLinesBrush="Gray" x:Name="TraineeGrid" ItemsSource="{Binding}"
                                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTraineeClick"
                                   SelectionChanged="TraineeGrid_OnSelectionChanged"
@@ -360,7 +360,7 @@
 
                     <Border Grid.Column="0" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
 
-                        <DataGrid x:Name="TesterGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+                        <DataGrid ToolTip="Double Click to Update" x:Name="TesterGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTesterClick"
                                   SelectionChanged="TesterGrid_OnSelectionChanged"
@@ -517,7 +517,7 @@
                                   HorizontalAlignment="Stretch" />
                     <Border Grid.Column="0" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="2">
 
-                        <DataGrid x:Name="TestGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+                        <DataGrid ToolTip="Double Click to Update" x:Name="TestGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                                   VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="UpdateTestClick"
                                   SelectionChanged="TestGrid_OnSelectionChanged"

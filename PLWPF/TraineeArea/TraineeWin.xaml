@@ -49,7 +49,7 @@
         </GroupBox>
         <GridSplitter Background="Transparent" HorizontalAlignment="Stretch" Grid.Row="2" />
         <GroupBox Grid.Row="3" Background="{DynamicResource Background}" Header="Test To Update">
-            <DataGrid x:Name="TestToUpdateGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+            <DataGrid ToolTip="Double Click to show Test Results" x:Name="TestToUpdateGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                       VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       MouseDoubleClick="TestToUpdateGrid_OnMouseDoubleClick">

@@ -346,6 +346,13 @@ namespace PLWPF.Admin
         {
             try
             {
+                var selected = ComboBoxLicenseFilterTrainee.SelectedItem;
+                //unselect all comBox
+                ComboBoxFilterSchoolTrainee.SelectedIndex = -1;
+                ComboBoxFilterTesterIdTrainee.SelectedIndex = -1;
+                ComboBoxFilterMunOfTestsTrainee.SelectedIndex = -1;
+                ComboBoxLicenseFilterTrainee.SelectedItem = selected;
+
                 //filter on license
                 TraineeGrid.DataContext = FactoryBl.GetObject.AllTrainees.Where(x =>
                     x.LicenseTypeLearning.Any(y =>
@@ -386,6 +393,13 @@ namespace PLWPF.Admin
         {
             try
             {
+                var selected = ComboBoxFilterSchoolTrainee.SelectedItem;
+                //unselect all comBox
+                ComboBoxLicenseFilterTrainee.SelectedIndex = -1;
+                ComboBoxFilterTesterIdTrainee.SelectedIndex = -1;
+                ComboBoxFilterMunOfTestsTrainee.SelectedIndex = -1;
+                ComboBoxFilterSchoolTrainee.SelectedItem = selected;
+
                 //copy the items
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesBySchool()
@@ -410,6 +424,13 @@ namespace PLWPF.Admin
         {
             try
             {
+                var selected = ComboBoxFilterTesterIdTrainee.SelectedItem;
+                //unselect all comBox
+                ComboBoxLicenseFilterTrainee.SelectedIndex = -1;
+                ComboBoxFilterSchoolTrainee.SelectedIndex = -1;
+                ComboBoxFilterMunOfTestsTrainee.SelectedIndex = -1;
+                ComboBoxFilterTesterIdTrainee.SelectedItem = selected;
+
                 //copy the items
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineesByTester()
@@ -434,6 +455,14 @@ namespace PLWPF.Admin
         {
             try
             {
+                var selected = ComboBoxFilterMunOfTestsTrainee.SelectedItem;
+                //unselect all comBox
+                ComboBoxLicenseFilterTrainee.SelectedIndex = -1;
+                ComboBoxFilterSchoolTrainee.SelectedIndex = -1;
+                ComboBoxFilterTesterIdTrainee.SelectedIndex = -1;
+
+                ComboBoxFilterMunOfTestsTrainee.SelectedItem = selected;
+
                 //copy items
                 var list = new List<Trainee>();
                 foreach (var item in FactoryBl.GetObject.GetAllTraineeByNumberOfTests()

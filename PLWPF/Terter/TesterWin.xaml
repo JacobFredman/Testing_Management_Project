@@ -20,7 +20,7 @@
         <Label x:Name="TextBoxHi" Grid.Row="0" Content="Welcom Name" FontSize="25" FontWeight="Bold"
                VerticalAlignment="Center" HorizontalAlignment="Center" />
         <GroupBox Grid.Row="1" Header="Tests To Do" Background="{DynamicResource Background}">
-            <DataGrid x:Name="TestToDoGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+            <DataGrid ToolTip="Double Click to Show Details" x:Name="TestToDoGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                       VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                       AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="TestToDoGrid_MouseDoubleClick">
 
@@ -39,7 +39,7 @@
         </GroupBox>
         <GridSplitter Background="Transparent" HorizontalAlignment="Stretch" Grid.Row="2" />
         <GroupBox Grid.Row="3" Background="{DynamicResource Background}" Header="Test To Update">
-            <DataGrid x:Name="TestToUpdateGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
+            <DataGrid ToolTip="Double Click to Update" x:Name="TestToUpdateGrid" ItemsSource="{Binding ''}" GridLinesVisibility="All"
                       VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="Gray"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       MouseDoubleClick="TestToUpdateGrid_MouseDoubleClick">
