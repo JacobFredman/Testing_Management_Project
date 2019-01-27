@@ -9,11 +9,11 @@ We used "MahApps.Metro.2.0.0" for the WPF, "PDFsharp.1.32.3057.0" for sending pd
 
 # Installation
 To install the program without visual studio there is an installer is folder "setup".<br/>
-To download the solution and run it in visual studio:
-  1. Download the zip file of the solution.
-  2.Extract the zip file.
-  3. Open the "Project01_5997_2519_dotNet5779.sln" file in visual studio
-  4. In solution explorer click on Solution with the right mouse button and click on "Restore NuGet Packages".
-  5. Press Ctrl + F5 to run the program.
+To download the solution and run it in visual studio:<br/>
+  1. Download the zip file of the solution.<br/>
+  2. Extract the zip file.<br/>
+  3. Open the "Project01_5997_2519_dotNet5779.sln" file in visual studio.<br/>
+  4. In solution explorer click on Solution with the right mouse button and click on "Restore NuGet Packages".<br/>
+  5. Press Ctrl + F5 to run the program.<br/>
 
 
