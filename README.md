@@ -17,6 +17,6 @@ To download the solution and run it in visual studio:<br/>
   5. Click with the right mouse button on the project named "PLWPF" and choose "Set as Startup Project".<br/>
   6. Press Ctrl + F5 to run the program.<br/>
   
-  The login username for administrator is "a" and the password is empty. Username and password can be changed in the settings.
+  The login username for administrator is "Admin" and the password is empty. Username and password can be changed in the settings.
 
 
