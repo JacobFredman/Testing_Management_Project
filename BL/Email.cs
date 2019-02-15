@@ -93,7 +93,7 @@ namespace BL
 
             var from = new MailAddress(Configuration.FromEmailAddress, fromName);
             var to = new MailAddress(toAddress, toName);
-            const string fromPassword = Configuration.SenderPassword;
+            string fromPassword = Configuration.SenderPassword;
 
             var smtp = new SmtpClient
             {

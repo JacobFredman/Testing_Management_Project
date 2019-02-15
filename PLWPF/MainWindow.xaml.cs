@@ -37,6 +37,12 @@ namespace PLWPF
 
             AdminUsernameTextBox.Focus();
             Configuration.FirstOpenProgram = false;
+
+            if (Configuration.ErrorLoadPrivate)
+            {
+                ExceptionMessage.Show("There was a Problem Loading \"\\Data\\Private.xml\". The Program Will Run But Google Services and Email Services Won't Work !");
+
+            }
         }
 
         /// <summary>

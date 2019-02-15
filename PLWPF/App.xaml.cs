@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Linq;
 using BE;
 using BL;
+using PLWPF.Nofitications;
 
 namespace PLWPF
 {
@@ -19,8 +22,29 @@ namespace PLWPF
         {
             var bl = FactoryBl.GetObject;
             SetTheme(Configuration.Color, Configuration.Theme);
-
+            LoadPrivate();
             base.OnStartup(e);
+        }
+
+        /// <summary>
+        /// Load private data
+        /// </summary>
+        private static void LoadPrivate()
+        {
+            try
+            {
+                XElement _privateXml=null;
+                if (File.Exists(Configuration.PrivateXmlFilePath))
+                    _privateXml = XElement.Load(Configuration.PrivateXmlFilePath);
+                Configuration.Key = _privateXml.Element("GoogleDevelopersKey").Value;
+                Configuration.FromEmailAddress= _privateXml.Element("FromEmailAddress").Value;
+                Configuration.SenderPassword= _privateXml.Element("SenderPassword").Value;
+                Configuration.ErrorLoadPrivate = false;
+            }
+            catch (Exception ex)
+            {
+                Configuration.ErrorLoadPrivate = true;
+            }
         }
 
         /// <summary>

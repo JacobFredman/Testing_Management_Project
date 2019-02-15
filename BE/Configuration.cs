@@ -12,7 +12,7 @@ namespace BE
         ///     google maps developers API key  : This key belongs to Elisha Mayer .Don't use it without permission !!
         ///     For details contact elisja.mayer@gmail.com . To get your own key go to http://g.co/dev/maps-no-account
         /// </summary>
-        public const string Key = "AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU";
+        public static string Key = "<Your Google Developer Key>";
 
         /// <summary>
         ///     google distance url api
@@ -24,9 +24,11 @@ namespace BE
 
         public const string ConfigXmlFilePath = @"Data\Config.xml";
         public const string TestsXmlFilePath = @"Data\Tests.xml";
+        public const string PrivateXmlFilePath = @"Data\Private.xml";
 
-        public const string FromEmailAddress = "tests.miniproject@gmail.com";
-        public const string SenderPassword = "0586300016";
+
+        public static string FromEmailAddress = "<Your Email Address>";
+        public static string SenderPassword = "<Your Email Address Password>";
         public static string Theme = "Light";
         public static string Color = "Blue";
 
@@ -129,5 +131,7 @@ namespace BE
             var fileName = Path.Combine(path, "license.pdf");
             return fileName;
         }
+
+        public static bool ErrorLoadPrivate = true;
     }
 }
