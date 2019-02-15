@@ -20,7 +20,7 @@ To download the solution and run it in visual studio:<br/>
   The login username for administrator is "Admin" and the password is empty. Username and password can be changed in the settings.<br/><br/>
 
 
-To use Email sending and Google Address services please enter your email address ,password and google developers key in "Project01_5997_2519_dotNet5779/PLWPF/bin/Debug/Data/Private.xml".<br/><br/>
-<b>Without Google Developer Key changing address and setting a tests is not working!<b/><br/>
+To use Email sending and Google Address services please enter your email address ,password and google developers key in:  "Project01_5997_2519_dotNet5779/PLWPF/bin/Debug/Data/Private.xml".<br/><br/>
+<b>Without a Google Developer Key changing addresses and setting a tests doesn't work!<b/><br/>
 To get a Google developers key click <a href="https://cloud.google.com/maps-platform/?__utma=102347093.263806779.1542194601.1550217374.1550217374.1&__utmb=102347093.0.10.1550217374&__utmc=102347093&__utmx=-&__utmz=102347093.1550217374.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)&__utmv=-&__utmk=187351080&_ga=2.199940974.1599212436.1550217359-263806779.1542194601#get-started">here</a>.<br/>
   
