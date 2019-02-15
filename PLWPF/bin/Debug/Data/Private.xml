@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Private>
-  <FromEmailAddress>tests.miniproject@gmail.com</FromEmailAddress>
-  <SenderPassword>0586300016</SenderPassword>
-  <GoogleDevelopersKey>AIzaSyB_L-QyNS6BHPMIvzcWQZBhunwpcr_wokU</GoogleDevelopersKey>
+  <FromEmailAddress>MyEmail@email.com</FromEmailAddress>
+  <SenderPassword>12345678</SenderPassword>
+  <GoogleDevelopersKey>MyDevelpoersKey</GoogleDevelopersKey>
 </Private>
