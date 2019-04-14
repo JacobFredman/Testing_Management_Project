@@ -5,7 +5,7 @@ It is part of the course in C# and WPF, at Jerusalem College of Technology, Seme
 The basic requirements are in the file <a href="https://github.com/ElishaMayer/Project01_5997_2519_dotNet5779/raw/master/%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98%20%D7%AA%D7%A9%D7%A2%D7%98.pdf">"פרוייקט תשע"ט"</a>.
 The additions are in the file <a href="https://github.com/ElishaMayer/Project01_5997_2519_dotNet5779/raw/master/Documentation.docx">"Documentation"</a>.<br/>
 
-We used "MahApps.Metro.2.0.0" for the WPF, "PDFsharp.1.32.3057.0" for sending pdf by email and "Newtonsoft.Json.12.0.1" to extract the reply from google.
+We used <a href="https://www.nuget.org/packages/MahApps.Metro/2.0.0-alpha0083">"MahApps.Metro.2.0.0"</a> for the WPF, <a href="https://www.nuget.org/packages/pdfsharp/1.32.3057">"PDFsharp.1.32.3057.0"</a> for sending pdf by email and <a href="https://www.nuget.org/packages/Newtonsoft.Json/">"Newtonsoft.Json.12.0.1"</a> to extract the reply from google.
 
 # Installation
 To install the program without visual studio click <a href="https://github.com/ElishaMayer/Project01_5997_2519_dotNet5779/raw/master/Setup/Setup.exe">here</a>.<br/><br/>
@@ -21,6 +21,6 @@ To download the solution and run it in visual studio:<br/>
 
 
 To use Email sending and Google Address services please enter your email address ,password and google developers key in:  "Project01_5997_2519_dotNet5779/PLWPF/bin/Debug/Data/Private.xml".<br/><br/>
-<b>Without a Google Developer Key changing addresses and setting a tests doesn't work!<b/><br/>
+<b>Without a Google Developer Key changing addresses and setting a tests won't work!<b/><br/>
 To get a Google developers key click <a href="https://cloud.google.com/maps-platform/?__utma=102347093.263806779.1542194601.1550217374.1550217374.1&__utmb=102347093.0.10.1550217374&__utmc=102347093&__utmx=-&__utmz=102347093.1550217374.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)&__utmv=-&__utmk=187351080&_ga=2.199940974.1599212436.1550217359-263806779.1542194601#get-started">here</a>.<br/>
   
