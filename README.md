@@ -2,8 +2,8 @@
 This project was written by Elisha Mayer and Yaakov Friedman.
 It is part of the course in C# and WPF, at Jerusalem College of Technology, Semester A 2019.
 
-The basic requirements are in the file "פרוייקט תשע"ט".
-The additions are in the file "Documentation".<br/>
+The basic requirements are in the file <a href="https://github.com/ElishaMayer/Project01_5997_2519_dotNet5779/raw/master/%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98%20%D7%AA%D7%A9%D7%A2%D7%98.pdf">"פרוייקט תשע"ט"</a>.
+The additions are in the file <a href="https://github.com/ElishaMayer/Project01_5997_2519_dotNet5779/raw/master/Documentation.docx">"Documentation"</a>.<br/>
 
 We used "MahApps.Metro.2.0.0" for the WPF, "PDFsharp.1.32.3057.0" for sending pdf by email and "Newtonsoft.Json.12.0.1" to extract the reply from google.
 
