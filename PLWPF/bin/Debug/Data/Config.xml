@@ -11,7 +11,7 @@
   <MinimumCriteria>3</MinimumCriteria>
   <PercentOfCriteriaToPassTest>70</PercentOfCriteriaToPassTest>
   <Theme>Light</Theme>
-  <Color>Sienna</Color>
+  <Color>Steel</Color>
   <Criteria>
     <Criterion>Kept Distance</Criterion>
     <Criterion>Parking</Criterion>

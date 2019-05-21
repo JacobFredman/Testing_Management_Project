@@ -373,23 +373,6 @@
     <LicenseType>A</LicenseType>
   </Test>
   <Test>
-    <Id>00000139</Id>
-    <TesterId>205950348</TesterId>
-    <TraineeId>308378702</TraineeId>
-    <TestTime>2019-01-21T12:00:00</TestTime>
-    <ActualTestTime>0001-01-01T00:00:00</ActualTestTime>
-    <AddressOfBeginningTest>
-      <City>Flieman Street, חיפה, ישראל</City>
-      <Street />
-      <Building />
-      <Entrance />
-    </AddressOfBeginningTest>
-    <Criteria />
-    <Passed xsi:nil="true" />
-    <LicenseType>A</LicenseType>
-    <XmlSaveRouteUrlSerializer>https://www.google.com/maps/dir/?api=1&amp;travelmode=driving&amp;origin=Flieman Street, חיפה, ישראל&amp;origin_place_id=EiRGbGllbWFuIFN0cmVldCwg15fXmdek15QsINeZ16nXqNeQ15wiLiosChQKEgnjgBjTQbsdFRGGE7l7gb068hIUChIJRegNdUy6HRURmlKBKpgjXcM&amp;destination=Flieman Street, חיפה, ישראל&amp;destination_place_id=EiRGbGllbWFuIFN0cmVldCwg15fXmdek15QsINeZ16nXqNeQ15wiLiosChQKEgnjgBjTQbsdFRGGE7l7gb068hIUChIJRegNdUy6HRURmlKBKpgjXcM&amp;waypoints=Heinrich Heine 1, חיפה, Villa Carmel|Haifa, Carmel Beach Central Bus Station|Kdoshei Jassy Street 2, Haifa, Garden Hotel|Sderot Mapu 12, Haifa, Eshkol Housing Haifa- Boutique Apartment|Har'el Street 19, Haifa, The Hebrew Reali School - Ahuza Branch&amp;waypoint_place_ids=ChIJgYF1Kga7HRURsbOeCtHEzqQ|ChIJH2FUZ2a7HRURudF7C7M-qlM|ChIJK09OAGm7HRURr5lgaoJm0cM|ChIJh_SHVBe7HRURdIBrthql9nQ|ChIJjbUqMgO7HRURpf6YqEWhBI8</XmlSaveRouteUrlSerializer>
-  </Test>
-  <Test>
     <Id>00000129</Id>
     <TesterId>18</TesterId>
     <TraineeId>314661133</TraineeId>
@@ -449,5 +432,59 @@
     </Criteria>
     <Passed>false</Passed>
     <LicenseType>C1</LicenseType>
+  </Test>
+  <Test>
+    <Id>00000139</Id>
+    <TesterId>205950348</TesterId>
+    <TraineeId>308378702</TraineeId>
+    <TestTime>2019-01-21T12:00:00</TestTime>
+    <ActualTestTime>2019-05-21T08:00:00</ActualTestTime>
+    <AddressOfBeginningTest>
+      <City>Flieman Street, חיפה, ישראל</City>
+      <Street />
+      <Building />
+      <Entrance />
+    </AddressOfBeginningTest>
+    <Criteria>
+      <Criterion>
+        <Type>Kept Distance</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Parking</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Reverse Parking</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Check Mirrors</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Used Signal</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Stopped at Red</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Stopped At Cross Walk</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Right Turn</Type>
+        <Pass>true</Pass>
+      </Criterion>
+      <Criterion>
+        <Type>Immediate Stop</Type>
+        <Pass>true</Pass>
+      </Criterion>
+    </Criteria>
+    <Passed>true</Passed>
+    <LicenseType>A</LicenseType>
+    <XmlSaveRouteUrlSerializer>https://www.google.com/maps/dir/?api=1&amp;travelmode=driving&amp;origin=Flieman Street, חיפה, ישראל&amp;origin_place_id=EiRGbGllbWFuIFN0cmVldCwg15fXmdek15QsINeZ16nXqNeQ15wiLiosChQKEgnjgBjTQbsdFRGGE7l7gb068hIUChIJRegNdUy6HRURmlKBKpgjXcM&amp;destination=Flieman Street, חיפה, ישראל&amp;destination_place_id=EiRGbGllbWFuIFN0cmVldCwg15fXmdek15QsINeZ16nXqNeQ15wiLiosChQKEgnjgBjTQbsdFRGGE7l7gb068hIUChIJRegNdUy6HRURmlKBKpgjXcM&amp;waypoints=Heinrich Heine 1, חיפה, Villa Carmel|Haifa, Carmel Beach Central Bus Station|Kdoshei Jassy Street 2, Haifa, Garden Hotel|Sderot Mapu 12, Haifa, Eshkol Housing Haifa- Boutique Apartment|Har'el Street 19, Haifa, The Hebrew Reali School - Ahuza Branch&amp;waypoint_place_ids=ChIJgYF1Kga7HRURsbOeCtHEzqQ|ChIJH2FUZ2a7HRURudF7C7M-qlM|ChIJK09OAGm7HRURr5lgaoJm0cM|ChIJh_SHVBe7HRURdIBrthql9nQ|ChIJjbUqMgO7HRURpf6YqEWhBI8</XmlSaveRouteUrlSerializer>
   </Test>
 </ArrayOfTest>

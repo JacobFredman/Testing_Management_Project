@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 
 namespace BE
@@ -18,7 +19,7 @@ namespace BE
         ///     google distance url api
         /// </summary>
         public const string GoogleDistanceUrl = "https://maps.googleapis.com/maps/api/directions/";
-
+        public static string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public const string TraineesXmlFilePath = @"Data\Trainees.xml";
         public const string TestersXmlFilePath = @"Data\Testers.xml";
 
