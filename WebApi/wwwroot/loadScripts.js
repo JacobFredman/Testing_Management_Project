@@ -1,4 +1,4 @@
-//*********Main Pages ********/
+﻿//*********Main Pages ********/
 
 //load the tester table interface
 function loadUrlTesterToTable(url) {
@@ -9,6 +9,9 @@ function loadUrlTesterToTable(url) {
     document.getElementById("out").style.display = "block";
     document.getElementById("about").style.display = "none";
     document.getElementById("testers").style.display = "table";
+    document.getElementById("testers").style.display = "table";
+    document.getElementById("AddTester").style.display = "none";
+
 
 }
 
@@ -21,6 +24,7 @@ function loadUrlTraineeToTable(url) {
     document.getElementById("out").style.display = "block";
     document.getElementById("about").style.display = "none";
     document.getElementById("testers").style.display = "table";
+    document.getElementById("AddTester").style.display = "none";
 
 }
 
@@ -33,6 +37,7 @@ function loadUrlTestToTable(url) {
     document.getElementById("out").style.display = "block";
     document.getElementById("about").style.display = "none";
     document.getElementById("testers").style.display = "table";
+    document.getElementById("AddTester").style.display = "none";
 
 }
 
@@ -43,6 +48,8 @@ function showAbout() {
     document.getElementById("tableHeared").innerHTML = "About";
     document.getElementById("testers").style.display = "none";
     document.getElementById("out").style.display = "none";
+    document.getElementById("AddTester").style.display = "none";
+
 }
 
 
@@ -209,6 +216,49 @@ function getLink(url, text) {
         return "Not Set";
     }
     return "<a href=\"" + url + "\" target=\"_blank\">" + text + "</a>";
+}
+
+function send(url) {
+    var fname = document.getElementById("fname").value;
+    var lname = document.getElementById("lname").value;
+    var id = document.getElementById("id").value;
+
+    var tester = {
+        "experience": 10,
+        "maxWeekExams": 18,
+        "licenseTypeTeaching": [2, 0, 3, 4],
+        "maxDistance": 33.0,
+        "schedule": null,
+        "id": id,
+        "emailAddress": "gilad@gmail.com",
+        "firstName": fname,
+        "lastName": lname,
+        "birthDate": "1979-01-11T00:00:00",
+        "gender": 0,
+        "phoneNumber": "0523456789",
+        "address": null,
+        "licenseType": []
+    };
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            //Parse the data
+            var data = this.responseText;
+            alert(data);
+        }
+    };
+        xhttp.open("POST", url, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhttp.send(JSON.stringify(tester));
+}
+
+function addTester() {
+    document.getElementById("about").style.display = "none";
+    document.getElementById("tableHeared").style.display = "block";
+    document.getElementById("tableHeared").innerHTML = "Add New Tester";
+    document.getElementById("testers").style.display = "none";
+    document.getElementById("out").style.display = "none";
+    document.getElementById("AddTester").style.display = "inline-block";
 }
 
 

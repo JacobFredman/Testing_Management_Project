@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Test Managment
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/style-em.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="shortcut icon" href="img/Icon.png" type="image/x-icon" />
+</head>
+
+<body onload="loadUrlTestToTable('https://localhost:44308/api/test/all')" style="background-color: rgb(141, 140, 140)">
+    <script src="loadScripts.js"></script>
+    <ul>
+        <li>
+            <img src="img/Icon.png" style="max-width: 40px;align-content: center;margin: 5px;vertical-align:middle">
+        </li>
+        <li onclick="loadUrlTesterToTable('https://localhost:44308/api/tester/all')">
+            <a href="#alltester"
+               title="Load Testers"> All Testers</a>
+        </li>
+        <li onclick="addTester()">
+            <a href="#newtester"
+               title="Load Testers">New Testers</a>
+        </li>
+        <li onclick="loadUrlTraineeToTable('https://localhost:44308/api/trainee/all')">
+            <a href="#trainee"
+               title="Load Trainess">Trainees</a>
+        </li>
+        <li onclick="loadUrlTestToTable('https://localhost:44308/api/test/all')">
+            <a href="#trainee"
+               title="Load Tests">Tests</a>
+        </li>
+        <li onclick="showAbout()"><a href="#about">About</a></li>
+    </ul>
+    <h2 id="tableHeared"
+        style="background-color:#333333;color:white;text-align:center;margin-top:10px;margin-bottom: 5px;padding: 0px;display:none;">
+        aaaaa
+    </h2>
+    <table id="testers" style="border:1px solid black;background-color: white"></table>
+    <div style="background-color: rgb(228, 227, 227);border: 1px solid gray;display: none;margin-top: 10px;padding: 10px;"
+         id="about">
+        <img src="img/Icon.png" style="width: 120px;display: block;margin-left: auto;margin-right: auto;">
+        <h2><u>Test Managment Program.</u></h2>
+        <p>Written by <b>Elisha Mayer</b>.</p>
+        <p>
+            This program was written for project in Windows at Jerusalem College of Tchnology. It was originaly written
+            for WPF GUI. This is a web interface to use the program.
+        </p>
+        <a href="https://github.com/ElishaMayer/Project01_5997_2519_dotNet5779" target="_blank">
+            Link to the GitHub
+            Page.
+        </a>
+    </div>
+    <p id="out"></p>
+    <div style="background-color: rgb(228, 227, 227);border: 1px solid gray;display: none;margin-top: 10px;padding: 10px;" id="AddTester">
+        First Name:
+        <input id="fname" type="text" name="fname" value="elisja" style="margin:10px">
+        <br />
+        Last Name:
+        <input id="lname" type="text" name="lname" value="mayer" style="margin:10px">
+        <dr />
+        ID:
+        <input id="id" type="text" name="idtester" value="00000000" style="margin:10px">
+        <dr />
+        <button onclick="send('https://localhost:44308/api/tester/add')">Send</button>
+
+
+    </div>
+
+</body>
+
+</html>

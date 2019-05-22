@@ -33,9 +33,22 @@ namespace WebApi.Controllers
         }
 
         // POST: api/Tester
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("add")]
+        public async Task<ActionResult<string>> Post([FromBody] Object v)
         {
+            try
+            {
+                
+                var value = (Newtonsoft.Json.Linq.JObject)v;
+                if(!BE.Tools.CheckID_IL(uint.Parse( (String)value["id"])))
+                    return "Invalid Id!";
+             //   BL.FactoryBl.GetObject.AddTester(value);
+                return "Successfully added " + value["firstName"] + " " + value["lastName"]+".";
+            }catch(Exception ex)
+            {
+                return ex.Message;
+            }
+            
         }
 
         // PUT: api/Tester/5

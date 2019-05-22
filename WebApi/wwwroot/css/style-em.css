@@ -71,4 +71,8 @@ ul {
     text-align: center;
     vertical-align: middle;
   }
+
+div {
+    display: inline-block;
+}
   
