@@ -68,7 +68,7 @@ function loadPerson(table, label, url) {
             var row = "<tr style=\"border:1px solid gray\"><th>Id</th><th>Name</th><th>Birth Date</th><th>Gender</th><th>Phone Number</th><th>Email Address</th><th>Licence</th></tr>";
             for (var i = 0; i < length; i++) {
                 var date = new Date(data[i].birthDate);
-                row += "<tr><td><b>" + data[i].id + "</b></td><td>" + data[i].firstName + " "
+                row += "<tr style=\"cursor:pointer;\" onclick=\"clickTableRow(this)\" id=\"" + data[i].id +"\"><td><b>" + data[i].id + "</b></td><td>" + data[i].firstName + " "
                     + data[i].lastName + "</td><td>" + getDateS(date) + "</td><td>"
                     + getGender(data[i].gender) + "</td><td>" + getValue(data[i].phoneNumber) + "</td><td><a target=\"_blank\" href=\"mailto:"
                     + data[i].emailAddress + "\">" + data[i].emailAddress + "</td><td>" + getLiceneFromList(data[i]) + "</td></tr>";
@@ -218,27 +218,9 @@ function getLink(url, text) {
     return "<a href=\"" + url + "\" target=\"_blank\">" + text + "</a>";
 }
 
-function send(url) {
-    var fname = document.getElementById("fname").value;
-    var lname = document.getElementById("lname").value;
-    var id = document.getElementById("id").value;
-
-    var tester = {
-        "experience": 10,
-        "maxWeekExams": 18,
-        "licenseTypeTeaching": [2, 0, 3, 4],
-        "maxDistance": 33.0,
-        "schedule": null,
-        "id": id,
-        "emailAddress": "gilad@gmail.com",
-        "firstName": fname,
-        "lastName": lname,
-        "birthDate": "1979-01-11T00:00:00",
-        "gender": 0,
-        "phoneNumber": "0523456789",
-        "address": null,
-        "licenseType": []
-    };
+//send new tester
+function sendNewTester(url) {
+    tester = testerAdd;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -258,8 +240,121 @@ function addTester() {
     document.getElementById("tableHeared").innerHTML = "Add New Tester";
     document.getElementById("testers").style.display = "none";
     document.getElementById("out").style.display = "none";
-    document.getElementById("AddTester").style.display = "inline-block";
+    document.getElementById("AddTester").style.display = "block";
+    if (testerAdd == null || testerAdd == undefined) {
+        testerAdd = {
+            "Experience": 0,
+            "MaxWeekExams": 0,
+            "LicenseTypeTeaching": [],
+            "MaxDistance": 0,
+            "Schedule": null,
+            "Id": 0,
+            "EmailAddress": "youremail@gmail.com",
+            "FirstName": "First Name",
+            "LastName": "Last Name",
+            "BirthDate": "1980-01-01",
+            "Gender": 0,
+            "PhoneNumber": "0500000000",
+            "Address": "Israel",
+            "LicenseType": []
+        };
+    }
+    createForm(testerAdd, document.getElementById("AddTester"),"sendNewTester(\'https://localhost:44308/api/tester/add\')","Send");
+
 }
 
+function createForm(object,div,buttonevent,buttontext){  
+    var str='<table class="none">';
+    for (var key in object) {
+        if (key == 'Gender' || key == 'gender') {
+            var selctedM = "", selctedF = "", selctedO = "";
+            if (object[key] == 0) {
+                selctedM = "selected";
+            } else if (object[key] == 1) {
+                selctedF = "selected";
+            } else {
+                selctedO = "selected";
+            }
+            var text = key.replace(/([A-Z])/g, ' $1').trim();
+            str += '<tr class="none"><td><span>' + text + '</span></td><td><select id="' + key + '" type="text" onchange="onchangeevent(this)"><option value="Male"' + selctedM + '>Male</option><option value="Female"' + selctedF + '>Female</option><option value="Other"' + selctedO +'>Other</option></br></td></tr>';
+        } else if (key == 'BirthDate' || key == 'birthDate') {
+            var text = key.replace(/([A-Z])/g, ' $1').trim();
+            str += '<tr class="none"><td><span>' + text + '</span></td><td><input id="' + key + '" type="date" onchange="onchangeevent(this)" value="' + object[key] + '" ></br></td></tr>';
+        } else if (key == 'LicenseTypeTeaching' || key == 'licenseTypeTeaching') {
+            var text = key.replace(/([A-Z])/g, ' $1').trim();
+            str += '<tr class="none"><td><span>' + text + '</span></td><td><select multiple size="4" id="' + key + '" type="text" onclick="onchangeevent(this)" value="' + object[key] + '" >';
+            for (var i = 0; i < licenses.length; i++) {
+                if (testerAdd.LicenseTypeTeaching != undefined && testerAdd.LicenseTypeTeaching.includes(i) || testerAdd.licenseTypeTeaching != undefined && testerAdd.licenseTypeTeaching.includes(i)) {
+                    str += '<option value="' + licenses[i] + '" selected>' + licenses[i] + '</option>';
+                } else {
+                    str += '<option value="' + licenses[i] + '">' + licenses[i] + '</option>';
+                }
+            }
+            str += '</br></td></tr>';
+        } else if (((typeof object[key]) == "number" || (typeof object[key]) == "string")) {
+            var text = key.replace(/([A-Z])/g, ' $1').trim();
+            str += '<tr class="none"><td><span>' + text + '</span></td><td><input id="' + key + '" type="text" onchange="onchangeevent(this)" value="' + object[key] + '" ></br></td></tr>';
+        } 
+    }
+    str += '<tr class="none"><td><button onclick="' + buttonevent + '">' + buttontext + '</button></td></tr></table>';
+    div.innerHTML = str;
+}
+
+function onchangeevent(elem) {
+    if (elem.id == 'Gender' || elem.id == 'gender') {
+        if (elem.value == 'Male') {
+            testerAdd[elem.id] = 0;
+        } else if (elem.value == 'Female') {
+            testerAdd[elem.id] = 1;
+        } else {
+            testerAdd[elem.id] = 2;
+        }
+    } if (elem.id == 'LicenseTypeTeaching' || elem.id == 'licenseTypeTeaching') {
+        var sel = elem;
+        var opts = [], opt;
+        // loop through options in select list
+        for (var i = 0, len = sel.options.length; i < len; i++) {
+            opt = sel.options[i];
+
+            // check if selected
+            if (opt.selected) {
+                // add to array of option elements to return from this function
+                opts.push(i);
+            }
+        }
+        testerAdd[elem.id] = opts;
+    }else {
+        testerAdd[elem.id] = elem.value;
+    }
+}
+
+var licenses = ['B', 'A2', 'A1', 'A', 'C1', 'C', 'D', 'D1', 'D2', 'D3', 'E', '1']
+var testerAdd = null;
 
 
+function clickTableRow(elem) {
+    showTester(elem.id);
+}
+
+function showTester(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = JSON.parse(this.responseText);
+            if (data != null && data != undefined) {
+                testerAdd = data;
+                document.getElementById("about").style.display = "none";
+                document.getElementById("tableHeared").style.display = "block";
+                document.getElementById("tableHeared").innerHTML = "Tester ID: " + testerAdd.id;
+                document.getElementById("testers").style.display = "none";
+                document.getElementById("out").style.display = "none";
+                document.getElementById("AddTester").style.display = "block";
+                testerAdd.birthDate = testerAdd.birthDate.substring(0, 10);
+                createForm(testerAdd, document.getElementById("AddTester"),"","Update");
+
+            }
+        }
+    };
+    xhttp.open("GET", "https://localhost:44308/api/tester/"+id, true);
+    xhttp.send();
+}

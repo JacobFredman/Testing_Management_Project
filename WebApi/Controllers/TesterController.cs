@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BE.MainObjects;
-
+using Newtonsoft.Json.Linq;
+using BE.Routes;
 
 namespace WebApi.Controllers
 {
@@ -38,12 +39,29 @@ namespace WebApi.Controllers
         {
             try
             {
-                
+                Tester tester = new Tester();
                 var value = (Newtonsoft.Json.Linq.JObject)v;
-                if(!BE.Tools.CheckID_IL(uint.Parse( (String)value["id"])))
+                if(!BE.Tools.CheckID_IL(uint.Parse( (String)value["Id"])))
                     return "Invalid Id!";
-             //   BL.FactoryBl.GetObject.AddTester(value);
-                return "Successfully added " + value["firstName"] + " " + value["lastName"]+".";
+
+                //   BL.FactoryBl.GetObject.AddTester(value);
+                foreach (var prop in tester.GetType().GetProperties())
+                {
+                    if ((value[prop.Name]) is JArray)
+                    {
+                        var list = (value[prop.Name]).ToObject<List<BE.LicenseType>>();
+                        prop.SetValue(tester, list);
+                    }
+                    else if(prop.Name == "Address")
+                    {
+                        prop.SetValue(tester, new Address((string)(value[prop.Name])));
+                    }else{
+                        prop.SetValue(tester, Convert.ChangeType((value[prop.Name]), prop.PropertyType));
+                    }
+                }
+                tester.Schedule = new BE.WeekSchedule();
+                BL.FactoryBl.GetObject.AddTester(tester);
+                return "Successfully added " + value["FirstName"] + " " + value["LastName"]+".";
             }catch(Exception ex)
             {
                 return ex.Message;
